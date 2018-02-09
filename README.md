@@ -14,7 +14,7 @@
   * Guild-wide Customisable Prefix
     * Default Prefix: **?** or **`@Eros` (Mention)**
   * You can now DM the bot directly for commands without the prefix unlike [**ErosClass**] Version
-  * *More to comeâ„¢*
+  * *More to come™*
 
 ## Commands
   * **Admin/Server Manager**
@@ -34,19 +34,20 @@
 
   * Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
   * Eros requires [**Node 8**](https://nodejs.org) for runtime
-    * Clone this repository after installing Node: `git clone https://gazmull@bitbucket.org/gazmull/eros-public.git`
+    * Clone this repository [via command shell] after installing Node: `git clone https://gazmull@bitbucket.org/gazmull/eros-public.git`
     * Execute `npm install` (Before this, make sure you have [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on))
     * Check `infobox-parser` in `node_modules`. If `index.js` is missing, then NPM failed to obtain the files; so
-      * Delete `infobox-parser` folder then:
-        * `git clone https://github.com/dijs/infobox-parser.git`
-        * `cd node_modules/infobox-parser`
-        * `npm run build`
+        * Delete `infobox-parser` folder then:
+          * `git clone https://github.com/dijs/infobox-parser.git`
+          * `cd infobox-parser`
+          * `npm install`
+          * `npm run build`
   * Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `//comments` to help you set up the file
   * Run the bot!
     * Node: `node .`
-    * Process Managers
-      * [**Nodemon**](https://github.com/remy/nodemon): `nodemon`
-      * [**PM2**](https://github.com/Unitech/pm2): `pm2 start index.js --name="Eros"` 
+      * Process Managers
+        * [**Nodemon**](https://github.com/remy/nodemon): `nodemon`
+        * [**PM2**](https://github.com/Unitech/pm2): `pm2 start index.js --name="Eros"` 
 
 > ### Let me know if there's still missing.
 
