@@ -1,0 +1,36 @@
+{
+  "name": "eros-bot",
+  "version": "1.0.0",
+  "description": "Eros Bot Public",
+  "main": "index.js",
+  "dependencies": {
+    "discord-akairo": "github:1Computer1/discord-akairo",
+    "discord.js": "github:discordjs/discord.js",
+    "infobox-parser": "github:dijs/infobox-parser",
+    "nodemw": "^0.12.0",
+    "sequelize": "^4.32.2",
+    "sqlite": "^2.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/gazmull/eros-bot.git"
+  },
+  "keywords": [
+    "kamihime",
+    "project",
+    "kamihime",
+    "discord",
+    "bot",
+    "discord.js",
+    "akairo",
+    "kamihime",
+    "database"
+  ],
+  "author": "gazmull (kattyg0423@outlook.com)",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/gazmull/eros-bot#readme"
+}
