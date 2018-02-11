@@ -24,7 +24,7 @@ class InfoCommand extends Command {
           id: 'item',
           match: 'text',
           prompt: {
-            start: 'what information would you like to obtain?',
+            start: 'which or whose information would you like to obtain?',
           }
         }
       ],
@@ -53,7 +53,7 @@ class InfoCommand extends Command {
       const request = await get(`${this.apiURL}search?name=${encodeURI(item)}`);
       const rows = request.body
 
-      if(!rows.length) return dialog.edit(`no item named ${item} found.`);
+      if(!rows.length) return dialog.edit(`No item named ${item} found.`);
       else if(rows.length === 1) {
         const result = rows.shift();
         const data = await get(`${this.apiURL}get/${result.khID}`);
@@ -112,7 +112,10 @@ class InfoCommand extends Command {
     catch(err) {
       if(err.stack) {
         error(err);
-        return dialog.edit(`I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\``);
+        return dialog.edit(
+          `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Menu Selection`,
+          { embed: null }
+        );
       }
       else return dialog.edit('Selection expired.', { embed: null });
     }
@@ -135,7 +138,8 @@ class InfoCommand extends Command {
           .replace(/<br(?:| )(?:|\/)>/g, ' ')
           .replace(/(?<!\{)(?:\{{2})(.*?)(?:\}{2})/g, '')
           .replace(/(?:\[{2}.*\|)(.*?)(?:\]{2})/g, '$1')
-          .replace(/(?:\[{2}[^\[])(?:.*[^\]])(?:\]{2})/g, '');
+          .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1')
+          .replace(/(?:\[{2}).*?(?:\]{2})/g, '');
       };
       const result = parseInfo(sanitisedData(rawData));
       let embed;
@@ -277,7 +281,13 @@ class InfoCommand extends Command {
     }
 
     if(hime.obtained)
-      embed.setFooter(`can be obtained from ${hime.obtained}`);
+      embed.setFooter(
+        `can be obtained from ${hime.obtained.replace(/(gacha(?=.+))/i, '$1 |')}${
+          hime.obtained.includes('Gacha')
+            ? ''
+            : ' Event'
+        }`
+      );
   
     return embed;
   }
@@ -338,7 +348,13 @@ class InfoCommand extends Command {
     }
 
     if(eidolon.obtained)
-      embed.setFooter(`can be obtained from ${eidolon.obtained}`);
+      embed.setFooter(
+        `can be obtained from ${eidolon.obtained.replace(/(gacha(?=.+))/i, '$1 |')}${
+          eidolon.obtained.includes('Gacha')
+            ? ''
+            : ' Event'
+        }`
+      );
 
     return embed;
   }
@@ -440,7 +456,7 @@ class InfoCommand extends Command {
       harem: dbRes.khHarem_hentai1Resource2 ? true : false
     };
     const embed = this.client.util.embed()
-      .setAuthor(soul.id, null, soul.link)
+      .setAuthor(soul.name, null, soul.link)
       .setDescription(
         [
           `__**Soul**__ | __**${soul.type}**__ | __**${soul.weapons[0]}${soul.weapons[1] ? ` and ${soul.weapons[1]}` : ''}**__`,

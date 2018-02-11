@@ -99,7 +99,10 @@ class HaremInfoCommand extends Command {
     catch (err) {
       if(err.stack) {
         error(err);
-        return dialog.edit(`I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\``);
+        return dialog.edit(
+          `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Menu Selection`,
+          { embed: null }
+        );
       }
       else return dialog.edit('Selection expired.', { embed: null });
     }
