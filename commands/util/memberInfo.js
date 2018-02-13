@@ -60,7 +60,7 @@ class MemberInfoCommand extends Command {
           );
         }
 
-      return message.channel.send({ embed });
+      return message.util.send({ embed });
     }
     catch (err) {
       return message.reply('I cannot retrieve that member\'s information.');

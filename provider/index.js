@@ -20,7 +20,7 @@ class ErosClient extends AkairoClient {
       allowMention: true,
       automateCategories: true,
       commandUtil: true,
-      commandUtilLifetime: 1000 * 30,
+      commandUtilLifetime: 1000 * 60 * 3,
       commandDirectory: `${__dirname}/../commands`,
       listenerDirectory: `${__dirname}/../listeners`,
       inhibitorDirectory: `${__dirname}/../inhibitors`,

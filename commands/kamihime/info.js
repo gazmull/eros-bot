@@ -44,32 +44,31 @@ class InfoCommand extends Command {
   }
 
   async exec(message, { item }) {
-    let dialog;
     try {
       if(item.length < 2) return message.reply('I will not operate if there are only less than 2 characters input.');
-      dialog = await message.channel.send(`${loading} Awaiting KamihimeDB's response...`);
+      await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
       const prefix = this.handler.prefix(message);
       const request = await get(`${this.apiURL}search?name=${encodeURI(item)}`);
       const rows = request.body
 
-      if(!rows.length) return dialog.edit(`No item named ${item} found.`);
+      if(!rows.length) return message.util.edit(`No item named ${item} found.`);
       else if(rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${this.apiURL}get/${result.khID}`);
-        return this.triggerDialog(message, result.khName, dialog, data.body, prefix);
+        const data = await get(`${this.apiURL}id/${result.khID}`);
+        return await this.triggerDialog(message, result.khName, data.body, prefix);
       }
 
-      this.awaitSelection(message, rows, dialog, prefix);
+      await this.awaitSelection(message, rows, prefix);
     }
     catch (err) {
       if(err.stack)
         error(err.stack);
-      return dialog.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\`Step: KamihimeDB Request`);
+      return message.util.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\`Step: KamihimeDB Request`);
     }
   }
 
-  async awaitSelection(message, result, dialog, prefix) {
+  async awaitSelection(message, result, prefix) {
     const embed = this.client.util.embed()
       .setColor(0xFF00AE)
       .setTitle('Menu Selection')
@@ -84,7 +83,7 @@ class InfoCommand extends Command {
       .addField('#', result.map(i => result.indexOf(i) + 1).join('\n'), true)
       .addField('Name', result.map(i => i.khName).join('\n'), true);
 
-    await dialog.edit({ embed });
+    await message.util.edit({ embed });
     this.client.awaitingUsers.set(message.author.id, true);
 
     try {
@@ -102,29 +101,29 @@ class InfoCommand extends Command {
       const response = responses.first();
       if(response.content.toLowerCase() === 'cancel' || parseInt(response.content) === 0) {
           this.client.awaitingUsers.delete(message.author.id);
-          return dialog.edit('Selection cancelled.', { embed: null });
+          return message.util.edit('Selection cancelled.', { embed: null });
       }
       const responseIdx = parseInt(response.content) - 1;
-      const data = await get(`${this.apiURL}get/${result[responseIdx].khID}`);
-      this.triggerDialog(message, result[responseIdx].khName, dialog, data.body, prefix);
+      const data = await get(`${this.apiURL}id/${result[responseIdx].khID}`);
+      await this.triggerDialog(message, result[responseIdx].khName, data.body, prefix);
       message.guild ? response.delete() : null;
     }
     catch(err) {
       if(err.stack) {
         error(err);
-        return dialog.edit(
+        return message.util.edit(
           `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Menu Selection`,
           { embed: null }
         );
       }
-      else return dialog.edit('Selection expired.', { embed: null });
+      else return message.util.edit('Selection expired.', { embed: null });
     }
     this.client.awaitingUsers.delete(message.author.id);
   }
 
-  async triggerDialog(message, item, dialog, dbRes, prefix) {
+  async triggerDialog(message, item, dbRes, prefix) {
     try {
-      await dialog.edit(`${loading} Awaiting Wikia's response...`, { embed: null });
+      await message.util.edit(`${loading} Awaiting Wikia's response...`, { embed: null });
       const getArticle = promisify(this.client.request.getArticle.bind(this.client.request));
       const getArticleCategories = promisify(this.client.request.getArticleCategories.bind(this.client.request));
       const category = await getArticleCategories(item);
@@ -163,12 +162,12 @@ class InfoCommand extends Command {
         default: return message.reply('invalid article.');
       }
 
-      dialog.edit({ embed });
+      return message.util.edit({ embed });
     }
     catch (err) {
       if(err.stack)
         error(err.stack);
-      return dialog.edit(
+      return message.util.edit(
         `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Wikia Request`,
         { embed: null }
       );

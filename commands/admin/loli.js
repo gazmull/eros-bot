@@ -15,7 +15,7 @@ class ToggleLoliCommand extends Command {
   async exec(message) {
     const loli = this.client.guildSettings.get(message.guild.id, 'loli', false);
     await this.client.guildSettings.set(message.guild.id, 'loli', loli ? false : true);
-    return message.reply(
+    return message.util.reply(
       loli
         ? 'I have disabled Loli contents restriction in this guild.'
         : 'I have enabled Loli contents restriction in this guild.'

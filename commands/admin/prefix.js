@@ -33,7 +33,7 @@ class PrefixCommand extends Command {
   async exec(message, { prefix }) {
     const oldPrefix = this.client.guildSettings.get(message.guild.id, 'prefix', defaultPrefix);
     await this.client.guildSettings.set(message.guild.id, 'prefix', prefix);
-    return message.reply(`I have changed the guild prefix from \`${oldPrefix}\` to \`${prefix}\`.`);
+    return message.util.reply(`I have changed the guild prefix from \`${oldPrefix}\` to \`${prefix}\`.`);
   }
 }
 

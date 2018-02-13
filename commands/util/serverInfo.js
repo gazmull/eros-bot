@@ -48,7 +48,7 @@ class ServerInfoCommand extends Command {
       .addField('NSFW Role', getRecord(message.guild.id, 'nsfwRoleID', 'Not Configured'), true)
       .addField('Loli Restricted?', getRecord(message.guild.id, 'loli', null) ? 'Yes. :triumph:' : 'No. :sweat_smile:');
 
-      return message.channel.send({ embed });
+      return message.util.send({ embed });
   }
 }
 

@@ -36,6 +36,8 @@ class ListCommand extends Command {
   }
 
   exec(message) {
-    return message.reply('not available. Come back later!')
+    return message.util.reply('not available. Come back later!')
   }
 }
+
+module.exports = ListCommand;

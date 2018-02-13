@@ -31,31 +31,30 @@ class HaremInfoCommand extends Command {
   }
 
   async exec(message, { character }) {
-    let dialog;
     try {
       if(character.length < 2) return message.reply('I will not operate if there are only less than 2 characters input.');
-      dialog = await message.channel.send(`${loading} Awaiting KamihimeDB's response...`);
+      await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
       const request = await get(`${this.apiURL}search?name=${encodeURI(character)}`);
       const rows = request.body;
 
-      if(!rows.length) return dialog.edit(`no character named ${character} found.`);
+      if(!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if(rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${this.apiURL}get/${result.khID}`);
-        return this.triggerDialog(message, data.body, dialog);
+        const data = await get(`${this.apiURL}id/${result.khID}`);
+        return await this.triggerDialog(message, data.body);
       }
 
-      this.awaitSelection(message, rows, dialog);
+      await this.awaitSelection(message, rows);
     }
     catch (err) {
       if(err.stack)
         error(err.stack);
-      return dialog.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\``);
+      return message.util.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\``);
     }
   }
 
-  async awaitSelection(message, result, dialog) {
+  async awaitSelection(message, result) {
     const embed = this.client.util.embed()
       .setColor(0xFF00AE)
       .setTitle('Menu Selection')
@@ -70,7 +69,7 @@ class HaremInfoCommand extends Command {
       .addField('#', result.map(i => result.indexOf(i) + 1).join('\n'), true)
       .addField('Name', result.map(i => i.khName).join('\n'), true);
 
-    await dialog.edit({ embed });
+    await message.util.edit({ embed });
     this.client.awaitingUsers.set(message.author.id, true);
 
     try {
@@ -88,30 +87,30 @@ class HaremInfoCommand extends Command {
       const response = responses.first();
       if(response.content.toLowerCase() === 'cancel' || parseInt(response.content) === 0) {
         this.client.awaitingUsers.delete(message.author.id);
-        return dialog.edit('Selection cancelled.', { embed: null });
+        return message.util.edit('Selection cancelled.', { embed: null });
       }
 
       const characterIndex = result[parseInt(response.content) - 1];
-      const data = await get(`${this.apiURL}get/${characterIndex.khID}`);
-      this.triggerDialog(message, data.body, dialog);
+      const data = await get(`${this.apiURL}id/${characterIndex.khID}`);
+      await this.triggerDialog(message, data.body);
       message.guild ? response.delete() : null;
     }
     catch (err) {
       if(err.stack) {
         error(err);
-        return dialog.edit(
+        return message.util.edit(
           `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Menu Selection`,
           { embed: null }
         );
       }
-      else return dialog.edit('Selection expired.', { embed: null });
+      else message.util.edit('Selection expired.', { embed: null });
     }
     this.client.awaitingUsers.delete(message.author.id);
   }
 
-  async triggerDialog(message, result, dialog) {
+  async triggerDialog(message, result) {
     try {
-      await dialog.edit(`${loading} Preparing...`, { embed: null });
+      await message.util.edit(`${loading} Preparing...`, { embed: null });
       const harems = [
         {
           title: result.khHarem_intro || 'Untitled',
@@ -176,7 +175,7 @@ class HaremInfoCommand extends Command {
       const channel = message.channel;
 
       if(!channel.guild)
-        return dialog.edit({ embed });
+        return message.util.edit({ embed });
 
       const guild = message.guild;
       const nsfwChannelID = this.client.guildSettings.get(guild.id, 'nsfwChannelID', null);
@@ -191,17 +190,17 @@ class HaremInfoCommand extends Command {
           }`;
 
       if(channel.id === nsfwChannelID)
-        return dialog.edit({ embed });
+        return message.util.edit({ embed });
 
       await nsfwChannel.send({ embed });
-      dialog.edit(
+      return message.util.edit(
         `I have sent my response at ${nsfwChannel}. If you have no access to that channel, say \`${prefix}nsfw\`.`
       );
     }
     catch (err) {
       if(err.stack)
         error(err.stack);
-      return dialog.edit(
+      return message.util.edit(
         `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\``,
         { embed: null }
       );

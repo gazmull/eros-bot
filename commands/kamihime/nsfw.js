@@ -31,7 +31,7 @@ class NSFWAccessCommand extends Command {
         );
       if(message.member.roles.has(nsfwRole)) throw 'You already have this role.';
       
-      const msg = await message.reply('requesting...');
+      const msg = await message.util.reply('requesting...');
       await message.member.roles.add(nsfwRole);
       message.react('✅');
       return msg.edit(

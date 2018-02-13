@@ -42,7 +42,7 @@ class HelpCommand extends Command {
       embed.addField('Examples',
         command.description.examples.map(e => `${prefix}${command} ${e}`).join('\n')
       );
-    return message.channel.send({ embed });
+    return message.util.send({ embed });
   }
 
   async defaultHelp(message, prefix) {
@@ -65,7 +65,7 @@ class HelpCommand extends Command {
       ) continue;
       if(title) embed.addField(title, category.map(c => `\`${c.aliases[0]}\``).join(', '));
     }
-    return message.channel.send({ embed });
+    return message.util.send({ embed });
   }
 }
 

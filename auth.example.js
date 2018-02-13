@@ -9,7 +9,7 @@ module.exports = {
   ownerID: '319102712383799296',
 
   //this is the default documentation of the bot, dont replace if you wont change things
-  docs: 'https://goo.gl/qd4itJ',
+  docs: 'https://bitbucket.org/gazmull/eros-public',
 
   //this the invite link for eros bot that i host 24/7.
   //of course replace this if you will self-host it
