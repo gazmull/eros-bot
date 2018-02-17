@@ -15,10 +15,7 @@ class ReadyListener extends Listener {
       const guildSize = this.client.guilds.size;
 
       status(`Logged in as ${me.tag} (ID: ${me.id})`);
-      me.setActivity(
-        `${guildSize === 1
-          ? this.client.guilds.first()
-          : `${guildSize} Guilds`} | @${me.username} help`, { type: 'LISTENING' });
+      me.setActivity(`@${me.username} help`, { type: 'LISTENING' });
 
       if(!guildSize)
         status('Standby Mode');

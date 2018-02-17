@@ -25,8 +25,8 @@ class ErosClient extends AkairoClient {
       listenerDirectory: `${__dirname}/../listeners`,
       inhibitorDirectory: `${__dirname}/../inhibitors`,
       defaultPrompt: {
-				modifyStart: (text, msg) => text && `${msg.author}, ${text}\nType \`cancel\` to cancel this command.`,
-				modifyRetry: (text, msg) => text && `${msg.author}, ${text}\nType \`cancel\` to cancel this command.`,
+				modifyStart: (text, msg) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
+				modifyRetry: (text, msg) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
 				timeout: msg => `${msg.author}, command expired.`,
 				ended: msg => `${msg.author}, command declined.`,
 				cancel: msg => `${msg.author}, command cancelled.`,

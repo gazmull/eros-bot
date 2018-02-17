@@ -10,14 +10,7 @@ class GuildLeaveListener extends Listener {
   }
 
   async exec(guild) {
-    const destroyed = await destroyGuild(guild);
-
-    const me = this.client.user;
-    const guildSize = this.client.guilds.size;
-    return me.setActivity(
-      `${guildSize === 1
-        ? this.client.guilds.first()
-        : `${guildSize} Guilds`} | @${me.username} help`, { type: 'LISTENING' });
+    return await destroyGuild(guild);
   }
 }
 

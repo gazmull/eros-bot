@@ -22,7 +22,9 @@ module.exports = {
   //get it from "\:emoji:"
   emojis: {
     //the emoji used for "Awaiting {{text}}..." prompts by the bot
-    loading: '<a:atyping:408054205757259776>'
+    loading: '<a:atyping:408054205757259776>',
+    //hmmm... no comment
+    embarassed: '<:rassed:405542775619190786>'
   },
 
   //do not touch this unless you know what you're doing

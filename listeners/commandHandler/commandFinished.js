@@ -11,6 +11,8 @@ class CommandFinishedListener extends Listener {
   async exec(message) {
     if(!message.guild) return;
     else if(!message.channel.permissionsFor(this.client.user).has('ADD_REACTIONS')) return;
+    else if(!message.util.lastResponse) return;
+    else if(message.util.command.paginated) return;
 
     const dialog = await message.channel.messages.fetch(message.util.lastResponse.id);
     if(!dialog) return;
@@ -24,7 +26,8 @@ class CommandFinishedListener extends Listener {
           await dialog.delete();
     }
     catch (c) {
-        dialog.reactions.removeAll();
+        if(await message.channels.messages.fetch(dialog.id))
+          dialog.reactions.removeAll();
         c.stack ? new AkairoError(c) : null;
     }
   }

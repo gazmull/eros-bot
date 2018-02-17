@@ -22,9 +22,13 @@ class InfoCommand extends Command {
       args: [
         {
           id: 'item',
-          match: 'text',
+          type: word => {
+            if (!word || word.length < 2) return null;
+            return word;
+          },
           prompt: {
             start: 'which or whose information would you like to obtain?',
+            retry: 'please provide an input with 2 characters and above.'
           }
         }
       ],
@@ -45,7 +49,6 @@ class InfoCommand extends Command {
 
   async exec(message, { item }) {
     try {
-      if(item.length < 2) return message.reply('I will not operate if there are only less than 2 characters input.');
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
       const prefix = this.handler.prefix(message);

@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const { get } = require('snekfetch');
 
-const { loading } = require('../../auth').emojis;
+const { loading, embarassed } = require('../../auth').emojis;
 const { defaultPrefix } = require('../../auth');
 const { player, api } = require('../../auth').url;
 const { error } = require('../../utils/console');
@@ -19,20 +19,30 @@ class HaremInfoCommand extends Command {
       args: [
         {
           id: 'character',
-          match: 'text',
+          type: word => {
+            if (!word || word.length < 2) return null;
+            return word;
+          },
           prompt: {
             start: 'whose episodes information would you like to obtain?',
+            retry: 'please provide an input with 2 characters and above.'
           }
         }
       ]
     });
     this.apiURL = api;
     this.playerURL = player;
+    this.rassedMsg = [
+      'b-but why m-me?!',
+      'I have the b-best scene... right?!',
+      'p-pervert!!!',
+      'y-you came to see me, or you came to... *c-come* on me?!',
+      'we already did this before... s-secretly... didn\'t we?'
+    ];
   }
 
   async exec(message, { character }) {
     try {
-      if(character.length < 2) return message.reply('I will not operate if there are only less than 2 characters input.');
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
       const request = await get(`${this.apiURL}search?name=${encodeURI(character)}`);
@@ -147,7 +157,12 @@ class HaremInfoCommand extends Command {
       const embed = this.client.util.embed()
         .setColor(0xFF75F1)
         .setTitle(result.khName)
-        .setDescription(result.khLoli ? '**Flagged as Loli**' : '')
+        .setDescription(
+          `${result.khLoli ? '**Flagged as Loli**' : ''}${
+            result.khName.toLowerCase().includes(this.client.user.username.toLowerCase())
+              ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${embarassed}`
+              : ''}`
+        )
         .setThumbnail(`${result.khInfo_avatar}`);
       
       for(let i = 1; i <= 3; i++) {
