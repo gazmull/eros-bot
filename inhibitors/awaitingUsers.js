@@ -1,5 +1,4 @@
 const { Inhibitor } = require('discord-akairo');
-const { defaultPrefix } = require('../auth');
 
 class AwaitingUsersInhibitor extends Inhibitor {
   constructor() {
@@ -9,7 +8,7 @@ class AwaitingUsersInhibitor extends Inhibitor {
   }
   exec(message) {
     const checkAwaiting = this.client.awaitingUsers.get(message.author.id);
-    const isCommandInfo = message.util.command.id === 'info' || message.util.command.id === 'hinfo';
+    const isCommandInfo = message.util.command && (message.util.command.id === 'info' || message.util.command.id === 'hinfo');
     
     if(checkAwaiting && isCommandInfo) {
       message.reply('you have an existing awaiting command. If you wish to continue with a new command, please say `cancel`.');

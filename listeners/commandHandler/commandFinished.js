@@ -26,7 +26,7 @@ class CommandFinishedListener extends Listener {
           await dialog.delete();
     }
     catch (c) {
-        if(await message.channels.messages.fetch(dialog.id))
+        if(await message.channel.messages.fetch(dialog.id))
           dialog.reactions.removeAll();
         c.stack ? new AkairoError(c) : null;
     }

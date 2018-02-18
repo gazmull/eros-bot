@@ -4,6 +4,7 @@
   "description": "Eros Bot Public",
   "main": "index.js",
   "dependencies": {
+    "bufferutil": "^3.0.3",
     "discord-akairo": "github:1Computer1/discord-akairo",
     "discord.js": "github:discordjs/discord.js",
     "infobox-parser": "github:dijs/infobox-parser",

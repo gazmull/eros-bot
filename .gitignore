@@ -6,6 +6,7 @@ package-lock.js
 auth.js
 provider/Eros.db
 provider/models/kamihime.js
+commands/fun/
 
 #VSCode
 .vscode
