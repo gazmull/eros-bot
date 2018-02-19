@@ -7,14 +7,17 @@
     "bufferutil": "^3.0.3",
     "discord-akairo": "github:1Computer1/discord-akairo",
     "discord.js": "github:discordjs/discord.js",
-    "infobox-parser": "github:dijs/infobox-parser",
+    "infobox-parser": "^2.2.1",
     "nodemw": "^0.12.0",
     "sequelize": "^4.32.2",
     "sqlite": "^2.9.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^4.18.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ignore-path .gitignore ."
   },
   "repository": {
     "type": "git",

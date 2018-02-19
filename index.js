@@ -5,14 +5,15 @@ const config = require('./auth');
 const client = new ErosClient(config).build();
 
 try {
-    client.init();
+	client.init();
+} catch (err) {
+	error(err);
 }
-catch (err) { error(err); }
 
 client
-    .on('disconnect', () => status('Disconnected from the API.'))
-    .on('reconnect', () => status('Reconnecting...'))
-    .on('error', err => error(err))
-    .on('warn', info => warn(info));
+	.on('disconnect', () => status('Disconnected from the API.'))
+	.on('reconnect', () => status('Reconnecting...'))
+	.on('error', err => error(err))
+	.on('warn', info => warn(info));
 
 process.on('unhandledRejection', err => error(`Critical: ${err.stack}`));

@@ -1,6 +1,9 @@
 #NPM
 node_modules/
-package-lock.js
+package-lock.json
+
+#Yarn
+yarn.lock
 
 #Private Source
 auth.js
