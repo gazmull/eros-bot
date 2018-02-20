@@ -135,7 +135,7 @@ module.exports = {
 		'eol-last': ['error', 'never'],
 		'func-call-spacing': 'error',
 		'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
-		indent: ['error', "tab"],
+		indent: ['error', 2],
 		'key-spacing': 'error',
 		'keyword-spacing': 'error',
 		// 'linebreak-style': 'error',

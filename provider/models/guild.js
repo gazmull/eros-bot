@@ -3,22 +3,22 @@ const { TEXT, BOOLEAN } = require('sequelize');
 const db = require('../Database');
 
 module.exports = db.define('guilds', {
-	id: {
-		type: TEXT,
-		unique: true,
-		primaryKey: true
-	},
-	name: TEXT,
-	owner: TEXT,
-	prefix: {
-		type: TEXT,
-		defaultValue: defaultPrefix
-	},
-	nsfwChannelID: TEXT,
-	nsfwRoleID: TEXT,
-	loli: {
-		type: BOOLEAN,
-		defaultValue: false,
-		allowNull: false
-	}
+  id: {
+    type: TEXT,
+    unique: true,
+    primaryKey: true
+  },
+  name: TEXT,
+  owner: TEXT,
+  prefix: {
+    type: TEXT,
+    defaultValue: defaultPrefix
+  },
+  nsfwChannelID: TEXT,
+  nsfwRoleID: TEXT,
+  loli: {
+    type: BOOLEAN,
+    defaultValue: false,
+    allowNull: false
+  }
 });
