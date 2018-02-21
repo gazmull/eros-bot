@@ -9,8 +9,6 @@
   Author:
     https://bitbucket.org/gazmull
 */
-const { Message, MessageEmbed, TextChannel, GroupDMChannel, DMChannel, User } = require('discord.js');
-const defaultEmojis = ['⏮', '◀', '↗', '▶', '⏭', '🗑'];
 
 /**
  * Options for clientMessage.
@@ -20,17 +18,28 @@ const defaultEmojis = ['⏮', '◀', '↗', '▶', '⏭', '🗑'];
  */
 
 /**
+* The unique ID or unique unicode character of the emoji.
+* @typedef {String} EmojiResolvable
+*/
+
+/**
+ * An array of emojis for navigation buttons.
+ * @typedef {Object} NavigationButtons
+ * @prop {EmojiResolvable} first - The first page button.
+ * @prop {EmojiResolvable} previous - The previous page button.
+ * @prop {EmojiResolvable} jump - The 'jump to page' button.
+ * @prop {EmojiResolvable} next - The next page button.
+ * @prop {EmojiResolvable} last - The last page button.
+ * @prop {EmojiResolvable} delete  - The delete button.
+ */
+
+/**
  * Options for PaginatonEmbed.fields.
  * @typedef {Object[]} FieldOptions
  * @prop {String} name - Name of the field.
  * @prop {Function} value - Value of the field. Function for Array.prototype.map().join('\n').
  * @prop {Boolean} [inline=true] - Whether the field is inline with other field or not.
  */
-
-/**
-	* The unique ID or unique unicode character of the emoji.
-	* @typedef {String} EmojiResolvable
-	*/
 
 /**
  * Options for the constructor.
@@ -46,8 +55,17 @@ const defaultEmojis = ['⏮', '◀', '↗', '▶', '⏭', '🗑'];
  * @prop {EmojiResolvable[]} [emojis] - An array of Emoji IDs.
  */
 
+const { Message, MessageEmbed, TextChannel, GroupDMChannel, DMChannel, User } = require('discord.js');
+const defaultEmojis = {
+  first: '⏮',
+  previous: '◀',
+  jump: '↗',
+  next: '▶',
+  last: '⏭',
+  delete: '🗑'
+};
+
 /**
- * test
  * @extends {MessageEmbed}
  */
 class PaginationEmbed extends MessageEmbed {
@@ -96,6 +114,13 @@ class PaginationEmbed extends MessageEmbed {
     this.pageIndicator = options.pageIndicator || true;
 
     /**
+		 * Emojis to react as navigation buttons.
+		 * Emojis should be cached in the bot.
+		 * @type {NavigationButtons}
+		 */
+    this.emojis = options.emojis || defaultEmojis;
+
+    /**
      * An array of formatted fields to input.
      * PaginationEmbed.formatField() is recommended.
      * @type {FieldOptions}
@@ -108,13 +133,6 @@ class PaginationEmbed extends MessageEmbed {
      * @type {Number|String}
      */
     this.page = options.page || 1;
-
-    /**
-		 * Emojis to react as navigation buttons.
-		 * Emojis should be cached in the bot.
-		 * @type {EmojiResolvable[]}
-		 */
-    this.emojis = options.emojis || defaultEmojis;
 
     this.pages = null;
   }
@@ -313,19 +331,27 @@ class PaginationEmbed extends MessageEmbed {
 
   /**
 	 * Sets the emojis to react as navigation buttons.
-	 * Emojis should be cached in the bot.
-	 * @param {EmojiResolvable[]} [emojis] - An array of emojis.
-	 * @default ['⏮','◀','↗','▶','⏭','🗑']
-	 * @protected
+	 * Custom emojis should be cached in the bot.
+   * @protected
+	 * @param {NavigationButtons} [emojis={}] - An array of emojis.
 	 * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @example
+   *
+   * // Default Emojis
+   * {
+   *   first: '⏮',
+   *   previous: '◀',
+   *   jump: '↗',
+   *   next: '▶',
+   *   last: '⏭',
+   *   delete: '🗑'
+   * }
 	 */
 
   /* eslint-disable no-unreachable */
   setEmojis(emojis = defaultEmojis) {
     throw new Error('This method is not available.');
-    const isValidArray = Array.isArray(emojis) && Boolean(emojis.length);
-    const err = new Error('setEmojis() only accepts an array of strings/emojis.');
-    if (!isValidArray) throw err;
+    if (typeof emojis !== 'object') throw new Error('setEmojis() only accepts an Object of strings/emojis.');
 
     for (const emoji in emojis) {
       const client = this.clientMessage.message.client;

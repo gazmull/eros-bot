@@ -40,7 +40,6 @@ class ListCommand extends Command {
       ]
     });
     this.paginated = true;
-    this.shouldAwait = true;
     this.apiURL = api;
     this.fields = {
       soul: ['khType', 'khTier'],

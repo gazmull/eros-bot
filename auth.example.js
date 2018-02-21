@@ -33,5 +33,8 @@ module.exports = {
     wikia: 'https://kamihime-project.wikia.com/w/',
     api: 'http://kamihimedb.thegzm.space/api/',
     player: 'http://kamihimedb.thegzm.space/player/'
-  }
+  },
+
+  // API token for kamihime-database. Not really that token... let's say a secret.
+  apiToken: 'whatisthepurposeofthis'
 };
