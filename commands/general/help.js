@@ -62,10 +62,11 @@ class HelpCommand extends Command {
       }[category.id];
 
       if (
-        (!message.guild && title === 'Server Manager') ||
-        (message.guild && !message.channel.permissionsFor(message.member).has('MANAGE_GUILD'))
+        (!message.guild && category.id === 'admin') ||
+        (message.guild && category.id === 'admin' && !message.channel.permissionsFor(message.member).has('MANAGE_GUILD'))
       ) continue;
-      if (title) embed.addField(title, category.map(c => `\`${c.aliases[0]}\``).join(', '));
+      const publicCommands = message.guild && message.author.id === this.client.ownerID ? category : category.filter(c => !c.ownerOnly);
+      if (title) embed.addField(title, publicCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
     }
 
     return message.util.send({ embed });
