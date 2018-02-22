@@ -117,7 +117,7 @@ class InfoCommand extends Command {
       if (err.stack) {
         error(err);
 
-        return message.util.edit(
+        message.util.edit(
           `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Menu Selection`,
           { embed: null }
         );
