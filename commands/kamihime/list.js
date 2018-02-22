@@ -77,8 +77,6 @@ class ListCommand extends Command {
 
       result = this.toArray(result);
 
-      this.client.awaitingUsers.set(message.author.id, true);
-
       const embed = new PaginationEmbed()
         .setAuthorisedUser(message.author)
         .setChannel(message.channel)
