@@ -94,7 +94,7 @@ class ListCommand extends Command {
         true
       );
 
-      embed.build();
+      await embed.build();
     } catch (err) {
       if (err.stack)
         error(err.stack);

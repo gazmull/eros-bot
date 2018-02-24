@@ -60,7 +60,7 @@ class SearchKamihimeCommand extends Command {
       if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.khID}`);
       embed.formatField('Name', i => i.khName);
 
-      return embed.build();
+      return await embed.build();
     } catch (err) {
       if (err.stack)
         error(err.stack);

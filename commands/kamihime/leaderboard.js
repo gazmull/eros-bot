@@ -60,7 +60,7 @@ class LeaderboardKamihimeCommand extends Command {
         )
         .formatField('Views', i => i.peekedOn);
 
-      return embed.build();
+      return await embed.build();
     } catch (err) {
       if (err.stack)
         error(err.stack);

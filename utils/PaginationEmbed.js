@@ -208,9 +208,13 @@ class PaginationEmbed extends MessageEmbed {
         .setClientMessage(this.clientMessage.message, this.clientMessage.content)
         .setArray(this.array)
         .setElementsPerPage(this.elementsPerPage)
-        .showPageIndicator(this.pageIndicator)
-        .setPage(this.page);
+        .showPageIndicator(this.pageIndicator);
+
+      this.pages = Math.ceil(this.array.length / this.elementsPerPage);
+      this.setPage(this.page);
       // .setEmojis(this.emojis);
+
+      if (!(this.page >= 1 && this.page <= this.pages)) throw new Error('Invalid page.');
 
       const message = this.clientMessage.message
         ? await this.clientMessage.message.edit(this.clientMessage.content)
@@ -227,8 +231,6 @@ class PaginationEmbed extends MessageEmbed {
 
         this.formatField(field.name, field.value, field.inline);
       }
-
-      this.pages = Math.ceil(this.array.length / this.elementsPerPage);
 
       this._loadList();
     } catch (err) {
@@ -376,12 +378,6 @@ class PaginationEmbed extends MessageEmbed {
       next: this.page === this.pages ? this.pages : this.page + 1,
       last: this.pages
     }[param];
-
-    const isInvalidPage = (
-      (!isNaN(param) && (param < 1 || param > this.pages)) ||
-      (isString && typeof navigator === 'undefined')
-    );
-    if (isInvalidPage) throw new Error('Invalid page.');
 
     this.page = isString ? navigator : param;
 
