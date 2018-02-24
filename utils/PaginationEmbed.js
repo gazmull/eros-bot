@@ -306,8 +306,8 @@ class PaginationEmbed extends MessageEmbed {
    * @returns {PaginationEmbed} - Instance of PaginationEmbed
    */
   setClientMessage(message = null, content = null) {
-    const isValidMessage = message && message.constructor === Message;
-    if (!isValidMessage) throw new Error('setClientMessage() only accepts message object type.');
+    const isInvalidMessage = message && message.constructor !== Message;
+    if (isInvalidMessage) throw new Error('setClientMessage() only accepts message object type.');
     if (!content) content = 'Preparing...';
 
     this.clientMessage = { message, content };
@@ -378,7 +378,7 @@ class PaginationEmbed extends MessageEmbed {
     }[param];
 
     const isInvalidPage = (
-      (!isNaN(param) && param < 1 && param > this.pages) ||
+      (!isNaN(param) && (param < 1 || param > this.pages)) ||
       (isString && typeof navigator === 'undefined')
     );
     if (isInvalidPage) throw new Error('Invalid page.');
@@ -432,7 +432,7 @@ class PaginationEmbed extends MessageEmbed {
   async _drawNavigation() {
     if (this.page !== 1) await this.clientMessage.message.react('⏮');
     if (this.page !== 1) await this.clientMessage.message.react('◀');
-    await this.clientMessage.message.react('↗');
+    if (this.pages > 2) await this.clientMessage.message.react('↗');
     if (this.page !== this.pages) await this.clientMessage.message.react('▶');
     if (this.page !== this.pages) await this.clientMessage.message.react('⏭');
     await this.clientMessage.message.react('🗑');
@@ -443,13 +443,15 @@ class PaginationEmbed extends MessageEmbed {
   /**
 	 * Initialises the MessageEmbed.
    * @protected
+   * @param {boolean} [callNavigation=true] - Whether to call _drawNavigation() or not.
+   * @default true
 	 * @returns {Void} - void
    */
-  async _loadList() {
+  async _loadList(callNavigation = true) {
     const embed = this._drawList();
     await this.clientMessage.message.edit({ embed });
 
-    this._drawNavigation();
+    if (callNavigation) this._drawNavigation();
   }
 
   /**
@@ -458,9 +460,19 @@ class PaginationEmbed extends MessageEmbed {
    * @param {number} param - The page number to jump to. As String: 'first', 'previous', 'next', 'last'
 	 * @returns {Void} - void
    */
-  _loadPage(param = 1) {
+  async _loadPage(param = 1) {
+    const oldPage = this.page;
     this.setPage(param);
-    this._loadList();
+
+    if (oldPage === 1 || oldPage === this.pages || this.page === 1 || this.page === this.pages) {
+      await this.clientMessage.message.reactions.removeAll();
+
+      this._loadList(true);
+    } else {
+      this._loadList(false);
+
+      this._awaitResponse();
+    }
   }
 
   /**
@@ -486,7 +498,7 @@ class PaginationEmbed extends MessageEmbed {
           r.emoji.name === '🗑' ||
           r.emoji.name === '⏮' || r.emoji.name === '◀' ||
           r.emoji.name === '↗' ||
-					r.emoji.name === '▶' || r.emoji.name === '⏭'
+          r.emoji.name === '▶' || r.emoji.name === '⏭'
         )
       );
     };
@@ -501,9 +513,10 @@ class PaginationEmbed extends MessageEmbed {
       );
 
       const response = responses.first();
+      const user = response.users.last();
       if (response.emoji.name === '🗑') return this.clientMessage.message.delete();
 
-      await this.clientMessage.message.reactions.removeAll();
+      await response.users.remove(user);
 
       switch (response.emoji.name) {
       case '⏮':
@@ -513,7 +526,7 @@ class PaginationEmbed extends MessageEmbed {
         this._loadPage('previous');
         break;
       case '↗':
-        this._awaitResponseEx(response.users.last());
+        this._awaitResponseEx(user);
         break;
       case '▶':
         this._loadPage('next');
@@ -526,7 +539,7 @@ class PaginationEmbed extends MessageEmbed {
       this.clientMessage.message.reactions.removeAll().catch(err => {
         throw err;
       });
-      if (c.stack) throw c;
+      if (c.constructor === Error) throw c;
     }
   }
 
@@ -565,7 +578,7 @@ class PaginationEmbed extends MessageEmbed {
       await prompt.delete();
       await response.delete();
       if (content === 'cancel') {
-        this._drawNavigation();
+        this._awaitResponse();
 
         return;
       }
@@ -575,7 +588,7 @@ class PaginationEmbed extends MessageEmbed {
       prompt.delete().catch(err => {
         throw err;
       });
-      if (c.stack) throw c;
+      if (c.constructor === Error) throw c;
     }
   }
 }

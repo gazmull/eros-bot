@@ -26,7 +26,7 @@ class SetNSFWRoleCommand extends Command {
   }
 
   async exec(message, { role }) {
-    const oldRole = this.client.guildSettings.get(message.guild.id, 'nsfwrole', null);
+    const oldRole = this.client.guildSettings.get(message.guild.id, 'nsfwRoleID', null);
     await this.client.guildSettings.set(message.guild.id, 'nsfwRoleID', role.id);
 
     return message.util.reply(

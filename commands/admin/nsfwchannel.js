@@ -26,7 +26,7 @@ class SetNSFWChannelCommand extends Command {
   }
 
   async exec(message, { channel }) {
-    const oldChannel = this.client.guildSettings.get(message.guild.id, 'nsfwchannel', null);
+    const oldChannel = this.client.guildSettings.get(message.guild.id, 'nsfwChannelID', null);
     await this.client.guildSettings.set(message.guild.id, 'nsfwChannelID', channel.id);
 
     return message.util.reply(

@@ -137,19 +137,21 @@ class InfoCommand extends Command {
       const rawData = await getArticle(item);
       const sanitisedData = data => {
         if (!data) throw `API returned no item named ${item} found.`;
-        const slicedData = data.slice(
-          rawData.indexOf('{{'), rawData.indexOf('== ')
-        );
+        const slicedData = data.indexOf('==') === -1
+          ? data
+          : data.slice(data.indexOf('{{'), data.indexOf('=='));
 
         return slicedData
           .replace(/<br(?:| )(?:|\/)>/g, ' ')
-          .replace(/(?:\{{2})([^{}].*?)(?:\}{2})/g, '')
+          .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '')
           .replace(/(?:\[{2}.*\|)(.*?)(?:\]{2})/g, '$1')
           .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1')
           .replace(/(?:\[{2}).*?(?:\]{2})/g, '');
       };
-      const result = parseInfo(sanitisedData(rawData));
+
       let embed;
+      const result = parseInfo(sanitisedData(rawData));
+      result.name = result.name.replace(/(?:\[)(.+)(?:\])/g, '($1)');
 
       switch (true) {
       case category.includes('Category:Kamihime'):
@@ -187,6 +189,7 @@ class InfoCommand extends Command {
       name: result.name,
       description: result.description,
       releaseWeapon: result.releaseWeapon || null,
+      favouriteWeapon: result.favouriteWeapon || null,
       link: `${this.wikiaURL}${encodeURI(result.name)}`,
       thumbnail: dbRes.khInfo_avatar,
       rarity: result.rarity,
@@ -249,7 +252,7 @@ class InfoCommand extends Command {
             hime.releaseWeapon
               ? ` | __**[${hime.releaseWeapon}](${this.wikiaURL}${encodeURI(hime.releaseWeapon)} "Weapon Release")**__`
               : ''}`,
-          `${hime.description}`
+          `${hime.favouriteWeapon ? `__**Favourite Weapon Type: ${hime.favouriteWeapon}**__\n` : ''}${hime.description}`
         ]
       )
       .setThumbnail(hime.thumbnail)

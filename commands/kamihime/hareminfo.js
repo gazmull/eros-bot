@@ -8,7 +8,7 @@ const { error } = require('../../utils/console');
 class HaremInfoCommand extends Command {
   constructor() {
     super('hinfo', {
-      aliases: ['hinfo', 'hareminfo', 'hi', 'peek', 'p'],
+      aliases: ['hareminfo', 'hinfo', 'hi', 'peek', 'p'],
       description: {
         content: 'Sends a list of Harem Episodes of a character.',
         usage: '<character name>',

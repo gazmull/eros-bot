@@ -9,11 +9,11 @@ class CommandFinishedListener extends Listener {
     });
   }
 
-  async exec(message) {
-    if (!message.guild) return;
+  async exec(message, command) {
+    if (command.paginated) return;
+    else if (!message.guild) return;
     else if (!message.channel.permissionsFor(this.client.user).has('ADD_REACTIONS')) return;
     else if (!message.util.lastResponse) return;
-    else if (message.util.command.paginated) return;
 
     const dialog = await message.channel.messages.fetch(message.util.lastResponse.id);
     if (!dialog) return;
