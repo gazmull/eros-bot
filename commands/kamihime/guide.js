@@ -38,7 +38,7 @@ class GuideCommand extends Command {
       ].join('\n'),
       [
         '__**info**__',
-        'Usage: @Eros info <character/weapon name>',
+        'Usage: `@Eros info <character/weapon name>`',
         'Shortcuts for this command: `i`, `khi`, `kh`',
         '\nMin. requirement for input length is 2.',
         'If there are multiple results, you will be prompted to select what you exactly you would like to see.',
@@ -46,20 +46,20 @@ class GuideCommand extends Command {
       ].join('\n'),
       [
         '__**hareminfo**__',
-        'Usage: @Eros hareminfo <character name>',
+        'Usage: `@Eros hareminfo <character name>`',
         'Shortcuts for this command: `hinfo`, `hi`, `peek`, `p`',
         '\nMin. requirement for input length is 2.',
         'If there are multiple result, you will be prompted to select what you exactly you would like to see.',
         '\n**Using This Command Normally**',
-        '\t@Eros nsfwchannel must be set or I will decline your request.',
-        '\t@Eros nsfwrole must be set if you would like me to assign NSFW role to gain access to the NSFW channel.',
-        '\t@Eros loli is optional if you hate embedding loli contents from the game. Toggle-able command.',
-        '\t@Eros nsfw to request access to NSFW Channel and I will assign a role to you. This is only available if the `nsfwrole` is set.',
+        '\t`@Eros nsfwchannel` must be set or I will decline your request.',
+        '\t`@Eros nsfwrole` must be set if you would like me to assign NSFW role to gain access to the NSFW channel.',
+        '\t`@Eros loli` is optional if you hate embedding loli contents from the game. Toggle-able command.',
+        '\t`@Eros nsfw` to request access to NSFW Channel and I will assign a role to you. This is only available if the `nsfwrole` is set.',
         '\nSee more from this command: `@Eros help hareminfo`'
       ].join('\n'),
       [
         '__**list**__',
-        'Usage: @Eros list <filter variable(s)>',
+        'Usage: `@Eros list <filter variable(s)>`',
         'Shortcut for this command: `l`',
         '\nRequired variables can be seen via `@Eros list variables`.',
         'Variables can be combined, but variables will always start with the following:',
@@ -84,7 +84,8 @@ class GuideCommand extends Command {
         .setArray(this.dialogs)
         .setElementsPerPage(1)
         .setColor(0xFF00AE)
-        .formatField('Guide', i => i, false);
+        .formatField('Guide', i => i, false)
+        .setTimeout(240 * 1000);
 
       return await embed.build();
     } catch (err) {

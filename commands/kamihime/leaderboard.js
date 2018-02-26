@@ -46,7 +46,8 @@ class LeaderboardKamihimeCommand extends Command {
         .setArray(list)
         .setPage(page)
         .setTitle('Most Views Leaderboard (Harem Scenes)')
-        .setColor(0xFF00AE);
+        .setColor(0xFF00AE)
+        .setTimeout(240 * 1000);
 
       if (advanced) embed.formatField('#) ID', i => `${list.indexOf(i) + 1}) ${i.khID}`);
       embed

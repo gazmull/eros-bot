@@ -55,7 +55,8 @@ class SearchKamihimeCommand extends Command {
         .setArray(result)
         .setTitle(`${character.toUpperCase()} | Found: ${result.length}`)
         .setColor(0xFF00AE)
-        .showPageIndicator(false);
+        .showPageIndicator(false)
+        .setTimeout(60 * 1000);
 
       if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.khID}`);
       embed.formatField('Name', i => i.khName);

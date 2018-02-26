@@ -52,6 +52,7 @@
  * @prop {Boolean} [pageIndicator=true] - Whether page number indicator on embed footer text is shown or not.
  * @prop {FieldOptions} fields - An array formatted fields to input.
  * @prop {Number|String} [page=1] - Jumps to a certain page upon PaginationEmbed.build().
+ * @prop {Number} [timeout=30000] - The time for awaiting a user action before timeout in ms.
  * @prop {EmojiResolvable[]} [emojis] - An array of Emoji IDs.
  */
 
@@ -134,6 +135,12 @@ class PaginationEmbed extends MessageEmbed {
      */
     this.page = options.page || 1;
 
+    /**
+     * The time for awaiting a user action before timeout in ms.
+     * @type {Number}
+     */
+    this.timeout = options.timeout || 30000;
+
     this.pages = null;
   }
 
@@ -174,7 +181,8 @@ class PaginationEmbed extends MessageEmbed {
    *    { name: 'ID', value: el => el.id },
    *    { name: 'Name', value: el => el.name }
    *  ],
-   *  page: 2
+   *  page: 2,
+   *  timeout: 69000
    * }).build();
    *
    * @example
@@ -198,6 +206,7 @@ class PaginationEmbed extends MessageEmbed {
    *  .formatField('ID', el => el.id)
    *  .formatField('Name', el => el.name)
    *  .setPage(2)
+   *  .setTimeout(69000)
    *  .build();
    */
   async build() {
@@ -208,7 +217,8 @@ class PaginationEmbed extends MessageEmbed {
         .setClientMessage(this.clientMessage.message, this.clientMessage.content)
         .setArray(this.array)
         .setElementsPerPage(this.elementsPerPage)
-        .showPageIndicator(this.pageIndicator);
+        .showPageIndicator(this.pageIndicator)
+        .setTimeout(this.timeout);
 
       this.pages = Math.ceil(this.array.length / this.elementsPerPage);
       this.setPage(this.page);
@@ -256,20 +266,6 @@ class PaginationEmbed extends MessageEmbed {
   }
 
   /**
-   * Set the authorised person to navigate the pages.
-   * @param {Object} [user=null] - The user object.
-   * @default null
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
-   */
-  setAuthorisedUser(user = null) {
-    if (user && user.constructor !== User) throw new Error('setAuthorisedUser() only accepts user object type.');
-
-    this.authorisedUser = user;
-
-    return this;
-  }
-
-  /**
    * Sets the array of elements to paginate.
    * @param {Array} array - An array of elements to paginate.
    * @returns {PaginationEmbed} - Instance of PaginationEmbed
@@ -279,6 +275,20 @@ class PaginationEmbed extends MessageEmbed {
     if (!isValidArray) throw new Error('Cannot invoke Pagination class without initialising the array to paginate.');
 
     this.array = array;
+
+    return this;
+  }
+
+  /**
+   * Set the authorised person to navigate the pages.
+   * @param {Object} [user=null] - The user object.
+   * @default null
+   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   */
+  setAuthorisedUser(user = null) {
+    if (user && user.constructor !== User) throw new Error('setAuthorisedUser() only accepts user object type.');
+
+    this.authorisedUser = user;
 
     return this;
   }
@@ -370,7 +380,7 @@ class PaginationEmbed extends MessageEmbed {
    */
   setPage(param = 1) {
     const isString = typeof param === 'string';
-    if (!(!isNaN(param) || isString)) throw new Error('setPage() only accepts number/string.');
+    if (!(!isNaN(param) || isString)) throw new Error('setPage() only accepts number/string type.');
 
     const navigator = {
       first: 1,
@@ -380,6 +390,20 @@ class PaginationEmbed extends MessageEmbed {
     }[param];
 
     this.page = isString ? navigator : param;
+
+    return this;
+  }
+
+  /**
+   * Sets the time for awaiting a user action before timeout in ms.
+   * @param {Number} [timeout=30000] Timeout value in ms. 
+   * @default 30000
+   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   */
+  setTimeout(timeout = 30000) {
+    if (typeof timeout !== 'number') throw new Error('setTimeout() only accepts number type.');
+
+    this.timeout = timeout;
 
     return this;
   }
@@ -474,9 +498,10 @@ class PaginationEmbed extends MessageEmbed {
   /**
 	 * Awaits the reaction from the user.
    * @protected
+   * @param {boolean} [onRepeat=false] - Whether to call this method for first time call or for retry call.
 	 * @returns {Void} - void
    */
-  async _awaitResponse() {
+  async _awaitResponse(onRepeat = false) {
     const filter = (r, u) => {
       if (this.authorisedUser)
         return (
@@ -503,7 +528,7 @@ class PaginationEmbed extends MessageEmbed {
         filter,
         {
           max: 1,
-          time: 30 * 1000,
+          time: this.timeout,
           errors: ['time']
         },
       );
@@ -516,18 +541,38 @@ class PaginationEmbed extends MessageEmbed {
 
       switch (response.emoji.name) {
       case '⏮':
+        if (this.page === 1) {
+          this._awaitResponse();
+
+          return;
+        }
         this._loadPage('first');
         break;
       case '◀':
+        if (this.page === 1) {
+          this._awaitResponse();
+
+          return;
+        }
         this._loadPage('previous');
         break;
       case '↗':
         this._awaitResponseEx(user);
         break;
       case '▶':
+        if (this.page === this.pages) {
+          this._awaitResponse();
+
+          return;
+        }
         this._loadPage('next');
         break;
       case '⏭':
+        if (this.page === this.pages) {
+          this._awaitResponse();
+
+          return;
+        }
         this._loadPage('last');
         break;
       }
@@ -563,7 +608,7 @@ class PaginationEmbed extends MessageEmbed {
         filter,
         {
           max: 1,
-          time: 30 * 1000,
+          time: this.timeout,
           errors: ['time']
         },
       );
