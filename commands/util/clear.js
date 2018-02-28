@@ -36,33 +36,33 @@ class ClearCommand extends Command {
       const messages = await message.channel.messages.fetch({ limit: amount });
 
       switch (type) {
-      case 'all': {
-        message.channel.bulkDelete(messages, true);
-        break;
-      }
-      case 'me': {
-        const filterMessages = messages.filter(
-          m => m.author.id === message.author.id && !m.pinned &&
+        case 'all': {
+          message.channel.bulkDelete(messages, true);
+          break;
+        }
+        case 'me': {
+          const filterMessages = messages.filter(
+            m => m.author.id === message.author.id && !m.pinned &&
           !m.content.match(/<clear:no>/gi) && Date.now() - m.createdTimestamp < 1210000000
-        );
-        message.channel.bulkDelete(filterMessages);
-        break;
-      }
-      case 'bot': {
-        const filterMessages = messages.filter(
-          m => m.author.id === this.client.user.id && !m.pinned &&
+          );
+          message.channel.bulkDelete(filterMessages);
+          break;
+        }
+        case 'bot': {
+          const filterMessages = messages.filter(
+            m => m.author.id === this.client.user.id && !m.pinned &&
           !m.content.match(/<clear:no>/gi) && Date.now() - m.createdTimestamp < 1210000000
-        );
-        message.channel.bulkDelete(filterMessages);
-        break;
-      }
-      default: {
-        const filterMessages = messages.filter(
-          m => !m.pinned && !m.content.match(/<clear:no>/gi) &&
+          );
+          message.channel.bulkDelete(filterMessages);
+          break;
+        }
+        default: {
+          const filterMessages = messages.filter(
+            m => !m.pinned && !m.content.match(/<clear:no>/gi) &&
           Date.now() - m.createdTimestamp < 1210000000
-        );
-        message.channel.bulkDelete(filterMessages);
-      }
+          );
+          message.channel.bulkDelete(filterMessages);
+        }
       }
     } catch (err) {
       error(err.stack);

@@ -1,5 +1,6 @@
 const { Listener } = require('discord-akairo');
 const { status, error } = require('../../utils/console');
+const { promisify } = require('util');
 
 class ReadyListener extends Listener {
   constructor() {
@@ -22,6 +23,10 @@ class ReadyListener extends Listener {
           ? this.client.guilds.first()
           : `${guildSize} Guilds`}`);
       else status('Standby Mode');
+
+      this.client.getArticle = promisify(this.client.request.getArticle.bind(this.client.request));
+      this.client.getArticleCategories = promisify(this.client.request.getArticleCategories.bind(this.client.request));
+      this.client.getImageInfo = promisify(this.client.request.getImageInfo.bind(this.client.request));
     } catch (err) {
       error(err);
     }

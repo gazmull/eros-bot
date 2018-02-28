@@ -2,7 +2,7 @@ const { Command } = require('discord-akairo');
 const { get } = require('snekfetch');
 
 const { loading, embarassed } = require('../../auth').emojis;
-const { player, api } = require('../../auth').url;
+const { player, api, wikia } = require('../../auth').url;
 const { error } = require('../../utils/console');
 
 class HaremInfoCommand extends Command {
@@ -18,6 +18,7 @@ class HaremInfoCommand extends Command {
       args: [
         {
           id: 'character',
+          match: 'text',
           type: word => {
             if (!word || word.length < 2) return null;
 
@@ -47,7 +48,7 @@ class HaremInfoCommand extends Command {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
       const request = await get(`${this.apiURL}search?name=${encodeURI(character)}`);
-      const rows = request.body;
+      const rows = request.body.filter(c => !['x', 'w'].includes(c.khID.charAt(0)));
 
       if (!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if (rows.length === 1) {
@@ -159,14 +160,14 @@ class HaremInfoCommand extends Command {
       ];
       const embed = this.client.util.embed()
         .setColor(0xFF75F1)
-        .setTitle(result.khName)
+        .setAuthor(result.khName, null, `${wikia}${encodeURI(result.khName)}`)
         .setDescription(
           `${result.khLoli ? '**Flagged as Loli**' : ''}${
-            result.khName.toLowerCase().includes(this.client.user.username.toLowerCase())
+            result.khName.toLowerCase() === (this.client.user.username.toLowerCase())
               ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${embarassed}`
               : ''}`
         )
-        .setThumbnail(`${result.khInfo_avatar}`);
+        .setThumbnail(await this.characterPortrait(result.khName));
 
       for (let i = 1; i <= 3; i++) {
         const ep = harems[i - 1];
@@ -223,6 +224,25 @@ class HaremInfoCommand extends Command {
         `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\``,
         { embed: null }
       );
+    }
+  }
+
+  async characterPortrait(name) {
+    const filename = `File:${encodeURI(name.replace(/ +/g, '_'))}Portrait`;
+    const filenameStripped = `File:${encodeURI(name.replace(/ +/g, ''))}Portrait`;
+    const filenames = [`${filename}.png`, `${filenameStripped}.png`, `${filename}.jpg`, `${filenameStripped}.jpg`];
+    let image;
+
+    try {
+      for (const possible of filenames) {
+        image = await this.client.getImageInfo(possible);
+
+        if (image) break;
+      }
+
+      return image.url;
+    } catch (err) {
+      throw err;
     }
   }
 }

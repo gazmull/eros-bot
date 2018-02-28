@@ -1,5 +1,4 @@
 const { error } = require('../../utils/console');
-const { promisify } = require('util');
 
 const { Command } = require('discord-akairo');
 const { get } = require('snekfetch');
@@ -21,6 +20,7 @@ class InfoCommand extends Command {
       args: [
         {
           id: 'item',
+          match: 'text',
           type: word => {
             if (!word || word.length < 2) return null;
 
@@ -131,10 +131,8 @@ class InfoCommand extends Command {
   async triggerDialog(message, item, dbRes, prefix) {
     try {
       await message.util.edit(`${loading} Awaiting Wikia's response...`, { embed: null });
-      const getArticle = promisify(this.client.request.getArticle.bind(this.client.request));
-      const getArticleCategories = promisify(this.client.request.getArticleCategories.bind(this.client.request));
-      const category = await getArticleCategories(item);
-      const rawData = await getArticle(item);
+      const category = await this.client.getArticleCategories(item);
+      const rawData = await this.client.getArticle(item);
       const sanitisedData = data => {
         if (!data) throw `API returned no item named ${item} found.`;
         const slicedData = data.indexOf('==') === -1
@@ -154,22 +152,22 @@ class InfoCommand extends Command {
       result.name = result.name.replace(/(?:\[)(.+)(?:\])/g, '($1)');
 
       switch (true) {
-      case category.includes('Category:Kamihime'):
-        embed = this.kamihimeTemplate(result, dbRes, prefix);
-        break;
-      case category.includes('Category:Eidolons'):
-        embed = this.eidolonTemplate(result, dbRes, prefix);
-        break;
-      case category.includes('Category:Souls'):
-        embed = this.soulTemplate(result, dbRes, prefix);
-        break;
-      case category.includes('Category:Weapons'):
-        embed = this.weaponTemplate(result, dbRes);
-        break;
+        case category.includes('Category:Kamihime'):
+          embed = await this.kamihimeTemplate(result, dbRes, prefix);
+          break;
+        case category.includes('Category:Eidolons'):
+          embed = await this.eidolonTemplate(result, dbRes, prefix);
+          break;
+        case category.includes('Category:Souls'):
+          embed = await this.soulTemplate(result, dbRes, prefix);
+          break;
+        case category.includes('Category:Weapons'):
+          embed = await this.weaponTemplate(result, dbRes);
+          break;
         // case category.includes('Category:Accessories'):
         // 	embed = this.accessoryTemplate(result, dbRes);
         // 	break;
-      default: return message.reply('invalid article.');
+        default: return message.reply('invalid article.');
       }
 
       return message.util.edit({ embed });
@@ -184,21 +182,50 @@ class InfoCommand extends Command {
     }
   }
 
-  kamihimeTemplate(result, dbRes, prefix) {
+  async itemPortrait(name) {
+    const filename = `File:${encodeURI(name.replace(/ +/g, '_'))}Portrait`;
+    const filenameStripped = `File:${encodeURI(name.replace(/ +/g, ''))}Portrait`;
+    const filenames = [`${filename}.png`, `${filenameStripped}.png`, `${filename}.jpg`, `${filenameStripped}.jpg`];
+    let image;
+
+    try {
+      for (const possible of filenames) {
+        image = await this.client.getImageInfo(possible);
+
+        if (image) break;
+      }
+
+      return image.url;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  itemLink(name) {
+    return `${wikia}${encodeURI(name)}`;
+  }
+
+  async kamihimeTemplate(result, dbRes, prefix) {
+    const link = this.itemLink(result.name);
+    const thumbnail = await this.itemPortrait(result.name);
     const hime = {
       name: result.name,
       description: result.description,
       releaseWeapon: result.releaseWeapon || null,
       favouriteWeapon: result.favouriteWeapon || null,
-      link: `${this.wikiaURL}${encodeURI(result.name)}`,
-      thumbnail: dbRes.khInfo_avatar,
+      link,
+      thumbnail,
       rarity: result.rarity,
       element: result.element,
       type: result.type,
       atk: result.atkMax,
       hp: result.hpMax,
 
-      burst: result.burstName,
+      burst: {
+        name: result.burstName,
+        description: result.burstDesc || null,
+        upgradeDescription: result.burstPowerupDesc || null
+      },
 
       ability: [
         result.ability1Name
@@ -257,7 +284,13 @@ class InfoCommand extends Command {
       )
       .setThumbnail(hime.thumbnail)
       .setColor(hime.rarity === 'SSR+' ? this.colors.SSRA : this.colors[hime.rarity])
-      .addField('Burst', hime.burst);
+      .addField(
+        `Burst: ${hime.burst.name}`,
+        [
+          hime.burst.description || 'Description not specified.',
+          ` ★ ${hime.burst.upgradeDescription || 'Upgrade description not specified.'}`
+        ]
+      );
 
     for (let i = 0; i < 3; i++) {
       if (!hime.ability[i]) continue;
@@ -301,12 +334,14 @@ class InfoCommand extends Command {
     return embed;
   }
 
-  eidolonTemplate(result, dbRes, prefix) {
+  async eidolonTemplate(result, dbRes, prefix) {
+    const link = this.itemLink(result.name);
+    const thumbnail = await this.itemPortrait(result.name);
     const eidolon = {
       name: result.name,
       description: result.description,
-      link: `${this.wikiaURL}${encodeURI(result.name)}`,
-      thumbnail: dbRes.khInfo_avatar || null,
+      link,
+      thumbnail,
       rarity: result.rarity,
       element: result.element,
       atk: result.atkMax,
@@ -392,12 +427,14 @@ class InfoCommand extends Command {
     return result;
   }
 
-  soulTemplate(result, dbRes, prefix) {
+  async soulTemplate(result, dbRes, prefix) {
+    const link = this.itemLink(result.name);
+    const thumbnail = await this.itemPortrait(result.name);
     const soul = {
       name: result.name,
       description: result.description,
-      link: `${this.wikiaURL}${encodeURI(result.name)}`,
-      thumbnail: dbRes.khInfo_avatar,
+      link,
+      thumbnail,
       tier: result.tier,
       type: result.type,
       masterBonus: result.masterBonus,
@@ -471,12 +508,12 @@ class InfoCommand extends Command {
         [
           `__**Soul**__ | __**${soul.type}**__ | __**${soul.weapons[0]}${soul.weapons[1] ? ` and ${soul.weapons[1]}` : ''}**__`,
           soul.souls.length
-            ? `**Requires: [${
-              soul.souls[0]}](${this.wikiaURL}${encodeURI(soul.souls[0])
-            }) & [${
-              soul.souls[1]}](${this.wikiaURL}${encodeURI(soul.souls[1])
-            }) at LV 20**\n__**Master LV Bonus: ${soul.masterBonus}**__\n${soul.description}`
-            : `__**Master LV Bonus: ${soul.masterBonus}**__\n${soul.description}`
+            ? `__**Requires**__: [__**${
+              soul.souls[0]}**__](${this.wikiaURL}${encodeURI(soul.souls[0])
+            }) & [__**${
+              soul.souls[1]}**__](${this.wikiaURL}${encodeURI(soul.souls[1])
+            }) at LV 20\n__**Master LV Bonus**__: ${soul.masterBonus}\n${soul.description}`
+            : `__**Master LV Bonus**__: ${soul.masterBonus}\n${soul.description}`
         ]
       )
       .setThumbnail(soul.thumbnail)
@@ -513,12 +550,14 @@ class InfoCommand extends Command {
     return embed;
   }
 
-  weaponTemplate(result, dbRes) {
+  async weaponTemplate(result) {
+    const link = this.itemLink(result.name);
+    const thumbnail = await this.itemPortrait(result.name);
     const weapon = {
       name: result.name,
       description: result.description,
-      link: `${this.wikiaURL}${encodeURI(result.name)}`,
-      thumbnail: dbRes.khInfo_avatar || null,
+      link,
+      thumbnail,
       rarity: result.rarity,
       type: {
         weapon: result.weaponType,
@@ -539,7 +578,8 @@ class InfoCommand extends Command {
         ]
       )
       .setThumbnail(weapon.thumbnail)
-      .setColor(this.colors[weapon.rarity]);
+      .setColor(this.colors[weapon.rarity])
+      .addField('Maximum Stats', `ATK: ${weapon.atk} | HP: ${weapon.hp}`, true);
 
     if (weapon.type.skill)
       embed.addField('Weapon Skill Type', weapon.type.skill, true);
@@ -548,7 +588,13 @@ class InfoCommand extends Command {
       embed.addField('Weapon Burst', weapon.burst, true);
 
     if (weapon.obtained)
-      embed.setFooter(`can be obtained from ${weapon.obtained}`);
+      embed.setFooter(
+        `can be obtained from ${weapon.obtained.replace(/(gacha(?=.+))/i, '$1 |')}${
+          weapon.obtained.includes('Gacha')
+            ? ''
+            : ' Event'
+        }`
+      );
 
     return embed;
   }
