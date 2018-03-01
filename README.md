@@ -14,7 +14,7 @@
   * Guild-wide Customisable Prefix
     * Default Prefix: **?** or **`@Eros` (Mention)**
   * You can now DM the bot directly for commands without the prefix unlike [**ErosClass**] Version
-  * *More to comeâ„¢*
+  * *More to come™*
 
 ## Commands
   * **Admin/Server Manager**
@@ -52,8 +52,8 @@
         * [**PM2**](https://github.com/Unitech/pm2): `pm2 start index.js --name="Eros" --env production`
 
 ## Contributing
-  You have to fork this repository, and follow the project's ESLint configuration. Run `npm test` or `yarn test` to verify if your build is passing. Failing build will be rejected.
-  * `npm install eslint` or `yarn add eslint` to install ESLint.
+  * You have to fork this repository, and follow the project's ESLint configuration. Run `npm test` or `yarn test` to verify if your build is passing. Failing build will be rejected.
+    * npm install eslint` or `yarn add eslint` to install ESLint.
 
 ## License
   MIT
