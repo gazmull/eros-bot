@@ -56,7 +56,8 @@ class SearchKamihimeCommand extends Command {
         .setTitle(`${character.toUpperCase()} | Found: ${result.length}`)
         .setColor(0xFF00AE)
         .showPageIndicator(false)
-        .setTimeout(60 * 1000);
+        .setTimeout(60 * 1000)
+        .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
       if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.khID}`);
       embed.formatField('Name', i => i.khName);

@@ -10,7 +10,11 @@ class LeaderboardKamihimeCommand extends Command {
   constructor() {
     super('leaderboard', {
       aliases: ['leaderboard', 'lb', 'toppeeks', 'top'],
-      description: { content: 'Displays leaderboard of kamihime for top views on harem scenes.' },
+      description: {
+        content: 'Displays leaderboard of kamihime for top views on harem scenes.',
+        usage: '<page number>',
+        examples: ['', '13', '37']
+      },
       clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS'],
       args: [
         {
@@ -47,7 +51,8 @@ class LeaderboardKamihimeCommand extends Command {
         .setPage(page)
         .setTitle('Most Views Leaderboard (Harem Scenes)')
         .setColor(0xFF00AE)
-        .setTimeout(240 * 1000);
+        .setTimeout(240 * 1000)
+        .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
       if (advanced) embed.formatField('#) ID', i => `${list.indexOf(i) + 1}) ${i.khID}`);
       embed

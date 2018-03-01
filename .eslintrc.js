@@ -35,30 +35,6 @@ module.exports = {
 		'no-unsafe-finally': 'error',
 		'no-unsafe-negation': 'error',
 		'use-isnan': 'error',
-		'valid-jsdoc': [
-			'error',
-			{
-				requireReturnType: true,
-				requireParamDescription: true,
-				requireReturnDescription: true,
-				prefer: {
-					return: 'returns',
-					arg: 'param',
-				},
-				preferType: {
-					String: 'string',
-					Number: 'number',
-					Boolean: 'boolean',
-					Symbol: 'symbol',
-					object: 'Object',
-					function: 'Function',
-					array: 'Array',
-					date: 'Date',
-					error: 'Error',
-					null: 'void',
-				},
-			},
-		],
 		'valid-typeof': 'error',
 
 		'array-callback-return': 'error',
