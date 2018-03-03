@@ -1,3 +1,4 @@
+[ ![Codeship Status for gazmull/eros-public](https://app.codeship.com/projects/b1ddd500-ff0c-0135-b04d-6af4342e1ffe/status?branch=master)](https://app.codeship.com/projects/279612)
 # Eros Bot Rewrite
   * Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     * Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
@@ -14,7 +15,7 @@
   * Guild-wide Customisable Prefix
     * Default Prefix: **?** or **`@Eros` (Mention)**
   * You can now DM the bot directly for commands without the prefix unlike [**ErosClass**] Version
-  * *More to come™*
+  * *More to comeï¿½*
 
 ## Commands
   * **Admin/Server Manager**
@@ -37,7 +38,7 @@
     * Clone this repository [via command shell] after installing Node: `git clone https://gazmull@bitbucket.org/gazmull/eros-public.git`
     * Execute `npm install` (Before this, make sure you have [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on))
         * There might be a chance that NPM will fail to install the dependencies, see [Yarn](https://yarnpkg.com/en/docs/getting-started)
-          * Execute `yarn` to initialise the installation.
+            * Execute `yarn` to initialise the installation.
     * Check `infobox-parser` in `node_modules`. If `index.js` is missing, then NPM failed to obtain the files; so
         * Delete `infobox-parser` folder then:
           * `git clone https://github.com/dijs/infobox-parser.git`
@@ -53,7 +54,7 @@
 
 ## Contributing
   * You have to fork this repository, and follow the project's ESLint configuration. Run `npm test` or `yarn test` to verify if your build is passing. Failing build will be rejected.
-    * npm install eslint` or `yarn add eslint` to install ESLint.
+    * `npm install eslint` or `yarn add eslint` to install ESLint.
 
 ## License
   MIT

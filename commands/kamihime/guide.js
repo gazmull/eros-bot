@@ -7,8 +7,19 @@ class GuideCommand extends Command {
   constructor() {
     super('guide', {
       aliases: ['guide'],
-      description: { content: 'Displays a guide for Kamihime commands.' },
-      clientPermissions: ['ADD_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS']
+      description: {
+        content: 'Displays an introduction to the game and the bot commands.',
+        usage: '<page number>',
+        examples: ['', '13', '37']
+      },
+      clientPermissions: ['ADD_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'],
+      args: [
+        {
+          id: 'page',
+          type: 'integer',
+          default: 1
+        }
+      ]
     });
     this.paginated = true;
     this.dialogs = [
@@ -72,7 +83,7 @@ class GuideCommand extends Command {
     this.finalDialogLength = this.dialogs.length + 1;
   }
 
-  async exec(message) {
+  async exec(message, { page }) {
     if (this.dialogs.length < this.finalDialogLength)
       this.dialogs.push(`That's all for now. Anything missing? Contact: ${this.client.users.get(this.client.ownerID)}`);
 
@@ -83,10 +94,11 @@ class GuideCommand extends Command {
         .setClientMessage(null, `${loading} Preparing...`)
         .setArray(this.dialogs)
         .setElementsPerPage(1)
+        .setPage(page)
         .setColor(0xFF00AE)
+        .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.')
         .formatField('Guide', i => i, false)
-        .setTimeout(240 * 1000)
-        .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
+        .setTimeout(240 * 1000);
 
       return await embed.build();
     } catch (err) {

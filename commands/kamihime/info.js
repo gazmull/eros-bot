@@ -1,9 +1,10 @@
 const { error } = require('../../utils/console');
 
 const { Command } = require('discord-akairo');
-const { get } = require('snekfetch');
+const { get, put } = require('snekfetch');
 const parseInfo = require('infobox-parser');
 
+const { apiToken } = require('../../auth');
 const { loading } = require('../../auth').emojis;
 const { wikia, api } = require('../../auth').url;
 
@@ -182,7 +183,7 @@ class InfoCommand extends Command {
     }
   }
 
-  async itemPortrait(name) {
+  async itemPortrait(name, dbRes) {
     const filename = `File:${encodeURI(name.replace(/ +/g, '_'))}Portrait`;
     const filenameStripped = `File:${encodeURI(name.replace(/ +/g, ''))}Portrait`;
     const filenames = [`${filename}.png`, `${filenameStripped}.png`, `${filename}.jpg`, `${filenameStripped}.jpg`];
@@ -194,6 +195,15 @@ class InfoCommand extends Command {
 
         if (image) break;
       }
+
+      if (dbRes.khInfo_avatar !== image.url)
+        await put(`${this.apiURL}update`).send({
+          token: apiToken,
+          avatar: image.url,
+          id: dbRes.khID,
+          name: dbRes.khName,
+          user: this.client.user.tag
+        });
 
       return image.url;
     } catch (err) {
@@ -207,7 +217,7 @@ class InfoCommand extends Command {
 
   async kamihimeTemplate(result, dbRes, prefix) {
     const link = this.itemLink(result.name);
-    const thumbnail = await this.itemPortrait(result.name);
+    const thumbnail = await this.itemPortrait(result.name, dbRes);
     const hime = {
       name: result.name,
       description: result.description,
@@ -336,7 +346,7 @@ class InfoCommand extends Command {
 
   async eidolonTemplate(result, dbRes, prefix) {
     const link = this.itemLink(result.name);
-    const thumbnail = await this.itemPortrait(result.name);
+    const thumbnail = await this.itemPortrait(result.name, dbRes);
     const eidolon = {
       name: result.name,
       description: result.description,
@@ -429,7 +439,7 @@ class InfoCommand extends Command {
 
   async soulTemplate(result, dbRes, prefix) {
     const link = this.itemLink(result.name);
-    const thumbnail = await this.itemPortrait(result.name);
+    const thumbnail = await this.itemPortrait(result.name, dbRes);
     const soul = {
       name: result.name,
       description: result.description,
@@ -550,9 +560,9 @@ class InfoCommand extends Command {
     return embed;
   }
 
-  async weaponTemplate(result) {
+  async weaponTemplate(result, dbRes) {
     const link = this.itemLink(result.name);
-    const thumbnail = await this.itemPortrait(result.name);
+    const thumbnail = await this.itemPortrait(result.name, dbRes);
     const weapon = {
       name: result.name,
       description: result.description,

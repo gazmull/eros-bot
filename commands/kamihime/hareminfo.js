@@ -1,6 +1,7 @@
 const { Command } = require('discord-akairo');
-const { get } = require('snekfetch');
+const { get, put } = require('snekfetch');
 
+const { apiToken } = require('../../auth');
 const { loading, embarassed } = require('../../auth').emojis;
 const { player, api, wikia } = require('../../auth').url;
 const { error } = require('../../utils/console');
@@ -124,6 +125,17 @@ class HaremInfoCommand extends Command {
 
   async triggerDialog(message, result) {
     try {
+      const prefix = this.handler.prefix(message);
+      const guild = message.guild;
+      const restricted = this.client.guildSettings.get(guild.id, 'loli', null);
+
+      if (result.khLoli && restricted)
+        throw `This character has loli contents, but loli contents are restricted within this guild.${
+          message.author.id === message.guild.ownerID
+            ? ` Please configure your Loli Contents Restriction via ${prefix}loli`
+            : ' Please contact the guild owner.'
+        }`;
+
       await message.util.edit(`${loading} Preparing...`, { embed: null });
       const harems = [
         {
@@ -167,7 +179,7 @@ class HaremInfoCommand extends Command {
               ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${embarassed}`
               : ''}`
         )
-        .setThumbnail(await this.characterPortrait(result.khName));
+        .setThumbnail(await this.characterPortrait(result.khName, result));
 
       for (let i = 1; i <= 3; i++) {
         const ep = harems[i - 1];
@@ -196,10 +208,8 @@ class HaremInfoCommand extends Command {
       if (!channel.guild)
         return message.util.edit({ embed });
 
-      const guild = message.guild;
       const nsfwChannelID = this.client.guildSettings.get(guild.id, 'nsfwChannelID', null);
       const nsfwChannel = guild.channels.get(nsfwChannelID);
-      const prefix = this.handler.prefix(message);
 
       if (!nsfwChannel)
         throw `NSFW Channel is not configured.${
@@ -227,7 +237,7 @@ class HaremInfoCommand extends Command {
     }
   }
 
-  async characterPortrait(name) {
+  async characterPortrait(name, result) {
     const filename = `File:${encodeURI(name.replace(/ +/g, '_'))}Portrait`;
     const filenameStripped = `File:${encodeURI(name.replace(/ +/g, ''))}Portrait`;
     const filenames = [`${filename}.png`, `${filenameStripped}.png`, `${filename}.jpg`, `${filenameStripped}.jpg`];
@@ -239,6 +249,15 @@ class HaremInfoCommand extends Command {
 
         if (image) break;
       }
+
+      if (result.khInfo_avatar !== image.url)
+        await put(`${this.apiURL}update`).send({
+          token: apiToken,
+          avatar: image.url,
+          id: result.khID,
+          name: result.khName,
+          user: this.client.user.tag
+        });
 
       return image.url;
     } catch (err) {
