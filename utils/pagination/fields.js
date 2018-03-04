@@ -1,15 +1,5 @@
 /*
-  About this module:
-    This is an extension of MessageEmbed for Discord.JS v12 to provide paginating of your content.
-    The methods somehow follow the MessageEmbed's methods style for consistency/familiarity.
-
-    I wrote this because somehow I needed it for some leaderboards shenanigans. :D
-    Feel free to contribute.
-
-  Author:
-    https://bitbucket.org/gazmull
-  License:
-    Follows https://bitbucket.org/gazmull/eros-public License
+  Also known as 'Leaderboard-Embed Mode'
 */
 
 const { MessageEmbed } = require('discord.js');
@@ -17,9 +7,9 @@ const { MessageEmbed } = require('discord.js');
 /**
  * @extends {MessageEmbed}
  */
-class PaginationEmbed extends MessageEmbed {
+class PaginationFieldsEmbed extends MessageEmbed {
   /**
-   * Options for PaginationEmbed.clientMessage.
+   * Options for PaginationFieldsEmbed.clientMessage.
    * @typedef {Object} ClientMessageOptions
    * @property {Message} [message=null] - The message object sent by the client, if there is any.
    * @property {string} [content='Preparing...'] - The custom message content while preparing the embed.
@@ -34,7 +24,7 @@ class PaginationEmbed extends MessageEmbed {
    */
 
   /**
-   * Options for PaginationEmbed.emojis.
+   * Options for PaginationFieldsEmbed.emojis.
    * @typedef {Object} NavigationButtons
    * @property {string} [back='◀'] - The back button.
    * @property {string} [jump='↗'] - The jump button.
@@ -44,7 +34,7 @@ class PaginationEmbed extends MessageEmbed {
 
   /**
    * Options for the constructor.
-   * @typedef {Object} PaginationOptions
+   * @typedef {Object} PaginationFieldsOptions
    * @property {User} [authorisedUser=null] - The authorised user to navigate the pages.
    * @property {TextChannel} channel - The channel where to send the embed.
    * @property {ClientMessageOptions} [clientMessage=null] - Settings for the message sent by the client.
@@ -52,16 +42,16 @@ class PaginationEmbed extends MessageEmbed {
    * @property {number} [elementsPerPage=10] - Items per page.
    * @property {boolean} [pageIndicator=true] - Whether page number indicator on embed description text is shown or not.
    * @property {FieldOptions} fields - An array formatted fields to input.
-   * @property {nmber|string} [page=1] - Jumps to a certain page upon PaginationEmbed.build().
+   * @property {nmber|string} [page=1] - Jumps to a certain page upon PaginationFieldsEmbed.build().
    * @property {number} [timeout=30000] - The time for awaiting a user action before timeout in ms.
    * @property {NavigationButtons} [emojis={back:'◀',jump:'↗',forward:'▶',delete:'🗑'}] - The emojis used for navigation buttons.
    */
 
   /**
-   * @param {PaginationOptions} [options={}] Options for pagination utility.
+   * @param {PaginationFieldsOptions} [options={}] Options for pagination utility.
    */
   constructor(options = {}) {
-    if (!(options instanceof Object)) throw new Error('Cannot invoke Pagination class without an actual options object.');
+    if (!(options instanceof Object)) throw new Error('Cannot invoke PaginationFields class without an actual options object.');
 
     super(options);
 
@@ -103,13 +93,12 @@ class PaginationEmbed extends MessageEmbed {
 
     /**
      * An array of formatted fields to input.
-     * PaginationEmbed.formatField() is recommended.
      * @type {FieldOptions}
      */
     this.fields = options.fields || [];
 
     /**
-     * Jumps to a certain page upon PaginationEmbed.build().
+     * Jumps to a certain page upon PaginationFieldsEmbed.build().
      * @type {Number|String}
      */
     this.page = options.page || 1;
@@ -152,12 +141,12 @@ class PaginationEmbed extends MessageEmbed {
   }
 
   /**
-   * Build the Pagination Embed.
+   * Build the Pagination Fields Embed.
    *
    * @example
    *
    * // Object as constructor.
-   * const PaginationEmbed = require('<utils>/PaginationEmbed');
+   * const PaginationEmbed = require('<utils>/pagination/fields');
    *
    * // Under message event.
    * new PaginationEmbed({
@@ -187,7 +176,7 @@ class PaginationEmbed extends MessageEmbed {
    * @example
    *
    * // Methods as constructor.
-   * const PaginationEmbed = require('<utils>/PaginationEmbed');
+   * const PaginationEmbed = require('<utils>/pagination/fields');
    *
    * // Under message event.
    * new PaginationEmbed()
@@ -233,15 +222,15 @@ class PaginationEmbed extends MessageEmbed {
       : await this.channel.send(this.clientMessage.content);
     this.setClientMessage(message, this.clientMessage.content);
 
-    const permissions = ['ADD_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'];
+    const permissions = ['ADD_REACTIONS', 'MANAGE_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'];
     const missing = message.channel.permissionsFor(message.client.user).missing(permissions);
 
     if (missing.length)
-      throw new Error(`Cannot invoke Pagination class without required permissions: ${missing.join(', ')}`);
+      throw new Error(`Cannot invoke PaginationFields class without required permissions: ${missing.join(', ')}`);
 
     const isValidFields = Array.isArray(this.fields) && Boolean(this.fields.length);
 
-    if (!isValidFields) throw new Error('Cannot invoke Pagination class without initialising at least one field.');
+    if (!isValidFields) throw new Error('Cannot invoke PaginationFields class without initialising at least one field.');
 
     const fields = this.fields;
     this.fields = [];
@@ -254,7 +243,7 @@ class PaginationEmbed extends MessageEmbed {
 
     const hasPaginateField = this.fields.filter(f => typeof f.value === 'function');
 
-    if (!hasPaginateField) throw new Error('Cannot invoke Pagination class without at least one field to paginate.');
+    if (!hasPaginateField) throw new Error('Cannot invoke PaginationFields class without at least one field to paginate.');
 
     await this._loadList();
   }
@@ -265,7 +254,7 @@ class PaginationEmbed extends MessageEmbed {
    * @param {string} name - Name of the field.
    * @param {Function} value - Value of the field. Function for Array.prototype.map().join('\n').
    * @param {boolean} [inline=true] - Whether the field is inline with other field or not.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   formatField(name, value, inline = true) {
     this.fields.push({ name, value, inline });
@@ -276,12 +265,12 @@ class PaginationEmbed extends MessageEmbed {
   /**
    * Sets the array of elements to paginate.
    * @param {Array} array - An array of elements to paginate.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setArray(array) {
     const isValidArray = Array.isArray(array) && Boolean(array.length);
 
-    if (!isValidArray) throw new Error('Cannot invoke Pagination class without initialising the array to paginate.');
+    if (!isValidArray) throw new Error('Cannot invoke PaginationFields class without initialising the array to paginate.');
 
     this.array = array;
 
@@ -291,7 +280,7 @@ class PaginationEmbed extends MessageEmbed {
   /**
    * Set the authorised person to navigate the pages.
    * @param {User} [user=null] - The user object.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setAuthorisedUser(user = null) {
     this.authorisedUser = user;
@@ -302,7 +291,7 @@ class PaginationEmbed extends MessageEmbed {
   /**
    * The channel where to send the embed.
    * @param {TextChannel} channel - The channel object.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setChannel(channel) {
     this.channel = channel;
@@ -314,7 +303,7 @@ class PaginationEmbed extends MessageEmbed {
    * Sets the settings for the message sent by the client.
    * @param {Message} [message=null] - The message object sent by the client, if there is any.
    * @param {string} [content='Preparing...'] - The custom message content while preparing the embed.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setClientMessage(message = null, content = null) {
     if (!content) content = 'Preparing...';
@@ -327,7 +316,7 @@ class PaginationEmbed extends MessageEmbed {
   /**
    * Sets the maximum number of elements to be displayed per page.
    * @param {number} [number=10] - Maximum number of elements to be displayed per page.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setElementsPerPage(number = 10) {
     if (typeof number !== 'number') throw new Error('setElementsPerPage() only accepts number type.');
@@ -340,7 +329,7 @@ class PaginationEmbed extends MessageEmbed {
   /**
    * Sets the emojis used for navigation buttons.
    * @param {NavigationButtons} [emojis={}] - An object containing customised emojis to use as navigation buttons.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setEmojis(emojis) {
     Object.assign(this.emojis, emojis);
@@ -349,9 +338,9 @@ class PaginationEmbed extends MessageEmbed {
   }
 
   /**
-   * Sets to jump to a certain page upon calling PaginationEmbed.build().
+   * Sets to jump to a certain page upon calling PaginationFieldsEmbed.build().
    * @param {number|string} [param=1] - The page number to jump to. As String: 'back', 'forward'
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setPage(param = 1) {
     const isString = typeof param === 'string';
@@ -371,7 +360,7 @@ class PaginationEmbed extends MessageEmbed {
   /**
    * Sets the time for awaiting a user action before timeout in ms.
    * @param {number} [timeout=30000] Timeout value in ms.
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   setTimeout(timeout = 30000) {
     if (typeof timeout !== 'number') throw new Error('setTimeout() only accepts number type.');
@@ -384,7 +373,7 @@ class PaginationEmbed extends MessageEmbed {
   /**
    * Sets whether page number indicator on embed description text is shown or not.
    * @param {boolean} [boolean=true] - Show page indicator?
-   * @returns {PaginationEmbed} - Instance of PaginationEmbed
+   * @returns {PaginationFieldsEmbed} - Instance of PaginationFieldsEmbed
    */
   showPageIndicator(boolean = true) {
     if (typeof boolean !== 'boolean') throw new Error('showPageIndicator() only accepts boolean type.');
@@ -395,7 +384,7 @@ class PaginationEmbed extends MessageEmbed {
   }
 
   /**
-   * Prepares the PaginationEmbed.
+   * Prepares the PaginationFieldsEmbed.
    * @private
    * @protected
    * @returns {MessageEmbed} - Instance of MessageEmbed.
@@ -466,7 +455,7 @@ class PaginationEmbed extends MessageEmbed {
   }
 
   /**
-   * Calls PaginationEmbed.setPage().
+   * Calls PaginationFieldsEmbed.setPage().
    * @private
    * @protected
    * @param {number} param - The page number to jump to. As String: 'back', 'forward'
@@ -582,4 +571,4 @@ class PaginationEmbed extends MessageEmbed {
   }
 }
 
-module.exports = PaginationEmbed;
+module.exports = PaginationFieldsEmbed;

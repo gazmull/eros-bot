@@ -10,6 +10,7 @@ auth.js
 provider/Eros.db
 provider/models/kamihime.js
 commands/fun/
+commands/kamihime/test.js
 
 #VSCode
 .vscode

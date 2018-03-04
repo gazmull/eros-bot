@@ -108,7 +108,6 @@ module.exports = {
 		"comma-dangle": ["error", "never"],
 		'comma-spacing': 'error',
 		'computed-property-spacing': 'error',
-		'eol-last': ['error', 'never'],
 		'func-call-spacing': 'error',
 		'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
 		indent: ['error', 2, { SwitchCase: 1 }],

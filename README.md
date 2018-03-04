@@ -1,4 +1,10 @@
-[ ![Codeship Status for gazmull/eros-public](https://app.codeship.com/projects/b1ddd500-ff0c-0135-b04d-6af4342e1ffe/status?branch=master)](https://app.codeship.com/projects/279612)
+<div align="center">
+  <br />
+    <a href="http://addbot.thegzm.space"><img src="https://i.imgur.com/cegarrO.png" width="940px" alt="eros banner" /></a>
+  <br />
+    <a href="https://travis-ci.org/gazmull/eros-bot"><img src="https://travis-ci.org/gazmull/eros-bot.svg?branch=master" alt="Build Status" /></a>
+</div>
+
 # Eros Bot Rewrite
   * Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     * Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
@@ -10,7 +16,7 @@
   * Realtime Character/Weapon information pulls from [**Kamihime Project Nutaku Wikia**](https://kamihime-project.wikia.com)
   * Kamihime Database (Harem Scenes)
     * Again, only Nutaku version. Absolutely ***no*** DMM version. You may checkout my forum thread for some.
-    * Uses RESTful API from [**Kamihime Database**](https://bitbucket.org/gazmull/kamihime-database/src/f91ab99a12502743044850573c5d672a95ae5e35)
+    * Uses RESTful API from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
   * Basic bot commands - See `help` command for more info on each command
   * Guild-wide Customisable Prefix
     * Default Prefix: **?** or **`@Eros` (Mention)**
@@ -34,8 +40,8 @@
 > ### [Add her to your server instead? (24/7)](http://addbot.thegzm.space)
 
   * Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
-  * Eros requires at least [**Node 8**](https://nodejs.org) for runtime
-    * Clone this repository [via command shell] after installing Node: `git clone https://gazmull@bitbucket.org/gazmull/eros-public.git`
+  * Eros requires at least [**Node 8.9.4**](https://nodejs.org) for runtime
+    * Clone this repository [via command shell] after installing Node: `git clone https://github.com/gazmull/eros-bot.git`
     * Execute `npm install` (Before this, make sure you have [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on))
         * There might be a chance that NPM will fail to install the dependencies, see [Yarn](https://yarnpkg.com/en/docs/getting-started)
             * Execute `yarn` to initialise the installation.

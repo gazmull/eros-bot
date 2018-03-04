@@ -12,7 +12,7 @@ class CommandFinishedListener extends Listener {
   async exec(message, command) {
     if (command.paginated) return;
     else if (!message.guild) return;
-    else if (!message.channel.permissionsFor(this.client.user).has('ADD_REACTIONS')) return;
+    else if (!message.channel.permissionsFor(this.client.user).has(['ADD_REACTIONS', 'MANAGE_REACTIONS', 'MANAGE_MESSAGES'])) return;
     else if (!message.util.lastResponse) return;
 
     const dialog = await message.channel.messages.fetch(message.util.lastResponse.id);

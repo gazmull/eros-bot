@@ -4,7 +4,7 @@ const { get } = require('snekfetch');
 const { loading } = require('../../auth').emojis;
 const { api } = require('../../auth').url;
 const { error } = require('../../utils/console');
-const PaginationEmbed = require('../../utils/PaginationEmbed');
+const PaginationEmbed = require('../../utils/pagination/fields');
 
 class ListCommand extends Command {
   constructor() {

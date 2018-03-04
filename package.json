@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/gazmull/eros-bot.git"
+    "url": "git+https://github.com/gazmull/eros-bot.git"
   },
   "keywords": [
     "kamihime",
@@ -39,5 +39,5 @@
   ],
   "author": "gazmull (thegzm.space)",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/gazmull/eros-bot#readme"
+  "homepage": "https://github.com/gazmull/eros-bot#readme"
 }
