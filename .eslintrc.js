@@ -127,7 +127,6 @@ module.exports = {
 		'one-var': ['error', 'never'],
 		'operator-assignment': 'error',
 		'operator-linebreak': 'error',
-		'padded-blocks': ['error', 'never'],
 		'padding-line-between-statements': [
 			'error',
 			{

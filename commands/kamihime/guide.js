@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const PaginationEmbed = require('../../utils/pagination/fields');
+const PaginationEmbed = require('../../utils/pagination/FieldsEmbed');
 
 const { loading } = require('../../auth').emojis;
 

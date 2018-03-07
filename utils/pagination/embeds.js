@@ -1,101 +1,97 @@
+/*
+  Also known as 'Static Mode'
+*/
+
+const PaginationEmbed = require('./base/PaginationEmbed');
 const { MessageEmbed } = require('discord.js');
 
-class PaginationEmbeds {
-  /**
-   * Options for PaginationEmbeds.clientMessage.
-   * @typedef {Object} ClientMessageOptions
-   * @property {Message} [message=null] - The message object sent by the client, if there is any.
-   * @property {string} [content='Preparing...'] - The custom message content while preparing the embed.
-   */
-
-  /**
-   * Options for PaginationEmbeds.emojis.
-   * @typedef {Object} NavigationButtons
-   * @property {string} [back='◀'] - The back button.
-   * @property {string} [jump='↗'] - The jump button.
-   * @property {string} [forward='▶'] - The forward button.
-   * @property {string} [delete='🗑'] - The delete button.
-   */
+/**
+ * @extends {PaginationEmbed}
+ */
+class Embeds extends PaginationEmbed {
 
   /**
    * Options for the constructor.
    * @typedef {Object} PaginationEmbedsOptions
-   * @property {User} [authorisedUser=null] - The authorised user to navigate the pages.
-   * @property {TextChannel} channel - The channel where to send the embed.
-   * @property {ClientMessageOptions} [clientMessage=null] - Settings for the message sent by the client.
-   * @property {MessageEmbed[]} array - An array of embeds to paginate.
-   * @property {boolean} [pageIndicator=true] - Whether page number indicator on client's message content is shown or not.
-   * @property {nmber|string} [page=1] - Jumps to a certain page upon PaginationEmbeds.build().
-   * @property {number} [timeout=30000] - The time for awaiting a user action before timeout in ms.
-   * @property {NavigationButtons} [emojis={back:'◀',jump:'↗',forward:'▶',delete:'🗑'}] - The emojis used for navigation buttons.
+   * @property {string} [title=null] - The title of all embeds.
+   * @property {string} [description=null] - The description of all embeds.
+   * @property {string} [url=null] - The URL of all embeds.
+   * @property {number} [color=null] - The color of all embeds.
+   * @property {boolean} [timestamp=null] - Whether to show timestamp to all embeds or not.
+   * @property {Object[]} [fields=null] - The fields of all embeds.
+   * @property {string} [thumbnail=null] - The thumbnail of all embeds.
+   * @property {Object} [image=null] - The image of all embeds.
+   * @property {Object} [author=null] - The author of all embeds.
+   * @property {Object} [footer=null] - The footer of all embeds.
    */
 
   /**
-   * @param {PaginationEmbedsOptions} [options={}] Options for pagination utility.
+   * @param {PaginationEmbedsOptions} [options={}] Options for Embeds.
    */
   constructor(options = {}) {
-    if (!(options instanceof Object)) throw new Error('Cannot invoke PaginationEmbeds class without an actual options object.');
+    if (!(options instanceof Object)) throw new Error('Cannot invoke Embeds class without an actual options object.');
+
+    super(options);
+    this.options = options;
 
     /**
-     * The authorised user to navigate the pages.
-     * @type {User}
+     * The title of all embeds.
+     * @type {string}
      */
-    this.authorisedUser = options.authorisedUser || null;
+    this.title = options.title || null;
 
     /**
-     * The channel where to send the embed.
-     * @type {TextChannel}
+     * The description of all embeds.
+     * @type {string}
      */
-    this.channel = options.channel || null;
+    this.description = options.description || null;
 
     /**
-     * Settings for the message sent by the client.
-     * @type {ClientMessageOptions}
+     * The URL of all embeds.
+     * @type {string}
      */
-    this.clientMessage = options.clientMessage || { message: null, content: null };
+    this.url = options.url || null;
 
     /**
-     * An array of embeds to paginate.
-     * @type {MessageEmbed[]}
+     * The color of all embeds.
+     * @type {number}
      */
-    this.array = options.array || [];
+    this.color = options.color || null;
 
     /**
-     * Whether page number indicator on client's message content is shown or not.
+     * Whether to show timestamp to all embeds or not.
      * @type {boolean}
      */
-    this.pageIndicator = options.pageIndicator || true;
+    this.timestamp = options.timestamp || null;
 
     /**
-     * Jumps to a certain page upon PaginationEmbeds.build().
-     * @type {Number|String}
+     * The fields of all embeds.
+     * @type {Object[]}
      */
-    this.page = options.page || 1;
+    this.fields = options.fields || [];
 
     /**
-     * The time for awaiting a user action before timeout in ms.
-     * @type {number}
+     * The thumbnail of all embeds.
      */
-    this.timeout = options.timeout || 30000;
+    this.thumbnail = options.thumbnail || null;
 
     /**
-     * The emojis used for navigation buttons.
-     * @type {NavigationButtons}
+     * The image of all embeds.
+     * @type {Object}
      */
-    this.emojis = options.emojis || {
-      back: '◀',
-      jump: '↗',
-      forward: '▶',
-      delete: '🗑'
-    };
+    this.image = options.image || null;
 
     /**
-     * Number of pages for this instance.
-     * @type {number}
-     * @private
-     * @protected
+     * The author of all embeds.
+     * @type {Object}
      */
-    this.pages = null;
+    this.author = options.author || null;
+
+    /**
+     * The footer of all embeds.
+     * @type {Object}
+     */
+    this.footer = options.footer || null;
   }
 
   /**
@@ -107,16 +103,48 @@ class PaginationEmbeds {
   }
 
   /**
+   * Adds a blank field to the fields of all embeds.
+   * @param {boolean} [inline=false] - Whether the field is inline or not to the other fields.
+   * @returns {Embeds} - Instance of Embeds
+   */
+  addBlankField(inline = false) {
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].addBlankField(inline);
+
+    return this;
+  }
+
+  /**
+   * Adds a field to the fields of all embeds.
+   * @param {string} name - The name of the field.
+   * @param {string} value - The value of the field.
+   * @param {boolean} [inline=false] - Whether the field is inline or not to the other fields.
+   * @returns {Embeds} - Instance of Embeds
+   */
+  addField(name, value, inline = false) {
+    if (!name && !value) return this;
+
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].addField(name, value, inline);
+
+    return this;
+  }
+
+  /**
    * Build the Pagination Embeds.
    *
    * @example
    *
    * // Object as constructor.
-   * const PaginationEmbeds = require('<utils>/pagination/embeds');
+   * const Embeds = require('<utils>/pagination/Embeds');
    * const { MessageEmbed } = require('discord.js');
    *
    * // Under message event.
-   * new PaginationEmbeds({
+   * new Embeds({
    *  authorisedUser: message.author,
    *  channel: message.channel,
    *  clientMessage: { content: 'Preparing the embed...' },
@@ -132,17 +160,20 @@ class PaginationEmbeds {
    *    jump: '↗',
    *    forward: '▶',
    *    delete: '🗑'
-   *  }
+   *  },
+   *  description: 'This is one of my embeds with this message!',
+   *  color: 0xFF00AE,
+   *  timestamp: true
    * }).build();
    *
    * @example
    *
    * // Methods as constructor.
-   * const PaginationEmbeds = require('<utils>/pagination/embeds');
+   * const Embeds = require('<utils>/pagination/Embeds');
    * const { MessageEmbed } = require('discord.js');
    *
    * // Under message event.
-   * new PaginationEmbeds()
+   * new Embeds()
    *  .setAuthorisedUser(message.author)
    *  .setChannel(message.channel)
    *  .setClientMessage(null, 'Preparing the embed...')
@@ -159,50 +190,56 @@ class PaginationEmbeds {
    *    forward: '▶',
    *    delete: '🗑'
    *  })
+   *  .setDescription('This is one of my embeds with this message!')
+   *  .setColor(0xFF00AE)
+   *  .setTimestamp()
    *  .build();
    */
   async build() {
-    this
-      .setChannel(this.channel)
-      .setAuthorisedUser(this.authorisedUser)
-      .setClientMessage(this.clientMessage.message, this.clientMessage.content)
-      .setArray(this.array)
-      .showPageIndicator(this.pageIndicator)
-      .setTimeout(this.timeout)
-      .setEmojis(this.emojis);
-
     this.pages = this.array.length;
-    this.setPage(this.page);
 
-    if (!(this.page >= 1 && this.page <= this.pages)) throw new Error('Invalid page.');
+    await this._verify(this.pages);
 
-    const message = this.clientMessage.message
-      ? await this.clientMessage.message.edit(this.clientMessage.content)
-      : await this.channel.send(this.clientMessage.content);
-    this.setClientMessage(message, this.clientMessage.content);
+    this
+      .setTitle(this.title)
+      .setDescription(this.description)
+      .setURL(this.url)
+      .setColor(this.color)
+      .setThumbnail(this.thumbnail)
+      .setImage(this.image)
+      .setAuthor(this.author)
+      .setFooter(this.footer);
 
-    const permissions = ['ADD_REACTIONS', 'MANAGE_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'];
-    const missing = message.channel.permissionsFor(message.client.user).missing(permissions);
+    if (this.fields.length) {
+      const fields = this.fields;
+      this.fields = [];
 
-    if (missing.length)
-      throw new Error(`Cannot invoke PaginationEmbeds class without required permissions: ${missing.join(', ')}`);
+      for (let i = 0; i < fields.length; i++) {
+        const field = fields[i];
+
+        this.addField(field.name, field.value, field.inline);
+      }
+    }
+
+    if (this.options.timestamp !== null && this.options.timestamp)
+      this.setTimestamp();
 
     await this._loadList();
   }
 
   /**
-   * Sets the array of elements to paginate.
-   * @param {Array} array - An array of elements to paginate.
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Sets the array of embeds to paginate.
+   * @param {Array} array - An array of embeds to paginate.
+   * @returns {Embeds} - Instance of Embeds
    */
   setArray(array) {
     const isValidArray = Array.isArray(array) && Boolean(array.length);
 
-    if (!isValidArray) throw new Error('Cannot invoke PaginationEmbeds class without initialising the array to paginate.');
+    if (!isValidArray) throw new Error('Cannot invoke Embeds class without initialising the array to paginate.');
 
     for (let i = 0; i < array.length; i++)
       if (array[i] instanceof MessageEmbed) continue;
-      else throw new Error(`(MessageEmbeds[${i}]) Cannot invoke PaginationEmbeds class with an invalid MessageEmbed instance.`);
+      else throw new Error(`(MessageEmbeds[${i}]) Cannot invoke Embeds class with an invalid MessageEmbed instance.`);
 
     this.array = array;
 
@@ -210,118 +247,149 @@ class PaginationEmbeds {
   }
 
   /**
-   * Set the authorised person to navigate the pages.
-   * @param {User} [user=null] - The user object.
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Set the author of all embeds.
+   * @param {StringResolvable} name - The name of the author.
+   * @param {string} [iconURL=null] - The icon URL of the author.
+   * @param {string} [url=null] - The URL of the author.
+   * @returns {Embeds} - Instance of Embeds
    */
-  setAuthorisedUser(user = null) {
-    this.authorisedUser = user;
+  setAuthor(name, iconURL = null, url = null) {
+    if (!name) return this;
+
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setAuthor(name, iconURL, url);
 
     return this;
   }
 
   /**
-   * The channel where to send the embed.
-   * @param {TextChannel} channel - The channel object.
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Sets the color of all embeds.
+   * @param {ColorResolvable} color - The color of all embeds.
+   * @returns {Embeds} - Instance of Embeds
    */
-  setChannel(channel) {
-    this.channel = channel;
+  setColor(color) {
+    if (!color) return this;
+
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setColor(color);
 
     return this;
   }
 
   /**
-   * Sets the settings for the message sent by the client.
-   * @param {Message} [message=null] - The message object sent by the client, if there is any.
-   * @param {string} [content='Preparing...'] - The custom message content while preparing the embed.
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Sets the description of all embeds.
+   * @param {string} description - The description of all embeds.
+   * @returns {Embeds} - Instance of Embeds
    */
-  setClientMessage(message = null, content = null) {
-    if (!content) content = 'Preparing...';
+  setDescription(description) {
+    if (!description) return this;
 
-    Object.assign(this.clientMessage, { message, content });
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setDescription(description);
 
     return this;
   }
 
   /**
-   * Sets the emojis used for navigation buttons.
-   * @param {NavigationButtons} [emojis={}] - An object containing customised emojis to use as navigation buttons.
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Sets the footer of all embeds.
+   * @param {string} text - The footer text.
+   * @param {string} [iconURL=null] - URL for the footer's icon.
+   * @returns {Embeds} - Instance of Embeds
    */
-  setEmojis(emojis) {
-    Object.assign(this.emojis, emojis);
+  setFooter(text, iconURL = null) {
+    if (!text) return this;
+
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setFooter(text, iconURL);
 
     return this;
   }
 
   /**
-   * Sets to jump to a certain page upon calling PaginationEmbeds.build().
-   * @param {number|string} [param=1] - The page number to jump to. As String: 'back', 'forward'
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Sets the image of all embeds.
+   * @param {string} image - The image of all embeds.
+   * @returns {Embeds} - Instance of Embeds
    */
-  setPage(param = 1) {
-    const isString = typeof param === 'string';
+  setImage(image) {
+    if (!image) return this;
 
-    if (!(!isNaN(param) || isString)) throw new Error('setPage() only accepts number/string type.');
+    const arr = this.array;
 
-    const navigator = {
-      back: this.page === 1 ? this.page : this.page - 1,
-      forward: this.page === this.pages ? this.pages : this.page + 1
-    }[param];
-
-    this.page = isString ? navigator : param;
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setImage(image);
 
     return this;
   }
 
   /**
-   * Sets the time for awaiting a user action before timeout in ms.
-   * @param {number} [timeout=30000] Timeout value in ms.
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Sets the thumbnail of all embeds.
+   * @param {string} thumbnail - The thumbnail of all embeds.
+   * @returns {Embeds} - Instance of Embeds
    */
-  setTimeout(timeout = 30000) {
-    if (typeof timeout !== 'number') throw new Error('setTimeout() only accepts number type.');
+  setThumbnail(thumbnail) {
+    if (!thumbnail) return this;
 
-    this.timeout = timeout;
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setThumbnail(thumbnail);
 
     return this;
   }
 
   /**
-   * Sets whether page number indicator on client's message content is shown or not.
-   * @param {boolean} [boolean=true] - Show page indicator?
-   * @returns {PaginationEmbeds} - Instance of PaginationEmbeds
+   * Sets the timestamp of all embeds.
+   * @returns {Embeds} - Instance of Embeds
    */
-  showPageIndicator(boolean = true) {
-    if (typeof boolean !== 'boolean') throw new Error('showPageIndicator() only accepts boolean type.');
+  setTimestamp() {
+    const arr = this.array;
 
-    this.pageIndicator = boolean === true;
+    for (let i = 0; i < arr.length; i++)
+      arr[i].timestamp = new Date().getTime();
 
     return this;
   }
 
   /**
-   * Deploys emoji reacts for the MessageEmbed.
-   * @private
-   * @protected
+   * Sets the title of all embeds.
+   * @param {string} title - The title of all embeds.
+   * @returns {Embeds} - Instance of Embeds
    */
-  async _drawNavigation() {
-    if (this.page !== 1) await this.clientMessage.message.react(this.emojis.back);
-    if (this.pages > 2) await this.clientMessage.message.react(this.emojis.jump);
-    if (this.page !== this.pages) await this.clientMessage.message.react(this.emojis.forward);
-    await this.clientMessage.message.react(this.emojis.delete);
+  setTitle(title) {
+    if (!title) return this;
 
-    this._awaitResponse();
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setTitle(title);
+
+    return this;
   }
 
   /**
-   * Initialises the MessageEmbed.
-   * @private
-   * @protected
-   * @param {boolean} [callNavigation=true] - Whether to call _drawNavigation() or not.
+   * Sets the URL of all embeds.
+   * @param {string} url - The URL of all embeds.
+   * @returns {Embeds} - Instance of Embeds
    */
+  setURL(url) {
+    if (!url) return this;
+
+    const arr = this.array;
+
+    for (let i = 0; i < arr.length; i++)
+      arr[i].setURL(url);
+
+    return this;
+  }
+
   async _loadList(callNavigation = true) {
     const shouldIndicate = this.showPageIndicator
       ? this.pages === 1
@@ -331,126 +399,8 @@ class PaginationEmbeds {
 
     await this.clientMessage.message.edit(shouldIndicate, { embed: this.currentEmbed });
 
-    if (callNavigation) return this._drawNavigation();
-
-    this.clientMessage.message.react(this.emojis.delete);
-  }
-
-  /**
-   * Calls PaginationEmbeds.setPage().
-   * @private
-   * @protected
-   * @param {number} param - The page number to jump to. As String: 'back', 'forward'
-   */
-  async _loadPage(param = 1) {
-    const oldPage = this.page;
-    this.setPage(param);
-
-    if (oldPage === 1 || oldPage === this.pages || this.page === 1 || this.page === this.pages) {
-      await this.clientMessage.message.reactions.removeAll();
-
-      this._loadList(true);
-    } else {
-      await this._loadList(false);
-
-      this._awaitResponse();
-    }
-  }
-
-  /**
-   * Awaits the reaction from the user.
-   * @private
-   * @protected
-   */
-  async _awaitResponse() {
-    const emojis = Object.values(this.emojis);
-    const filter = (r, u) => {
-      if (this.authorisedUser)
-        return u.id === this.authorisedUser.id && emojis.includes(r.emoji.name);
-
-      return !u.bot && emojis.includes(r.emoji.name);
-    };
-    const clientMessage = this.clientMessage.message;
-
-    try {
-      const responses = await clientMessage.awaitReactions(filter, { max: 1, time: this.timeout, errors: ['time'] });
-      const response = responses.first();
-      const user = response.users.last();
-      const emoji = response.emoji.name;
-
-      if (emoji === this.emojis.delete) return clientMessage.delete();
-
-      await response.users.remove(user);
-
-      switch (emoji) {
-        case this.emojis.back:
-          if (this.page === 1) return this._awaitResponse();
-
-          this._loadPage('back');
-          break;
-
-        case this.emojis.jump:
-          if (this.pages <= 2) return this._awaitResponse();
-
-          this._awaitResponseEx(user);
-          break;
-
-        case this.emojis.forward:
-          if (this.page === this.pages) return this._awaitResponse();
-
-          this._loadPage('forward');
-          break;
-      }
-    } catch (c) {
-      clientMessage.reactions.removeAll().catch(err => {
-        throw err;
-      });
-
-      if (c instanceof Error) throw c;
-    }
-  }
-
-  /**
-   * Awaits the custom page input from the user.
-   * @private
-   * @protected
-   * @param {User} user - The user who reacted to jump on a certain page.
-   */
-  async _awaitResponseEx(user) {
-    const filter = m => {
-      const supposedPage = parseInt(m.content);
-
-      return (
-        m.author.id === user.id && (
-          (!isNaN(m.content) && supposedPage !== this.page && supposedPage >= 1 && supposedPage <= this.pages) ||
-          m.content.toLowerCase() === 'cancel'
-        )
-      );
-    };
-    const channel = this.clientMessage.message.channel;
-    const prompt = await channel.send('To what page would you like to jump? Say `cancel` to cancel the prompt.');
-
-    try {
-      const responses = await channel.awaitMessages(filter, { max: 1, time: this.timeout, errors: ['time'] });
-      const response = responses.first();
-      let content = response.content;
-
-      await prompt.delete();
-      await response.delete();
-
-      if (content === 'cancel') return this._awaitResponse();
-
-      content = parseInt(content);
-
-      this._loadPage(content);
-    } catch (c) {
-      prompt.delete().catch(err => {
-        throw err;
-      });
-
-      if (c instanceof Error) throw c;
-    }
+    super._loadList(callNavigation);
   }
 }
 
-module.exports = PaginationEmbeds;
+module.exports = Embeds;

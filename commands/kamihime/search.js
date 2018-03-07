@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const { get } = require('snekfetch');
 
-const PaginationEmbed = require('../../utils/pagination/fields');
+const PaginationEmbed = require('../../utils/pagination/FieldsEmbed');
 const { error } = require('../../utils/console');
 
 const { url, emojis } = require('../../auth');
