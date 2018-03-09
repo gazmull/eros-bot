@@ -4,7 +4,7 @@ const { get } = require('snekfetch');
 const { loading } = require('../../auth').emojis;
 const { api } = require('../../auth').url;
 const { error } = require('../../utils/console');
-const PaginationEmbed = require('../../utils/pagination/FieldsEmbed');
+const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
 
 class ListCommand extends Command {
   constructor() {
