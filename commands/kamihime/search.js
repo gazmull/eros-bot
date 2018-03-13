@@ -33,6 +33,11 @@ class SearchKamihimeCommand extends Command {
           id: 'advanced',
           match: 'flag',
           prefix: ['--dev', '--advanced']
+        },
+        {
+          id: 'isID',
+          match: 'flag',
+          prefix: ['-i', '--id']
         }
       ]
     });
@@ -40,9 +45,12 @@ class SearchKamihimeCommand extends Command {
     this.paginated = true;
   }
 
-  async exec(message, { character, advanced }) {
+  async exec(message, { character, advanced, isID }) {
     try {
       await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
+
+      if (isID) return this.searchID(message, character);
+
       const data = await get(`${this.apiURL}search?name=${encodeURI(character)}`);
       const result = data.body;
 
@@ -68,6 +76,16 @@ class SearchKamihimeCommand extends Command {
         error(err.stack);
 
       return message.util.edit(`I cannot complete the query because:\`\`\`\n${err.message}\`\`\`Step: KamihimeDB`);
+    }
+  }
+
+  async searchID(message, character) {
+    try {
+      await get(`${this.apiURL}id/${character}`);
+
+      return message.util.edit(`ID ${character} does exist.`);
+    } catch (err) {
+      return message.util.edit(`ID ${character} does not exist.`);
     }
   }
 }

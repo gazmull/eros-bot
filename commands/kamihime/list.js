@@ -78,7 +78,7 @@ class ListCommand extends Command {
       result = this.toArray(result);
 
       const embed = new PaginationEmbed()
-        .setAuthorisedUser(message.author)
+        .setAuthorizedUser(message.author)
         .setChannel(message.channel)
         .setClientMessage(lastResponse, `${loading} Preparing...`)
         .setArray(result)

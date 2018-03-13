@@ -14,14 +14,21 @@ class HelpCommand extends Command {
         {
           id: 'command',
           type: 'commandAlias'
+        },
+        {
+          id: 'pub',
+          type: 'string',
+          match: 'flag',
+          prefix: ['--pub', '--public']
         }
       ]
     });
   }
 
-  exec(message, { command }) {
+  exec(message, { command, pub }) {
     const prefix = this.handler.prefix(message);
-    if (!command) return this.defaultHelp(message, prefix);
+    if (!command) return this.defaultHelp(message, prefix, pub);
+
     const clientPermissions = command.clientPermissions;
     const userPermissions = command.userPermissions;
     const embed = this.client.util.embed()
@@ -47,7 +54,7 @@ class HelpCommand extends Command {
     return message.util.send({ embed });
   }
 
-  defaultHelp(message, prefix) {
+  defaultHelp(message, prefix, pub) {
     const embed = this.client.util.embed()
       .setColor(0xFF00AE)
       .setTitle('Commands')
@@ -65,7 +72,7 @@ class HelpCommand extends Command {
         (!message.guild && category.id === 'admin') ||
         (message.guild && category.id === 'admin' && !message.channel.permissionsFor(message.member).has('MANAGE_GUILD'))
       ) continue;
-      const publicCommands = message.guild && message.author.id === this.client.ownerID ? category : category.filter(c => !c.ownerOnly);
+      const publicCommands = message.author.id === this.client.ownerID && !pub ? category : category.filter(c => !c.ownerOnly);
       if (title) embed.addField(title, publicCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
     }
 

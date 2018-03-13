@@ -5,9 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "bufferutil": "^3.0.3",
-    "discord-akairo": "github:1Computer1/discord-akairo",
+    "discord-akairo": "1Computer1/discord-akairo",
     "discord-paginationembed": "gazmull/discord-paginationembed",
-    "discord.js": "github:discordjs/discord.js",
+    "discord.js": "discordjs/discord.js",
     "infobox-parser": "^2.2.1",
     "nodemw": "^0.12.0",
     "sequelize": "^4.32.2",
@@ -17,7 +17,7 @@
     "eslint": "^4.18.0"
   },
   "engines": {
-    "node": ">=9"
+    "node": ">=8"
   },
   "scripts": {
     "test": "eslint --ignore-path .gitignore .",

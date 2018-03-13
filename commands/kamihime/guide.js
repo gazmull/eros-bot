@@ -89,7 +89,7 @@ class GuideCommand extends Command {
 
     try {
       const embed = new PaginationEmbed()
-        .setAuthorisedUser(message.author)
+        .setAuthorizedUser(message.author)
         .setChannel(message.channel)
         .setClientMessage(null, `${loading} Preparing...`)
         .setArray(this.dialogs)

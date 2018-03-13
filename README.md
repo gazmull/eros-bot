@@ -40,7 +40,7 @@
 > ### [Add her to your server instead? (24/7)](http://addbot.thegzm.space)
 
   * Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
-  * Eros requires at least [**Node 8.9.4**](https://nodejs.org) for runtime
+  * Eros requires at least [**Node 8**](https://nodejs.org) for runtime
     * Clone this repository [via command shell] after installing Node: `git clone https://github.com/gazmull/eros-bot.git`
     * Execute `npm install` (Before this, make sure you have [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on))
         * There might be a chance that NPM will fail to install the dependencies, see [Yarn](https://yarnpkg.com/en/docs/getting-started)
