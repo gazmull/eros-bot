@@ -57,7 +57,7 @@ class SearchKamihimeCommand extends Command {
       if (result.length < 1) return message.util.edit('No results found.');
 
       const embed = new PaginationEmbed()
-        .setAuthorisedUser(message.author)
+        .setAuthorizedUser(message.author)
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
         .setArray(result)
