@@ -143,7 +143,7 @@ class InfoCommand extends Command {
         return slicedData
           .replace(/<br(?:| )(?:|\/)>/g, ' ')
           .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '')
-          .replace(/(?:\[{2}.*\|)(.*?)(?:\]{2})/g, '$1')
+          .replace(/(?:\[{2}\w+\|)(.*?)(?:\]{2})/g, '$1')
           .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1')
           .replace(/(?:\[{2}).*?(?:\]{2})/g, '');
       };
