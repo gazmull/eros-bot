@@ -18,6 +18,9 @@ module.exports = {
   // default prefix. unified :bloblul:
   defaultPrefix: '?',
 
+  // the blacklisted guilds (servers). default ID is Discord Bot List's
+  blacklist: ['264445053596991498'],
+
   // emojis uploaded in your server:
   // get it from "\:emoji:"
   emojis: {

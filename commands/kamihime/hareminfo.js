@@ -1,10 +1,11 @@
 const { Command } = require('discord-akairo');
-const { get, put } = require('snekfetch');
+const { get } = require('snekfetch');
 
-const { apiToken } = require('../../auth');
 const { loading, embarassed } = require('../../auth').emojis;
 const { player, api, wikia } = require('../../auth').url;
 const { error } = require('../../utils/console');
+
+const Info = require('../../struct/info/base/Info');
 
 class HaremInfoCommand extends Command {
   constructor() {
@@ -179,7 +180,7 @@ class HaremInfoCommand extends Command {
               ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${embarassed}`
               : ''}`
         )
-        .setThumbnail(await this.characterPortrait(result.khName, result));
+        .setThumbnail(await new Info(this.client, null, result, result).itemPortrait());
 
       for (let i = 1; i <= 3; i++) {
         const ep = harems[i - 1];
@@ -234,34 +235,6 @@ class HaremInfoCommand extends Command {
         `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\``,
         { embed: null }
       );
-    }
-  }
-
-  async characterPortrait(name, result) {
-    const filename = `File:${encodeURI(name.replace(/ +/g, '_'))}Portrait`;
-    const filenameStripped = `File:${encodeURI(name.replace(/ +/g, ''))}Portrait`;
-    const filenames = [`${filename}.png`, `${filenameStripped}.png`, `${filename}.jpg`, `${filenameStripped}.jpg`];
-    let image;
-
-    try {
-      for (const possible of filenames) {
-        image = await this.client.getImageInfo(possible);
-
-        if (image) break;
-      }
-
-      if (result.khInfo_avatar !== image.url)
-        await put(`${this.apiURL}update`).send({
-          token: apiToken,
-          avatar: image.url,
-          id: result.khID,
-          name: result.khName,
-          user: this.client.user.tag
-        });
-
-      return image.url;
-    } catch (err) {
-      throw err;
     }
   }
 }
