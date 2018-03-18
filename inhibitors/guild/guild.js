@@ -7,7 +7,7 @@ class GuildInhibitor extends Inhibitor {
   }
 
   exec(message) {
-    return blacklist.includes(message.guild.id);
+    return message.guild && blacklist.includes(message.guild.id);
   }
 }
 
