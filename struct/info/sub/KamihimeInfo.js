@@ -89,12 +89,13 @@ class KamihimeInfo extends Info {
       burst: {
         name: character.burstName,
         description: character.burstDesc || burstDescParse(),
-        upgradeDescription: character.burstPowerupDesc ||
+        upgradeDescription: character.burstPowerupDesc || (
           character.rarity === 'SSR+'
-          ? null
-          : character.rarity === 'R'
-            ? '[LB ★★☆]: Powered Up'
-            : '[LB ★★★☆]: Powered Up'
+            ? null
+            : character.rarity === 'R'
+              ? '[LB ★★☆]: Powered Up'
+              : '[LB ★★★☆]: Powered Up'
+        )
       },
 
       abilities: [
