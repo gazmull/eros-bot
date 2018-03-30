@@ -33,7 +33,7 @@
     * Main: `memberinfo`, `serverinfo`, `ping`
     * Bot Owner: `eval`, `clear`
   * **Kamihime**
-    * Main: `guide`, `nsfw`, `hareminfo`, `info`, `list`, `search`
+    * Main: `guide`, `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`
     * Bot Owner: `add`, `delete`, `update`, `approve`, `flag`
 
 ## Hosting Eros

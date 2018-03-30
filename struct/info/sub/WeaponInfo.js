@@ -12,8 +12,7 @@ class SoulInfo extends Info {
           `${weapon.description}`
         ]
       )
-      .setColor(colors[weapon.rarity])
-      .addField('Maximum Stats', `ATK: ${weapon.atk} | HP: ${weapon.hp}`, true);
+      .setColor(colors[weapon.rarity]);
 
     if (weapon.type.skill)
       embed.addField('Weapon Skill Type', weapon.type.skill, true);

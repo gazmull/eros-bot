@@ -36,6 +36,23 @@ class Info {
       .setThumbnail(character.thumbnail)
       .setAuthor(character.name, null, character.link);
 
+    if (character.atk && character.hp) {
+      const stats = {
+        name: 'Maximum Basic Stats',
+        value: `**HP: ${character.hp} | ATK: ${character.atk}**`
+      };
+
+      if (embed.fields.length) {
+        const oldFields = embed.fields;
+        embed.fields = [];
+
+        embed.fields.push(stats);
+
+        for (const field of oldFields)
+          embed.fields.push(field);
+      } else embed.fields.push(stats);
+    }
+
     if (character.burst)
       embed.addField(
         `Burst: ${character.burst.name}`,
@@ -68,7 +85,13 @@ class Info {
       for (let i = 0; i < character.assistAbilities.length; i++) {
         if (!character.assistAbilities[i]) continue;
 
-        embed.addField(`Assist: ${character.assistAbilities[i].name}`, character.assistAbilities[i].description, true);
+        embed.addField(`Assist: ${character.assistAbilities[i].name}`,
+          [
+            character.assistAbilities[i].description,
+            character.assistAbilities[i].upgradeDescription
+          ],
+          true
+        );
       }
 
     if (character.harem) {
@@ -78,7 +101,7 @@ class Info {
 
     if (character.obtainedFrom)
       embed.setFooter(
-        `can be obtained from ${character.obtainedFrom.replace(/(gacha(?=.+))/i, '$1 |')}${
+        `can be obtained from ${character.obtainedFrom.replace(/(gacha(?=[.\s]+))/i, '$1 |')}${
           character.obtainedFrom.includes('Gacha')
             ? ''
             : ['Awaken', 'Main Quest', 'Tutorial', 'Shop'].some(e => character.obtainedFrom.includes(e))

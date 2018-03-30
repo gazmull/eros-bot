@@ -135,7 +135,7 @@ class InfoCommand extends Command {
           : data.slice(data.indexOf('{{'), data.indexOf('=='));
 
         return slicedData
-          .replace(/<br(?:| )(?:|\/)>/g, ' ')
+          .replace(/<br(?:| )(?:|\/)>/g, '\n\n')
           .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '')
           .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1')
           .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1')

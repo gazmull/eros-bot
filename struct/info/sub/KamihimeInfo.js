@@ -44,6 +44,8 @@ class KamihimeInfo extends Info {
               return ` ★ [LV 75]: ${desc}`;
             case 3:
               return ` ★ [LV 45]: ${desc}`;
+            case 4:
+              return ` ★ [LV 55]: ${desc}`;
           }
         case 'SSR':
           switch (ability) {
@@ -134,7 +136,10 @@ class KamihimeInfo extends Info {
         character.assistName
           ? {
             name: character.assistName,
-            description: character.assistDesc
+            description: character.assistDesc,
+            upgradeDescription: character.assistPowerupDesc
+              ? abilityDescParse(character.assistPowerupDesc, 4)
+              : null
           }
           : null
       ],
