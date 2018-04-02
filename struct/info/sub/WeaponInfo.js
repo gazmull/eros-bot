@@ -15,7 +15,7 @@ class SoulInfo extends Info {
       )
       .setColor(colors[weapon.rarity]);
 
-    for (const skill of skills)
+    for (const skill of weapon.skills)
       if (skill)
         list.push(skill);
 
