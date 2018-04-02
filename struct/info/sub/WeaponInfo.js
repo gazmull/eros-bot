@@ -44,7 +44,7 @@ class SoulInfo extends Info {
         character.skillType
           ? character.skillType
           : null,
-        character. skillType2
+        character.skillType2
           ? character.skillType2
           : null
       ],
