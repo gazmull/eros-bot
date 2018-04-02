@@ -9,7 +9,7 @@ class SoulInfo extends Info {
     const embed = new MessageEmbed()
       .setDescription(
         [
-          `__**Weapon**__ | __**${weapon.type.weapon}**__ | __**${weapon.element}**__`,
+          `__**Weapon**__ | __**${weapon.type}**__ | __**${weapon.element}**__`,
           `${weapon.description}`
         ]
       )
@@ -23,7 +23,7 @@ class SoulInfo extends Info {
       embed.addField(`Weapon Skill Type${list.length > 1 ? 's' : ''}`, list.join(', '), true);
 
     if (weapon.burstDesc)
-      embed.addField('Weapon Burst', weapon.burstDesc, true);
+      embed.addField('Weapon Burst Effect', weapon.burstDesc, true);
 
     return super.format(embed, weapon);
   }
