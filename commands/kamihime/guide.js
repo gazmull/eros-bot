@@ -31,7 +31,7 @@ class GuideCommand extends Command {
         '\t[Kamihime Project - Harem Time Forums](http://harem-battle.club/kamihime-project/)',
         '\n❯ Helpful Documentations',
         '\tSanahtlig: [Toolbox](https://goo.gl/bP43qi) | [Game Guide](https://goo.gl/YMcg1h) | [Re-rolling: How to get FREE SSR Kamihime](https://goo.gl/eJffLx)',
-        '\tJ-Star: [Weapon Skill Upgrading Guide](https://goo.gl/gGwvUX)',
+        '\tJ-Star: [Weapon Skill Upgrading Guide](https://goo.gl/gGwvUX) | [Weapon Grids Template](https://goo.gl/dhrwgk)',
         '\n❯ Harem Scenes',
         '\tEliont: [Kamihime Player](https://goo.gl/XjWD93)',
         '\tEuni: [Kamihime Web Player](http://kamihimedb.thegzm.space)'
