@@ -39,10 +39,7 @@ class DeleteKamihimeCommand extends Command {
 
       return message.util.edit({ embed });
     } catch (err) {
-      if (err.stack)
-        error(err.stack);
-
-      return message.util.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\``);
+      return new this.client.APIError(message.util, err, 1);
     }
   }
 }

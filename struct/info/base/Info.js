@@ -126,6 +126,8 @@ class Info {
       if (image) break;
     }
 
+    if (!image) return null;
+
     if (res.khInfo_avatar !== image.url)
       await put(`${api}update`).send({
         token: apiToken,

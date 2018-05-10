@@ -8,6 +8,8 @@ const { defaultPrefix } = require('../auth');
 const defineGuild = require('./models/guild');
 // const defineKH = require('./models/kamihime');
 
+const APIError = require('../struct/APIError');
+
 class ErosClient extends AkairoClient {
   constructor(config) {
     super({
@@ -43,6 +45,7 @@ class ErosClient extends AkairoClient {
     // this.khDB = new SequelizeProvider(defineKH, { idColumn: 'khID' });
     this.awaitingUsers = new Collection();
     this.request = null;
+    this.APIError = APIError;
   }
 
   async init() {

@@ -5,20 +5,25 @@ class SoulInfo extends Info {
   async format() {
     const { colors } = this;
     const weapon = await this.template();
+    const list = [];
     const embed = new MessageEmbed()
       .setDescription(
         [
-          `__**Weapon**__ | __**${weapon.type.weapon}**__ | __**${weapon.element}**__`,
+          `__**Weapon**__ | __**${weapon.type}**__ | __**${weapon.element}**__`,
           `${weapon.description}`
         ]
       )
       .setColor(colors[weapon.rarity]);
 
-    if (weapon.type.skill)
-      embed.addField('Weapon Skill Type', weapon.type.skill, true);
+    for (const skill of weapon.skills)
+      if (skill)
+        list.push(skill);
+
+    if (list.length)
+      embed.addField(`Weapon Skill Type${list.length > 1 ? 's' : ''}`, list.join(', '), true);
 
     if (weapon.burstDesc)
-      embed.addField('Weapon Burst', weapon.burstDesc, true);
+      embed.addField('Weapon Burst Effect', weapon.burstDesc, true);
 
     return super.format(embed, weapon);
   }
@@ -34,10 +39,15 @@ class SoulInfo extends Info {
       link,
       thumbnail,
       rarity: character.rarity,
-      type: {
-        weapon: character.weaponType,
-        skill: character.skillType || null
-      },
+      type: character.weaponType,
+      skills: [
+        character.skillType || character.skill || character.skill1
+          ? character.skillType || character.skill || character.skill1
+          : null,
+        character.skillType2 || character.skill2
+          ? character.skillType2 || character.skill2
+          : null
+      ],
       element: character.element,
       atk: character.atkMax,
       hp: character.hpMax,

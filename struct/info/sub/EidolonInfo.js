@@ -66,7 +66,7 @@ class EidolonInfo extends Info {
 
       summon: {
         name: character.summonAtk,
-        description: character.summonAtkDes,
+        description: character.summonAtkDes.replace(/\n/g, '\n\n'),
         cooldown: character.summonCd
       },
 

@@ -99,10 +99,7 @@ class ListCommand extends Command {
 
       await embed.build();
     } catch (err) {
-      if (err.stack)
-        error(err.stack);
-
-      return message.util.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\``);
+      return new this.client.APIError(message.util, err, 1);
     }
   }
 

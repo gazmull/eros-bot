@@ -1,5 +1,3 @@
-const { error } = require('../../utils/console');
-
 const { Command } = require('discord-akairo');
 const { get } = require('snekfetch');
 const parseInfo = require('infobox-parser');
@@ -61,10 +59,7 @@ class InfoCommand extends Command {
 
       await this.awaitSelection(message, rows, prefix);
     } catch (err) {
-      if (err.stack)
-        error(err.stack);
-
-      return message.util.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\`Step: KamihimeDB Request`);
+      return new this.client.APIError(message.util, err, 1);
     }
   }
 
@@ -109,16 +104,10 @@ class InfoCommand extends Command {
       await this.triggerDialog(message, result[responseIdx].khName, data.body, prefix);
       if (message.guild) response.delete();
     } catch (err) {
-      if (err.stack) {
-        error(err);
-
-        message.util.edit(
-          `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Menu Selection`,
-          { embed: null }
-        );
-      }
-
-      message.util.edit('Selection expired.', { embed: null });
+      if (err instanceof Error)
+        new this.client.APIError(message.util, err, 0);
+      else
+        message.util.edit('Selection expired.', { embed: null });
     }
     this.client.awaitingUsers.delete(message.author.id);
   }
@@ -135,7 +124,7 @@ class InfoCommand extends Command {
           : data.slice(data.indexOf('{{'), data.indexOf('=='));
 
         return slicedData
-          .replace(/<br(?:| )(?:|\/)>/g, '\n\n')
+          .replace(/<br(?:| )(?:|\/)>/g, '\n')
           .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '')
           .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1')
           .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1')
@@ -169,13 +158,7 @@ class InfoCommand extends Command {
 
       return message.util.edit({ embed });
     } catch (err) {
-      if (err.stack)
-        error(err.stack);
-
-      return message.util.edit(
-        `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Wikia Request`,
-        { embed: null }
-      );
+      return new this.client.APIError(message.util, err, 2);
     }
   }
 }

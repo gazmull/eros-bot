@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 
 const Database = new Sequelize('Eros', null, null, {
-  host: 'locahost',
   dialect: 'sqlite',
 
   pool: {

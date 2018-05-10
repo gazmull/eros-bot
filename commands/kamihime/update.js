@@ -45,10 +45,7 @@ class UpdateKamihimeCommand extends Command {
 
       await this.awaitSelection(message, rows);
     } catch (err) {
-      if (err.stack)
-        error(err.stack);
-
-      return message.util.edit(`I cannot complete the query because:\n\`\`\`x1\n${err.message}\`\`\``);
+      return new this.client.APIError(message.util, err, 1);
     }
   }
 
@@ -94,15 +91,10 @@ class UpdateKamihimeCommand extends Command {
       await this.triggerDialog(message, data.body);
       if (message.guild) response.delete();
     } catch (err) {
-      if (err.stack) {
-        error(err);
-
-        return message.util.edit(
-          `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\`Step: Menu Selection`,
-          { embed: null }
-        );
-      }
-      message.util.edit('Selection expired.', { embed: null });
+      if (err.stack)
+        new this.client.APIError(message.util, err, 0);
+      else
+        message.util.edit('Selection expired.', { embed: null });
     }
     this.client.awaitingUsers.delete(message.author.id);
   }
@@ -123,13 +115,7 @@ class UpdateKamihimeCommand extends Command {
 
       return message.util.edit({ embed });
     } catch (err) {
-      if (err.stack)
-        error(err.stack);
-
-      return message.util.edit(
-        `I cannot complete the query because:\n\`\`\`x1\n${err}\`\`\``,
-        { embed: null }
-      );
+      return new this.client.APIError(message.util, err, 1);
     }
   }
 }

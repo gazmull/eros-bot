@@ -72,10 +72,7 @@ class SearchKamihimeCommand extends Command {
 
       return await embed.build();
     } catch (err) {
-      if (err.stack)
-        error(err.stack);
-
-      return message.util.edit(`I cannot complete the query because:\`\`\`\n${err.message}\`\`\`Step: KamihimeDB`);
+      return new this.client.APIError(message.util, err, 1);
     }
   }
 
