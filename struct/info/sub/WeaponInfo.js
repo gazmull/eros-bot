@@ -3,21 +3,55 @@ const { MessageEmbed } = require('discord.js');
 
 class SoulInfo extends Info {
   async format() {
-    const { colors } = this;
+    const { wikiaURI, colors } = this;
     const weapon = await this.template();
     const list = [];
+    const discriminator = {
+      SSR: {
+        Fire: 'Inferno',
+        Water: 'Cocytus',
+        Wind: 'Turbulence',
+        Thunder: 'Impulse',
+        Light: 'Lumina',
+        Dark: 'Schwarz'
+      },
+      SR: {
+        Fire: 'Burning',
+        Water: 'Blizzard',
+        Wind: 'Storm',
+        Thunder: 'Plasma',
+        Light: 'Shine',
+        Dark: 'Abyss'
+      },
+      R: {
+        Fire: 'Fire',
+        Water: 'Aqua',
+        Wind: 'Aero',
+        Thunder: 'Thunder',
+        Light: 'Ray',
+        Dark: 'Dark'
+      }
+    };
     const embed = new MessageEmbed()
       .setDescription(
         [
-          `__**Weapon**__ | __**${weapon.type}**__ | __**${weapon.element}**__`,
+          `__**Weapon**__ | __**${weapon.type}**__ | __**${weapon.element}**__${
+            weapon.releases
+              ? ` | __**[${weapon.releases}](${wikiaURI}${encodeURI(weapon.releases)} "Kamihime Release")**__`
+              : ''
+          }`,
           `${weapon.description}`
         ]
       )
       .setColor(colors[weapon.rarity]);
 
-    for (const skill of weapon.skills)
-      if (skill)
+    for (let skill of weapon.skills)
+      if (skill) {
+        if (!/\s/.test(skill))
+          skill = `${discriminator[weapon.rarity][weapon.element]} ${skill}`;
+
         list.push(skill);
+      }
 
     if (list.length)
       embed.addField(`Weapon Skill Type${list.length > 1 ? 's' : ''}`, list.join(', '), true);
@@ -52,7 +86,8 @@ class SoulInfo extends Info {
       atk: character.atkMax,
       hp: character.hpMax,
       burstDesc: character.burstDesc || null,
-      obtainedFrom: character.obtained
+      obtainedFrom: character.obtained,
+      releases: character.releases || null
     };
   }
 }
