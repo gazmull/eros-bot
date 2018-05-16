@@ -10,11 +10,11 @@ class PingCommand extends Command {
 
   async exec(message) {
     try {
-      const sentMessage = await message.channel.send('Requesting...');
-      const estimatedPing = sentMessage.createdTimestamp - message.createdTimestamp;
+      await message.util.send('Requesting...');
+      const estimatedPing = message.util.lastResponse.createdTimestamp - message.createdTimestamp;
       const roundInt = Math.round((estimatedPing) / 50);
 
-      return sentMessage.edit(`Po${'o'.repeat(roundInt)}ng!\n\n:arrows_counterclockwise: ${estimatedPing}ms\n:heart: ${Math.round(this.client.ping)}ms`);
+      return message.util.edit(`Po${'o'.repeat(roundInt)}ng!\n\n:arrows_counterclockwise: ${estimatedPing}ms\n:heart: ${Math.round(this.client.ping)}ms`);
     } catch (err) {
       console.log(err);
     }
