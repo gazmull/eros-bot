@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 
 const { error } = require('../../utils/console');
 

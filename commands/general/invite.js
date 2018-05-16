@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { inviteLink, docs } = require('../../auth');
 
 class InviteCommand extends Command {

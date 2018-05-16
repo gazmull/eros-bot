@@ -1,9 +1,9 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 const parseInfo = require('infobox-parser');
 
 const { loading } = require('../../auth').emojis;
-const { api } = require('../../auth').url;
+const { api: apiURL } = require('../../auth').url;
 
 const {
   Kamihime,
@@ -21,6 +21,7 @@ class InfoCommand extends Command {
         usage: '<item name>',
         examples: ['eros', 'mars']
       },
+      shouldAwait: true,
       clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
@@ -38,83 +39,43 @@ class InfoCommand extends Command {
         }
       ]
     });
-    this.shouldAwait = true;
   }
 
   async exec(message, { item }) {
     try {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
-      const prefix = this.handler.prefix(message);
-      const request = await get(`${api}search?name=${encodeURI(item)}`);
+      const request = await get(`${apiURL}search?name=${encodeURI(item)}`);
       const rows = request.body;
 
       if (!rows.length) return message.util.edit(`No item named ${item} found.`);
       else if (rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${api}id/${result.khID}`);
+        const data = await get(`${apiURL}id/${result.khID}`);
 
-        return await this.triggerDialog(message, result.khName, data.body, prefix);
+        return await this.triggerDialog(message, result.khName, data.body);
       }
 
-      await this.awaitSelection(message, rows, prefix);
+      await this.awaitSelection(message, rows);
     } catch (err) {
       return new this.client.APIError(message.util, err, 1);
     }
   }
 
-  async awaitSelection(message, result, prefix) {
-    const embed = this.client.util.embed()
-      .setColor(0xFF00AE)
-      .setTitle('Menu Selection')
-      .setFooter('Expires within 30 seconds.')
-      .setDescription(
-        [
-          'Multiple items match with your query.',
-          'Select an item by their designated `number` to continue.',
-          'Saying `cancel` or `0` will cancel the command.'
-        ]
-      )
-      .addField('#', result.map(i => result.indexOf(i) + 1).join('\n'), true)
-      .addField('Name', result.map(i => i.khName).join('\n'), true);
+  async awaitSelection(message, rows) {
+    const character = await this.client.util.selection.execute(message, rows);
 
-    await message.util.edit({ embed });
-    this.client.awaitingUsers.set(message.author.id, true);
+    if (!character) return;
 
-    try {
-      const responses = await message.channel.awaitMessages(
-        m =>
-          m.author.id === message.author.id &&
-            (m.content.toLowerCase() === 'cancel' || parseInt(m.content) === 0 ||
-            (parseInt(m.content) >= 1 && parseInt(m.content) <= result.length)), {
-          max: 1,
-          time: 30 * 1000,
-          errors: ['time']
-        }
-      );
+    const data = await get(`${apiURL}id/${character.khID}`);
 
-      const response = responses.first();
-      if (response.content.toLowerCase() === 'cancel' || parseInt(response.content) === 0) {
-        this.client.awaitingUsers.delete(message.author.id);
-
-        return message.util.edit('Selection cancelled.', { embed: null });
-      }
-      const responseIdx = parseInt(response.content) - 1;
-      const data = await get(`${api}id/${result[responseIdx].khID}`);
-      await this.triggerDialog(message, result[responseIdx].khName, data.body, prefix);
-      if (message.guild) response.delete();
-    } catch (err) {
-      if (err instanceof Error)
-        new this.client.APIError(message.util, err, 0);
-      else
-        message.util.edit('Selection expired.', { embed: null });
-    }
-    this.client.awaitingUsers.delete(message.author.id);
+    await this.triggerDialog(message, character.khName, data.body);
   }
 
-  async triggerDialog(message, item, dbRes, prefix) {
+  async triggerDialog(message, item, dbRes) {
     try {
       await message.util.edit(`${loading} Awaiting Wikia's response...`, { embed: null });
+      const prefix = this.handler.prefix(message);
       const category = await this.client.getArticleCategories(item);
       const rawData = await this.client.getArticle(item);
       const sanitisedData = data => {

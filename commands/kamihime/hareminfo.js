@@ -1,8 +1,8 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 
 const { loading, embarassed } = require('../../auth').emojis;
-const { player, api, wikia } = require('../../auth').url;
+const { player: playerURL, api: apiURL, wikia } = require('../../auth').url;
 
 const Info = require('../../struct/info/base/Info');
 
@@ -15,6 +15,7 @@ class HaremInfoCommand extends Command {
         usage: '<character name>',
         examples: ['eros', 'mars']
       },
+      shouldAwait: true,
       clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
@@ -32,9 +33,6 @@ class HaremInfoCommand extends Command {
         }
       ]
     });
-    this.shouldAwait = true;
-    this.apiURL = api;
-    this.playerURL = player;
     this.rassedMsg = [
       'b-but why m-me?!',
       'I have the b-best scene... right?!',
@@ -48,13 +46,13 @@ class HaremInfoCommand extends Command {
     try {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
-      const request = await get(`${this.apiURL}search?name=${encodeURI(character)}`);
+      const request = await get(`${apiURL}search?name=${encodeURI(character)}`);
       const rows = request.body.filter(c => !['x', 'w'].includes(c.khID.charAt(0)));
 
       if (!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if (rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${this.apiURL}id/${result.khID}`);
+        const data = await get(`${apiURL}id/${result.khID}`);
 
         return await this.triggerDialog(message, data.body);
       }
@@ -65,54 +63,14 @@ class HaremInfoCommand extends Command {
     }
   }
 
-  async awaitSelection(message, result) {
-    const embed = this.client.util.embed()
-      .setColor(0xFF00AE)
-      .setTitle('Menu Selection')
-      .setFooter('Expires within 30 seconds.')
-      .setDescription(
-        [
-          'Multiple items match with your query.',
-          'Select an item by their designated `number` to continue.',
-          'Saying `cancel` or `0` will cancel the command.'
-        ]
-      )
-      .addField('#', result.map(i => result.indexOf(i) + 1).join('\n'), true)
-      .addField('Name', result.map(i => i.khName).join('\n'), true);
+  async awaitSelection(message, rows) {
+    const character = await this.client.util.selection.execute(message, rows);
 
-    await message.util.edit({ embed });
-    this.client.awaitingUsers.set(message.author.id, true);
+    if (!character) return;
 
-    try {
-      const responses = await message.channel.awaitMessages(
-        m =>
-          m.author.id === message.author.id &&
-          (m.content.toLowerCase() === 'cancel' || parseInt(m.content) === 0 ||
-          (parseInt(m.content) >= 1 && parseInt(m.content) <= result.length)), {
-          max: 1,
-          time: 30 * 1000,
-          errors: ['time']
-        }
-      );
+    const data = await get(`${apiURL}id/${character.khID}`);
 
-      const response = responses.first();
-      if (response.content.toLowerCase() === 'cancel' || parseInt(response.content) === 0) {
-        this.client.awaitingUsers.delete(message.author.id);
-
-        return message.util.edit('Selection cancelled.', { embed: null });
-      }
-
-      const characterIndex = result[parseInt(response.content) - 1];
-      const data = await get(`${this.apiURL}id/${characterIndex.khID}`);
-      await this.triggerDialog(message, data.body);
-      if (message.guild) response.delete();
-    } catch (err) {
-      if (err.stack)
-        new this.client.APIError(message.util, err, 0);
-      else
-        message.util.edit('Selection expired.', { embed: null });
-    }
-    this.client.awaitingUsers.delete(message.author.id);
+    await this.triggerDialog(message, data.body);
   }
 
   async triggerDialog(message, result) {
@@ -135,7 +93,7 @@ class HaremInfoCommand extends Command {
           file: result.khHarem_introFile || null,
           links: [
             result.khHarem_introResource1
-              ? `${this.playerURL}${result.khID}/1/${result.khHarem_introResource1}`
+              ? `${playerURL}${result.khID}/1/${result.khHarem_introResource1}`
               : null
           ]
         },
@@ -143,10 +101,10 @@ class HaremInfoCommand extends Command {
           title: result.khHarem_hentai1 || 'Untitled',
           links: [
             result.khHarem_hentai1Resource1
-              ? `${this.playerURL}${result.khID}/2/${result.khHarem_hentai1Resource1}`
+              ? `${playerURL}${result.khID}/2/${result.khHarem_hentai1Resource1}`
               : null,
             result.khHarem_hentai1Resource2
-              ? `${this.playerURL}${result.khID}/2/${result.khHarem_hentai1Resource2}`
+              ? `${playerURL}${result.khID}/2/${result.khHarem_hentai1Resource2}`
               : null
           ]
         },
@@ -154,10 +112,10 @@ class HaremInfoCommand extends Command {
           title: result.khHarem_hentai2 || 'Untitled',
           links: [
             result.khHarem_hentai2Resource1
-              ? `${this.playerURL}${result.khID}/3/${result.khHarem_hentai2Resource1}`
+              ? `${playerURL}${result.khID}/3/${result.khHarem_hentai2Resource1}`
               : null,
             result.khHarem_hentai2Resource2
-              ? `${this.playerURL}${result.khID}/3/${result.khHarem_hentai2Resource2}`
+              ? `${playerURL}${result.khID}/3/${result.khHarem_hentai2Resource2}`
               : null
           ]
         }

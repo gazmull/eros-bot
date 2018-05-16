@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { defaultPrefix } = require('../../auth');
 
 class PrefixCommand extends Command {

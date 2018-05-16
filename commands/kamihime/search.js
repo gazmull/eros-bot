@@ -1,8 +1,7 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 
 const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
-const { error } = require('../../utils/console');
 
 const { url, emojis } = require('../../auth');
 
@@ -15,6 +14,7 @@ class SearchKamihimeCommand extends Command {
         usage: '<character name>',
         examples: ['eros', 'mars']
       },
+      paginated: true,
       clientPermissions: ['EMBED_LINKS'],
       args: [
         {
@@ -42,7 +42,6 @@ class SearchKamihimeCommand extends Command {
       ]
     });
     this.apiURL = url.api;
-    this.paginated = true;
   }
 
   async exec(message, { character, advanced, isID }) {

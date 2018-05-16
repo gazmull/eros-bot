@@ -1,14 +1,16 @@
 const { status } = require('../utils/console');
 
 const { AkairoClient, SequelizeProvider } = require('discord-akairo');
-const { Collection } = require('discord.js');
 const wikia = require('nodemw');
 
 const { defaultPrefix } = require('../auth');
 const defineGuild = require('./models/guild');
 // const defineKH = require('./models/kamihime');
 
+const ErosCommandHandler = require('../struct/ErosCommandHandler');
+
 const APIError = require('../struct/APIError');
+const Selection = require('../struct/Selection');
 
 class ErosClient extends AkairoClient {
   constructor(config) {
@@ -43,9 +45,16 @@ class ErosClient extends AkairoClient {
     this.config = config;
     this.guildSettings = new SequelizeProvider(defineGuild, { idColumn: 'id' });
     // this.khDB = new SequelizeProvider(defineKH, { idColumn: 'khID' });
-    this.awaitingUsers = new Collection();
     this.request = null;
     this.APIError = APIError;
+    this.util.selection = new Selection(this);
+  }
+
+  build() {
+    if (this.akairoOptions.commandDirectory)
+      this.commandHandler = new ErosCommandHandler(this, this.akairoOptions);
+
+    return super.build();
   }
 
   async init() {

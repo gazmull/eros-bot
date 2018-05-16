@@ -1,9 +1,8 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 
 const { loading } = require('../../auth').emojis;
 const { api } = require('../../auth').url;
-const { error } = require('../../utils/console');
 const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
 
 class ListCommand extends Command {
@@ -20,6 +19,7 @@ class ListCommand extends Command {
         examples: ['kamihime', 'eidolon', 'eidolon dark']
       },
       cooldown: 5 * 1000,
+      paginated: true,
       clientPermissions: ['ADD_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
@@ -39,7 +39,6 @@ class ListCommand extends Command {
         }
       ]
     });
-    this.paginated = true;
     this.apiURL = api;
     this.fields = {
       soul: ['khType', 'khTier'],

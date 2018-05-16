@@ -1,9 +1,8 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { get, post } = require('snekfetch');
 
 const { url, apiToken } = require('../../auth');
 const { loading } = require('../../auth').emojis;
-const { error } = require('../../utils/console');
 
 class DeleteKamihimeCommand extends Command {
   constructor() {

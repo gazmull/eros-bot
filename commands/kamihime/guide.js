@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
 
 const { loading } = require('../../auth').emojis;
@@ -12,6 +12,7 @@ class GuideCommand extends Command {
         usage: '<page number>',
         examples: ['', '13', '37']
       },
+      paginated: true,
       clientPermissions: ['ADD_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
@@ -21,7 +22,6 @@ class GuideCommand extends Command {
         }
       ]
     });
-    this.paginated = true;
     this.dialogs = [
       [
         'Are you familiar with the game? No? These links can help you... but maybe for the last section...',

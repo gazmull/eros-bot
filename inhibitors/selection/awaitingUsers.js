@@ -6,7 +6,7 @@ class AwaitingUsersInhibitor extends Inhibitor {
   }
 
   exec(message) {
-    const isAwaiting = this.client.awaitingUsers.get(message.author.id);
+    const isAwaiting = this.client.util.selection.users.get(message.author.id);
     const shouldAwait = message.util.command && message.util.command.shouldAwait;
 
     return isAwaiting && shouldAwait;

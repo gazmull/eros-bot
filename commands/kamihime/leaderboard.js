@@ -1,8 +1,7 @@
-const { Command } = require('discord-akairo');
+const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 
 const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
-const { error } = require('../../utils/console');
 
 const { emojis, url } = require('../../auth');
 
@@ -15,6 +14,7 @@ class LeaderboardKamihimeCommand extends Command {
         usage: '<page number>',
         examples: ['', '13', '37']
       },
+      paginated: true,
       clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS'],
       args: [
         {
@@ -29,7 +29,6 @@ class LeaderboardKamihimeCommand extends Command {
         }
       ]
     });
-    this.paginated = true;
     this.apiURL = url.api;
     this.loading = emojis.loading;
   }
