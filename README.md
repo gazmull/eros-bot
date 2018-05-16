@@ -8,7 +8,7 @@
 # Eros Bot Rewrite
   * Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     * Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-  * Version: **1.2**
+  * Version: **1.3**
 
 > Eros is now rewritten with a new framework, which has a nice documentation, instead of my own framework, which is not well-documented and it'll be hard for any `to be developer/s` of this bot if I have to insist with the private framework.
 
@@ -33,7 +33,7 @@
     * Main: `memberinfo`, `serverinfo`, `ping`
     * Bot Owner: `eval`, `clear`
   * **Kamihime**
-    * Main: `guide`, `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`
+    * Main: `guide`, `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`, `countdown`
     * Bot Owner: `add`, `delete`, `update`, `approve`, `flag`
 
 ## Hosting Eros
@@ -54,9 +54,9 @@
   * Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `//comments` to help you set up the file
   * Run the bot!
     * Node: `node .`
-      * Process Managers
-        * [**Nodemon**](https://github.com/remy/nodemon): `nodemon`
-        * [**PM2**](https://github.com/Unitech/pm2): `pm2 start index.js --name="Eros" --env production`
+    * Process Managers
+      * [**Nodemon**](https://github.com/remy/nodemon): `nodemon`
+      * [**PM2**](https://github.com/Unitech/pm2): `pm2 start index.js --name="Eros" --env production`
 
 ## Contributing
   * You have to fork this repository, and follow the project's ESLint configuration. Run `npm test` or `yarn test` to verify if your build is passing. Failing build will be rejected.
