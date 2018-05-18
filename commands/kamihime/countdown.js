@@ -30,6 +30,7 @@ class CountdownCommand extends Command {
     });
     this.preset = [
       { class: 'DLY', name: 'Daily Reset', time: '00:00', day: '*' },
+      { class: 'DLY', name: 'SP Quest Reset', time: '05:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 1', time: '12:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 2', time: '19:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 3', time: '22:00', day: '*' },
@@ -165,7 +166,7 @@ class CountdownCommand extends Command {
         this.countdowns.set(name, date);
         await this.save();
 
-        return message.reply(`\`${name}\` countdown added! Expires within ${this.getCountdown(date)}`);
+        return message.util.edit(`\`${name}\` countdown added! Expires within ${this.getCountdown(date)}`);
       }
 
       case 'remove': {
@@ -175,17 +176,17 @@ class CountdownCommand extends Command {
           countdowns.delete(name);
           await this.save();
 
-          return message.reply(`\`${name}\` countdown removed!`);
+          return message.util.edit(`\`${name}\` countdown removed!`);
         }
 
-        return message.reply(`countdown named \`${name}\` not found.`);
+        return message.util.edit(`Countdown named \`${name}\` not found.`);
       }
 
       case 'test':
       case 'check': {
         date = moment.tz(details, timezone).seconds(0);
 
-        return message.reply(`the provided date expires within ${this.getCountdown(date)}`);
+        return message.util.edit(`The provided date expires within ${this.getCountdown(date)}`);
       }
     }
   }
