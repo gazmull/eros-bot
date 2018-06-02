@@ -30,7 +30,6 @@ class CountdownCommand extends Command {
     });
     this.preset = [
       { class: 'DLY', name: 'Daily Reset', time: '00:00', day: '*' },
-      { class: 'DLY', name: 'SP Quest Reset', time: '05:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 1', time: '12:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 2', time: '19:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 3', time: '22:00', day: '*' },
