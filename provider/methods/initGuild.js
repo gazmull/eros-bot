@@ -5,10 +5,10 @@ const guilds = require('../models/guild');
 module.exports = async guild => {
   const guildSize = guild.client.guilds.size;
   try {
-    const nsfwChannel = guild.channels.exists(c => /nsfw/ig.test(c.name))
+    const nsfwChannel = guild.channels.find(c => /nsfw/ig.test(c.name))
       ? guild.channels.find(c => /nsfw/ig.test(c.name))
       : null;
-    const nsfwRole = guild.roles.exists(r => /nsfw/ig.test(r.name))
+    const nsfwRole = guild.roles.find(r => /nsfw/ig.test(r.name))
       ? guild.roles.find(r => /nsfw/ig.test(r.name))
       : null;
 
