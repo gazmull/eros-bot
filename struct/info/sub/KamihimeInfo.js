@@ -27,11 +27,13 @@ class KamihimeInfo extends Info {
     const burstDescParse = () => {
       switch (character.rarity) {
         default:
-          return `${character.element} DMG (++++)`;
+          return `${character.element} DMG (5.5x Burst DMG)`;
+        case 'SSR':
+          return `${character.element} DMG (4.5x Burst DMG)`;
         case 'SR':
-          return `${character.element} DMG (++)`;
+          return `${character.element} DMG (3x Burst DMG)`;
         case 'R':
-          return `${character.element} DMG (+)`;
+          return `${character.element} DMG (2x Burst DMG)`;
       }
     };
     const abilityDescParse = (desc, ability) => {
@@ -91,12 +93,14 @@ class KamihimeInfo extends Info {
       burst: {
         name: character.burstName,
         description: character.burstDesc || burstDescParse(),
-        upgradeDescription: character.burstPowerupDesc || (
+        upgradeDescription: (
           character.rarity === 'SSR+'
             ? null
-            : character.rarity === 'R'
-              ? '[LB ★★☆]: Powered Up'
-              : '[LB ★★★☆]: Powered Up'
+            : character.rarity === 'SSR'
+              ? `[LB ★★★☆] ${character.burstPowerupDesc ? character.burstPowerupDesc : 'Increases to 5x Burst DMG'}`
+              : character.rarity === 'SR'
+                ? `[LB ★★★☆] ${character.burstPowerupDesc ? character.burstPowerupDesc : 'Increases to 3.5x Burst DMG'}`
+                : `[LB ★★☆] ${character.burstPowerupDesc ? character.burstPowerupDesc : 'Increases to 2.5x Burst DMG'}`
         )
       },
 
