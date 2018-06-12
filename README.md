@@ -8,7 +8,7 @@
 # Eros Bot Rewrite
   * Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     * Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-  * Version: **1.3**
+  * Version: **1.4**
 
 > Eros is now rewritten with a new framework, which has a nice documentation, instead of my own framework, which is not well-documented and it'll be hard for any `to be developer/s` of this bot if I have to insist with the private framework.
 
@@ -17,6 +17,8 @@
   * Kamihime Database (Harem Scenes)
     * Again, only Nutaku version. Absolutely ***no*** DMM version. You may checkout my forum thread for some.
     * Uses RESTful API from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
+  * Twitter updates from [**@Kamihime_Nutaku**](https://twitter.com/kamihime_nutaku)
+    * Customise your `Twitter Channel` with `?twitterchannel <mention channel>`
   * Basic bot commands - See `help` command for more info on each command
   * Guild-wide Customisable Prefix
     * Default Prefix: **?** or **`@Eros` (Mention)**
@@ -26,7 +28,7 @@
 ## Commands
   * **Admin/Server Manager**
     * Main: `prefix`
-    * Kamihime-specific: `loli`, `nsfwchannel`, `nsfwrole`
+    * Kamihime-specific: `loli`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
   * **General**
     * Main: `help`, `invite`
   * **Utility**
