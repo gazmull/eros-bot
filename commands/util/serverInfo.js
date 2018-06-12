@@ -14,19 +14,19 @@ class ServerInfoCommand extends Command {
     const memberCount = message.guild.memberCount;
     const presenceCount = message.guild.presences.filter(m => m.status !== 'offline').size;
     const filterChannels = channelType => message.guild.channels.filter(c => c.type === channelType).size;
-    const getRecord = (guildID, column, placeholder) => {
+    const getRecord = (guildID, column) => {
       if (column === 'nsfwRoleID') {
         const guild = this.client.guilds.get(guildID);
-        const role = this.client.guildSettings.get(guildID, column, placeholder);
+        const role = this.client.guildSettings.get(guildID, column, null);
 
         return role ? guild.roles.get(role) : 'Not Configured';
-      } else if (column === 'nsfwChannelID') {
-        const channel = this.client.guildSettings.get(guildID, column, placeholder);
+      } else if (column === 'nsfwChannelID' || column === 'twitterChannelID') {
+        const channel = this.client.guildSettings.get(guildID, column, null);
 
         return channel ? this.client.channels.get(channel) : 'Not Configured';
       }
 
-      return this.client.guildSettings.get(guildID, column, placeholder);
+      return this.client.guildSettings.get(guildID, column, null);
     };
 
     const embed = this.client.util.embed()
@@ -43,9 +43,10 @@ class ServerInfoCommand extends Command {
       )
       .addField('Roles Count', message.guild.roles.size, true)
       .addField('Prefix', `\`${this.handler.prefix(message)}\``, true)
-      .addField('NSFW Channel', getRecord(message.guild.id, 'nsfwChannelID', null), true)
-      .addField('NSFW Role', getRecord(message.guild.id, 'nsfwRoleID', null), true)
-      .addField('Loli Restricted?', getRecord(message.guild.id, 'loli', null) ? 'Yes. :triumph:' : 'No. :sweat_smile:');
+      .addField('Twitter Channel', getRecord(message.guild.id, 'twitterChannelID'), true)
+      .addField('NSFW Channel', getRecord(message.guild.id, 'nsfwChannelID'), true)
+      .addField('NSFW Role', getRecord(message.guild.id, 'nsfwRoleID'), true)
+      .addField('Loli Restricted?', getRecord(message.guild.id, 'loli') ? 'Yes. :triumph:' : 'No. :sweat_smile:');
 
     return message.util.send({ embed });
   }

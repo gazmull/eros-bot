@@ -14,6 +14,11 @@ module.exports = db.define('guilds', {
     type: TEXT,
     defaultValue: defaultPrefix
   },
+  twitterChannelID: {
+    type: TEXT,
+    defaultValue: null,
+    allowNull: true
+  },
   nsfwChannelID: TEXT,
   nsfwRoleID: TEXT,
   loli: {

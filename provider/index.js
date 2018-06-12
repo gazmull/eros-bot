@@ -8,7 +8,6 @@ const defineGuild = require('./models/guild');
 // const defineKH = require('./models/kamihime');
 
 const ErosCommandHandler = require('../struct/ErosCommandHandler');
-
 const APIError = require('../struct/APIError');
 const Selection = require('../struct/Selection');
 

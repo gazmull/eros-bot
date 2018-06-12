@@ -3,7 +3,7 @@ const Command = require('../../struct/custom/Command');
 class SetNSFWChannelCommand extends Command {
   constructor() {
     super('nsfwchannel', {
-      aliases: ['nsfwchannel', 'channel'],
+      aliases: ['nsfwchannel'],
       description: {
         content: 'Changes this guild\'s NSFW Channel.',
         usage: '<resolvable channel>',

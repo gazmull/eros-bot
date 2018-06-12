@@ -5,6 +5,7 @@ const guilds = require('../models/guild');
 module.exports = async guild => {
   const guildSize = guild.client.guilds.size;
   try {
+    const twitterChannel = guild.channels.find(c => /twitter/ig.test(c.name));
     const nsfwChannel = guild.channels.find(c => /nsfw/ig.test(c.name));
     const nsfwRole = guild.roles.find(r => /nsfw/ig.test(r.name));
 
@@ -13,6 +14,7 @@ module.exports = async guild => {
       name: guild.name,
       owner: guild.owner.id,
       prefix: defaultPrefix,
+      twitterChannelID: twitterChannel ? twitterChannel.id : null,
       nsfwChannelID: nsfwChannel ? nsfwChannel.id : null,
       nsfwRoleID: nsfwChannel ? nsfwChannel.id : null,
       loli: false
@@ -28,6 +30,16 @@ module.exports = async guild => {
           nsfwChannel ? 'Also, ' : ''
         }I have detected that you have an NSFW Role (${nsfwRole.name}) and I have set it as the NSFW Role for your guild settings in my database.`
       );
+    if (twitterChannel)
+      welcomeMessage.push(
+        `${
+          nsfwChannel && nsfwRole
+            ? 'Finally, '
+            : (!nsfwChannel && nsfwRole) || (nsfwChannel && !nsfwRole)
+              ? 'Also, '
+              : ''
+        }I have detected that you have a Twitter channel (${twitterChannel.name}) and I have set it as the Twitter channel (Kamihime Project Updates) for your guild settings in my database.`
+      );
     if (welcomeMessage.length > 1) {
       welcomeMessage.push(
         `\n\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild.\t\nExamples:\n` +
@@ -38,6 +50,11 @@ module.exports = async guild => {
           ? nsfwChannel
             ? `\n\t\`${defaultPrefix}nsfwrole <role mention>\``
             : `\t\`${defaultPrefix}nsfwrole <role mention>\``
+          : ''}` +
+        `${nsfwChannel || nsfwRole
+          ? twitterChannel
+            ? `\n\t\`${defaultPrefix}twitterchannel <channel mention>\``
+            : `\t\`${defaultPrefix}twitterchannel <channel mention>\``
           : ''}`
       );
       guild.owner.send(welcomeMessage.join('\n'));

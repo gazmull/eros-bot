@@ -39,5 +39,14 @@ module.exports = {
   },
 
   // API token for kamihime-database. Not really that token... let's say a secret.
-  apiToken: 'whatisthepurposeofthis'
+  apiToken: 'whatisthepurposeofthis',
+
+  // Get your own application at https://apps.twitter.com
+  twitter: {
+    user: '806331327108653057', // current ID: Kamihime_Nutaku (gettwitterid.com)
+    consumer_key: 'xxx',
+    consumer_secret: 'xxxxxxxxxxxxxx',
+    access_token: 'xxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxx',
+    access_token_secret: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  }
 };
