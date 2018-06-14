@@ -27,11 +27,12 @@ class SetTwitterChannelCommand extends Command {
 
   async exec(message, { channel }) {
     const oldChannel = this.client.guildSettings.get(message.guild.id, 'twitterChannelID', null);
+    const resolvedChannel = this.client.channels.get(oldChannel);
     await this.client.guildSettings.set(message.guild.id, 'twitterChannelID', channel.id);
 
     return message.util.reply(
       `I have changed the Twitter Channel ${
-        oldChannel ? `from ${this.client.channels.get(oldChannel)} ` : ''}to ${channel}.`);
+        oldChannel && resolvedChannel ? `from ${resolvedChannel} ` : ''}to ${channel}.`);
   }
 }
 

@@ -6,7 +6,7 @@
   "dependencies": {
     "bufferutil": "^3.0.5",
     "discord-akairo": "1Computer1/discord-akairo",
-    "discord-paginationembed": "gazmull/discord-paginationembed",
+    "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "discordjs/discord.js",
     "infobox-parser": "^2.2.1",
     "moment-timezone": "^0.5.17",

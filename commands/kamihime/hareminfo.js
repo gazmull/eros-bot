@@ -77,7 +77,7 @@ class HaremInfoCommand extends Command {
     try {
       const prefix = this.handler.prefix(message);
       const guild = message.guild;
-      const restricted = this.client.guildSettings.get(guild.id, 'loli', null);
+      const restricted = guild ? this.client.guildSettings.get(guild.id, 'loli', null) : null;
 
       if (result.khLoli && restricted)
         throw `This character has loli contents, but loli contents are restricted within this guild.${
