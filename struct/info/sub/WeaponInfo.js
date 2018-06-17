@@ -32,12 +32,13 @@ class SoulInfo extends Info {
         Dark: 'Dark'
       }
     };
+    const cleanReleaseLink = `${wikiaURI}${encodeURI(weapon.releases)}`.replace(/(\(|\))/g, '\\$&');
     const embed = new MessageEmbed()
       .setDescription(
         [
           `__**Weapon**__ | __**${weapon.type}**__ | __**${weapon.element}**__${
             weapon.releases
-              ? ` | __**[${weapon.releases}](${wikiaURI}${encodeURI(weapon.releases)} "Kamihime Release")**__`
+              ? ` | __**[${weapon.releases}](${cleanReleaseLink} "Kamihime Release")**__`
               : ''
           }`,
           `${weapon.description}`
