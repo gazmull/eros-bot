@@ -32,6 +32,12 @@ class SoulInfo extends Info {
         Dark: 'Dark'
       }
     };
+    const scaleDiscriminator = {
+      SSR: '(++)',
+      SR: '(+)',
+      R: ''
+    };
+
     const cleanReleaseLink = `${wikiaURI}${encodeURI(weapon.releases)}`.replace(/(\(|\))/g, '\\$&');
     const embed = new MessageEmbed()
       .setDescription(
@@ -48,14 +54,35 @@ class SoulInfo extends Info {
 
     for (let skill of weapon.skills)
       if (skill) {
-        if (!/\s/.test(skill))
-          skill = `${discriminator[weapon.rarity][weapon.element]} ${skill}`;
+        if (/\s/.test(skill))
+          skill = `**${skill}**: ${weapon.skillDescs[weapon.skills.indexOf(skill)]}`;
+        else
+        if (skill === 'Upgrade')
+          skill = weapon.rarity === 'SSR'
+            ? '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (++)'
+            : weapon.rarity === 'SR'
+              ? '**Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (+)'
+              : weapon.rarity === 'R'
+                ? '**Vessel of Sorcery**: Weapon Enhance skill Lv up chance↑'
+                : null;
+        else
+          skill = `**${discriminator[weapon.rarity][weapon.element]} ${skill}**: ${
+            skill === 'Assault'
+              ? `${weapon.element} Characters' ATK↑ ${scaleDiscriminator[weapon.rarity]}`
+              : skill === 'Defender'
+                ? `${weapon.element} Characters' HP↑ ${scaleDiscriminator[weapon.rarity]}`
+                : skill === 'Pride'
+                  ? `${weapon.element} Characters with low HP, ATK↑ ${scaleDiscriminator[weapon.rarity]}`
+                  : skill === 'Rush'
+                    ? `${weapon.element} Characters' Double Attack Rate↑ ${scaleDiscriminator[weapon.rarity]}`
+                    : '<undefined skill>'
+          }`;
 
         list.push(skill);
       }
 
     if (list.length)
-      embed.addField(`Weapon Skill Type${list.length > 1 ? 's' : ''}`, list.join(', '), true);
+      embed.addField(`Weapon Skill Type${list.length > 1 ? 's' : ''}`, list.join('\n'), true);
 
     if (weapon.burstDesc)
       embed.addField('Weapon Burst Effect', weapon.burstDesc, true);
@@ -82,6 +109,10 @@ class SoulInfo extends Info {
         character.skillType2 || character.skill2
           ? character.skillType2 || character.skill2
           : null
+      ],
+      skillDescs: [
+        character.skillDesc ? character.skillDesc : null,
+        character.skill2Desc ? character.skill2Desc : null
       ],
       element: character.element,
       atk: character.atkMax,

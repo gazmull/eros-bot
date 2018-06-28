@@ -7,11 +7,12 @@
     "bufferutil": "^3.0.5",
     "discord-akairo": "1Computer1/discord-akairo",
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
-    "discord.js": "discordjs/discord.js",
+    "discord.js": "github:discordjs/discord.js",
     "infobox-parser": "^2.2.1",
     "moment-timezone": "^0.5.17",
     "nodemw": "^0.12.1",
     "sequelize": "^4.37.10",
+    "snekfetch": "^4.0.4",
     "sqlite": "^2.9.2",
     "twit": "^2.2.10"
   },

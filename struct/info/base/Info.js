@@ -104,7 +104,7 @@ class Info {
         `can be obtained from ${character.obtainedFrom.replace(/(gacha(?=[.\s]+))/i, '$1 |')}${
           character.obtainedFrom.includes('Gacha')
             ? ''
-            : ['Awaken', 'Main Quest', 'Tutorial', 'Shop'].some(e => character.obtainedFrom.includes(e))
+            : ['Awaken', 'Main Quest', 'Tutorial', 'Shop', 'Quests', 'Events'].some(e => character.obtainedFrom.includes(e))
               ? ''
               : ' Event'
         }`
