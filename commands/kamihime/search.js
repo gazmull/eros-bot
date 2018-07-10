@@ -32,12 +32,12 @@ class SearchKamihimeCommand extends Command {
         {
           id: 'advanced',
           match: 'flag',
-          prefix: ['--dev', '--advanced']
+          flag: ['--dev', '--advanced']
         },
         {
           id: 'isID',
           match: 'flag',
-          prefix: ['-i', '--id']
+          flag: ['-i', '--id']
         }
       ]
     });

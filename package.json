@@ -1,11 +1,11 @@
 {
   "name": "eros-bot",
-  "version": "1.4.0",
+  "version": "1.5.1",
   "description": "Eros Bot Public",
   "main": "index.js",
   "dependencies": {
     "bufferutil": "^3.0.5",
-    "discord-akairo": "1Computer1/discord-akairo",
+    "discord-akairo": "github:1Computer1/discord-akairo#master",
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "github:discordjs/discord.js",
     "infobox-parser": "^2.2.1",
@@ -20,7 +20,7 @@
     "eslint": "^4.18.0"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "scripts": {
     "test": "eslint --ignore-path .gitignore .",

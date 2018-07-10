@@ -24,6 +24,7 @@ class KamihimeInfo extends Info {
     const { character, res } = this;
     const link = this.itemLink;
     const thumbnail = await this.itemPortrait();
+    const preview = await this.itemPreview();
     const burstDescParse = () => {
       switch (character.rarity) {
         default:
@@ -84,6 +85,7 @@ class KamihimeInfo extends Info {
       favouriteWeapon: character.favouriteWeapon || null,
       link,
       thumbnail,
+      preview,
       rarity: character.rarity,
       element: character.element,
       type: character.type,

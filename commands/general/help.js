@@ -19,7 +19,7 @@ class HelpCommand extends Command {
           id: 'pub',
           type: 'string',
           match: 'flag',
-          prefix: ['--pub', '--public']
+          flag: ['--pub', '--public']
         }
       ]
     });
@@ -45,6 +45,10 @@ class HelpCommand extends Command {
     if (command.aliases.length > 1)
       embed.addField('Aliases',
         command.aliases.slice(1).map(a => `\`${a}\``).join(', ')
+      );
+    if (command.description.flags)
+      embed.addField('Flags',
+        command.description.flags.map(f => `**${f.names.join(' ')}**\n\t${f.value}`)
       );
     if (command.description.examples)
       embed.addField('Examples',

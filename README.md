@@ -8,7 +8,7 @@
 # Eros Bot Rewrite
   * Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     * Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-  * Version: **1.4**
+  * Version: **1.5.1**
 
 > Eros is now rewritten with a new framework, which has a nice documentation, instead of my own framework, which is not well-documented and it'll be hard for any `to be developer/s` of this bot if I have to insist with the private framework.
 
@@ -42,7 +42,7 @@
 > ### [Add her to your server instead? (24/7)](http://addbot.thegzm.space)
 
   * Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
-  * Eros requires at least [**Node 8**](https://nodejs.org) for runtime
+  * Eros requires at least [**Node 10**](https://nodejs.org) for runtime
     * Clone this repository [via command shell] after installing Node: `git clone https://github.com/gazmull/eros-bot.git`
     * Execute `npm install` (Before this, make sure you have [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on))
         * There might be a chance that NPM will fail to install the dependencies, see [Yarn](https://yarnpkg.com/en/docs/getting-started)
@@ -53,7 +53,7 @@
           * `cd infobox-parser`
           * `npm install` or `yarn`
           * `npm run build` or `yarn run build`
-  * Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `//comments` to help you set up the file
+  * Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `// comments` to help you set up the file
   * Run the bot!
     * Node: `node .`
     * Process Managers
@@ -63,6 +63,7 @@
 ## Contributing
   * You have to fork this repository, and follow the project's ESLint configuration. Run `npm test` or `yarn test` to verify if your build is passing. Failing build will be rejected.
     * `npm install eslint` or `yarn add eslint` to install ESLint.
+  * Suggestions/Issues are welcome!
 
 ## License
   MIT

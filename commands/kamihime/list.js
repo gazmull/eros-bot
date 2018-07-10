@@ -35,7 +35,7 @@ class ListCommand extends Command {
         {
           id: 'advanced',
           match: 'flag',
-          prefix: ['--dev', '--advanced']
+          flag: ['--dev', '--advanced']
         }
       ]
     });

@@ -15,7 +15,7 @@ class CommandFinishedListener extends Listener {
     else if (!message.channel.permissionsFor(this.client.user).has(['ADD_REACTIONS', 'MANAGE_MESSAGES'])) return;
     else if (!message.util.lastResponse) return;
 
-    const dialog = await message.channel.messages.fetch(message.util.lastResponse.id);
+    const dialog = message.util.lastResponse;
     if (!dialog) return;
     else if (!dialog.embeds.length) return;
 

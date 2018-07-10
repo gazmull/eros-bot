@@ -21,10 +21,10 @@ class HaremInfoCommand extends Command {
         {
           id: 'character',
           match: 'text',
-          type: word => {
-            if (!word || word.length < 2) return null;
+          type: name => {
+            if (!name || name.length < 2) return null;
 
-            return word;
+            return name;
           },
           prompt: {
             start: 'whose episodes information would you like to obtain?',

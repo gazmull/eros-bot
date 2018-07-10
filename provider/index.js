@@ -1,20 +1,24 @@
 const { status } = require('../utils/console');
 
-const { AkairoClient, SequelizeProvider } = require('discord-akairo');
+const { AkairoClient, CommandHandler, ListenerHandler, InhibitorHandler, SequelizeProvider } = require('discord-akairo');
 const wikia = require('nodemw');
 
 const { defaultPrefix } = require('../auth');
 const defineGuild = require('./models/guild');
 // const defineKH = require('./models/kamihime');
 
-const ErosCommandHandler = require('../struct/ErosCommandHandler');
+const Command = require('../struct/custom/Command');
 const APIError = require('../struct/APIError');
 const Selection = require('../struct/Selection');
 
 class ErosClient extends AkairoClient {
   constructor(config) {
-    super({
-      ownerID: config.ownerID,
+    super({ ownerID: config.ownerID }, {
+      disableEveryone: true,
+      disabledEvents: ['TYPING_START']
+    });
+
+    this.commandHandler = new CommandHandler(this, {
       prefix: message => {
         if (!message.guild) return '';
 
@@ -22,11 +26,10 @@ class ErosClient extends AkairoClient {
       },
       allowMention: true,
       automateCategories: true,
+      classToHandle: Command,
       commandUtil: true,
       commandUtilLifetime: 1000 * 60 * 3,
-      commandDirectory: `${__dirname}/../commands`,
-      listenerDirectory: `${__dirname}/../listeners`,
-      inhibitorDirectory: `${__dirname}/../inhibitors`,
+      directory: `${__dirname}/../commands`,
       defaultPrompt: {
         modifyStart: (text, msg) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
         modifyRetry: (text, msg) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
@@ -36,24 +39,44 @@ class ErosClient extends AkairoClient {
         retries: 3,
         time: 30000
       }
-    }, {
-      disableEveryone: true,
-      disabledEvents: ['TYPING_START']
+    });
+
+    this.inhibitorHandler = new InhibitorHandler(this, {
+      automateCategories: true,
+      directory: `${__dirname}/../inhibitors`
+    });
+
+    this.listenerHandler = new ListenerHandler(this, {
+      automateCategories: true,
+      directory: `${__dirname}/../listeners`
     });
 
     this.config = config;
+
     this.guildSettings = new SequelizeProvider(defineGuild, { idColumn: 'id' });
+
     // this.khDB = new SequelizeProvider(defineKH, { idColumn: 'khID' });
+
     this.request = null;
+
     this.APIError = APIError;
+
     this.util.selection = new Selection(this);
   }
 
   build() {
-    if (this.akairoOptions.commandDirectory)
-      this.commandHandler = new ErosCommandHandler(this, this.akairoOptions);
+    this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+    this.commandHandler.useListenerHandler(this.listenerHandler);
+    this.listenerHandler.setEmitters({
+      commandHandler: this.commandHandler,
+      inhibitorHandler: this.inhibitorHandler,
+      listenerHandler: this.listenerHandler
+    });
+    this.commandHandler.loadAll();
+    this.inhibitorHandler.loadAll();
+    this.listenerHandler.loadAll();
 
-    return super.build();
+    return this;
   }
 
   async init() {

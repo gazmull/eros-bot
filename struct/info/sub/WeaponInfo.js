@@ -37,12 +37,18 @@ class SoulInfo extends Info {
       SR: '(+)',
       R: ''
     };
+    const burstScaleDiscriminator = {
+      SSR: '(++++)',
+      SR: '(++)',
+      R: '(+)'
+    };
 
     const cleanReleaseLink = `${wikiaURI}${encodeURI(weapon.releases)}`.replace(/(\(|\))/g, '\\$&');
+    const elements = weapon.elements.every(e => e) ? weapon.elements.join('/') : weapon.elements[0];
     const embed = new MessageEmbed()
       .setDescription(
         [
-          `__**Weapon**__ | __**${weapon.type}**__ | __**${weapon.element}**__${
+          `__**Weapon**__ | __**${weapon.type}**__ | __**${elements}**__${
             weapon.releases
               ? ` | __**[${weapon.releases}](${cleanReleaseLink} "Kamihime Release")**__`
               : ''
@@ -66,15 +72,15 @@ class SoulInfo extends Info {
                 ? '**Vessel of Sorcery**: Weapon Enhance skill Lv up chance↑'
                 : null;
         else
-          skill = `**${discriminator[weapon.rarity][weapon.element]} ${skill}**: ${
+          skill = `**${discriminator[weapon.rarity][weapon.elements[0]]} ${skill}**: ${
             skill === 'Assault'
-              ? `${weapon.element} Characters' ATK↑ ${scaleDiscriminator[weapon.rarity]}`
+              ? `${weapon.elements[0]} Characters' ATK↑ ${scaleDiscriminator[weapon.rarity]}`
               : skill === 'Defender'
-                ? `${weapon.element} Characters' HP↑ ${scaleDiscriminator[weapon.rarity]}`
+                ? `${weapon.elements[0]} Characters' HP↑ ${scaleDiscriminator[weapon.rarity]}`
                 : skill === 'Pride'
-                  ? `${weapon.element} Characters with low HP, ATK↑ ${scaleDiscriminator[weapon.rarity]}`
+                  ? `${weapon.elements[0]} Characters with low HP, ATK↑ ${scaleDiscriminator[weapon.rarity]}`
                   : skill === 'Rush'
-                    ? `${weapon.element} Characters' Double Attack Rate↑ ${scaleDiscriminator[weapon.rarity]}`
+                    ? `${weapon.elements[0]} Characters' Double Attack Rate↑ ${scaleDiscriminator[weapon.rarity]}`
                     : '<undefined skill>'
           }`;
 
@@ -84,8 +90,25 @@ class SoulInfo extends Info {
     if (list.length)
       embed.addField(`Weapon Skill Type${list.length > 1 ? 's' : ''}`, list.join('\n'), true);
 
-    if (weapon.burstDesc)
-      embed.addField('Weapon Burst Effect', weapon.burstDesc, true);
+    const bursts = [];
+
+    for (const burst of weapon.burstDesc) {
+      if (!burst) continue;
+
+      bursts.push(burst);
+    }
+
+    if (bursts.length)
+      embed.addField(
+        'Weapon Burst Effect',
+        bursts.map((b, i) =>
+          bursts.length > 1
+            ? `${'★'.repeat(i)}${'☆'.repeat(bursts.length - 1 - i)} | ${b}\n`
+            : b
+        )
+      );
+    else
+      embed.addField('Weapon Burst Effect', `${weapon.elements[0]} DMG ${burstScaleDiscriminator[weapon.rarity]}`);
 
     return super.format(embed, weapon);
   }
@@ -94,12 +117,14 @@ class SoulInfo extends Info {
     const { character } = this;
     const link = this.itemLink;
     const thumbnail = await this.itemPortrait();
+    const preview = await this.itemPreview();
 
     return {
       name: character.name,
       description: character.description,
       link,
       thumbnail,
+      preview,
       rarity: character.rarity,
       type: character.weaponType,
       skills: [
@@ -114,10 +139,20 @@ class SoulInfo extends Info {
         character.skillDesc ? character.skillDesc : null,
         character.skill2Desc ? character.skill2Desc : null
       ],
-      element: character.element,
+      elements: [
+        character.element,
+        character.element2,
+        character.element3,
+        character.element4
+      ],
       atk: character.atkMax,
       hp: character.hpMax,
-      burstDesc: character.burstDesc || null,
+      burstDesc: [
+        character.burstDesc ? character.burstDesc : character.burstDesc0 || null,
+        character.burstDesc1 || null,
+        character.burstDesc2 || null,
+        character.burstDesc3 || null
+      ],
       obtainedFrom: character.obtained,
       releases: character.releases || null
     };

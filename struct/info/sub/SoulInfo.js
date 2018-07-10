@@ -30,12 +30,14 @@ class SoulInfo extends Info {
     const { character, res } = this;
     const link = this.itemLink;
     const thumbnail = await this.itemPortrait();
+    const preview = await this.itemPreview();
 
     return {
       name: character.name,
       description: character.description,
       link,
       thumbnail,
+      preview,
       tier: character.tier,
       type: character.type,
       masterBonus: character.masterBonus,

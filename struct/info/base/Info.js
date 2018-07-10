@@ -123,6 +123,12 @@ class Info {
     for (const possible of filenames) {
       image = await this.client.getImageInfo(possible);
 
+      if (!image) {
+        const capitalised = possible.replace(/\.(\w+)$/, w => w.toUpperCase());
+
+        image = await this.client.getImageInfo(capitalised);
+      }
+
       if (image) break;
     }
 
@@ -136,6 +142,47 @@ class Info {
         name: res.khName,
         user: this.client.user.tag
       });
+
+    return image.url;
+  }
+
+  async itemPreview() {
+    const { res } = this;
+    const filename = `File:${encodeURI(res.khName.replace(/ +/g, '_'))}Close`;
+    const filename2 = `File:${encodeURI(res.khName.replace(/ +/g, '_'))}`;
+    const filenameStripped = `File:${encodeURI(res.khName.replace(/ +/g, ''))}Close`;
+    const filenameStripped2 = `File:${encodeURI(res.khName.replace(/ +/g, ''))}`;
+    const filenames = [
+      `${filename}.png`,
+      `${filename2}.png`,
+      `${filenameStripped}.png`,
+      `${filenameStripped2}.png`,
+      `${filename}.jpg`,
+      `${filename2}.jpg`,
+      `${filenameStripped}.jpg`,
+      `${filenameStripped2}.jpg`
+    ];
+    let image;
+
+    for (const possible of filenames) {
+      image = await this.client.getImageInfo(possible);
+
+      if (!image) {
+        const capitalised = possible.replace(/\.(\w+)$/, w => w.toUpperCase());
+
+        image = await this.client.getImageInfo(capitalised);
+      }
+
+      if (image) break;
+    }
+
+    if (!image) {
+      this.character.preview = null;
+
+      return null;
+    }
+
+    this.character.preview = image.url;
 
     return image.url;
   }
