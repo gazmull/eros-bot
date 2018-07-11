@@ -43,7 +43,7 @@ class LeaderboardKamihimeCommand extends Command {
       list = list.sort((a, b) => b.peekedOn - a.peekedOn);
 
       const embed = new PaginationEmbed()
-        .setAuthorizedUser(message.author)
+        .setAuthorizedUsers([message.author.id])
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, `${this.loading} Preparing...`)
         .setArray(list)
