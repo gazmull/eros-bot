@@ -1,6 +1,6 @@
 {
   "name": "eros-bot",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Eros Bot Public",
   "main": "index.js",
   "dependencies": {

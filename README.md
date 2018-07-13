@@ -8,7 +8,7 @@
 # Eros Bot Rewrite
   * Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     * Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-  * Version: **1.5.1**
+  * Version: **1.5.2**
 
 > Eros is now rewritten with a new framework, which has a nice documentation, instead of my own framework, which is not well-documented and it'll be hard for any `to be developer/s` of this bot if I have to insist with the private framework.
 
