@@ -65,16 +65,19 @@ class ErosClient extends AkairoClient {
   }
 
   build() {
-    this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
-    this.commandHandler.useListenerHandler(this.listenerHandler);
-    this.listenerHandler.setEmitters({
-      commandHandler: this.commandHandler,
-      inhibitorHandler: this.inhibitorHandler,
-      listenerHandler: this.listenerHandler
-    });
-    this.commandHandler.loadAll();
-    this.inhibitorHandler.loadAll();
-    this.listenerHandler.loadAll();
+    this.commandHandler
+      .useInhibitorHandler(this.inhibitorHandler)
+      .useListenerHandler(this.listenerHandler)
+      .loadAll();
+    this.inhibitorHandler
+      .loadAll();
+    this.listenerHandler
+      .setEmitters({
+        commandHandler: this.commandHandler,
+        inhibitorHandler: this.inhibitorHandler,
+        listenerHandler: this.listenerHandler
+      })
+      .loadAll();
 
     return this;
   }

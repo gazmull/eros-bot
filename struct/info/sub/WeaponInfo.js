@@ -1,7 +1,7 @@
 const Info = require('../base/Info');
 const { MessageEmbed } = require('discord.js');
 
-class SoulInfo extends Info {
+class WeaponInfo extends Info {
   async format() {
     const { wikiaURI, colors } = this;
     const weapon = await this.template();
@@ -159,4 +159,4 @@ class SoulInfo extends Info {
   }
 }
 
-module.exports = SoulInfo;
+module.exports = WeaponInfo;

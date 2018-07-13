@@ -2,7 +2,7 @@ const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 const parseInfo = require('infobox-parser');
 
-const { loading, seeImage, hideImage } = require('../../auth').emojis;
+const { loading } = require('../../auth').emojis;
 const { api: apiURL } = require('../../auth').url;
 
 const {
@@ -169,6 +169,8 @@ class InfoCommand extends Command {
       const category = await this.client.getArticleCategories(item);
       const info = await this.parseArticle(item);
       let template;
+      let template2;
+      let format2;
 
       switch (true) {
         case category.includes('Category:Kamihime'):
@@ -186,27 +188,33 @@ class InfoCommand extends Command {
         default: return message.reply('invalid article.');
       }
 
-      if (message.needsRelease && (template instanceof Kamihime || template instanceof Weapon))
-        switch (true) {
-          case template instanceof Kamihime: {
-            const tmp = await this.parseWeapon(template);
-            template = tmp;
-            break;
-          }
-          case template instanceof Weapon: {
-            const tmp = await this.parseKamihime(template, prefix);
-            template = tmp;
-            break;
-          }
-        }
+      if (template.character.releases)
+        template2 = await this.parseKamihime(template, prefix);
+      else if (template.character.releaseWeapon)
+        template2 = await this.parseWeapon(template);
 
-      let embed = await template.format();
+      if (message.needsRelease && (template instanceof Kamihime || template instanceof Weapon)) {
+        const tmp = template2;
+        template2 = template;
+        template = tmp;
+      }
+
+      const format = await template.format();
+      const assets = { [template.constructor.name]: template };
+      const array = [format];
+
+      if (template2) {
+        format2 = await template2.format();
+
+        array.push(format2);
+        Object.assign(assets, { [template2.constructor.name]: template2 });
+      }
 
       if (message.needsPreview)
-        embed.setImage(template.character.preview);
+        format.setImage(template.character.preview);
 
-      embed = this.paginationEmbeds()
-        .setArray([embed])
+      const embed = this.paginationEmbeds()
+        .setArray(array)
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, '\u200B')
         .setAuthorizedUsers([message.author.id])
@@ -214,58 +222,32 @@ class InfoCommand extends Command {
         .setDisabledNavigationEmojis(['BACK', 'JUMP', 'FORWARD'])
         .setTimeout(1000 * 60 * 1)
         .setFunctionEmojis({
-          [seeImage]: (_, instance) => {
-            const e = instance.array[0];
+          '🖼': (_, instance) => {
+            instance.needsPreview = instance.needsPreview ? false : true; // eslint-disable-line no-unneeded-ternary
 
-            e.setImage(instance.preview ? instance.preview : template.character.preview);
-
-            message.needsPreview = true;
-          },
-          [hideImage]: (_, instance) => {
-            const e = instance.array[0];
-
-            e.setImage(null);
-
-            message.needsPreview = false;
+            instance.currentEmbed.setImage(instance.needsPreview ? instance.preview : null);
           }
         });
 
-      if (template.character.releaseWeapon)
-        embed.addFunctionEmoji('⚔', async (_, instance) => {
-          const msg = instance.clientMessage.message;
+      Object.assign(embed, {
+        assets,
+        needsPreview: message.needsPreview,
+        preview: template.character.preview,
+        currentClass: template.constructor.name,
+        oldClass: template2 ? template2.constructor.name : null
+      });
 
-          await msg.edit(`${loading} Acquiring Weapon...`);
+      if (template.character.releaseWeapon || template.character.releases)
+        embed.addFunctionEmoji('🔄', (_, instance) => {
+          const tmp = instance.currentClass;
+          instance.currentClass = instance.oldClass;
+          instance.oldClass = tmp;
+          instance.preview = instance.assets[instance.currentClass].character.preview;
 
-          const tmp = await this.parseWeapon(template);
+          instance.setPage(instance.page === 1 ? 2 : 1);
 
-          instance.preview = await tmp.itemPreview();
-          instance.array[0] = await tmp.format();
-
-          if (message.needsPreview) instance.array[0].setImage(instance.preview);
-
-          msg.reactions.get('⚔').users.remove(msg.client.user.id);
-          delete instance.functionEmojis['⚔'];
-
-          await msg.edit('\u200B');
-        });
-
-      if (template.character.releases)
-        embed.addFunctionEmoji('🙋', async (_, instance) => {
-          const msg = instance.clientMessage.message;
-
-          await msg.edit(`${loading} Acquiring Kamihime...`);
-
-          const tmp = await this.parseKamihime(template, prefix);
-
-          instance.preview = await tmp.itemPreview();
-          instance.array[0] = await tmp.format();
-
-          if (message.needsPreview) instance.array[0].setImage(instance.preview);
-
-          msg.reactions.get('🙋').users.remove(msg.client.user.id);
-          delete instance.functionEmojis['🙋'];
-
-          await msg.edit('\u200B');
+          if (instance.needsPreview)
+            instance.currentEmbed.setImage(instance.preview);
         });
 
       return embed.build();

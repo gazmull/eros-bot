@@ -27,10 +27,7 @@ module.exports = {
     // the emoji used for "Awaiting {{text}}..." prompts by the bot
     loading: '<a:atyping:408054205757259776>',
     // hmmm... no comment
-    embarassed: '<:rassed:405542775619190786>',
-    // Below are emojis used for PaginationEmbed.functionEmojis
-    seeImage: '446378676544602113',
-    hideImage: '466023515406204928'
+    embarassed: '<:rassed:405542775619190786>'
   },
 
   // do not touch this unless you know what you're doing
