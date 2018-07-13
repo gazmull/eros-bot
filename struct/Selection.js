@@ -46,7 +46,8 @@ class Selection {
 
       characterIndex = rows[parseInt(response.content) - 1];
 
-      if (message.guild) response.delete();
+      if (message.guild && message.channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES'))
+        response.delete();
     } catch (err) {
       if (err instanceof Error)
         new this.client.APIError(message.util, err, 0);
