@@ -15,7 +15,6 @@ class UpdateKamihimeCommand extends Command {
       },
       ownerOnly: true,
       shouldAwait: true,
-      clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
           id: 'character',

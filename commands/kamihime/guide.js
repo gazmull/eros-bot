@@ -1,5 +1,4 @@
 const Command = require('../../struct/custom/Command');
-const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
 
 const { loading } = require('../../auth').emojis;
 
@@ -13,7 +12,6 @@ class GuideCommand extends Command {
         examples: ['', '13', '37']
       },
       paginated: true,
-      clientPermissions: ['ADD_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
           id: 'page',
@@ -88,7 +86,7 @@ class GuideCommand extends Command {
       this.dialogs.push(`That's all for now. Anything missing? Contact: ${this.client.users.get(this.client.ownerID)}`);
 
     try {
-      const embed = new PaginationEmbed()
+      const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])
         .setChannel(message.channel)
         .setClientMessage(null, `${loading} Preparing...`)

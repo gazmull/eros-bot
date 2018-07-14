@@ -3,7 +3,6 @@ const { get } = require('snekfetch');
 
 const { loading } = require('../../auth').emojis;
 const { api } = require('../../auth').url;
-const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
 
 class ListCommand extends Command {
   constructor() {
@@ -20,7 +19,6 @@ class ListCommand extends Command {
       },
       cooldown: 5 * 1000,
       paginated: true,
-      clientPermissions: ['ADD_REACTIONS', 'MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
           id: 'filter',
@@ -76,7 +74,7 @@ class ListCommand extends Command {
 
       result = this.toArray(result);
 
-      const embed = new PaginationEmbed()
+      const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])
         .setChannel(message.channel)
         .setClientMessage(lastResponse, `${loading} Preparing...`)

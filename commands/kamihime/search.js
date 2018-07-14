@@ -1,8 +1,6 @@
 const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 
-const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
-
 const { url, emojis } = require('../../auth');
 
 class SearchKamihimeCommand extends Command {
@@ -15,7 +13,6 @@ class SearchKamihimeCommand extends Command {
         examples: ['eros', 'mars']
       },
       paginated: true,
-      clientPermissions: ['EMBED_LINKS'],
       args: [
         {
           id: 'character',
@@ -55,7 +52,7 @@ class SearchKamihimeCommand extends Command {
 
       if (result.length < 1) return message.util.edit('No results found.');
 
-      const embed = new PaginationEmbed()
+      const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)

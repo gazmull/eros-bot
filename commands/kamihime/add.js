@@ -14,7 +14,6 @@ class AddKamihimeCommand extends Command {
         examples: ['k5040', 'k5044']
       },
       ownerOnly: true,
-      clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [{ id: 'id' }]
     });
     this.apiURL = url.api;

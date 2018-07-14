@@ -1,8 +1,6 @@
 const Command = require('../../struct/custom/Command');
 const { get } = require('snekfetch');
 
-const PaginationEmbed = require('discord-paginationembed').FieldsEmbed;
-
 const { emojis, url } = require('../../auth');
 
 class LeaderboardKamihimeCommand extends Command {
@@ -15,7 +13,6 @@ class LeaderboardKamihimeCommand extends Command {
         examples: ['', '13', '37']
       },
       paginated: true,
-      clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS'],
       args: [
         {
           id: 'page',
@@ -42,7 +39,7 @@ class LeaderboardKamihimeCommand extends Command {
       list = list.filter(c => c.peekedOn !== 0);
       list = list.sort((a, b) => b.peekedOn - a.peekedOn);
 
-      const embed = new PaginationEmbed()
+      const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, `${this.loading} Preparing...`)

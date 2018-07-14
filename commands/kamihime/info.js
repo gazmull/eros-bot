@@ -26,7 +26,7 @@ class InfoCommand extends Command {
             value: 'Request item\'s image.'
           },
           {
-            names: ['-r', '--release', '--relases', '--releaseweapon'],
+            names: ['-r', '--release', '--releases', '--releaseweapon'],
             value: 'Request item\'s release weapon/character info instead.'
           }
         ]
@@ -35,7 +35,6 @@ class InfoCommand extends Command {
       ratelimit: 2,
       shouldAwait: true,
       paginated: true,
-      clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS', 'ADD_REACTIONS'],
       args: [
         {
           id: 'item',
@@ -189,11 +188,17 @@ class InfoCommand extends Command {
       }
 
       if (template.character.releases)
-        template2 = await this.parseKamihime(template, prefix);
+        template2 = await this.parseKamihime(template, prefix).catch(() => null);
       else if (template.character.releaseWeapon)
-        template2 = await this.parseWeapon(template);
+        template2 = await this.parseWeapon(template).catch(() => null);
 
-      if (message.needsRelease && (template instanceof Kamihime || template instanceof Weapon)) {
+      if (
+        message.needsRelease &&
+          (
+            (template instanceof Kamihime && template.character.releaseWeapon) ||
+            (template instanceof Weapon && template.character.releases)
+          ) && template2
+      ) {
         const tmp = template2;
         template2 = template;
         template = tmp;
@@ -237,7 +242,7 @@ class InfoCommand extends Command {
         oldClass: template2 ? template2.constructor.name : null
       });
 
-      if (template.character.releaseWeapon || template.character.releases)
+      if ((template.character.releaseWeapon || template.character.releases) && template && template2)
         embed.addFunctionEmoji('🔄', (_, instance) => {
           const tmp = instance.currentClass;
           instance.currentClass = instance.oldClass;

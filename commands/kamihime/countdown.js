@@ -22,7 +22,6 @@ class CountdownCommand extends Command {
         usage: '[command] [command argument]',
         examples: ['', 'add A User\'s Birthday 2018-04-23T00:00', 'test Event End 2018-05-16T20:00']
       },
-      clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         { id: 'command' },
         { id: 'details', match: 'rest' }

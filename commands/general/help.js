@@ -9,7 +9,6 @@ class HelpCommand extends Command {
         usage: '<command name>',
         examples: ['', 'ping', 'info']
       },
-      clientPermissions: ['EMBED_LINKS'],
       args: [
         {
           id: 'command',

@@ -16,7 +16,6 @@ class HaremInfoCommand extends Command {
         examples: ['eros', 'mars']
       },
       shouldAwait: true,
-      clientPermissions: ['MANAGE_MESSAGES', 'EMBED_LINKS'],
       args: [
         {
           id: 'character',
