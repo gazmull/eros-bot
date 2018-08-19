@@ -189,6 +189,18 @@ class CountdownCommand extends Command {
     }
   }
 
+  checkDuplicate(countdowns, name, date) {
+    const duplicateKey = countdowns.findKey((_, k) => k.format('x') === date.format('x'));
+    const duplicateValue = countdowns.get(duplicateKey);
+
+    if (duplicateKey)
+      countdowns.set(date, duplicateValue.push(name));
+    else
+      countdowns.set(date, [name]);
+
+    return Promise.resolve(1);
+  }
+
   async defaultCommand(message) {
     const { timezone, preset } = this;
     let countdowns = new Collection();
@@ -197,24 +209,31 @@ class CountdownCommand extends Command {
       const t = countdown.time.split(':');
       const hour = t[0];
       const minute = t[1];
-      const date = moment().tz(timezone).hours(hour).minutes(minute).seconds(0);
+      const date = moment().tz(timezone).hours(hour).minutes(minute).seconds(0).milliseconds(0);
       const now = moment().tz(timezone);
       const dayNow = now.format('dddd');
       const expired = () => now.isAfter(date);
       const everyday = countdown.day === '*';
       const today = everyday || dayNow === countdown.day;
+      const toAppend = ' - End';
 
       if (everyday && expired(date))
         if (countdown.class) {
           let offset;
 
           switch (countdown.class) {
-            // case 'ENH':
-            //   offset = 60;
-            //   break;
-            // case 'GEM':
-            //   offset = 30;
-            //   break;
+            case 'ENH':
+              offset = 60;
+
+              if (!countdown.name.endsWith(toAppend))
+                countdown.name += toAppend;
+              break;
+            case 'GEM':
+              offset = 30;
+
+              if (!countdown.name.endsWith(toAppend))
+                countdown.name += toAppend;
+              break;
             case 'DLY':
               offset = 60 * 24;
               break;
@@ -224,27 +243,33 @@ class CountdownCommand extends Command {
         }
 
       if ((today || everyday) && !expired())
-        countdowns.set(countdown.name, date);
+        await this.checkDuplicate(countdowns, countdown.name, date);
     }
 
     const userCountdowns = await this.getCountdowns();
 
     if (userCountdowns.size)
       for (const [k, v] of userCountdowns.entries()) {
-        const date = moment(v).tz(timezone).seconds(0);
+        const date = moment(v).tz(timezone).seconds(0).milliseconds(0);
 
-        countdowns.set(k, date);
+        await this.checkDuplicate(countdowns, k, date);
       }
 
-    countdowns = countdowns.sort((a, b) => a - b);
+    countdowns = countdowns.sort((a, b) => {
+      const getDate = val => countdowns.findKey(v => v === val);
+
+      return getDate(a) - getDate(b);
+    });
     const embed = this.client.util.embed()
       .setColor(0xFF00AE);
 
     for (const countdown of countdowns.keys()) {
-      const name = countdown;
-      const date = moment(countdowns.get(countdown)).tz(timezone);
+      const date = moment(countdown).tz(timezone);
+      const names = countdowns.get(countdown);
 
-      embed.addField(`${name} (${date.format(userCountdowns.get(countdown) ? 'YYYY/MM/DD HH:mm' : 'MM/DD HH:mm')} PDT)`, `❯ ${this.getCountdown(date)}`);
+      if (!Array.isArray(names)) continue;
+
+      embed.addField(`${this.getCountdown(date)} — ${date.format('YYYY/MM/DD HH:mm')} PDT`, names.map(n => `❯ ${n}`).join('\n'));
     }
 
     return message.util.edit({ embed });
