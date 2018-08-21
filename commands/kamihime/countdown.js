@@ -203,6 +203,7 @@ class CountdownCommand extends Command {
 
   async defaultCommand(message) {
     const { timezone, preset } = this;
+    const toAppend = ' - End';
     let countdowns = new Collection();
 
     for (const countdown of preset) {
@@ -213,11 +214,9 @@ class CountdownCommand extends Command {
       const now = moment().tz(timezone);
       const dayNow = now.format('dddd');
       const expired = () => now.isAfter(date);
-      const everyday = countdown.day === '*';
-      const today = everyday || dayNow === countdown.day;
-      const toAppend = ' - End';
+      const today = countdown.day === '*' || dayNow === countdown.day;
 
-      if (everyday && expired(date))
+      if (today && expired(date))
         if (countdown.class) {
           let offset;
 
@@ -242,8 +241,12 @@ class CountdownCommand extends Command {
           date.add(offset, 'minute');
         }
 
-      if ((today || everyday) && !expired())
+      if (today && !expired()) {
+        if (countdown.name.endsWith(toAppend))
+          countdown.name.splice(countdown.name.indexOf(toAppend));
+
         await this.checkDuplicate(countdowns, countdown.name, date);
+      }
     }
 
     const userCountdowns = await this.getCountdowns();
