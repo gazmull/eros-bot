@@ -243,7 +243,7 @@ class CountdownCommand extends Command {
 
       if (today && !expired()) {
         if (countdown.name.endsWith(toAppend))
-          countdown.name.splice(countdown.name.indexOf(toAppend));
+          countdown.name = countdown.name.slice(0, countdown.name.indexOf(toAppend));
 
         await this.checkDuplicate(countdowns, countdown.name, date);
       }
