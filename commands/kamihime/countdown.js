@@ -27,7 +27,15 @@ class CountdownCommand extends Command {
         { id: 'details', match: 'rest' }
       ]
     });
-    this.preset = [
+    this.timezone = 'America/Los_Angeles';
+    this.filename = `${__dirname}/../../provider/countdown.json`;
+    this.countdowns = new Collection();
+
+    this.init();
+  }
+
+  get preset() {
+    return [
       { class: 'DLY', name: 'Daily Reset', time: '00:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 1', time: '12:00', day: '*' },
       { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 2', time: '19:00', day: '*' },
@@ -49,11 +57,6 @@ class CountdownCommand extends Command {
       { class: 'GEM', name: 'Sunday Gem Quest 2', time: '19:00', day: 'Sunday' },
       { class: 'GEM', name: 'Sunday Gem Quest 3', time: '23:00', day: 'Sunday' }
     ];
-    this.timezone = 'America/Los_Angeles';
-    this.filename = `${__dirname}/../../provider/countdown.json`;
-    this.countdowns = new Collection();
-
-    this.init();
   }
 
   async exists(filename) {
@@ -202,8 +205,8 @@ class CountdownCommand extends Command {
   }
 
   async defaultCommand(message) {
-    const { timezone, preset } = this;
-    const toAppend = ' - End';
+    const { timezone } = this;
+    const preset = this.preset;
     let countdowns = new Collection();
 
     for (const countdown of preset) {
@@ -215,6 +218,7 @@ class CountdownCommand extends Command {
       const dayNow = now.format('dddd');
       const expired = () => now.isAfter(date);
       const today = countdown.day === '*' || dayNow === countdown.day;
+      const toAppend = ' - End';
 
       if (today && expired(date))
         if (countdown.class) {
@@ -223,15 +227,11 @@ class CountdownCommand extends Command {
           switch (countdown.class) {
             case 'ENH':
               offset = 60;
-
-              if (!countdown.name.endsWith(toAppend))
-                countdown.name += toAppend;
+              countdown.name += toAppend;
               break;
             case 'GEM':
               offset = 30;
-
-              if (!countdown.name.endsWith(toAppend))
-                countdown.name += toAppend;
+              countdown.name += toAppend;
               break;
             case 'DLY':
               offset = 60 * 24;
@@ -241,12 +241,8 @@ class CountdownCommand extends Command {
           date.add(offset, 'minute');
         }
 
-      if (today && !expired()) {
-        if (countdown.name.endsWith(toAppend))
-          countdown.name = countdown.name.slice(0, countdown.name.indexOf(toAppend));
-
+      if (today && !expired())
         await this.checkDuplicate(countdowns, countdown.name, date);
-      }
     }
 
     const userCountdowns = await this.getCountdowns();
