@@ -15,16 +15,6 @@ class TwitterFunction {
           return;
 
         const guilds = await model.findAll({ where: { twitterChannelID: { ne: null } } });
-        const embed = client.util.embed()
-          .setColor(0xFF00AE)
-          .setAuthor(`${tweet.user.name} (@${tweet.user.screen_name})`)
-          .setURL(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
-          .setTimestamp(new Date())
-          .setDescription(tweet.text)
-          .setThumbnail(tweet.user.profile_image_url);
-
-        if (tweet.entities.media)
-          embed.setImage(tweet.entities.media[0].media_url);
 
         const tick = client.setInterval(() => {
           if (!guilds.length) return client.clearInterval(tick);
@@ -36,7 +26,7 @@ class TwitterFunction {
 
             if (!channel) continue;
 
-            channel.send({ embed });
+            channel.send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
           }
         }, 3000);
       })
