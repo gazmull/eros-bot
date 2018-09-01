@@ -39,8 +39,11 @@ class Info {
     if (character.atk && character.hp) {
       const stats = {
         name: 'Maximum Basic Stats',
-        value: `**HP: ${character.hp} | ATK: ${character.atk}**`
+        value: `**HP: ${character.hp}** | **ATK: ${character.atk}**`
       };
+
+      if (character.atkFBL && character.hpFBL)
+        stats.value += `\n★ [Final Break Limit]: **${character.hpFBL}** | **${character.atkFBL}**`;
 
       if (embed.fields.length) {
         const oldFields = embed.fields;
@@ -55,7 +58,7 @@ class Info {
 
     if (character.burst)
       embed.addField(
-        `Burst: ${character.burst.name}`,
+        `:b:: ${character.burst.name}`,
         [
           character.burst.description || 'Description not specified.',
           ` ★ ${character.burst.upgradeDescription || 'Upgrade description not specified.'}`
@@ -68,12 +71,12 @@ class Info {
 
         embed.addField(
           [
-            `Ability: ${character.abilities[i].name} | `,
-            `CD: ${character.abilities[i].cooldown}`,
+            `:regional_indicator_a:: ${character.abilities[i].name}`,
+            `| __CD__: ${character.abilities[i].cooldown}`,
             `${character.abilities[i].duration
-              ? ` | D: ${character.abilities[i].duration}`
+              ? `| __D__: ${character.abilities[i].duration}`
               : ''}`
-          ],
+          ].join(' '),
           [
             character.abilities[i].description,
             character.abilities[i].upgradeDescription
@@ -85,7 +88,7 @@ class Info {
       for (let i = 0; i < character.assistAbilities.length; i++) {
         if (!character.assistAbilities[i]) continue;
 
-        embed.addField(`Assist: ${character.assistAbilities[i].name}`,
+        embed.addField(`:sparkle:: ${character.assistAbilities[i].name}`,
           [
             character.assistAbilities[i].description,
             character.assistAbilities[i].upgradeDescription

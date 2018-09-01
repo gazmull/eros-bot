@@ -42,6 +42,22 @@ class WeaponInfo extends Info {
       SR: '(++)',
       R: '(+)'
     };
+    const skillParser = {
+      Upgrade: {
+        SSR: '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (++)',
+        SR: '**Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (+)',
+        R: '**Vessel of Sorcery**: Weapon Enhance skill Lv up chance↑'
+      },
+      Assault: 'Characters\' ATK↑',
+      Defender: 'Characters\' HP↑',
+      Pride: 'Characters with low HP, ATK↑',
+      Rush: 'Characters\' Double Attack Rate↑',
+      Barrage: 'Characters\' Triple Attack Rate↑',
+      Stinger: 'Characters\' Critical Hit Rate↑',
+      Exceed: 'Characters\' Burst↑',
+      Ascension: 'Characters\' Recovery↑',
+      Elaborate: 'Characters\' Ability↑'
+    };
 
     const cleanReleaseLink = `${wikiaURI}${encodeURI(weapon.releases)}`.replace(/(\(|\))/g, '\\$&');
     const elements = weapon.elements.every(e => e) ? weapon.elements.join('/') : weapon.elements[0];
@@ -60,29 +76,17 @@ class WeaponInfo extends Info {
 
     for (let skill of weapon.skills)
       if (skill) {
-        if (/\s/.test(skill))
-          skill = `**${skill}**: ${weapon.skillDescs[weapon.skills.indexOf(skill)]}`;
+        const index = weapon.skills.indexOf(skill);
+
+        if (/\s/.test(skill)) {
+          skill = `**${skill}**: ${weapon.skillDesc[weapon.skills.indexOf(skill)]}`;
+
+          if (weapon.skillFBL[index])
+            skill += `\n ★ [Final Break Limit]:\n ${weapon.skillFBL[index]}`;
+        } else if (skill === 'Upgrade')
+          skill = skillParser.Upgrade[weapon.rarity];
         else
-        if (skill === 'Upgrade')
-          skill = weapon.rarity === 'SSR'
-            ? '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (++)'
-            : weapon.rarity === 'SR'
-              ? '**Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (+)'
-              : weapon.rarity === 'R'
-                ? '**Vessel of Sorcery**: Weapon Enhance skill Lv up chance↑'
-                : null;
-        else
-          skill = `**${discriminator[weapon.rarity][weapon.elements[0]]} ${skill}**: ${
-            skill === 'Assault'
-              ? `${weapon.elements[0]} Characters' ATK↑ ${scaleDiscriminator[weapon.rarity]}`
-              : skill === 'Defender'
-                ? `${weapon.elements[0]} Characters' HP↑ ${scaleDiscriminator[weapon.rarity]}`
-                : skill === 'Pride'
-                  ? `${weapon.elements[0]} Characters with low HP, ATK↑ ${scaleDiscriminator[weapon.rarity]}`
-                  : skill === 'Rush'
-                    ? `${weapon.elements[0]} Characters' Double Attack Rate↑ ${scaleDiscriminator[weapon.rarity]}`
-                    : '<undefined skill>'
-          }`;
+          skill = `**${discriminator[weapon.rarity][weapon.elements[0]]} ${skill}**: ${weapon.elements[0]} ${skillParser[skill]} ${scaleDiscriminator[weapon.rarity]}`;
 
         list.push(skill);
       }
@@ -92,8 +96,10 @@ class WeaponInfo extends Info {
 
     const bursts = [];
 
-    for (const burst of weapon.burstDesc) {
+    for (let burst of weapon.burstDesc) {
       if (!burst) continue;
+      if (weapon.burstFBL)
+        burst += `\n ★ [Final Break Limit]:\n ${weapon.burstFBL}`;
 
       bursts.push(burst);
     }
@@ -108,7 +114,10 @@ class WeaponInfo extends Info {
         )
       );
     else
-      embed.addField('Weapon Burst Effect', `${weapon.elements[0]} DMG ${burstScaleDiscriminator[weapon.rarity]}`);
+      embed.addField('Weapon Burst Effect', [
+        `${weapon.elements[0]} DMG ${burstScaleDiscriminator[weapon.rarity]}`,
+        weapon.burstFBL ? ` ★ [Final Break Limit]:\n ${weapon.burstFBL}` : ''
+      ]);
 
     return super.format(embed, weapon);
   }
@@ -135,9 +144,13 @@ class WeaponInfo extends Info {
           ? character.skillType2 || character.skill2
           : null
       ],
-      skillDescs: [
-        character.skillDesc ? character.skillDesc : null,
-        character.skill2Desc ? character.skill2Desc : null
+      skillFBL: [
+        character.skill1Fbl || '',
+        character.skill2Fbl || ''
+      ],
+      skillDesc: [
+        character.skillDesc || '',
+        character.skill2Desc || ''
       ],
       elements: [
         character.element,
@@ -146,7 +159,10 @@ class WeaponInfo extends Info {
         character.element4
       ],
       atk: character.atkMax,
+      atkFBL: character.atkFbl,
       hp: character.hpMax,
+      hpFBL: character.hpFbl,
+      burstFBL: character.burstFbl,
       burstDesc: [
         character.burstDesc ? character.burstDesc : character.burstDesc0 || null,
         character.burstDesc1 || null,

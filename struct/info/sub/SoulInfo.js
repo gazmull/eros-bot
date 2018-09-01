@@ -63,7 +63,6 @@ class SoulInfo extends Info {
           ? {
             name: character.ability1Name,
             description: character.ability1Desc,
-            upgradeDescription: character.ability1PowerupDesc,
             cooldown: character.ability1Cd,
             duration: character.ability1Dur || null
           }
@@ -73,7 +72,7 @@ class SoulInfo extends Info {
           ? {
             name: character.ability2Name,
             description: character.ability2Desc,
-            upgradeDescription: character.ability2PowerupDesc,
+            upgradeDescription: '★ [LV 5]',
             cooldown: character.ability2Cd,
             duration: character.ability2Dur || null
           }
@@ -83,7 +82,7 @@ class SoulInfo extends Info {
           ? {
             name: character.ability3Name,
             description: character.ability3Desc,
-            upgradeDescription: character.ability3PowerupDesc,
+            upgradeDescription: character.tier === 'Standard' ? '' : '★ [LV 15]',
             cooldown: character.ability3Cd,
             duration: character.ability3Dur || null
           }
