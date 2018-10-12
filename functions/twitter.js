@@ -8,11 +8,19 @@ class TwitterFunction {
   exec(client) {
     const twitter = new Twit(config);
     const stream = twitter.stream('statuses/filter', { follow: config.user });
+    let previousID = null;
 
     stream
       .on('tweet', async tweet => {
-        if (tweet.retweeted_status || tweet.user.id_str !== config.user || tweet.in_reply_to_status_id)
+        if (
+          tweet.retweeted_status ||
+          tweet.user.id_str !== config.user ||
+          tweet.in_reply_to_status_id ||
+          tweet.id_str === previousID
+        )
           return;
+
+        previousID = tweet.id_str;
 
         const guilds = await model.findAll({ where: { twitterChannelID: { ne: null } } });
 
