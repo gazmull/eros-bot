@@ -13,9 +13,9 @@ class InviteCommand extends Command {
     const owner = await this.client.users.fetch(this.client.ownerID);
 
     return message.util.reply(
-      `make sure you have read the documentation here: <${docs}>` +
+      `Documentation: <${docs}>` +
       `\nInvite link: <${inviteLink}>` +
-      `\nBot Author: ${owner.tag}`
+      `\nBot Author: ${owner}`
     );
   }
 }

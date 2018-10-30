@@ -36,7 +36,7 @@ class HaremInfoCommand extends Command {
       'b-but why m-me?!',
       'I have the b-best scene... right?!',
       'p-pervert!!!',
-      'y-you came to see me, or you came to... *c-come* on me?!',
+      'y-you came to see me, or you came to... *c-come* in me?!',
       'we already did this before... s-secretly... didn\'t we?'
     ];
   }

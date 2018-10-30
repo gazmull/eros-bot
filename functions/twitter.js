@@ -8,7 +8,7 @@ class TwitterFunction {
   exec(client) {
     const twitter = new Twit(config);
     const stream = twitter.stream('statuses/filter', { follow: config.user });
-    let previousID = null;
+    let latestTimestamp = null;
 
     stream
       .on('tweet', async tweet => {
@@ -16,12 +16,11 @@ class TwitterFunction {
           tweet.retweeted_status ||
           tweet.user.id_str !== config.user ||
           tweet.in_reply_to_status_id ||
-          tweet.id_str === previousID
+          latestTimestamp && (Date.now() - latestTimestamp) < 5 * 60e3
         )
           return;
 
-        previousID = tweet.id_str;
-
+        latestTimestamp = Date.now();
         const guilds = await model.findAll({ where: { twitterChannelID: { ne: null } } });
 
         const tick = client.setInterval(() => {
