@@ -117,14 +117,14 @@ class Info {
   get itemPortrait() {
     const res = this.res;
 
-    return encodeURI(`${rootURL}wiki/img/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
+    return encodeURI(`${rootURL}img/wiki/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
   }
 
   get itemPreview() {
     const res = this.res;
     const isWeap = res.id.startsWith('w');
 
-    return encodeURI(`${rootURL}wiki/img/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`);
+    return encodeURI(`${rootURL}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`);
   }
 
   get itemLink() {
