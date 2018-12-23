@@ -49,11 +49,11 @@ class EidolonInfo extends Info {
     return result;
   }
 
-  async template() {
+  template() {
     const { character, res } = this;
     const link = this.itemLink;
-    const thumbnail = await this.itemPortrait();
-    const preview = await this.itemPreview();
+    const thumbnail = this.itemPortrait;
+    const preview = this.itemPreview;
 
     return {
       name: character.name,
@@ -84,7 +84,7 @@ class EidolonInfo extends Info {
       },
 
       obtainedFrom: character.obtained,
-      harem: res.khHarem_hentai1Resource2
+      harem: res.harem2Resource2
     };
   }
 }

@@ -45,13 +45,13 @@ class HaremInfoCommand extends Command {
     try {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
-      const request = await get(`${apiURL}search?name=${encodeURI(character)}`);
-      const rows = request.body.filter(c => !['x', 'w'].includes(c.khID.charAt(0)));
+      const request = await get(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
+      const rows = request.body.filter(c => !['x', 'w'].includes(c.id.charAt(0)));
 
       if (!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if (rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${apiURL}id/${result.khID}`);
+        const data = await get(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
 
         return await this.triggerDialog(message, data.body);
       }
@@ -67,7 +67,7 @@ class HaremInfoCommand extends Command {
 
     if (!character) return;
 
-    const data = await get(`${apiURL}id/${character.khID}`);
+    const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
 
     await this.triggerDialog(message, data.body);
   }
@@ -78,7 +78,7 @@ class HaremInfoCommand extends Command {
       const guild = message.guild;
       const restricted = guild ? this.client.guildSettings.get(guild.id, 'loli', null) : null;
 
-      if (result.khLoli && restricted)
+      if (result.loli && restricted)
         throw `This character has loli contents, but loli contents are restricted within this guild.${
           message.author.id === message.guild.ownerID
             ? ` Please configure your Loli Contents Restriction via ${prefix}loli`
@@ -88,56 +88,59 @@ class HaremInfoCommand extends Command {
       await message.util.edit(`${loading} Preparing...`, { embed: null });
       const harems = [
         {
-          title: result.khHarem_intro || 'Untitled',
-          file: result.khHarem_introFile || null,
+          title: result.harem1Title || 'Untitled',
           links: [
-            result.khHarem_introResource1
-              ? `${playerURL}${result.khID}/1/${result.khHarem_introResource1}`
+            result.harem1Resource1
+              ? `${playerURL}${result.id}/1/story`
               : null
           ]
         },
         {
-          title: result.khHarem_hentai1 || 'Untitled',
+          title: result.harem2Title || 'Untitled',
           links: [
-            result.khHarem_hentai1Resource1
-              ? `${playerURL}${result.khID}/2/${result.khHarem_hentai1Resource1}`
+            result.harem2Resource1
+              ? `${playerURL}${result.id}/2/story`
               : null,
-            result.khHarem_hentai1Resource2
-              ? `${playerURL}${result.khID}/2/${result.khHarem_hentai1Resource2}`
+            result.harem2Resource2
+              ? `${playerURL}${result.id}/2/scenario`
+              : null,
+            result.harem2Resource2
+              ? `${playerURL}${result.id}/2/legacy`
               : null
           ]
         },
         {
-          title: result.khHarem_hentai2 || 'Untitled',
+          title: result.harem3Title || 'Untitled',
           links: [
-            result.khHarem_hentai2Resource1
-              ? `${playerURL}${result.khID}/3/${result.khHarem_hentai2Resource1}`
+            result.harem3Resource1
+              ? `${playerURL}${result.id}/3/story`
               : null,
-            result.khHarem_hentai2Resource2
-              ? `${playerURL}${result.khID}/3/${result.khHarem_hentai2Resource2}`
+            result.harem3Resource2
+              ? `${playerURL}${result.id}/3/scenario`
+              : null,
+            result.harem3Resource2
+              ? `${playerURL}${result.id}/3/legacy`
               : null
           ]
         }
       ];
       const embed = this.client.util.embed()
         .setColor(0xFF75F1)
-        .setAuthor(result.khName, null, `${wikia}${encodeURI(result.khName)}`)
+        .setAuthor(result.name, null, `${wikia}${encodeURI(result.name)}`)
         .setDescription(
-          `${result.khLoli ? '**Flagged as Loli**' : ''}${
-            result.khName.toLowerCase() === (this.client.user.username.toLowerCase())
+          `${result.loli ? '**Flagged as Loli**' : ''}${
+            result.name.toLowerCase() === (this.client.user.username.toLowerCase())
               ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${embarassed}`
               : ''}`
         )
-        .setThumbnail(await new Info(this.client, null, result, result).itemPortrait());
+        .setThumbnail(await new Info(this.client, null, result, result).itemPortrait);
 
       for (let i = 1; i <= 3; i++) {
         const ep = harems[i - 1];
         if (i === 1) {
-          embed.addField(`Episode ${i}: ${ep.title}`,
-            [
-              ep.links[0] ? `[Story](${ep.links[0]})` : 'N/A',
-              ep.file ? `\t[Youtube](${ep.file})` : '\tN/A'
-            ],
+          embed.addField(
+            `Episode ${i}: ${ep.title}`,
+            ep.links[0] ? `[Story](${ep.links[0]})` : 'N/A',
             false
           );
           continue;
@@ -146,7 +149,8 @@ class HaremInfoCommand extends Command {
         embed.addField(`Episode ${i}: ${ep.title}`,
           [
             ep.links[0] ? `[Story](${ep.links[0]})` : 'N/A',
-            ep.links[1] ? `[Scenario](${ep.links[1]})` : 'N/A'
+            ep.links[1] ? `[Scenario](${ep.links[1]})` : 'N/A',
+            ep.links[2] ? `[Legacy](${ep.links[2]})` : 'N/A'
           ],
           true
         );

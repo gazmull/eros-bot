@@ -16,6 +16,7 @@ class SearchKamihimeCommand extends Command {
       args: [
         {
           id: 'character',
+          match: 'text',
           type: word => {
             if (!word || word.length < 2) return null;
 
@@ -47,7 +48,7 @@ class SearchKamihimeCommand extends Command {
 
       if (isID) return this.searchID(message, character);
 
-      const data = await get(`${this.apiURL}search?name=${encodeURI(character)}`);
+      const data = await get(`${this.apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
       const result = data.body;
 
       if (result.length < 1) return message.util.edit('No results found.');
@@ -63,8 +64,8 @@ class SearchKamihimeCommand extends Command {
         .setTimeout(60 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
-      if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.khID}`);
-      embed.formatField('Name', i => i.khName);
+      if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`);
+      embed.formatField('Name', i => i.name);
 
       return await embed.build();
     } catch (err) {
@@ -74,7 +75,7 @@ class SearchKamihimeCommand extends Command {
 
   async searchID(message, character) {
     try {
-      await get(`${this.apiURL}id/${character}`);
+      await get(`${this.apiURL}id/${character}`, { headers: { Accept: 'application/json' } });
 
       return message.util.edit(`ID ${character} does exist.`);
     } catch (err) {

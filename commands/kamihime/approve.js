@@ -23,11 +23,11 @@ class ApproveKamihimeCommand extends Command {
     await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
     try {
-      const data = await get(`${this.apiURL}id/${id}`);
+      const data = await get(`${this.apiURL}id/${id}`, { headers: { Accept: 'application/json' } });
       const character = data.body;
 
       await message.util.edit(`${loading} Approving...`);
-      const request = await put(`${this.apiURL}approve`).send({ token: apiToken, user: message.author.tag, id, name: character.khName });
+      const request = await put(`${this.apiURL}approve`).send({ token: apiToken, user: message.author.id, id, name: character.name });
       const response = request.body;
 
       const embed = this.client.util.embed()

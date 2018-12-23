@@ -18,7 +18,8 @@ class UpdateKamihimeCommand extends Command {
       args: [
         {
           id: 'character',
-          prompt: { start: 'Whose information would you like to update?' }
+          prompt: { start: 'Whose information would you like to update?' },
+          match: 'text'
         }
       ]
     });
@@ -28,13 +29,13 @@ class UpdateKamihimeCommand extends Command {
     try {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
-      const request = await get(`${apiURL}search?name=${encodeURI(character)}`);
+      const request = await get(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
       const rows = request.body;
 
       if (!rows.length) return message.util.edit(`No character name ${character} found.`);
       else if (rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${apiURL}id/${result.khID}`);
+        const data = await get(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
 
         return await this.triggerDialog(message, data.body);
       }
@@ -50,7 +51,7 @@ class UpdateKamihimeCommand extends Command {
 
     if (!character) return;
 
-    const data = await get(`${apiURL}id/${character.khID}`);
+    const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
 
     await this.triggerDialog(message, data.body);
   }
@@ -58,14 +59,14 @@ class UpdateKamihimeCommand extends Command {
   async triggerDialog(message, result) {
     try {
       await message.util.edit(`${loading} Preparing...`, { embed: null });
-      const data = await post(`${apiURL}session`).send({ token: apiToken, user: message.author.tag, id: result.khID });
+      const data = await post(`${apiURL}session`, { headers: { Accept: 'application/json' } }).send({ token: apiToken, user: message.author.id, id: result.id });
       const session = data.body;
 
       const embed = this.client.util.embed()
         .setColor(0xFF00AE)
         .setTitle(session.code === 202 ? 'Existing Session' : 'Update Link Created')
         .setDescription([
-          `[${result.khName}](${dashboardURL}?character=${session.cID}&id=${session.sID}&k=${session.sPW})`,
+          `[${result.name}](${dashboardURL}?character=${session.characterId}&id=${session.id}&k=${session.password})`,
           '\nPlease be advised that this link\'s session will expire within 30 minutes or when you submitted an actual data to the webform.'
         ]);
 

@@ -13,10 +13,9 @@ class CommandFinishedListener extends Listener {
     if (command.paginated) return;
     else if (!message.guild) return;
     else if (!message.channel.permissionsFor(message.guild.me).has(['ADD_REACTIONS', 'MANAGE_MESSAGES'])) return;
-    else if (!message.util.lastResponse) return;
 
     const dialog = message.util.lastResponse;
-    if (!dialog) return;
+    if (!dialog || dialog.deleted) return;
     else if (!dialog.embeds.length) return;
 
     try {

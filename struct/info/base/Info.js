@@ -1,6 +1,4 @@
-const { put } = require('snekfetch');
-
-const { apiToken, url: { api, wikia } } = require('../../../auth');
+const { url: { api, wikia, root: rootURL } } = require('../../../auth');
 
 class Info {
   constructor(client, prefix, res, character) {
@@ -116,78 +114,17 @@ class Info {
     return embed;
   }
 
-  async itemPortrait() {
-    const { res } = this;
-    const filename = `File:${encodeURI(res.khName.replace(/ +/g, '_'))}Portrait`;
-    const filenameStripped = `File:${encodeURI(res.khName.replace(/ +/g, ''))}Portrait`;
-    const filenames = [`${filename}.png`, `${filenameStripped}.png`, `${filename}.jpg`, `${filenameStripped}.jpg`];
-    let image;
+  get itemPortrait() {
+    const res = this.res;
 
-    for (const possible of filenames) {
-      image = await this.client.getImageInfo(possible);
-
-      if (!image) {
-        const capitalised = possible.replace(/\.(\w+)$/, w => w.toUpperCase());
-
-        image = await this.client.getImageInfo(capitalised);
-      }
-
-      if (image) break;
-    }
-
-    if (!image) return null;
-
-    if (res.khInfo_avatar !== image.url)
-      await put(`${api}update`).send({
-        token: apiToken,
-        avatar: image.url,
-        id: res.khID,
-        name: res.khName,
-        user: this.client.user.tag
-      });
-
-    return image.url;
+    return encodeURI(`${rootURL}img/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
   }
 
-  async itemPreview() {
-    const { res } = this;
-    const filename = `File:${encodeURI(res.khName.replace(/ +/g, '_'))}Close`;
-    const filename2 = `File:${encodeURI(res.khName.replace(/ +/g, '_'))}`;
-    const filenameStripped = `File:${encodeURI(res.khName.replace(/ +/g, ''))}Close`;
-    const filenameStripped2 = `File:${encodeURI(res.khName.replace(/ +/g, ''))}`;
-    const filenames = [
-      `${filename}.png`,
-      `${filename2}.png`,
-      `${filenameStripped}.png`,
-      `${filenameStripped2}.png`,
-      `${filename}.jpg`,
-      `${filename2}.jpg`,
-      `${filenameStripped}.jpg`,
-      `${filenameStripped2}.jpg`
-    ];
-    let image;
+  get itemPreview() {
+    const res = this.res;
+    const isWeap = res.id.startsWith('w');
 
-    for (const possible of filenames) {
-      image = await this.client.getImageInfo(possible);
-
-      if (!image) {
-        const capitalised = possible.replace(/\.(\w+)$/, w => w.toUpperCase());
-
-        image = await this.client.getImageInfo(capitalised);
-      }
-
-      if (image) break;
-    }
-
-    if (!image) {
-      this.character.preview = null;
-
-      return null;
-    }
-
-    this.character.preview = image.url;
-
-    return image.url;
+    return encodeURI(`${rootURL}img/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`);
   }
 
   get itemLink() {

@@ -9,12 +9,13 @@
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "github:discordjs/discord.js",
     "infobox-parser": "^3.0.3",
-    "moment-timezone": "^0.5.17",
-    "nodemw": "^0.12.1",
-    "sequelize": "^4.37.10",
+    "moment-timezone": "^0.5.23",
+    "node-schedule": "^1.3.0",
+    "nodemw": "^0.12.2",
+    "sequelize": "^4.41.0",
     "snekfetch": "^4.0.4",
     "sqlite": "^3.0.0",
-    "twit": "^2.2.10"
+    "twit": "^2.2.11"
   },
   "devDependencies": {
     "eslint": "^5.8.0"

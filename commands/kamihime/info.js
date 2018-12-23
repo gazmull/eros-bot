@@ -12,6 +12,8 @@ const {
   Weapon
 } = require('../../struct/Info');
 
+const flag = ['-r', '--release', '--releases', '--releaseweapon'];
+
 class InfoCommand extends Command {
   constructor() {
     super('info', {
@@ -26,7 +28,7 @@ class InfoCommand extends Command {
             value: 'Request item\'s image.'
           },
           {
-            names: ['-r', '--release', '--releases', '--releaseweapon'],
+            names: flag,
             value: 'Request item\'s release weapon/character info instead.'
           }
         ]
@@ -57,7 +59,7 @@ class InfoCommand extends Command {
         {
           id: 'release',
           match: 'flag',
-          flag: ['-r', '--release', '--releases', '--releaseweapon']
+          flag
         }
       ]
     });
@@ -74,7 +76,7 @@ class InfoCommand extends Command {
 
       if (!data) return message.util.edit(`No item named ${item} found.`);
       else if (data.info)
-        return await this.triggerDialog(message, data.info.khName, data.info);
+        return await this.triggerDialog(message, data.info.name, data.info);
 
       await this.awaitSelection(message, data.rows);
     } catch (err) {
@@ -83,13 +85,13 @@ class InfoCommand extends Command {
   }
 
   async acquire(item, accurate = false) {
-    const request = await get(`${apiURL}search?name=${encodeURI(item)}`);
+    const request = await get(`${apiURL}search?name=${encodeURI(item)}`, { headers: { Accept: 'application/json' } });
     const rows = request.body;
 
     if (!rows.length) return null;
     else if (rows.length === 1) {
       const row = rows.shift();
-      const data = await get(`${apiURL}id/${row.khID}`);
+      const data = await get(`${apiURL}id/${row.id}`, { headers: { Accept: 'application/json' } });
       const info = data.body;
 
       return { info };
@@ -97,7 +99,7 @@ class InfoCommand extends Command {
       let character = null;
 
       for (const row of rows)
-        if (row.khName === item) {
+        if (row.name === item) {
           character = row;
 
           break;
@@ -105,7 +107,7 @@ class InfoCommand extends Command {
 
       if (!character) throw new Error('Item is unavailable.');
 
-      const data = await get(`${apiURL}id/${character.khID}`);
+      const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
       const info = data.body;
 
       return { info };
@@ -123,15 +125,16 @@ class InfoCommand extends Command {
         : data.slice(data.indexOf('{{'), data.indexOf('=='));
 
       return slicedData
-        .replace(/<br(?:| )(?:|\/)>/g, '\n')
-        .replace(/<sup>(?:.+)<\/sup>/g, '')
-        .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '')
-        .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1')
-        .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1')
-        .replace(/(?:\[{2}).*?(?:\]{2})/g, '');
+        .replace(/<br(?:| )(?:|\/)>/g, '\n') // HTML Linebreaks
+        .replace(/<sup>(?:.+)<\/sup>/g, '') // Citations
+        .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '') // Icons
+        .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Summon
+        .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Abilities|Summon
+        .replace(/(?:\[{2}).*?(?:\]{2})/g, '') // [[Category]] => ''
+        .replace(/(\S+)\|(?:\s|[^\s])/g, '$1\n| '); // Fix ugly Infobox format
     };
 
-    const info = parseInfo(sanitisedData(rawData));
+    const { general: info } = parseInfo(sanitisedData(rawData));
     info.name = info.name.replace(/(?:\[)(.+)(?:\])/g, '($1)');
 
     return info;
@@ -156,9 +159,9 @@ class InfoCommand extends Command {
 
     if (!character) return;
 
-    const data = await get(`${apiURL}id/${character.khID}`);
+    const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
 
-    await this.triggerDialog(message, character.khName, data.body);
+    await this.triggerDialog(message, character.name, data.body);
   }
 
   async triggerDialog(message, item, dbRes) {

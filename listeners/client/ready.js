@@ -2,7 +2,8 @@ const { Listener } = require('discord-akairo');
 const { status, error } = require('../../utils/console');
 const { promisify } = require('util');
 
-const Twitter = require('../../functions/twitter');
+const Twitter = require('../../functions/Twitter');
+// const CountdownScheduler = require('../../functions/CountdownScheduler');
 
 class ReadyListener extends Listener {
   constructor() {
@@ -26,11 +27,16 @@ class ReadyListener extends Listener {
           : `${guildSize} Guilds`}`);
       else status('Standby Mode');
 
-      this.client.getArticle = promisify(this.client.request.getArticle.bind(this.client.request));
-      this.client.getArticleCategories = promisify(this.client.request.getArticleCategories.bind(this.client.request));
-      this.client.getImageInfo = promisify(this.client.request.getImageInfo.bind(this.client.request));
+      const { client } = this;
 
-      new Twitter().exec(this.client);
+      client.getArticle = promisify(this.client.request.getArticle.bind(this.client.request));
+      client.getArticleCategories = promisify(this.client.request.getArticleCategories.bind(this.client.request));
+      client.getImageInfo = promisify(this.client.request.getImageInfo.bind(this.client.request));
+
+      // client.scheduler = new CountdownScheduler(client);
+
+      // client.scheduler.init();
+      Twitter.init(client);
     } catch (err) {
       error(err);
     }

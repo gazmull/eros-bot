@@ -35,8 +35,12 @@ module.exports = {
   url: {
     wikia: 'https://kamihime-project.wikia.com/w/',
     api: 'http://kamihimedb.thegzm.space/api/',
-    player: 'http://kamihimedb.thegzm.space/player/'
+    player: 'http://kamihimedb.thegzm.space/player/',
+    root: 'http://kamihimedb.thegzm.space/'
   },
+
+  // Authorised for coutdown management.
+  countdownAuthorized: ['319102712383799296'],
 
   // API token for kamihime-database. Not really that token... let's say a secret.
   apiToken: 'whatisthepurposeofthis',

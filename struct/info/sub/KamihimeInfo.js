@@ -20,11 +20,11 @@ class KamihimeInfo extends Info {
     return super.format(embed, hime);
   }
 
-  async template() {
+  template() {
     const { character, res } = this;
     const link = this.itemLink;
-    const thumbnail = await this.itemPortrait();
-    const preview = await this.itemPreview();
+    const thumbnail = this.itemPortrait;
+    const preview = this.itemPreview;
     const burstDescParse = () => {
       switch (character.rarity) {
         default:
@@ -151,7 +151,7 @@ class KamihimeInfo extends Info {
       ],
 
       obtainedFrom: character.obtained,
-      harem: res.khHarem_hentai1Resource2 || res.khHarem_hentai2Resource2
+      harem: res.harem2Resource2 || res.harem3resource2
     };
   }
 }

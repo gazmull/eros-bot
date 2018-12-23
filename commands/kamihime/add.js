@@ -14,32 +14,32 @@ class AddKamihimeCommand extends Command {
         examples: ['k5040', 'k5044']
       },
       ownerOnly: true,
-      args: [{ id: 'id' }]
+      args: [{ id: 'id' }, { id: 'name', match: 'rest' }]
     });
     this.apiURL = url.api;
     this.dashboardURL = url.dashboard;
   }
 
-  async exec(message, { id }) {
+  async exec(message, { id, name }) {
     await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
     try {
-      const request = await get(`${this.apiURL}id/${id}`);
+      const request = await get(`${this.apiURL}id/${id}`, { headers: { Accept: 'application/json' } });
       const character = request.body;
 
-      if (character) return message.util.edit(`${character.khName} (${character.khID}) already exists.`);
+      if (character) return message.util.edit(`${character.name} (${character.id}) already exists.`);
     } catch (missing) {
       try {
         await message.util.edit(`${loading} Preparing...`);
-        await post(`${this.apiURL}add`).send({ token: apiToken, user: message.author.tag, id });
-        const data = await post(`${this.apiURL}session`).send({ token: apiToken, user: message.author.tag, id });
+        await post(`${this.apiURL}add`, { headers: { Accept: 'application/json' } }).send({ token: apiToken, user: message.author.id, id, name });
+        const data = await post(`${this.apiURL}session`, { headers: { Accept: 'application/json' } }).send({ token: apiToken, user: message.author.id, id });
         const session = data.body;
 
         const embed = this.client.util.embed()
           .setColor(0xFF00AE)
           .setTitle('Update Link Created')
           .setDescription([
-            `[${id}](${this.dashboardURL}?character=${session.cID}&id=${session.sID}&k=${session.sPW})`,
+            `[${id}](${this.dashboardURL}?character=${session.characterId}&id=${session.id}&k=${session.password})`,
             '\nPlease be advised that this link\'s session will expire within 30 minutes or when you submitted an actual data to the webform.'
           ]);
 

@@ -34,10 +34,9 @@ class LeaderboardKamihimeCommand extends Command {
     try {
       await message.util.send(`${this.loading} Awaiting Kamihime DB's response...`);
 
-      const data = await get(`${this.apiURL}list`);
-      let list = this.combine(data.body);
-      list = list.filter(c => c.peekedOn !== 0);
-      list = list.sort((a, b) => b.peekedOn - a.peekedOn);
+      const data = await get(`${this.apiURL}list/approved`, { headers: { Accept: 'application/json' } });
+      let list = data.body.filter(c => c.peeks !== 0);
+      list = list.sort((a, b) => b.peeks - a.peeks);
 
       const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])
@@ -50,7 +49,7 @@ class LeaderboardKamihimeCommand extends Command {
         .setTimeout(240 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
-      if (advanced) embed.formatField('#) ID', i => `${list.indexOf(i) + 1}) ${i.khID}`);
+      if (advanced) embed.formatField('#) ID', i => `${list.indexOf(i) + 1}) ${i.id}`);
       embed
         .formatField(
           advanced
@@ -58,23 +57,14 @@ class LeaderboardKamihimeCommand extends Command {
             : '#) Name',
           i => `${advanced
             ? ''
-            : `${list.indexOf(i) + 1}) `}${i.khName}`
+            : `${list.indexOf(i) + 1}) `}${i.name}`
         )
-        .formatField('Views', i => i.peekedOn);
+        .formatField('Views', i => i.peeks);
 
       return await embed.build();
     } catch (err) {
       return new this.client.APIError(message.util, err, 1);
     }
-  }
-
-  combine(result) {
-    const array = [];
-    for (const k in result)
-      for (let v = 0; v < result[k].length; v++)
-        array.push(result[k][v]);
-
-    return array;
   }
 }
 

@@ -34,11 +34,13 @@ class HelpCommand extends Command {
       .setColor(0xFF00AE)
       .setTitle(`${prefix}${command} ${command.description.usage ? command.description.usage : ''}`)
       .setDescription(`${
-        clientPermissions
+        clientPermissions.length > 4
           ? `**Required Bot Permissions: ${clientPermissions.map(p => `\`${p}\``).join(', ')}**\n`
-          : userPermissions
-            ? `**Required User Permissions: ${userPermissions.map(p => `\`${p}\``).join(', ')}**\n`
-            : ''
+          : ''
+      }${
+        userPermissions
+          ? `**Required User Permissions: ${userPermissions.map(p => `\`${p}\``).join(', ')}**\n`
+          : ''
       }${command.description.content}`);
 
     if (command.aliases.length > 1)

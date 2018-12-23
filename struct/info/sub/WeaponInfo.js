@@ -122,11 +122,11 @@ class WeaponInfo extends Info {
     return super.format(embed, weapon);
   }
 
-  async template() {
+  template() {
     const { character } = this;
     const link = this.itemLink;
-    const thumbnail = await this.itemPortrait();
-    const preview = await this.itemPreview();
+    const thumbnail = this.itemPortrait;
+    const preview = this.itemPreview;
 
     return {
       name: character.name,

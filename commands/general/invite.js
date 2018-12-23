@@ -12,11 +12,16 @@ class InviteCommand extends Command {
   async exec(message) {
     const owner = await this.client.users.fetch(this.client.ownerID);
 
-    return message.util.reply(
-      `Documentation: <${docs}>` +
-      `\nInvite link: <${inviteLink}>` +
-      `\nBot Author: ${owner}`
-    );
+    const embed = this.client.util.embed()
+      .setColor(0xFF00AE)
+      .setThumbnail(this.client.user.displayAvatarURL())
+      .setDescription([
+        `Documentation: <${docs}>`,
+        `Invite link: <${inviteLink}>`,
+        `Bot Author: ${owner}`
+      ]);
+
+    return message.util.send(embed);
   }
 }
 

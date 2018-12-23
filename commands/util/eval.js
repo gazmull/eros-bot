@@ -28,15 +28,14 @@ class EvalCommand extends Command {
   async exec(message, { code }) {
     evalStatus(`${message.author.tag} Triggered eval. Did you do this?`);
     try {
-      let evaled;
-      if (evaled instanceof Promise) evaled = await eval(code);
-      else evaled = eval(code);
+      let evaled = eval(code);
+      if (evaled instanceof Promise) evaled = await evaled;
 
       if (typeof evaled !== 'string')
         evaled = util.inspect(evaled);
       if (evaled.length >= 2000) evaled = `${evaled.slice(0, 1900)}...`;
 
-      return message.channel.send(`**OUTPUT**\`\`\`xl\n${clean(evaled).includes(this.client.token) ? 'MzgwMjAy0WtgddsOpz5T0o3.H3hPzW10.GQSphbR34sdkIoep-iw4dcz9n4F' : clean(evaled)}\n\`\`\``);
+      return message.channel.send(`**OUTPUT**\`\`\`xl\n${clean(evaled).includes('.token') ? 'MzgwMjAy0WtgddsOpz5T0o3.H3hPzW10.GQSphbR34sdkIoep-iw4dcz9n4F' : clean(evaled)}\n\`\`\``);
     } catch (err) {
       return message.channel.send(`**ERROR**\`\`\`xl\n${clean(err)}\n\`\`\``);
     }

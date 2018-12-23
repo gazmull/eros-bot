@@ -2,9 +2,6 @@
 node_modules/
 package-lock.json
 
-#Yarn
-yarn.lock
-
 #Private Source
 auth.js
 provider/Eros.db

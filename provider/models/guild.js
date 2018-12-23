@@ -14,6 +14,16 @@ module.exports = db.define('guilds', {
     type: TEXT,
     defaultValue: defaultPrefix
   },
+  cdChannelID: {
+    type: TEXT,
+    defaultValue: null,
+    allowNull: true
+  },
+  cdRoleID: {
+    type: TEXT,
+    defaultValue: null,
+    allowNull: true
+  },
   twitterChannelID: {
     type: TEXT,
     defaultValue: null,

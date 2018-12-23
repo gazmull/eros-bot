@@ -39,9 +39,9 @@ class ListCommand extends Command {
     });
     this.apiURL = api;
     this.fields = {
-      soul: ['khType', 'khTier'],
-      eidolon: ['khElement', 'khRarity'],
-      kamihime: ['khElement', 'khType', 'khRarity']
+      soul: ['type', 'tier'],
+      eidolon: ['element', 'rarity'],
+      kamihime: ['element', 'type', 'rarity']
     };
   }
 
@@ -51,28 +51,10 @@ class ListCommand extends Command {
       const lastResponse = await message.util.send(`${loading} Awaiting Kamihime DB's response...`);
 
       const args = filter.toLowerCase().trim().split(/ +/g);
-      const rawData = await get(`${this.apiURL}list`);
-      let result = rawData.body;
-      result = this.toCollection(result[args[0]]);
+      const rawData = await get(`${this.apiURL}list/${args.slice(1).join('/')}`, { headers: { Accept: 'application/json' } });
+      const result = rawData.body;
 
-      if (!result.size) return message.util.edit('Nothing found with such variable.');
-
-      if (args.slice(1).length)
-        for (let i = 1; i < args.length; i++)
-          result = result.filter(item => {
-            const condition = [];
-            for (const field in this.fields[args[0]]) {
-              if (condition.length) condition.push('||');
-
-              condition.push(`'${item[this.fields[args[0]][field]].toLowerCase()}' === '${args[i]}'`);
-            }
-
-            return eval(condition.join(' '));
-          });
-
-      if (!result.size) return message.util.edit('Nothing found with such variable(s).');
-
-      result = this.toArray(result);
+      if (!result.length) return message.util.edit('Nothing found with such variable.');
 
       const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])
@@ -82,15 +64,15 @@ class ListCommand extends Command {
         .setTitle(`${filter.toUpperCase()} | Found: ${result.length}`)
         .setDescription([
           '**NOTE**: This is a list of characters registered in',
-          '[**Harem Scenes Database**](http://kamihimedb.thegzm.space) only.'
+          '[**Kamihime Database**](http://kamihimedb.thegzm.space) only.'
         ].join(' '))
         .setColor(0xFF00AE)
         .setTimeout(240 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
-      if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.khID}`, true);
+      if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`, true);
       embed.formatField(
-        `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${result.indexOf(i) + 1} - `}${i.khName}`,
+        `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${result.indexOf(i) + 1} - `}${i.name}`,
         true
       );
 
@@ -111,32 +93,16 @@ class ListCommand extends Command {
           `\`${this.handler.prefix(message)}list kamihime offense fire\``
         ].join(' ')
       )
-      .addField('Primary Variable', ['soul', 'eidolon', 'kamihime'], true)
-      .addField('Description', ['Souls Only', 'Eidolons Only', 'Kamihime Only'], true)
+      .addField('Primary Variable', ['soul', 'eidolon', 'kamihime', 'weapon', 'approved', 'loli'], true)
+      .addField('Description', ['Souls Only', 'Eidolons Only', 'Kamihime Only', 'Weapon Only', 'Approved Only', 'Loli Only'], true)
       .addBlankField(true)
       .addField('Secondary Variables', [
         '**Souls**\n\tlegendary, elite, standard',
-        '**Eidolons/Kamihime**\n\tfire, water, wind, thunder, dark, light, phantom\n\tr, sr, ssr, ssra',
+        '**Eidolons/Kamihime**\n\tfire, water, wind, thunder, dark, light, phantom\n\tr, sr, ssr, ssr+',
         '**Souls/Kamihime**\n\toffense, defense, balance, tricky, healer'
       ]);
 
     return message.util.send({ embed });
-  }
-
-  toCollection(result) {
-    const collection = this.client.util.collection();
-    for (const item in result)
-      collection.set(result[item].khID, result[item]);
-
-    return collection;
-  }
-
-  toArray(result) {
-    const array = [];
-    for (const [k, v] of result) // eslint-disable-line no-unused-vars
-      array.push(v);
-
-    return array;
   }
 }
 

@@ -8,7 +8,7 @@ const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 const stat = promisify(fs.stat);
 
-const { loading } = require('../../auth').emojis;
+const { emojis: { loading }, countdownAuthorized } = require('../../auth');
 
 class CountdownCommand extends Command {
   constructor() {
@@ -97,9 +97,7 @@ class CountdownCommand extends Command {
   }
 
   authorized(user) {
-    const ownerID = this.client.ownerID;
-
-    return user.id === ownerID;
+    return countdownAuthorized.includes(user.id);
   }
 
   getCountdown(date) {
@@ -192,29 +190,29 @@ class CountdownCommand extends Command {
     }
   }
 
-  checkDuplicate(countdowns, name, date) {
+  checkDuplicate(countdowns, { name, date, type }, doUnix) {
     const duplicateKey = countdowns.findKey((_, k) => k.format('x') === date.format('x'));
     const duplicateValue = countdowns.get(duplicateKey);
+    const shouldUnixDate = doUnix ? date.format('x') : date;
+    const shouldUnixName = doUnix ? { name, type } : name;
 
     if (duplicateKey)
-      countdowns.set(date, duplicateValue.push(name));
+      countdowns.set(shouldUnixDate, duplicateValue.push(name));
     else
-      countdowns.set(date, [name]);
+      countdowns.set(shouldUnixDate, [shouldUnixName]);
 
     return Promise.resolve(1);
   }
 
-  async defaultCommand(message) {
+  async prepareCountdowns(doUnix = false) {
     const { timezone } = this;
     const preset = this.preset;
     let countdowns = new Collection();
 
     for (const countdown of preset) {
-      const t = countdown.time.split(':');
-      const hour = t[0];
-      const minute = t[1];
-      const date = moment().tz(timezone).hours(hour).minutes(minute).seconds(0).milliseconds(0);
+      const [hour, minute] = countdown.time.split(':');
       const now = moment().tz(timezone);
+      const date = moment().tz(timezone).hours(hour).minutes(minute).seconds(0).milliseconds(0);
       const dayNow = now.format('dddd');
       const expired = () => now.isAfter(date);
       const today = countdown.day === '*' || dayNow === countdown.day;
@@ -242,7 +240,7 @@ class CountdownCommand extends Command {
         }
 
       if (today && !expired())
-        await this.checkDuplicate(countdowns, countdown.name, date);
+        await this.checkDuplicate(countdowns, { name: countdown.name, date, type: 'PRE' }, doUnix);
     }
 
     const userCountdowns = await this.getCountdowns();
@@ -251,7 +249,7 @@ class CountdownCommand extends Command {
       for (const [k, v] of userCountdowns.entries()) {
         const date = moment(v).tz(timezone).seconds(0).milliseconds(0);
 
-        await this.checkDuplicate(countdowns, k, date);
+        await this.checkDuplicate(countdowns, { name: k, date, type: 'USR' }, doUnix);
       }
 
     countdowns = countdowns.sort((a, b) => {
@@ -259,16 +257,22 @@ class CountdownCommand extends Command {
 
       return getDate(a) - getDate(b);
     });
+
+    return countdowns;
+  }
+
+  async defaultCommand(message) {
+    const countdowns = await this.prepareCountdowns();
     const embed = this.client.util.embed()
       .setColor(0xFF00AE);
 
     for (const countdown of countdowns.keys()) {
-      const date = moment(countdown).tz(timezone);
+      const date = moment(countdown).tz(this.timezone);
       const names = countdowns.get(countdown);
 
       if (!Array.isArray(names)) continue;
 
-      embed.addField(`${this.getCountdown(date)} — ${date.format('YYYY/MM/DD HH:mm')} PDT`, names.map(n => `❯ ${n}`).join('\n'));
+      embed.addField(this.getCountdown(date), names.map(n => `❯ ${n}`).join('\n'));
     }
 
     return message.util.edit({ embed });

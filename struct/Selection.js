@@ -18,7 +18,7 @@ class Selection {
         ]
       )
       .addField('#', rows.map(i => rows.indexOf(i) + 1).join('\n'), true)
-      .addField('Name', rows.map(i => i.khName).join('\n'), true);
+      .addField('Name', rows.map(i => i.name).join('\n'), true);
 
     await message.util.edit({ embed });
     this.users.set(message.author.id, true);
