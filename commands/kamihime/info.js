@@ -155,7 +155,7 @@ class InfoCommand extends Command {
   }
 
   async awaitSelection(message, rows) {
-    const character = await this.client.util.selection.execute(message, rows);
+    const character = await this.client.util.selection.execute(message, rows.slice(0, 10));
 
     if (!character) return;
 
