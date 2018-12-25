@@ -146,7 +146,7 @@ class CountdownCommand extends Command {
 
     await message.util.send(`${loading} Preparing...`);
 
-    if (!(hasCommand || authorized || (hasCommand && command === 'test'))) return this.defaultCommand(message);
+    if (!hasCommand || !authorized && command !== 'test') return this.defaultCommand(message);
 
     const { timezone, countdowns } = this;
     let date;
@@ -158,6 +158,8 @@ class CountdownCommand extends Command {
       }
 
       case 'add': {
+        if (!details) return this.defaultCommand(message);
+
         details = details.split(/ +/g);
         date = moment.tz(details.pop(), timezone).seconds(0);
         name = details.join(' ');
@@ -169,6 +171,8 @@ class CountdownCommand extends Command {
       }
 
       case 'remove': {
+        if (!details) return this.defaultCommand(message);
+
         name = details;
 
         if (countdowns.get(name)) {

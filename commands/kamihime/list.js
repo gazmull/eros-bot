@@ -51,7 +51,7 @@ class ListCommand extends Command {
       const lastResponse = await message.util.send(`${loading} Awaiting Kamihime DB's response...`);
 
       const args = filter.toLowerCase().trim().split(/ +/g);
-      const rawData = await get(`${this.apiURL}list/${args.slice(1).join('/')}`, { headers: { Accept: 'application/json' } });
+      const rawData = await get(`${this.apiURL}list/${args.join('/')}`, { headers: { Accept: 'application/json' } });
       const result = rawData.body;
 
       if (!result.length) return message.util.edit('Nothing found with such variable.');
