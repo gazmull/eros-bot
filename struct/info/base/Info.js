@@ -123,8 +123,11 @@ class Info {
   get itemPreview() {
     const res = this.res;
     const isWeap = res.id.startsWith('w');
+    const result = encodeURI(`${rootURL}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`);
 
-    return encodeURI(`${rootURL}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`);
+    this.character.preview = result;
+
+    return result;
   }
 
   get itemLink() {

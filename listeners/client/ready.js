@@ -2,7 +2,7 @@ const { Listener } = require('discord-akairo');
 const { status, error } = require('../../utils/console');
 const { promisify } = require('util');
 
-// const Twitter = require('../../functions/Twitter');
+const Twitter = require('../../functions/Twitter');
 // const CountdownScheduler = require('../../functions/CountdownScheduler');
 
 class ReadyListener extends Listener {
@@ -36,7 +36,7 @@ class ReadyListener extends Listener {
       // client.scheduler = new CountdownScheduler(client);
 
       // client.scheduler.init();
-      // Twitter.init(client);
+      Twitter.init(client);
     } catch (err) {
       error(err);
     }

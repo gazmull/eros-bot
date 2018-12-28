@@ -15,7 +15,7 @@
     "sequelize": "^4.41.0",
     "snekfetch": "^4.0.4",
     "sqlite": "^3.0.0",
-    "twit": "^2.2.11"
+    "twitter-lite": "^0.8.2"
   },
   "devDependencies": {
     "eslint": "^5.8.0"

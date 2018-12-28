@@ -1,16 +1,20 @@
-const Twit = require('twit');
+const TwitterClient = require('twitter-lite');
 
 const { status } = require('../utils/console');
 const { twitter: config } = require('../auth');
 const model = require('../provider/models/guild');
 
+let tick = null;
+let recon = null;
+
 const init = client => {
-  const twitter = new Twit(config);
+  const twitter = new TwitterClient(config);
   const stream = twitter.stream('statuses/filter', { follow: config.user });
 
   stream
-    .on('tweet', async tweet => {
+    .on('data', async tweet => {
       if (
+        !tweet ||
         tweet.retweeted_status ||
         tweet.user.id_str !== config.user ||
         tweet.in_reply_to_status_id
@@ -19,7 +23,7 @@ const init = client => {
 
       const guilds = await model.findAll({ where: { twitterChannelID: { ne: null } } });
 
-      const tick = client.setInterval(() => {
+      tick = client.setInterval(() => {
         if (!guilds.length) return client.clearInterval(tick);
 
         const spliced = guilds.splice(0, 5);
@@ -32,11 +36,21 @@ const init = client => {
           channel.send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
         }
       }, 3000);
+
+      status('Twitter Module: Sent tweet');
     })
-    .on('connect', () => status('Twitter Module: Connecting to Twitter API...'))
-    .on('connected', () => status('Twitter Module: Connected to Twitter API'))
-    .on('disconnect', () => status('Twitter Module: Disconnected from Twitter API'))
+    .on('start', () => status('Twitter Module: Connected to Twitter API'))
+    .on('end', () => {
+      status('Twitter Module: Disconnected from Twitter API');
+
+      client.clearInterval(tick);
+      client.clearInterval(recon);
+      stream.destroy();
+      recon = client.setTimeout(() => init(client), 6e4);
+    })
     .on('error', err => status(`Twitter Module: Something went wrong: ${err}`));
+
+  return 1;
 };
 
 module.exports = { init };

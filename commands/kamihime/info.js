@@ -24,6 +24,10 @@ class InfoCommand extends Command {
         examples: ['eros', 'mars', 'mars -r'],
         flags: [
           {
+            name: ['/s', '/soul', '/e', '/eidolon', '/k', '/kamihime', '/w', '/weapon'],
+            value: 'Narrow down search results respectively by: *Soul* / *Eidolon* / *Kamihime* / *Weapon*'
+          },
+          {
             names: ['-p', '--preview'],
             value: 'Request item\'s image.'
           },
@@ -60,19 +64,35 @@ class InfoCommand extends Command {
           id: 'release',
           match: 'flag',
           flag
+        },
+        {
+          id: 'type',
+          match: 'option',
+          flag: '/',
+          default: null
         }
       ]
     });
   }
 
-  async exec(message, { item, preview, release }) {
+  async exec(message, { item, preview, release, type }) {
     try {
       if (preview) message.needsPreview = true;
       if (release) message.needsRelease = true;
+      if (type !== null) {
+        type = {
+          s: 'soul',
+          e: 'eidolon',
+          k: 'kamihime',
+          w: 'weapon'
+        }[type.charAt(0)];
+
+        if (type) type = `&class=${type}`;
+      }
 
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
-      const data = await this.acquire(item);
+      const data = await this.acquire(item, false, type);
 
       if (!data) return message.util.edit(`No item named ${item} found.`);
       else if (data.info)
@@ -84,8 +104,9 @@ class InfoCommand extends Command {
     }
   }
 
-  async acquire(item, accurate = false) {
-    const request = await get(`${apiURL}search?name=${encodeURI(item)}`, { headers: { Accept: 'application/json' } });
+  async acquire(item, accurate = false, type = null) {
+    const typeQ = type || '';
+    const request = await get(`${apiURL}search?name=${encodeURI(item)}${typeQ}`, { headers: { Accept: 'application/json' } });
     const rows = request.body;
 
     if (!rows.length) return null;
@@ -129,9 +150,10 @@ class InfoCommand extends Command {
         .replace(/<sup>(?:.+)<\/sup>/g, '') // Citations
         .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '') // Icons
         .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Summon
-        .replace(/(?:\[{2})([^:]*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Abilities|Summon
+        .replace(/(?:\[{2})(?:[\w\s]+\(\w+\)\|)?([^:]*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Abilities|Summon
         .replace(/(?:\[{2}).*?(?:\]{2})/g, '') // [[Category]] => ''
-        .replace(/(\S+)\|(?:\s|[^\s])/g, '$1\n| '); // Fix ugly Infobox format
+        .replace(/ {2}/g, ' ') // Double-spaces left by stripped of icons/links
+        .replace(/\|([^|])/g, '\n| $1'); // Fix ugly Infobox format
     };
 
     const { general: info } = parseInfo(sanitisedData(rawData));

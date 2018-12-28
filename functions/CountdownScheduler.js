@@ -4,6 +4,12 @@ const { and } = require('sequelize');
 // const { status } = require('../utils/console');
 const model = require('../provider/models/guild');
 
+/**
+ * todo
+ *  - make it possible not to restart the client just for this
+ *  - non-destructive entries
+ *  - basically screw this shit
+ */
 class CountdownScheduler {
   constructor(client) {
     this.client = client;
@@ -13,25 +19,20 @@ class CountdownScheduler {
 
   async init() {
 
+    this.schedules = this.client.util.collection();
+
     /**
      * @type {Collection<Date, string[]>} Collection of preset + user countdowns
      */
-    // const countdowns = await this.client.commandHandler.findCommand('countdown').prepareCountdowns(true);
+    const countdowns = await this.client.commandHandler.findCommand('countdown').prepareCountdowns(true);
 
-    // for (const date of countdowns.values())
-    //   for (const entry of date) {
+    for (const [date, entries] of countdowns.entries()) {
+      const entry = { type: entries[0].type, names: entries.map(el => el.name) };
 
-    //   }
-  }
-
-  assign(date, data) {
-    switch (data.type) {
-      case 'PRE': {
-        const fn = Scheduler.scheduleJob(date, this.distribute().bind(null, data.name));
-
-        this.schedules.set(date, fn);
-      }
+      CountdownScheduler.assign(date, entry);
     }
+
+    Scheduler.scheduleJob({ hour: 0, minute: 0, second: 0 }, () => this.init());
   }
 
   async distribute(names) {
@@ -59,6 +60,42 @@ class CountdownScheduler {
         channel.send(`${role}, **countdown** for ${names.map(n => `**${n}**`).join(', ')} has ended.`);
       }
     }, 3000);
+  }
+
+  static assign(date, data) {
+    let result = `${date} Assigned.`;
+
+    switch (data.type) {
+      default: {
+        result = `${date} Invalid.`;
+        break;
+      }
+      case 'PRE': {
+        const fn = Scheduler.scheduleJob(date, this.distribute(data.names));
+
+        this.schedules.set(date, { names: data.names, fn, type: data.type });
+      }
+    }
+
+    return result;
+  }
+
+  static relinquish(entry) {
+    const entries = this.schedules.find(el => el.names.includes(entry));
+
+    if (!entries) return `${entry} Schedule does not exist.`;
+
+    const entryKey = this.schedules.findKey(el => JSON.stringify(el) === JSON.stringify(entries));
+
+    if (!entryKey) return `${entry} Schedule does not exist.`;
+    if (entries.type === 'PRE') return `${entry} Cannot modify preset countdowns.`;
+
+    entries.names.splice(entries.names.indexOf(entry), 1);
+    entries.fn = this.distribute(entries.names);
+
+    this.schedules.set(entryKey, entries);
+
+    return `${entry} Relinquished.`;
   }
 }
 

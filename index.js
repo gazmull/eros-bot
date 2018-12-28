@@ -1,5 +1,5 @@
 const ErosClient = require('./provider/index');
-const { status, error, warn } = require('./utils/console');
+const { error, warn } = require('./utils/console');
 const config = require('./auth');
 
 const client = new ErosClient(config).build();
@@ -11,8 +11,7 @@ try {
 }
 
 client
-  .on('disconnect', () => status('Disconnected from the API.'))
-  .on('reconnect', () => status('Reconnecting...'))
+  .on('disconnect', () => process.exit(0))
   .on('error', err => error(err))
   .on('warn', info => warn(info));
 
