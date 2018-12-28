@@ -24,7 +24,7 @@ class InfoCommand extends Command {
         examples: ['eros', 'mars', 'mars -r'],
         flags: [
           {
-            name: ['/s', '/soul', '/e', '/eidolon', '/k', '/kamihime', '/w', '/weapon'],
+            names: ['/s', '/soul', '/e', '/eidolon', '/k', '/kamihime', '/w', '/weapon'],
             value: 'Narrow down search results respectively by: *Soul* / *Eidolon* / *Kamihime* / *Weapon*'
           },
           {
