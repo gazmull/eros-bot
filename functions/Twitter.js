@@ -37,18 +37,40 @@ const init = client => {
         }
       }, 3000);
 
-      status('Twitter Module: Sent tweet');
-    })
-    .on('start', () => status('Twitter Module: Connected to Twitter API'))
-    .on('end', () => {
-      status('Twitter Module: Disconnected from Twitter API');
+      const msg = `Twitter Module: Sent tweet ${tweet.id_str}`;
+      const owner = await client.users.fetch(client.ownerID);
 
+      owner.send(msg);
+
+      status(msg);
+    })
+    .on('start', async () => {
+      const msg = 'Twitter Module: Connected';
+      const owner = await client.users.fetch(client.ownerID);
+
+      owner.send(msg);
+
+      status(msg);
+    })
+    .on('end', async () => {
+      const msg = 'Twitter Module: Disconnected';
+      const owner = await client.users.fetch(client.ownerID);
+
+      owner.send(msg);
+      status(msg);
       client.clearInterval(tick);
       client.clearInterval(recon);
       stream.destroy();
+
       recon = client.setTimeout(() => init(client), 6e4);
     })
-    .on('error', err => status(`Twitter Module: Something went wrong: ${err}`));
+    .on('error', async err => {
+      const msg = `Twitter Module: Error ${err}`;
+      const owner = await client.users.fetch(client.ownerID);
+      owner.send(msg);
+
+      status(msg);
+    });
 
   return 1;
 };
