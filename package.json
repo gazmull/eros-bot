@@ -4,21 +4,21 @@
   "description": "Eros Bot Public",
   "main": "index.js",
   "dependencies": {
-    "bufferutil": "^4.0.0",
-    "discord-akairo": "github:1Computer1/discord-akairo#master",
+    "bufferutil": "^4.0.1",
+    "discord-akairo": "1Computer1/discord-akairo#f06972b",
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "github:discordjs/discord.js",
     "infobox-parser": "^3.0.3",
     "moment-timezone": "^0.5.23",
-    "node-schedule": "^1.3.0",
+    "node-schedule": "^1.3.1",
     "nodemw": "^0.12.2",
-    "sequelize": "^4.41.0",
+    "sequelize": "^4.42.0",
     "snekfetch": "^4.0.4",
     "sqlite": "^3.0.0",
-    "twitter-lite": "^0.8.2"
+    "twitter-lite": "^0.9.0"
   },
   "devDependencies": {
-    "eslint": "^5.8.0"
+    "eslint": "^5.12.0"
   },
   "engines": {
     "node": ">=10"

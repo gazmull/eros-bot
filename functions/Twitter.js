@@ -68,8 +68,9 @@ const init = client => {
       const msg = `Twitter Module: Error ${err}`;
       const owner = await client.users.fetch(client.ownerID);
       owner.send(msg);
-
       status(msg);
+
+      stream.emit('end');
     });
 
   return 1;
