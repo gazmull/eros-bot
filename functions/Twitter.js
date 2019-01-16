@@ -6,6 +6,7 @@ const model = require('../provider/models/guild');
 
 let tick = null;
 let recon = null;
+let lastTweetID = null;
 
 const init = client => {
   const twitter = new TwitterClient(config);
@@ -17,10 +18,12 @@ const init = client => {
         !tweet ||
         tweet.retweeted_status ||
         tweet.user.id_str !== config.user ||
-        tweet.in_reply_to_status_id
+        tweet.in_reply_to_status_id ||
+        lastTweetID === tweet.id_str
       )
         return;
 
+      lastTweetID = tweet.id_str;
       const guilds = await model.findAll({ where: { twitterChannelID: { ne: null } } });
 
       tick = client.setInterval(() => {
