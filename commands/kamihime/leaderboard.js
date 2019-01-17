@@ -1,5 +1,5 @@
 const Command = require('../../struct/custom/Command');
-const { get } = require('snekfetch');
+const fetch = require('node-fetch');
 
 const { emojis, url } = require('../../auth');
 
@@ -34,8 +34,8 @@ class LeaderboardKamihimeCommand extends Command {
     try {
       await message.util.send(`${this.loading} Awaiting Kamihime DB's response...`);
 
-      const data = await get(`${this.apiURL}list/approved`, { headers: { Accept: 'application/json' } });
-      let list = data.body.filter(c => c.peeks !== 0);
+      const data = await fetch(`${this.apiURL}list/approved`, { headers: { Accept: 'application/json' } });
+      let list = (await data.json()).filter(c => c.peeks !== 0);
       list = list.sort((a, b) => b.peeks - a.peeks);
 
       const embed = this.util.paginationFields()

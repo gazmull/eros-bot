@@ -1,5 +1,5 @@
 const Command = require('../../struct/custom/Command');
-const { get, post } = require('snekfetch');
+const fetch = require('node-fetch');
 
 const { url: { api: apiURL, dashboard: dashboardURL }, apiToken } = require('../../auth');
 const { loading } = require('../../auth').emojis;
@@ -29,15 +29,15 @@ class UpdateKamihimeCommand extends Command {
     try {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
-      const request = await get(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
-      const rows = request.body;
+      const request = await fetch(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
+      const rows = await request.json();
 
       if (!rows.length) return message.util.edit(`No character name ${character} found.`);
       else if (rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
+        const data = await fetch(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
 
-        return await this.triggerDialog(message, data.body);
+        return await this.triggerDialog(message, await data.json());
       }
 
       await this.awaitSelection(message, rows);
@@ -51,16 +51,20 @@ class UpdateKamihimeCommand extends Command {
 
     if (!character) return;
 
-    const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
 
-    await this.triggerDialog(message, data.body);
+    await this.triggerDialog(message, await data.json());
   }
 
   async triggerDialog(message, result) {
     try {
       await message.util.edit(`${loading} Preparing...`, { embed: null });
-      const data = await post(`${apiURL}session`, { headers: { Accept: 'application/json' } }).send({ token: apiToken, user: message.author.id, id: result.id });
-      const session = data.body;
+      const data = await fetch(`${apiURL}session`, {
+        headers: { Accept: 'application/json' },
+        method: 'PUT',
+        body: JSON.stringify({ token: apiToken, user: message.author.id, id: result.id })
+      });
+      const session = await data.json();
 
       const embed = this.client.util.embed()
         .setColor(0xFF00AE)

@@ -1,5 +1,5 @@
 const Command = require('../../struct/custom/Command');
-const { get, post } = require('snekfetch');
+const fetch = require('node-fetch');
 
 const { url, apiToken } = require('../../auth');
 const { loading } = require('../../auth').emojis;
@@ -23,12 +23,16 @@ class DeleteKamihimeCommand extends Command {
     await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
     try {
-      const data = await get(`${this.apiURL}id/${id}`, { headers: { Accept: 'application/json' } });
-      const character = data.body;
+      const data = await fetch(`${this.apiURL}id/${id}`, { headers: { Accept: 'application/json' } });
+      const character = await data.json();
 
       await message.util.edit(`${loading} Deleting...`);
-      const request = await post(`${this.apiURL}delete`, { headers: { Accept: 'application/json' } }).send({ token: apiToken, user: message.author.id, id, name: character.name });
-      const response = request.body;
+      const request = await fetch(`${this.apiURL}delete`, {
+        headers: { Accept: 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({ token: apiToken, user: message.author.id, id, name: character.name })
+      });
+      const response = await request.json();
 
       const embed = this.client.util.embed()
         .setColor(0xFF00AE)

@@ -1,5 +1,5 @@
 const Command = require('../../struct/custom/Command');
-const { get } = require('snekfetch');
+const fetch = require('node-fetch');
 
 const { loading } = require('../../auth').emojis;
 const { api } = require('../../auth').url;
@@ -51,8 +51,8 @@ class ListCommand extends Command {
       const lastResponse = await message.util.send(`${loading} Awaiting Kamihime DB's response...`);
 
       const args = filter.toLowerCase().trim().split(/ +/g);
-      const rawData = await get(`${this.apiURL}list/${args.join('/')}`, { headers: { Accept: 'application/json' } });
-      const result = rawData.body;
+      const rawData = await fetch(`${this.apiURL}list/${args.join('/')}`, { headers: { Accept: 'application/json' } });
+      const result = await rawData.json();
 
       if (!result.length) return message.util.edit('Nothing found with such variable.');
 

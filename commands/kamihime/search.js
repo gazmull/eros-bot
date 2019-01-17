@@ -1,5 +1,5 @@
 const Command = require('../../struct/custom/Command');
-const { get } = require('snekfetch');
+const fetch = require('node-fetch');
 
 const { url, emojis } = require('../../auth');
 
@@ -48,8 +48,8 @@ class SearchKamihimeCommand extends Command {
 
       if (isID) return this.searchID(message, character);
 
-      const data = await get(`${this.apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
-      const result = data.body;
+      const data = await fetch(`${this.apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
+      const result = await data.json();
 
       if (result.length < 1) return message.util.edit('No results found.');
 
@@ -75,7 +75,7 @@ class SearchKamihimeCommand extends Command {
 
   async searchID(message, character) {
     try {
-      await get(`${this.apiURL}id/${character}`, { headers: { Accept: 'application/json' } });
+      await fetch(`${this.apiURL}id/${character}`, { headers: { Accept: 'application/json' } });
 
       return message.util.edit(`ID ${character} does exist.`);
     } catch (err) {

@@ -1,5 +1,5 @@
 const Command = require('../../struct/custom/Command');
-const { get } = require('snekfetch');
+const fetch = require('node-fetch');
 
 const { loading, embarassed } = require('../../auth').emojis;
 const { player: playerURL, api: apiURL, wikia } = require('../../auth').url;
@@ -45,15 +45,15 @@ class HaremInfoCommand extends Command {
     try {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
-      const request = await get(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
-      const rows = request.body.filter(c => !['x', 'w'].includes(c.id.charAt(0)));
+      const request = await fetch(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
+      const rows = (await request.json()).filter(c => !['x', 'w'].includes(c.id.charAt(0)));
 
       if (!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if (rows.length === 1) {
         const result = rows.shift();
-        const data = await get(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
+        const data = await fetch(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
 
-        return await this.triggerDialog(message, data.body);
+        return await this.triggerDialog(message, await data.json());
       }
 
       await this.awaitSelection(message, rows);
@@ -67,9 +67,9 @@ class HaremInfoCommand extends Command {
 
     if (!character) return;
 
-    const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
 
-    await this.triggerDialog(message, data.body);
+    await this.triggerDialog(message, await data.json());
   }
 
   async triggerDialog(message, result) {

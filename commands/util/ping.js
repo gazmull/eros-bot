@@ -14,7 +14,7 @@ class PingCommand extends Command {
       const estimatedPing = message.util.lastResponse.createdTimestamp - message.createdTimestamp;
       const roundInt = Math.round((estimatedPing) / 50);
 
-      return message.util.edit(`Po${'o'.repeat(roundInt)}ng!\n\n:arrows_counterclockwise: ${estimatedPing}ms\n:heart: ${Math.round(this.client.ping)}ms`);
+      return message.util.edit(`Po${'o'.repeat(roundInt)}ng!\n\n:arrows_counterclockwise: ${estimatedPing}ms\n:heart: ${Math.round(this.client.ws.ping)}ms`);
     } catch (err) {
       console.log(err);
     }

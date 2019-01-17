@@ -1,5 +1,5 @@
 const Command = require('../../struct/custom/Command');
-const { get } = require('snekfetch');
+const fetch = require('node-fetch');
 const parseInfo = require('infobox-parser');
 
 const { loading } = require('../../auth').emojis;
@@ -106,14 +106,14 @@ class InfoCommand extends Command {
 
   async acquire(item, accurate = false, type = null) {
     const typeQ = type || '';
-    const request = await get(`${apiURL}search?name=${encodeURI(item)}${typeQ}`, { headers: { Accept: 'application/json' } });
-    const rows = request.body;
+    const request = await fetch(`${apiURL}search?name=${encodeURI(item)}${typeQ}`, { headers: { Accept: 'application/json' } });
+    const rows = await request.json();
 
     if (!rows.length) return null;
     else if (rows.length === 1) {
       const row = rows.shift();
-      const data = await get(`${apiURL}id/${row.id}`, { headers: { Accept: 'application/json' } });
-      const info = data.body;
+      const data = await fetch(`${apiURL}id/${row.id}`, { headers: { Accept: 'application/json' } });
+      const info = await data.json();
 
       return { info };
     } else if (accurate) {
@@ -128,8 +128,8 @@ class InfoCommand extends Command {
 
       if (!character) throw new Error('Item is unavailable.');
 
-      const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
-      const info = data.body;
+      const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
+      const info = await data.json();
 
       return { info };
     }
@@ -181,9 +181,9 @@ class InfoCommand extends Command {
 
     if (!character) return;
 
-    const data = await get(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
 
-    await this.triggerDialog(message, character.name, data.body);
+    await this.triggerDialog(message, character.name, await data.json());
   }
 
   async triggerDialog(message, item, dbRes) {
