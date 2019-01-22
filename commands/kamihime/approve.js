@@ -30,7 +30,11 @@ class ApproveKamihimeCommand extends Command {
 
       await message.util.edit(`${loading} Approving...`);
       const request = await fetch(`${this.apiURL}approve`, {
-        headers: { Accept: 'application/json' }, method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'PUT',
         body: JSON.stringify({ token: apiToken, user: message.author.id, id, name: character.name })
       });
       const response = await request.json();

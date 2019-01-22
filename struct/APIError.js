@@ -30,7 +30,7 @@ class APIError {
 
   execute() {
     if (this.err)
-      cons.error(this.err.stack);
+      cons.error(this.err.stack || this.err);
 
     const step =
       this.code === 0

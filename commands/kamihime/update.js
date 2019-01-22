@@ -66,7 +66,10 @@ class UpdateKamihimeCommand extends Command {
     try {
       await message.util.edit(`${loading} Preparing...`, { embed: null });
       const data = await fetch(`${apiURL}session`, {
-        headers: { Accept: 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
         method: 'POST',
         body: JSON.stringify({ token: apiToken, user: message.author.id, id: result.id })
       });

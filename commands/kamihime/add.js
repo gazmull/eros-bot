@@ -35,7 +35,10 @@ class AddKamihimeCommand extends Command {
       try {
         await message.util.edit(`${loading} Preparing...`);
         const _data = await fetch(`${this.apiURL}add`, {
-          headers: { Accept: 'application/json' },
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
           method: 'POST',
           body: JSON.stringify({ token: apiToken, user: message.author.id, id, name })
         });
@@ -44,7 +47,10 @@ class AddKamihimeCommand extends Command {
         if (add.error) throw add.error.message;
 
         const data = await fetch(`${this.apiURL}session`, {
-          headers: { Accept: 'application/json' },
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
           method: 'POST',
           body: JSON.stringify({ token: apiToken, user: message.author.id, id })
         });

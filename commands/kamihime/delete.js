@@ -30,7 +30,10 @@ class DeleteKamihimeCommand extends Command {
 
       await message.util.edit(`${loading} Deleting...`);
       const request = await fetch(`${this.apiURL}delete`, {
-        headers: { Accept: 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
         method: 'POST',
         body: JSON.stringify({ token: apiToken, user: message.author.id, id, name: character.name })
       });

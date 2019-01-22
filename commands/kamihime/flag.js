@@ -30,7 +30,10 @@ class FlagKamihimeCommand extends Command {
 
       await message.util.edit(`${loading} Flagging...`);
       const request = await fetch(`${this.apiURL}flag`, {
-        headers: { Accept: 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
         method: 'PUT',
         body: JSON.stringify({ token: apiToken, user: message.author.id, id, name: character.name })
       });
