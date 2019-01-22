@@ -51,7 +51,7 @@ class SearchKamihimeCommand extends Command {
       const data = await fetch(`${this.apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
       const result = await data.json();
 
-      if (result.length < 1) return message.util.edit('No results found.');
+      if (result.error) throw result.error.message;
 
       const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])
@@ -75,7 +75,10 @@ class SearchKamihimeCommand extends Command {
 
   async searchID(message, character) {
     try {
-      await fetch(`${this.apiURL}id/${character}`, { headers: { Accept: 'application/json' } });
+      const data = await fetch(`${this.apiURL}id/${character}`, { headers: { Accept: 'application/json' } });
+      const _character = await data.json();
+
+      if (_character.error) throw 'missing';
 
       return message.util.edit(`ID ${character} does exist.`);
     } catch (err) {

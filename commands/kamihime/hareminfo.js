@@ -46,14 +46,21 @@ class HaremInfoCommand extends Command {
       await message.util.send(`${loading} Awaiting KamihimeDB's response...`);
 
       const request = await fetch(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
-      const rows = (await request.json()).filter(c => !['x', 'w'].includes(c.id.charAt(0)));
+      const data = await request.json();
+
+      if (data.error) throw data.error.message;
+
+      const rows = (data).filter(c => !['x', 'w'].includes(c.id.charAt(0)));
 
       if (!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if (rows.length === 1) {
         const result = rows.shift();
-        const data = await fetch(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
+        const _request = await fetch(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
+        const _data = await _request.json();
 
-        return await this.triggerDialog(message, await data.json());
+        if (_data.error) throw _data.error.message;
+
+        return await this.triggerDialog(message, _data);
       }
 
       await this.awaitSelection(message, rows);
@@ -68,8 +75,11 @@ class HaremInfoCommand extends Command {
     if (!character) return;
 
     const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const _character = await data.json();
 
-    await this.triggerDialog(message, await data.json());
+    if (_character.error) throw _character.error.message;
+
+    await this.triggerDialog(message, _character);
   }
 
   async triggerDialog(message, result) {

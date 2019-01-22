@@ -109,11 +109,15 @@ class InfoCommand extends Command {
     const request = await fetch(`${apiURL}search?name=${encodeURI(item)}${typeQ}`, { headers: { Accept: 'application/json' } });
     const rows = await request.json();
 
+    if (rows.error) throw rows.error.message;
+
     if (!rows.length) return null;
     else if (rows.length === 1) {
       const row = rows.shift();
       const data = await fetch(`${apiURL}id/${row.id}`, { headers: { Accept: 'application/json' } });
       const info = await data.json();
+
+      if (info.error) throw info.error.message;
 
       return { info };
     } else if (accurate) {
@@ -130,6 +134,8 @@ class InfoCommand extends Command {
 
       const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
       const info = await data.json();
+
+      if (info.error) throw info.error.message;
 
       return { info };
     }
@@ -182,8 +188,11 @@ class InfoCommand extends Command {
     if (!character) return;
 
     const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const _character = await data.json();
 
-    await this.triggerDialog(message, character.name, await data.json());
+    if (_character.error) throw _character.error.message;
+
+    await this.triggerDialog(message, character.name, _character);
   }
 
   async triggerDialog(message, item, dbRes) {

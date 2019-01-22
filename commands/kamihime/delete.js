@@ -26,6 +26,8 @@ class DeleteKamihimeCommand extends Command {
       const data = await fetch(`${this.apiURL}id/${id}`, { headers: { Accept: 'application/json' } });
       const character = await data.json();
 
+      if (character.error) throw character.error.message;
+
       await message.util.edit(`${loading} Deleting...`);
       const request = await fetch(`${this.apiURL}delete`, {
         headers: { Accept: 'application/json' },
@@ -33,6 +35,8 @@ class DeleteKamihimeCommand extends Command {
         body: JSON.stringify({ token: apiToken, user: message.author.id, id, name: character.name })
       });
       const response = await request.json();
+
+      if (response.error) throw response.error.message;
 
       const embed = this.client.util.embed()
         .setColor(0xFF00AE)

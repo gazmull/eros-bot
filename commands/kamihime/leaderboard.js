@@ -35,6 +35,10 @@ class LeaderboardKamihimeCommand extends Command {
       await message.util.send(`${this.loading} Awaiting Kamihime DB's response...`);
 
       const data = await fetch(`${this.apiURL}list/approved`, { headers: { Accept: 'application/json' } });
+      const characters = await data.json();
+
+      if (characters.error) throw characters.error.message;
+
       let list = (await data.json()).filter(c => c.peeks !== 0);
       list = list.sort((a, b) => b.peeks - a.peeks);
 

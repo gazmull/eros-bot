@@ -32,12 +32,15 @@ class UpdateKamihimeCommand extends Command {
       const request = await fetch(`${apiURL}search?name=${encodeURI(character)}`, { headers: { Accept: 'application/json' } });
       const rows = await request.json();
 
-      if (!rows.length) return message.util.edit(`No character name ${character} found.`);
+      if (rows.error) throw rows.message;
       else if (rows.length === 1) {
         const result = rows.shift();
         const data = await fetch(`${apiURL}id/${result.id}`, { headers: { Accept: 'application/json' } });
+        const json = await data.json();
 
-        return await this.triggerDialog(message, await data.json());
+        if (json.error) throw json.error.message;
+
+        return await this.triggerDialog(message, json);
       }
 
       await this.awaitSelection(message, rows);
@@ -52,8 +55,11 @@ class UpdateKamihimeCommand extends Command {
     if (!character) return;
 
     const data = await fetch(`${apiURL}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const json = await data.json();
 
-    await this.triggerDialog(message, await data.json());
+    if (json.error) throw json.error.message;
+
+    await this.triggerDialog(message, json);
   }
 
   async triggerDialog(message, result) {
@@ -61,10 +67,12 @@ class UpdateKamihimeCommand extends Command {
       await message.util.edit(`${loading} Preparing...`, { embed: null });
       const data = await fetch(`${apiURL}session`, {
         headers: { Accept: 'application/json' },
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify({ token: apiToken, user: message.author.id, id: result.id })
       });
       const session = await data.json();
+
+      if (session.error) throw session.error.message;
 
       const embed = this.client.util.embed()
         .setColor(0xFF00AE)

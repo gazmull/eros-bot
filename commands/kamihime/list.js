@@ -54,7 +54,7 @@ class ListCommand extends Command {
       const rawData = await fetch(`${this.apiURL}list/${args.join('/')}`, { headers: { Accept: 'application/json' } });
       const result = await rawData.json();
 
-      if (!result.length) return message.util.edit('Nothing found with such variable.');
+      if (result.error) throw result.error.message;
 
       const embed = this.util.paginationFields()
         .setAuthorizedUsers([message.author.id])

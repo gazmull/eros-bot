@@ -26,22 +26,31 @@ class AddKamihimeCommand extends Command {
     try {
       const request = await fetch(`${this.apiURL}id/${id}`, { headers: { Accept: 'application/json' } });
       const character = await request.json();
+      const json = await character.json();
+
+      if (json.error) throw json.error.message;
 
       if (character) return message.util.edit(`${character.name} (${character.id}) already exists.`);
     } catch (missing) {
       try {
         await message.util.edit(`${loading} Preparing...`);
-        await fetch(`${this.apiURL}add`, {
+        const _data = await fetch(`${this.apiURL}add`, {
           headers: { Accept: 'application/json' },
           method: 'POST',
           body: JSON.stringify({ token: apiToken, user: message.author.id, id, name })
         });
+        const add = await _data.json();
+
+        if (add.error) throw add.error.message;
+
         const data = await fetch(`${this.apiURL}session`, {
           headers: { Accept: 'application/json' },
           method: 'POST',
           body: JSON.stringify({ token: apiToken, user: message.author.id, id })
         });
         const session = await data.json();
+
+        if (session.error) throw session.error.message;
 
         const embed = this.client.util.embed()
           .setColor(0xFF00AE)
