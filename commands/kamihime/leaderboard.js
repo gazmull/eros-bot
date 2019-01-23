@@ -39,7 +39,7 @@ class LeaderboardKamihimeCommand extends Command {
 
       if (characters.error) throw characters.error.message;
 
-      let list = (await data.json()).filter(c => c.peeks !== 0);
+      let list = characters.filter(c => c.peeks !== 0);
       list = list.sort((a, b) => b.peeks - a.peeks);
 
       const embed = this.util.paginationFields()
