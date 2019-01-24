@@ -1,6 +1,7 @@
 #NPM
 node_modules/
 package-lock.json
+yarn-error.log
 
 #Private Source
 auth.js
