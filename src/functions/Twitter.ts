@@ -69,7 +69,7 @@ export const init = (client: ErosClient) => {
       client.clearInterval(recon);
       stream.destroy();
 
-      recon = client.setTimeout(() => init(client), 6e4);
+      recon = client.setTimeout(() => init(client), 3e5);
     })
     .on('error', async err => {
       const msg = `Twitter Module: Error ${err}`;
