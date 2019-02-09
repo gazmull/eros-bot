@@ -1,0 +1,8 @@
+# Global
+* text=auto eol=lf
+
+# Graphics
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.png binary

@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-    <a href="http://addbot.thegzm.space"><img src="https://i.imgur.com/cegarrO.png" width="940px" alt="eros banner" /></a>
+    <a href="http://addbot.thegzm.space"><img src="エロース.png" width="940px" alt="eros banner" /></a>
   <br />
     <a href="https://travis-ci.org/gazmull/eros-bot"><img src="https://travis-ci.org/gazmull/eros-bot.svg?branch=master" alt="Build Status" /></a>
 </div>
