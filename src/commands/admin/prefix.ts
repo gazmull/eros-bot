@@ -1,3 +1,4 @@
+// @ts-ignore
 import { defaultPrefix } from '../../../auth';
 import Command from '../../struct/command/Command';
 import ErosClient from '../../struct/ErosClient';

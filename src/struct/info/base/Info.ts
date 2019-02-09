@@ -1,3 +1,4 @@
+// @ts-ignore
 import { url } from '../../../../auth';
 import ErosClient from '../../ErosClient';
 

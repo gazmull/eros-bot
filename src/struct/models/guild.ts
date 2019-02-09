@@ -1,4 +1,5 @@
 import * as Sequelize from 'sequelize';
+// @ts-ignore
 import { defaultPrefix } from '../../../auth';
 import { SequelizeAttributes } from '../../../typings/SequelizeAttributes';
 

@@ -1,4 +1,5 @@
 import { Inhibitor } from 'discord-akairo';
+// @ts-ignore
 import { blacklist } from '../../../auth';
 
 export default class extends Inhibitor {

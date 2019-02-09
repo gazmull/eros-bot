@@ -2,6 +2,7 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, SequelizeProvider } from 'discord-akairo';
 import * as Wikia from 'nodemw';
 import { promisify } from 'util';
+// @ts-ignore
 import { defaultPrefix } from '../../auth';
 import ErosError from '../struct/ErosError';
 import { create } from '../struct/models';

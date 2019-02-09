@@ -2,6 +2,7 @@ import { PrefixSupplier } from 'discord-akairo';
 import { Collection, User } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as moment from 'moment-timezone';
+// @ts-ignore
 import { countdownAuthorized, emojis } from '../../../auth';
 import Command from '../../struct/command/Command';
 

@@ -1,3 +1,4 @@
+// @ts-ignore
 import * as config from '../auth';
 import ErosClient from './struct/ErosClient';
 import { error, warn } from './util/console';

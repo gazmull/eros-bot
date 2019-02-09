@@ -1,5 +1,6 @@
 import { TextChannel } from 'discord.js';
 import * as TwitterClient from 'twitter-lite';
+// @ts-ignore
 import { twitter as config } from '../../auth';
 import ErosClient from '../struct/ErosClient';
 import { status, warn } from '../util/console';

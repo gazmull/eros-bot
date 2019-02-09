@@ -1,5 +1,6 @@
 import { AkairoClient, Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
+// @ts-ignore
 import { defaultPrefix } from '../../../auth';
 import ErosClient from '../../struct/ErosClient';
 import { error, status } from '../../util/console';

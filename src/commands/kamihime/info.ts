@@ -1,6 +1,7 @@
 import { PrefixSupplier } from 'discord-akairo';
 import * as parseInfo from 'infobox-parser';
 import fetch from 'node-fetch';
+// @ts-ignore
 import { emojis, url } from '../../../auth';
 import Command from '../../struct/command/Command';
 import ErosClient from '../../struct/ErosClient';

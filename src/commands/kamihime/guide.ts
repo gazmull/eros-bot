@@ -1,3 +1,4 @@
+// @ts-ignore
 import { emojis } from '../../../auth';
 // @ts-ignore
 import { bugs } from '../../../package.json';

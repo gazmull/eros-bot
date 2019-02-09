@@ -1,5 +1,6 @@
 import { PrefixSupplier } from 'discord-akairo';
 import fetch from 'node-fetch';
+// @ts-ignore
 import { emojis, url } from '../../../auth';
 import Command from '../../struct/command/Command';
 
