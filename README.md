@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-    <a href="http://addbot.thegzm.space"><img src="エロース.png" width="940px" alt="eros banner" /></a>
+    <a href="http://addbot.thegzm.space"><img src="エロース.webp" width="940px" alt="eros banner" /></a>
   <br />
     <a href="https://travis-ci.org/gazmull/eros-bot"><img src="https://travis-ci.org/gazmull/eros-bot.svg?branch=master" alt="Build Status" /></a>
 </div>
@@ -8,7 +8,7 @@
 # Eros Bot Rewrite
   * Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     * Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-  * Version: **2.0.0**
+  * Version: **3.0.0**
 
 ## Features
   * Realtime Character/Weapon information pulls from [**Kamihime Project Nutaku Wikia**](https://kamihime-project.wikia.com)
@@ -45,18 +45,12 @@
     * Execute `npm install` (Before this, make sure you have [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on))
         * There might be a chance that NPM will fail to install the dependencies, see [Yarn](https://yarnpkg.com/en/docs/getting-started)
             * Execute `yarn` to initialise the installation.
-    * Check `infobox-parser` in `node_modules`. If `index.js` is missing, then NPM failed to obtain the files; so
-        * Delete `infobox-parser` folder then:
-          * `git clone https://github.com/dijs/infobox-parser.git`
-          * `cd infobox-parser`
-          * `npm install` or `yarn`
-          * `npm run build` or `yarn run build`
   * Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `// comments` to help you set up the file
   * Run the bot!
     * Node: `node .`
     * Process Managers
       * [**Nodemon**](https://github.com/remy/nodemon): `nodemon`
-      * [**PM2**](https://github.com/Unitech/pm2): `pm2 start index.js --name="Eros" --env production`
+      * [**PM2**](https://github.com/Unitech/pm2): `yarn run .pm2.yml --env production`
 
 ## Contributing
   * You have to fork this repository, and follow the project's ESLint configuration. Run `npm test` or `yarn test` to verify if your build is passing. Failing build will be rejected.
@@ -65,5 +59,3 @@
 
 ## License
   MIT
-
-> ### Let me know if there's still missing.
