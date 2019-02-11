@@ -1,4 +1,4 @@
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 
 export default class extends Command {

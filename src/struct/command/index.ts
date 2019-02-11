@@ -59,11 +59,15 @@ export default class ErosCommand extends Command {
 
     return this.handler.emitError(err, message, command);
   }
+
+  public fail (message: Message) {
+    return message.react('❌');
+  }
 }
 
 interface ICommandOptions extends CommandOptions {
   description: {
-    content: string;
+    content: string | string[];
     usage?: string;
     examples?: string[];
     [key: string]: any;

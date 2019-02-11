@@ -3,7 +3,7 @@ import * as parseInfo from 'infobox-parser';
 import fetch from 'node-fetch';
 // @ts-ignore
 import { emojis, url } from '../../../auth';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 import { Eidolon, Kamihime, Soul, Weapon } from '../../struct/Info';
 

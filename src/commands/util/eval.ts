@@ -1,5 +1,5 @@
 import * as util from 'util';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 import { evalStatus } from '../../util/console';
 
 function clean (text) {

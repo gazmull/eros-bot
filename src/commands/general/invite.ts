@@ -1,6 +1,6 @@
 // @ts-ignore
 import { docs, inviteLink } from '../../../auth';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 
 export default class extends Command {
   constructor () {

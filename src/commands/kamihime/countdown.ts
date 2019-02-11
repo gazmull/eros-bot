@@ -5,7 +5,7 @@ import * as moment from 'moment-timezone';
 // @ts-ignore
 import { countdownAuthorized, emojis } from '../../../auth';
 import prettyMilliseconds from '../..//util/prettyMilliseconds';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 
 // ! - You need to rewrite this for simplier API. This current API sucks balls deep.
 export default class extends Command {
@@ -16,7 +16,7 @@ export default class extends Command {
         content: [
           'Displays countdowns related to Kamihime Project in-game events.',
           'It includes special and some regular events.',
-        ].join('\n'),
+        ],
         usage: '[command] [command argument]',
         examples: [ '', 'add A User\'s Birthday 2018-04-23T00:00', 'test Event End 2018-05-16T20:00' ]
       },

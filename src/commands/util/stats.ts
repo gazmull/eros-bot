@@ -5,7 +5,7 @@ import { version as kamihimedbVersion } from '../../../../kamihimedb/package.jso
 // @ts-ignore
 import { description, version as erosVersion } from '../../../package.json';
 import prettyMilliseconds from '../..//util/prettyMilliseconds';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 
 export default class extends Command {
   constructor () {

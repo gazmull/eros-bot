@@ -2,7 +2,7 @@ import { PrefixSupplier } from 'discord-akairo';
 import { StringResolvable } from 'discord.js';
 // @ts-ignore
 import { emojis } from '../../../auth';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 import { dialogs } from './guide-pages';
 
 export default class extends Command {

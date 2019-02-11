@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 // @ts-ignore
 import { emojis, url } from '../../../auth';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 
 export default class extends Command {
   constructor () {
@@ -12,7 +12,6 @@ export default class extends Command {
         usage: '<page number>',
         examples: [ '', '13', '37' ]
       },
-      lock: 'user',
       paginated: true,
       args: [
         {
@@ -63,7 +62,7 @@ export default class extends Command {
         )
         .formatField('Views', i => i.peeks);
 
-      return await embed.build();
+      return embed.build();
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 }

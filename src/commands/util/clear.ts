@@ -1,5 +1,5 @@
 import { TextChannel } from 'discord.js';
-import Command from '../../struct/command/Command';
+import Command from '../../struct/command';
 
 export default class extends Command {
   constructor () {

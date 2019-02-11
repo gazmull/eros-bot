@@ -1,5 +1,5 @@
 import { Listener } from 'discord-akairo';
-import ErosCommand from '../../struct/command/Command';
+import ErosCommand from '../../struct/command';
 import ErosError from '../../struct/ErosError';
 
 export default class extends Listener {
