@@ -1,13 +1,28 @@
 import { ClientUtil } from 'discord-akairo';
 import Selection from '../src/struct/util/Selection';
-import { Message as Msg } from 'discord.js';
+import { Message as Msg, StringResolvable } from 'discord.js';
 
 declare global {
   interface Message extends Msg {}
+
   interface IClientUtil extends ClientUtil {
     selection: Selection;
     getArticle: (title: string) => Promise<string>;
     getArticleCategories: (title: string) => Promise<{ title: string }>;
+  }
+
+  interface IDialog {
+    command?: string;
+    title?: string;
+    description?: StringResolvable;
+    image?: string;
+    fields?: {
+      name: string;
+      value: StringResolvable;
+      inline?: boolean;
+    }[];
+    contributors?: string[];
+    
   }
 
   interface IKamihimeWiki {
