@@ -55,7 +55,7 @@ export default class extends Command {
         .setTitle(`${filter.toUpperCase()} | Found: ${result.length}`)
         .setDescription([
           '**NOTE**: This is a list of characters registered in',
-          '[**Kamihime Database**](http://kamihimedb.thegzm.space) only.',
+          `[**Kamihime Database**](${url.root}) only.`,
         ].join(' '))
         .setTimeout(240 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
