@@ -9,12 +9,8 @@ export default class extends Command {
     super('list', {
       aliases: [ 'list', 'l' ],
       description: {
-        content: [
-          'Displays results based on your arguments.',
-          'See `list variables` for a list of available variables.',
-          '**NOTE**: Results are only from Harem Database.',
-        ].join('\n'),
-        usage: '<filter variable>',
+        content: 'Displays character/weapon names based on your arguments.',
+        usage: '<filter variables>',
         examples: [ 'kamihime', 'eidolon', 'eidolon dark' ]
       },
       cooldown: 5 * 1000,
@@ -26,7 +22,7 @@ export default class extends Command {
           match: 'text',
           prompt: {
             start: [
-              'how do you want to filter a list of results?',
+              'how do you want to filter a list of items?',
               'Say `variables` for a list of available filter variables.',
             ]
           }
@@ -42,7 +38,7 @@ export default class extends Command {
 
   public async exec (message: Message, { filter, advanced }) {
     try {
-      if (filter.toLowerCase() === 'variables') return await this.helpDialog(message);
+      if (filter.toLowerCase() === 'variables') return this.helpDialog(message);
       const lastResponse = await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
       const args = filter.toLowerCase().trim().split(/ +/g);
@@ -51,7 +47,7 @@ export default class extends Command {
 
       if (result.error) throw result.error.message;
 
-      const embed = this.util.fields()
+      const embed = this.util.fields(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel)
         .setClientMessage(lastResponse, `${emojis.loading} Preparing...`)
@@ -61,7 +57,6 @@ export default class extends Command {
           '**NOTE**: This is a list of characters registered in',
           '[**Kamihime Database**](http://kamihimedb.thegzm.space) only.',
         ].join(' '))
-        .setColor(0xFF00AE)
         .setTimeout(240 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
@@ -77,9 +72,8 @@ export default class extends Command {
 
   public helpDialog (message: Message) {
     const prefix = (this.handler.prefix as PrefixSupplier)(message);
-    const embed = this.client.util.embed()
+    const embed = this.util.embed(message)
       .setTitle('Filter Variables')
-      .setColor(0xFF00AE)
       .setDescription(
         [
           '__At least one Primary Variable is required__',

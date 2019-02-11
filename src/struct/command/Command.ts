@@ -1,5 +1,6 @@
 import { Command, CommandOptions } from 'discord-akairo';
 import { Embeds, FieldsEmbed } from 'discord-paginationembed';
+import { MessageEmbed } from 'discord.js';
 
 export default class ErosCommand extends Command {
   constructor (id: string, options: ICommandOptions) {
@@ -8,6 +9,7 @@ export default class ErosCommand extends Command {
     this.paginated = options.paginated || false;
 
     this.util = {
+      embed: this.embed,
       embeds: this.embeds,
       fields: this.fields
     };
@@ -16,7 +18,19 @@ export default class ErosCommand extends Command {
   public paginated: boolean;
   public util: IUtil;
 
-  public embeds (message: Message = null): Embeds {
+  public embed (message: Message = null) {
+    const instance = new MessageEmbed()
+      .setColor(0xFF00ae);
+
+    if (message)
+      instance
+        .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
+        .setTimestamp(new Date());
+
+    return instance;
+  }
+
+  public embeds (message: Message = null) {
     const instance = new Embeds()
       .setColor(0xFF00AE);
 
@@ -28,7 +42,7 @@ export default class ErosCommand extends Command {
     return instance;
   }
 
-  public fields (message: Message = null): FieldsEmbed {
+  public fields (message: Message = null) {
     const instance = new FieldsEmbed()
       .setColor(0xFF00AE);
 
@@ -59,6 +73,7 @@ interface ICommandOptions extends CommandOptions {
 }
 
 interface IUtil {
-  embeds: Embeds;
-  fields: FieldsEmbed;
+  embed: (message?: Message) => MessageEmbed;
+  embeds: (message?: Message) => Embeds;
+  fields: (message?: Message) => FieldsEmbed;
 }

@@ -141,9 +141,9 @@ export default class extends Command {
         },
       ];
       const thumbnail = encodeURI(`${url.root}img/wiki/portrait/${result.name} Portrait.png`);
-      const embed = client.util.embed()
+      const embed = this.util.embed(message)
         .setColor(0xFF75F1)
-        .setAuthor(result.name, null, `${url.wikia}${encodeURI(result.name)}`)
+        .setAuthor(result.name, null, `${url.fandom}${encodeURI(result.name)}`)
         .setDescription(
           `${result.loli ? '**Flagged as Loli**' : ''}${
             result.name.toLowerCase() === (client.user.username.toLowerCase())

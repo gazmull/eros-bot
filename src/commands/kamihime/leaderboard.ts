@@ -41,14 +41,13 @@ export default class extends Command {
       let list = characters.filter(c => c.peeks !== 0);
       list = list.sort((a, b) => b.peeks - a.peeks);
 
-      const embed = this.util.fields()
+      const embed = this.util.fields(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
         .setArray(list)
         .setPage(page)
         .setTitle('Most Views Leaderboard (Harem Scenes)')
-        .setColor(0xFF00AE)
         .setTimeout(240 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 

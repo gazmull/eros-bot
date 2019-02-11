@@ -32,12 +32,10 @@ export default class extends Command {
       return client.guildSettings.get(guildID, column, null);
     };
 
-    const embed = client.util.embed()
-      .setColor(0xFF00AE)
+    const embed = this.util.embed(message)
       .setTitle(message.guild.name)
       .setDescription(`Created at ${message.guild.createdAt.toUTCString()}`)
       .setThumbnail(message.guild.iconURL() ? message.guild.iconURL() : client.user.displayAvatarURL())
-      .setFooter(`Executed by ${message.author.tag}`)
       .setTimestamp(new Date())
       .addField('Online Members', `${presenceCount} / ${memberCount}`, true)
       .addField('Channels',

@@ -13,8 +13,7 @@ export default class extends Command {
   public async exec (message: Message) {
     const client = this.client;
     const owner = await client.users.fetch(client.ownerID as string);
-    const embed = client.util.embed()
-      .setColor(0xFF00AE)
+    const embed = this.util.embed(message)
       .setThumbnail(client.user.displayAvatarURL())
       .setDescription([
         `Documentation: <${docs}>`,

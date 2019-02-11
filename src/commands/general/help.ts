@@ -32,8 +32,7 @@ export default class extends Command {
 
     const clientPermissions = command.clientPermissions;
     const userPermissions = command.userPermissions;
-    const embed = this.client.util.embed()
-      .setColor(0xFF00AE)
+    const embed = this.util.embed(message)
       .setTitle(`${prefix}${command} ${command.description.usage ? command.description.usage : ''}`)
       .setDescription(`${
         clientPermissions.length > 4
@@ -62,7 +61,7 @@ export default class extends Command {
   }
 
   public defaultHelp (message: Message, pub = false) {
-    const embed = this.client.util.embed()
+    const embed = this.util.embed(message)
       .setColor(0xFF00AE)
       .setTitle('Commands')
       .setDescription([

@@ -4,6 +4,7 @@ import * as fs from 'fs-extra';
 import * as moment from 'moment-timezone';
 // @ts-ignore
 import { countdownAuthorized, emojis } from '../../../auth';
+import prettyMilliseconds from '../..//util/prettyMilliseconds';
 import Command from '../../struct/command/Command';
 
 // ! - You need to rewrite this for simplier API. This current API sucks balls deep.
@@ -104,17 +105,8 @@ export default class extends Command {
     const date = Number(moment(_date, 'x').tz(timezone).format('x'));
     const now = Number(moment().tz(timezone).format('x'));
     const remaining = date - now;
-    const _days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-    const _hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const _minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-    const _seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
-    const days = _days < 1 ? '' : `${_days}d `;
-    const hours = _hours < 10 ? `0${_hours}:` : `${_hours}:`;
-    const minutes = _minutes < 10 ? `0${_minutes}:` : `${_minutes}:`;
-    const seconds = _seconds < 10 ? `0${_seconds}` : String(_seconds);
-
-    return days.concat(hours, minutes, seconds);
+    return prettyMilliseconds(remaining);
   }
 
   public async getCountdowns () {
@@ -264,8 +256,7 @@ export default class extends Command {
 
   public async defaultCommand (message: Message) {
     const countdowns = await this.prepareCountdowns();
-    const embed = this.client.util.embed()
-      .setColor(0xFF00AE);
+    const embed = this.util.embed(message);
 
     for (const countdown of countdowns.keys()) {
       const date = moment(countdown).tz(this.timezone);
@@ -281,7 +272,7 @@ export default class extends Command {
 
   public authorisedHelp (message: Message) {
     const prefix = (this.handler.prefix as PrefixSupplier)(message);
-    const embed = this.client.util.embed()
+    const embed = this.util.embed(message)
       .setColor(0xFF00AE)
       .addField('Adding a Countdown', [
         `❯ Usage: ${prefix}countdown add [name] [date]`,

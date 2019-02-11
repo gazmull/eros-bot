@@ -31,8 +31,7 @@ export default class extends Command {
       const fetchedMember = member || await message.guild.members.fetch(member.id);
       if (!fetchedMember) throw new Error('Member cache missing');
 
-      const embed = this.client.util.embed()
-        .setColor(0xFF00AE)
+      const embed = this.util.embed(message)
         .setTitle(`${fetchedMember.user.tag} | ${this.memberStatus(member)}`)
         .setDescription(`**ID**: ${fetchedMember.id}${
           member.nickname ? `, also known as **\`${member.nickname}\`**` : ''}`

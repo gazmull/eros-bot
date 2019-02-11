@@ -55,13 +55,12 @@ export default class extends Command {
 
       if (result.error) throw result.error.message;
 
-      const embed = this.util.fields
+      const embed = this.util.fields(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
         .setArray(result)
         .setTitle(`${character.toUpperCase()} | Found: ${result.length}`)
-        .setColor(0xFF00AE)
         .showPageIndicator(false)
         .setTimeout(60 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
