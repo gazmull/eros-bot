@@ -5,14 +5,14 @@ export default class KamihimeInfo extends Info {
   public character: IKamihimeWikiKamihime;
 
   public async format () {
-    const { wikiaURI, colors } = this;
+    const { fandomURI, colors } = this;
     const hime = await this.template();
     const embed = new MessageEmbed()
       .setDescription(
         [
           `__**Kamihime**__ | __**${hime.type}**__ | __**${hime.element}**__${
             hime.releaseWeapon
-              ? ` | __**[${hime.releaseWeapon}](${wikiaURI}${encodeURI(hime.releaseWeapon)} "Weapon Release")**__`
+              ? ` | __**[${hime.releaseWeapon}](${fandomURI}${encodeURI(hime.releaseWeapon)} "Weapon Release")**__`
               : ''}`,
           hime.favouriteWeapon ? `__**Favourite Weapon Type: ${hime.favouriteWeapon}**__\n` : '' + hime.description,
         ]

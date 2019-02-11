@@ -5,7 +5,7 @@ export default class SoulInfo extends Info {
   public character: IKamihimeWikiSoul;
 
   public async format () {
-    const { wikiaURI, colors } = this;
+    const { fandomURI, colors } = this;
     const soul = await this.template();
     const embed = new MessageEmbed()
       .setDescription(
@@ -14,9 +14,9 @@ export default class SoulInfo extends Info {
             soul.weapons[0]}${soul.weapons[1] ? ` and ${soul.weapons[1]}` : ''}**__`,
           soul.souls.length
             ? `__**Requires**__: [__**${
-              soul.souls[0]}**__](${wikiaURI}${encodeURI(soul.souls[0])
+              soul.souls[0]}**__](${fandomURI}${encodeURI(soul.souls[0])
             }) & [__**${
-              soul.souls[1]}**__](${wikiaURI}${encodeURI(soul.souls[1])
+              soul.souls[1]}**__](${fandomURI}${encodeURI(soul.souls[1])
             }) at LV 20\n__**Master LV Bonus**__: ${soul.masterBonus}\n${soul.description}`
             : `__**Master LV Bonus**__: ${soul.masterBonus}\n${soul.description}`,
         ]

@@ -36,7 +36,7 @@ module.exports = {
     api: 'http://kamihimedb.thegzm.space/api/',
     player: 'http://kamihimedb.thegzm.space/player/',
     root: 'http://kamihimedb.thegzm.space/',
-    wikia: 'https://kamihime-project.wikia.com/w/'
+    fandom: 'https://kamihime-project.fandom.com/w/'
   },
 
   // Authorised for coutdown management.

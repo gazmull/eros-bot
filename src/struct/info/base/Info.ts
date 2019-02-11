@@ -17,7 +17,7 @@ export default class Info {
 
     this.apiURI = url.api;
 
-    this.wikiaURI = url.wikia;
+    this.fandomURI = url.fandom;
 
     this.client = client;
 
@@ -30,7 +30,7 @@ export default class Info {
 
   public colors: {  [key: string]: number; };
   public apiURI: string;
-  public wikiaURI: string;
+  public fandomURI: string;
   public client: ErosClient;
   public prefix: string;
   public res: IKamihimeDB;
@@ -136,6 +136,6 @@ export default class Info {
   }
 
   get itemLink () {
-    return `${url.wikia}${encodeURI(this.character.name)}`;
+    return `${url.fandom}${encodeURI(this.character.name)}`;
   }
 }

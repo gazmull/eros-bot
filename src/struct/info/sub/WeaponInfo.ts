@@ -5,7 +5,7 @@ export default class WeaponInfo extends Info {
   public character: IKamihimeWikiWeapon;
 
   public async format () {
-    const { wikiaURI, colors } = this;
+    const { fandomURI, colors } = this;
     const weapon = await this.template();
     const list = [];
     const discriminator = {
@@ -61,7 +61,7 @@ export default class WeaponInfo extends Info {
       Elaborate: 'Characters\' Ability↑'
     };
 
-    const cleanReleaseLink = `${wikiaURI}${encodeURI(weapon.releases)}`.replace(/(\(|\))/g, '\\$&');
+    const cleanReleaseLink = `${fandomURI}${encodeURI(weapon.releases)}`.replace(/(\(|\))/g, '\\$&');
     const elements = weapon.elements.every(e => Boolean(e)) ? weapon.elements.join('/') : weapon.elements[0];
     const embed = new MessageEmbed()
       .setDescription(
