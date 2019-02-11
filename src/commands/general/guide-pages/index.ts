@@ -64,12 +64,6 @@ export const dialogs: IDialog[] = [
           '+ Read Messages (or Read Channels)',
           '+ Send Messages',
           '+ Use External Emojis',
-          '\n- To enable Moderator System',
-          '+ Ban Members',
-          '+ Kick Members',
-          '+ Manage Channels',
-          '+ Manage Nickname',
-          '+ Read Message History',
           '```',
           'Set Server Prefix: `@Eros prefix <prefix>`',
           'Set Twitter feed channel: `@Eros twitterchannel <mention channel>`',
@@ -100,6 +94,7 @@ export const dialogs: IDialog[] = [
         value: [
           'Texts that are enclosed with `[]` or `<>` meant they are placeholders.',
           'You use it as **`@Eros info eros -tw`**, not as **`@Eros info <item name> <flags>`**!',
+          '\n`[]` means __optional__ | `<>` means __required__',
         ]
       },
     ]
