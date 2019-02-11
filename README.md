@@ -13,16 +13,19 @@
 - [**Guide & Documentation**](https://docs.thegzm.space/eros-bot)
 
 ## Features
-- Realtime Character/Weapon information pulls from [**Kamihime Project Nutaku Wikia**](https://kamihime-project.wikia.com)
+- Realtime Character/Weapon information pulls from [**Kamihime Project Nutaku Wikia**](https://kamihime-project.fandom.com)
 - Kamihime Database (Harem Scenes)
-  - Again, only Nutaku version is available.
-  - Uses RESTful API from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
+  - Only Nutaku version is available.
+  - Uses REST API (JSON) from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
 - Twitter updates from [**@Kamihime_Nutaku**](https://twitter.com/kamihime_nutaku)
   - Customise your `Twitter Channel` with `?twitterchannel <mention channel>`
-- Basic bot commands - See `help` command for more info on each command
+- Basic bot commands
+  - See `help` command for more info for each command
+  - See `guide` command for an in-depth guide for each command
 - Guild-wide Customisable Prefix
   - Default Prefix: **?** or **`@Eros` (Mention)**
-- You can now DM the bot directly for commands without the default prefix
+- DM the bot directly for commands without the default prefix
+  - e.g: `info Eros -tw`
 - *More to come�*
 
 ## Commands
@@ -30,12 +33,12 @@
   - Main: `prefix`
   - Kamihime-specific: `loli`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
 - **General**
-  - Main: `help`, `invite`
+  - Main: `help`, `guide`, `invite`
 - **Utility**
-  - Main: `memberinfo`, `serverinfo`, `ping`
+  - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
   - Bot Owner: `eval`, `clear`
 - **Kamihime**
-  - Main: `guide`, `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`, `countdown`
+  - Main: `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`, `countdown`
 
 ## Hosting Eros
 > ### [Add her to your server instead? (24/7)](http://addbot.thegzm.space)
