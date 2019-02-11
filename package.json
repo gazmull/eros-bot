@@ -1,7 +1,7 @@
 {
   "name": "eros-bot",
   "version": "3.0.0",
-  "description": "Eros Bot Public",
+  "description": "[R18] A simple Kamihime Project (Nutaku) bot for pulling character information and harem episodes from Kamihime DB.",
   "main": "build/index.js",
   "typings": "typings",
   "engines": {

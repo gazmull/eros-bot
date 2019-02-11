@@ -1,6 +1,6 @@
 {
   "npm.autoDetect": "on",
   "tslint.configFile": ".\\.tslint.js",
-  "tslint.exclude": "build",
+  "tslint.exclude": "build/**/*",
   "tslint.jsEnable": true,
 }
