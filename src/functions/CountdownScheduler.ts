@@ -1,6 +1,5 @@
 import { Collection, TextChannel } from 'discord.js';
 import Scheduler from 'node-schedule';
-import { and } from 'sequelize';
 import ErosClient from '../struct/ErosClient';
 
 /**
@@ -36,10 +35,11 @@ export default class {
 
   public async distribute (names: string[]) {
     const guilds = await this.client.db.Guild.findAll({
-      where: and(
-        { cdChannelID: { ne: null } },
-        { cdRoleID: { ne: null } }
-      )
+      // @ts-ignore
+      where: {
+        cdChannelID: { ne: null },
+        cdRoleID: { ne: null }
+      }
     });
 
     const tick = this.client.setInterval(() => {
