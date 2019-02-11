@@ -16,8 +16,7 @@ export default class extends Listener {
 
     if (command.paginated) return;
     else if (!message.guild) return;
-    else if (!channel.permissionsFor(message.guild.me).has([ 'ADD_REACTIONS', 'MANAGE_MESSAGES' ]))
-      return;
+    else if (!channel.permissionsFor(message.guild.me).has([ 'ADD_REACTIONS' ])) return;
 
     const dialog = message.util.lastResponse;
     if (!dialog || dialog.deleted) return;
@@ -26,10 +25,11 @@ export default class extends Listener {
     try {
       await dialog.react('🗑');
       const toDelete = await dialog.awaitReactions((r, u) =>
-        r.emoji.name === '🗑' && u.id === message.author.id, { max: 1, time: 30 * 1000, errors: [ 'time' ] });
+        r.emoji.name === '🗑' && u.id === message.author.id,
+        { max: 1, time: 30 * 1000, errors: [ 'time' ] }
+      );
 
-      if (toDelete.first())
-        await dialog.delete();
+      if (toDelete.first()) await dialog.delete();
     } catch (c) {
       if (c instanceof Error) error(c);
 
