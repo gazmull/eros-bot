@@ -27,7 +27,7 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { name }: { name: string }) {
-    if (!name) return this.fail(message);
+    if (!name) return;
 
     const client = this.client as ErosClient;
     const tag = await client.db.Tag.findOne({
