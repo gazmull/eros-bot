@@ -16,11 +16,11 @@ export default class extends Command {
       aliases: [ 'info', 'i', 'khinfo', 'khi', 'kh' ],
       description: {
         content: 'Looks up for a Kamihime Project Character/Weapon at KH-Nutaku Wikia.',
-        usage: '<item name>',
+        usage: '<item name> <flags>',
         examples: [ 'eros', 'mars', 'mars -r' ],
         flags: [
           {
-            names: [ '/s', '/soul', '/e', '/eidolon', '/k', '/kamihime', '/w', '/weapon' ],
+            names: [ '-ts', '--type=soul', '-te', '--type=eidolon', '-tk', '--type=kamihime', '-tw', '--type=weapon' ],
             value: 'Narrow down search results respectively by: *Soul* / *Eidolon* / *Kamihime* / *Weapon*'
           },
           {
@@ -64,7 +64,7 @@ export default class extends Command {
         {
           id: 'type',
           match: 'option',
-          flag: '/',
+          flag: [ '-t', '--type=' ],
           default: null
         },
       ]
