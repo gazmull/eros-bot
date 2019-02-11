@@ -1,4 +1,4 @@
-import { AkairoClient, Listener } from 'discord-akairo';
+import { Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
 // @ts-ignore
 import { defaultPrefix } from '../../../auth';
@@ -13,13 +13,16 @@ export default class extends Listener {
     });
   }
 
+  /* tslint:disable:max-line-length */
   public async exec (guild: Guild) {
     const guildSize = guild.client.guilds.size;
 
     try {
+      const cdChannel = guild.channels.find(c => /countdown/ig.test(c.name));
       const twitterChannel = guild.channels.find(c => /twitter/ig.test(c.name));
       const nsfwChannel = guild.channels.find(c => /nsfw/ig.test(c.name));
       const nsfwRole = guild.roles.find(r => /nsfw/ig.test(r.name));
+      const existing = [ cdChannel, twitterChannel, nsfwChannel, nsfwRole ].filter(el => el);
       const client = this.client as ErosClient;
 
       await client.db.Guild.create({
@@ -35,34 +38,21 @@ export default class extends Listener {
 
       const welcomeMessage = [ `Hello, ${guild.owner.user.username}. I joined your server, ${guild.name}.` ];
 
-      if (nsfwChannel)
+      if (existing.length)
         welcomeMessage.push([
-          `I have detected that you have an NSFW channel (${nsfwChannel.name})`,
-          'and I have set it as the NSFW Channel for your guild settings in my database.',
-        ].join(' '));
-      if (nsfwRole)
-        welcomeMessage.push([
-          nsfwChannel ? 'Also, ' : '',
-          `I have detected that you have an NSFW Role (${nsfwRole.name})`,
-          'and I have set it as the NSFW Role for your guild settings in my database.',
-        ].join(' '));
-      if (twitterChannel)
-        welcomeMessage.push([
-          nsfwChannel && nsfwRole
-            ? 'Finally, '
-            : (!nsfwChannel && nsfwRole) || (nsfwChannel && !nsfwRole)
-              ? 'Also, '
-              : '',
-          `I have detected that you have a Twitter channel (${twitterChannel.name})`,
-          'and I have set it as the Twitter channel (Kamihime Project Updates) for your guild settings in my database.',
-        ].join(' '));
+          'The following has been detected and added to your guild settings:',
+          existing.map(el => `- ${el.name}`).join('\n'),
+        ].join('\n'));
+
       if (welcomeMessage.length > 1) {
         welcomeMessage.push(
-          `\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild.`,
+          `\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild (please configure your settings there).`,
           '\tExamples:',
+          cdChannel ? `\t\`${defaultPrefix}cdchannel <channel mention>\`` : '',
           nsfwChannel ? `\t\`${defaultPrefix}nsfwchannel <channel mention>\`` : '',
           nsfwRole ? `\t\`${defaultPrefix}nsfwrole <role mention>\`` : '',
-          twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel mention>\`` : ''
+          twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel mention>\`` : '',
+          `\n Or refer to \`${defaultPrefix}guide\` which is recommended.`
         );
 
         guild.owner.send(welcomeMessage.join('\n'));
@@ -73,7 +63,7 @@ export default class extends Listener {
       if (err.name === 'SequelizeUniqueConstraintError')
         return status(`${guild.name} (ID: ${guild.id}) already exists, joined anyway. ${guildSize} total guilds.`);
 
-      const client = guild.client as AkairoClient;
+      const client = guild.client as ErosClient;
       const ownerID = client.ownerID as string;
 
       await guild.owner.send([
