@@ -36,7 +36,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { filter, advanced }) {
+  public async exec (message: Message, { filter, advanced }: { filter: string, advanced: boolean }) {
     try {
       if (filter.toLowerCase() === 'variables') return this.helpDialog(message);
       const lastResponse = await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
@@ -66,7 +66,7 @@ export default class extends Command {
         true
       );
 
-      await embed.build();
+      return embed.build();
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 

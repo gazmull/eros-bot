@@ -39,6 +39,6 @@ export default class extends Command {
         `${message.member}, granted! Proceed to ${resolvedChannel} when accessing Harem Scenes.`,
         `Say \`${prefix}guide\` for more info.`,
       ]);
-    } catch (err) { this.emitError(err, message, this, 0); }
+    } catch (err) { this.emitError(err, message, this); }
   }
 }

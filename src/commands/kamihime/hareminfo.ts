@@ -1,4 +1,5 @@
 import { PrefixSupplier } from 'discord-akairo';
+import { TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 // @ts-ignore
 import { emojis, url } from '../../../auth';
@@ -43,7 +44,7 @@ export default class extends Command {
 
   protected rassedMsg: string[];
 
-  public async exec (message, { character }) {
+  public async exec (message, { character }: { character: string }) {
     try {
       await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
 
@@ -71,7 +72,7 @@ export default class extends Command {
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 
-  public async awaitSelection (message, rows) {
+  public async awaitSelection (message: Message, rows: IKamihimeDB[]) {
     const client = this.client as ErosClient;
     const character = await client.util.selection.exec(message, rows);
 
@@ -85,7 +86,7 @@ export default class extends Command {
     await this.triggerDialog(message, _character);
   }
 
-  public async triggerDialog (message, result) {
+  public async triggerDialog (message: Message, result: IKamihimeDB) {
     const client = this.client as ErosClient;
 
     try {
@@ -173,13 +174,13 @@ export default class extends Command {
         );
       }
 
-      const channel = message.channel;
+      const channel = message.channel as TextChannel;
 
       if (!channel.guild)
         return message.util.edit({ embed });
 
       const nsfwChannelID = client.guildSettings.get(guild.id, 'nsfwChannelID', null);
-      const nsfwChannel = guild.channels.get(nsfwChannelID);
+      const nsfwChannel = guild.channels.get(nsfwChannelID) as TextChannel;
 
       if (!nsfwChannel)
         throw new Error(`NSFW Channel is not configured.${

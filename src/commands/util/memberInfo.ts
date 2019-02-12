@@ -7,7 +7,7 @@ export default class extends Command {
       aliases: [ 'memberinfo', 'minfo', 'mi', 'userinfo', 'uinfo', 'ui' ],
       description: {
         content: 'Displays a guild member information. No arguments will display yours instead.',
-        usage: '<optional member resolvable>',
+        usage: '[member name]',
         examples: [ 'A Binary Large OBject', 'Euni', 'Euni#0011', '319102712383799296' ]
       },
       clientPermissions: [ 'EMBED_LINKS' ],
@@ -22,7 +22,7 @@ export default class extends Command {
     });
   }
 
-  public exec (message: Message, { member }) {
+  public exec (message: Message, { member }: { member: GuildMember }) {
     return this.displayInfo(message, member);
   }
 
@@ -47,7 +47,7 @@ export default class extends Command {
         embed.addField('Activity', this.memberActivity(member));
 
       return message.util.send({ embed });
-    } catch (err) { this.emitError(err, message, this, 0); }
+    } catch (err) { this.emitError(err, message, this); }
   }
 
   public memberStatus (member: GuildMember) {

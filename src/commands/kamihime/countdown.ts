@@ -130,7 +130,7 @@ export default class extends Command {
     return countdowns;
   }
 
-  public async exec (message: Message, { command, details }) {
+  public async exec (message: Message, { command, details }: { command: string, details: string }) {
     command = command ? command.toLowerCase() : '';
     const hasCommand = [ 'help', 'add', 'remove', 'test' ].includes(command);
     const authorized = hasCommand && this.authorized(message.author);
@@ -151,9 +151,9 @@ export default class extends Command {
       case 'add': {
         if (!details) return this.defaultCommand(message);
 
-        details = details.split(/ +/g);
-        date = moment.tz(details.pop(), timezone).seconds(0);
-        name = details.join(' ');
+        const _details = details.split(/ +/g);
+        date = moment.tz(_details.pop(), timezone).seconds(0);
+        name = _details.join(' ');
 
         this.countdowns.set(name, date);
         await this.save();

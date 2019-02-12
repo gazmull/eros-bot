@@ -9,7 +9,7 @@ export default class extends Command {
       aliases: [ 'leaderboard', 'lb', 'toppeeks', 'top' ],
       description: {
         content: 'Displays leaderboard of kamihime for top views on harem scenes.',
-        usage: '<page number>',
+        usage: '[page number]',
         examples: [ '', '13', '37' ]
       },
       paginated: true,
@@ -28,7 +28,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message, { page, advanced }) {
+  public async exec (message, { page, advanced }: { page: number, advanced: boolean }) {
     try {
       await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 

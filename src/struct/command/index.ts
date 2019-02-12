@@ -54,7 +54,7 @@ export default class ErosCommand extends Command {
     return instance;
   }
 
-  public emitError (err: Error, message: Message, command: ErosCommand, step: number) {
+  public emitError (err: Error, message: Message, command?: ErosCommand, step?: number) {
     Object.assign(err, { step });
 
     return this.handler.emitError(err, message, command);

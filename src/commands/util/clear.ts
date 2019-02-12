@@ -7,7 +7,7 @@ export default class extends Command {
       aliases: [ 'clear' ],
       description: {
         content: 'Clears a text channel from based on limit specified messages. Default: 99 messages.',
-        usage: '<limit> <optional me | bot | all>',
+        usage: '[limit] [me | bot | all]',
         examples: [ '25', 'me 25' ]
       },
       ownerOnly: true,
@@ -27,7 +27,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { amount, type }) {
+  public async exec (message: Message, { amount, type }: { amount: number, type: string }) {
     try {
       const channel = message.channel as TextChannel;
       if (channel.topic && channel.topic.match(/<clear:no>/gi))
@@ -64,6 +64,6 @@ export default class extends Command {
           channel.bulkDelete(filterMessages);
         }
       }
-    } catch (err) { this.emitError(err, message, this, 0); }
+    } catch (err) { this.emitError(err, message, this); }
   }
 }

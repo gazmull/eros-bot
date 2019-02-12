@@ -42,7 +42,10 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { character, advanced, isID }) {
+  public async exec (
+    message: Message,
+    { character, advanced, isID }: { character: string, advanced: boolean, isID: boolean }
+  ) {
     try {
       await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
 
@@ -68,7 +71,7 @@ export default class extends Command {
       if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`);
       embed.formatField('Name', i => i.name);
 
-      return await embed.build();
+      return embed.build();
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 

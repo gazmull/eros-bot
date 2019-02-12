@@ -24,7 +24,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { code }) {
+  public async exec (message: Message, { code }: { code: string }) {
     evalStatus(`${message.author.tag} (${message.author.id}) Triggered eval. Did you do this?`);
     try {
       let evaled = eval(code); // tslint:disable-line:no-eval
