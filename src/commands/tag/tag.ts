@@ -7,7 +7,7 @@ export default class extends ErosCommand {
       aliases: [ 'tag' ],
       description: {
         content: [
-          'Displays a list of tags from the current server or the specified member.',
+          'Parent command of tag system.',
           'Available Methods:',
           '\t- `add`',
           '\t- `del`',

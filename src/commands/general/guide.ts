@@ -63,14 +63,15 @@ export default class extends Command {
 
           if (!command) throw new Error('Invalid Command ' + v.command);
 
+          const hasAliases = command.aliases && command.aliases.length;
           let content: string | string[] = command.description.content;
           content = Array.isArray(content) ? content.join('\n') : content;
 
           title = `Command: ${v.command.toLowerCase()}`;
           description = [
             `**Usage**: \`@Eros ${v.command} ${command.description.usage || ''}\``,
-            `**Aliases**:  ${command.aliases ? command.aliases.map(c => `\`${c}\``).join(', ') : 'None'}`,
-            '**Brief Description**: ' + content,
+            `**Aliases**: ${hasAliases ? command.aliases.map(c => `\`${c}\``).join(', ') : 'None'}`,
+            `**Brief Description**: ${content}`,
             '',
             ...description,
           ];
