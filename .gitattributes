@@ -2,7 +2,6 @@
 * text=auto eol=lf
 
 # Graphics
-*.ico binary
-*.jpeg binary
-*.jpg binary
+*.gif binary
 *.png binary
+*.webp binary
