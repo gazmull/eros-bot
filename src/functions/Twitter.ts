@@ -1,85 +1,94 @@
 import { TextChannel } from 'discord.js';
+import { Op } from 'sequelize';
 import * as TwitterClient from 'twitter-lite';
 // @ts-ignore
 import { twitter as config } from '../../auth';
 import ErosClient from '../struct/ErosClient';
 import { status, warn } from '../util/console';
 
-let tick = null;
-let recon = null;
-let lastTweetID = null;
+export default class {
+  constructor (client: ErosClient) {
+    this.client = client;
+  }
 
-export const init = (client: ErosClient) => {
-  if (!config) return warn('Twitter Module: Config is not set; skipped.');
+  public client: ErosClient;
+  protected tick: NodeJS.Timer;
+  protected recon: NodeJS.Timer;
+  protected lastTweetId: string = null;
 
-  const ownerID = client.ownerID as string;
-  const twitter = new TwitterClient(config);
-  const stream = twitter.stream('statuses/filter', { follow: config.user });
+  public init () {
+    if (!config) return warn('Twitter Module: Config is not set; skipped.');
 
-  stream
-    .on('data', async tweet => {
-      if (
-        !tweet ||
-        tweet.retweeted_status ||
-        tweet.user.id_str !== config.user ||
-        tweet.in_reply_to_status_id ||
-        lastTweetID === tweet.id_str
-      )
-        return;
+    const client = this.client as ErosClient;
+    const ownerID = client.ownerID as string;
+    const twitter = new TwitterClient(config);
+    const stream = twitter.stream('statuses/filter', { follow: config.user });
 
-      lastTweetID = tweet.id_str;
-      // @ts-ignore
-      const guilds = await client.db.Guild.findAll({ where: { twitterChannelID: { ne: null } } });
+    stream
+      .on('data', async tweet => {
+        if (
+          !tweet ||
+          tweet.retweeted_status ||
+          tweet.user.id_str !== config.user ||
+          tweet.in_reply_to_status_id ||
+          this.lastTweetId === tweet.id_str
+        )
+          return;
 
-      tick = client.setInterval(() => {
-        if (!guilds.length) return client.clearInterval(tick);
+        this.lastTweetId = tweet.id_str;
+        // @ts-ignore
+        const guilds = await client.db.Guild.findAll({ where: { twitterChannelID: { [Op.ne]: null } } });
 
-        const spliced = guilds.splice(0, 5);
+        this.tick = client.setInterval(() => {
+          if (!guilds.length) return client.clearInterval(this.tick);
 
-        for (const guild of spliced) {
-          const channel = client.channels.get(guild.twitterChannelID) as TextChannel;
+          const spliced = guilds.splice(0, 5);
 
-          if (!channel) continue;
+          for (const guild of spliced) {
+            const channel = client.channels.get(guild.twitterChannelID) as TextChannel;
 
-          channel.send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
-        }
-      }, 3000);
+            if (!channel) continue;
 
-      const msg = `Twitter Module: Sent tweet ${tweet.id_str}`;
-      const owner = await client.users.fetch(ownerID);
+            channel.send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+          }
+        }, 3000);
 
-      owner.send(msg);
+        const msg = `Twitter Module: Sent tweet ${tweet.id_str}`;
+        const owner = await client.users.fetch(ownerID);
 
-      status(msg);
-    })
-    .on('start', async () => {
-      const msg = 'Twitter Module: Connected';
-      const owner = await client.users.fetch(ownerID);
+        owner.send(msg);
 
-      owner.send(msg);
+        status(msg);
+      })
+      .on('start', async () => {
+        const msg = 'Twitter Module: Connected';
+        const owner = await client.users.fetch(ownerID);
 
-      status(msg);
-    })
-    .on('end', async () => {
-      const msg = 'Twitter Module: Disconnected';
-      const owner = await client.users.fetch(ownerID);
+        owner.send(msg);
 
-      owner.send(msg);
-      status(msg);
-      client.clearInterval(tick);
-      client.clearInterval(recon);
-      stream.destroy();
+        status(msg);
+      })
+      .on('end', async () => {
+        const msg = 'Twitter Module: Disconnected';
+        const owner = await client.users.fetch(ownerID);
 
-      recon = client.setTimeout(() => init(client), 3e5);
-    })
-    .on('error', async err => {
-      const msg = `Twitter Module: Error ${err}`;
-      const owner = await client.users.fetch(ownerID);
-      owner.send(msg);
-      status(msg);
+        owner.send(msg);
+        status(msg);
+        client.clearInterval(this.tick);
+        client.clearInterval(this.recon);
+        stream.destroy();
 
-      stream.emit('end');
-    });
+        this.recon = client.setTimeout(() => this.init(), 3e5);
+      })
+      .on('error', async err => {
+        const msg = `Twitter Module: Error ${err}`;
+        const owner = await client.users.fetch(ownerID);
+        owner.send(msg);
+        status(msg);
 
-  return 1;
-};
+        stream.emit('end');
+      });
+
+    return 1;
+  }
+}

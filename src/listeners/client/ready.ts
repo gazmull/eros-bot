@@ -1,5 +1,5 @@
 import { Listener } from 'discord-akairo';
-import { init as initialiseTwitter } from '../../functions/Twitter';
+import Twitter from '../../functions/Twitter';
 import ErosClient from '../../struct/ErosClient';
 import { error, status } from '../../util/console';
 // import * as CountdownScheduler from '../../functions/CountdownScheduler';
@@ -29,7 +29,7 @@ export default class extends Listener {
 
       // client.scheduler = new CountdownScheduler(client);
       // client.scheduler.init();
-      initialiseTwitter(client);
+      return new Twitter(client).init();
     } catch (err) {
       error(err);
     }

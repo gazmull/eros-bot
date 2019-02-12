@@ -1,5 +1,6 @@
 import { Collection, TextChannel } from 'discord.js';
 import Scheduler from 'node-schedule';
+import { Op } from 'sequelize';
 import ErosClient from '../struct/ErosClient';
 
 /**
@@ -37,8 +38,8 @@ export default class {
     const guilds = await this.client.db.Guild.findAll({
       // @ts-ignore
       where: {
-        cdChannelID: { ne: null },
-        cdRoleID: { ne: null }
+        cdChannelID: { [Op.ne]: null },
+        cdRoleID: { [Op.ne]: null }
       }
     });
 
