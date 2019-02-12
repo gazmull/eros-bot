@@ -2,7 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import Info from '../base/Info';
 
 export default class EidolonInfo extends Info {
-  public character: IKamihimeWikiEidolon;
+  public character: IKamihimeFandomEidolon;
 
   public async format () {
     const { colors } = this;

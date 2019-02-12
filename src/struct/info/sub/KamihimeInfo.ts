@@ -2,7 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import Info from '../base/Info';
 
 export default class KamihimeInfo extends Info {
-  public character: IKamihimeWikiKamihime;
+  public character: IKamihimeFandomKamihime;
 
   public async format () {
     const { fandomURI, colors } = this;

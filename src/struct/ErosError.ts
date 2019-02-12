@@ -11,7 +11,7 @@ export default class ErosError {
    * @param code - Available Codes
    *     - `0`: Client Error (default)
    *     - `1`: KamihimeDB Request
-   *     - `2`: Kamihime Wikia Request
+   *     - `2`: Kamihime Fandom Request
    *     - `3`: Menu Selection
    */
   constructor (message: Message, error: Error = null, code = 0) {
@@ -36,15 +36,19 @@ export default class ErosError {
     switch (this.code) {
      case 0: step = 'Client Error'; break;
      case 1: step = 'KamihimeDB Request'; break;
-     case 2: step = 'Wikia Request'; break;
+     case 2: step = 'Fandom Request'; break;
      case 3: step = 'Menu Selection'; break;
     }
 
-    return this.message.util.edit([
+    const message = [
       'I cannot complete the command because:',
       '\`\`\`x1',
       `${this.err}\`\`\`${this.code >= 0 && this.code <= 3 ? `Step: ${step}` : step}`,
       `\nIs it a consistent error? Submit an issue here: ${bugs.url}`,
-    ]);
+    ];
+
+    return this.message.util.lastResponse
+      ? this.message.util.edit(message)
+      : this.message.util.send(message);
   }
 }

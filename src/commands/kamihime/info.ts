@@ -15,8 +15,8 @@ export default class extends Command {
     super('info', {
       aliases: [ 'info', 'i', 'khinfo', 'khi', 'kh' ],
       description: {
-        content: 'Looks up for a Kamihime Project Character/Weapon at KH-Nutaku Wikia.',
-        usage: '<item name> <flags>',
+        content: 'Looks up for a Kamihime Project Character/Weapon at Kamihime Project Nutaku Fandom.',
+        usage: '<item name> [flags]',
         examples: [ 'eros', 'mars', 'mars -r' ],
         flags: [
           {
@@ -71,7 +71,10 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: IMessage, { item, preview, release, type }) {
+  public async exec (
+    message: IMessage,
+    { item, preview, release, type }: { item: string, preview: boolean, release: boolean, type: string }
+  ) {
     try {
       if (preview) message.needsPreview = true;
       if (release) message.needsRelease = true;
@@ -202,15 +205,15 @@ export default class extends Command {
     const client = this.client as ErosClient;
 
     try {
-      await message.util.edit(`${emojis.loading} Awaiting Wikia's response...`, { embed: null });
+      await message.util.edit(`${emojis.loading} Awaiting Fandom's response...`, { embed: null });
       const prefix = (this.handler.prefix as PrefixSupplier)(message) as string;
-      const category = await client.util.getArticleCategories(item);
+      const [ category ] = await client.util.getArticleCategories(item);
       const info = await this.parseArticle(item);
       let template;
       let template2;
       let format2;
 
-      switch (category.title) {
+      switch (category) {
         case 'Category:Kamihime':
           template = new Kamihime(client, prefix, dbRes, info);
           break;
@@ -223,7 +226,7 @@ export default class extends Command {
         case 'Category:Weapons':
           template = new Weapon(client, prefix, dbRes, info);
           break;
-        default: return message.reply('invalid article.');
+        default: return message.util.edit(':x: Invalid article.');
       }
 
       if (template.character.releases)

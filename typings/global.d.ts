@@ -8,10 +8,11 @@ declare global {
   interface IClientUtil extends ClientUtil {
     selection: Selection;
     getArticle: (title: string) => Promise<string>;
-    getArticleCategories: (title: string) => Promise<{ title: string }>;
+    getArticleCategories: (title: string) => Promise<string>;
   }
 
   interface IDialog {
+    category?: string;
     command?: string;
     title?: string;
     description?: StringResolvable;
@@ -25,7 +26,7 @@ declare global {
     
   }
 
-  interface IKamihimeWiki {
+  interface IKamihimeFandom {
     atkMax?: number;
     hpMax?: number;
     obtained?: string;
@@ -40,7 +41,7 @@ declare global {
     type?: string;
   }
 
-  interface IKamihimeWikiEidolon extends IKamihimeWiki {
+  interface IKamihimeFandomEidolon extends IKamihimeFandom {
     summonAtk: string;
     summonAtkDes: string;
     summonCd: string;
@@ -52,7 +53,7 @@ declare global {
     eidolonEffectDes4: string;
   }
 
-  interface IKamihimeWikiKamihime extends IKamihimeWiki {
+  interface IKamihimeFandomKamihime extends IKamihimeFandom {
     burstName: string;
     burstDesc: string;
     burstPowerupDesc: string;
@@ -78,7 +79,7 @@ declare global {
     releaseWeapon?: string;
   }
 
-  interface IKamihimeWikiSoul extends IKamihimeWikiKamihime {
+  interface IKamihimeFandomSoul extends IKamihimeFandomKamihime {
     masterBonus: string;
     soulP: string;
     weapon1: string;
@@ -91,7 +92,7 @@ declare global {
     assist2Desc?: string;
   }
 
-  interface IKamihimeWikiWeapon extends IKamihimeWikiKamihime {
+  interface IKamihimeFandomWeapon extends IKamihimeFandomKamihime {
     weaponType: string;
     skillType?: string;
     skill?: string;
@@ -115,7 +116,7 @@ declare global {
     releases?: string;
   }
 
-  interface IKamihimeDB extends IKamihimeWiki {
+  interface IKamihimeDB extends IKamihimeFandom {
     _rowId: number;
     approved: number;
     harem1Resource1?: string;

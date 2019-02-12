@@ -1,7 +1,7 @@
 // tslint:disable-next-line:max-line-length
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, SequelizeProvider } from 'discord-akairo';
 import { Util } from 'discord.js';
-import * as Wikia from 'nodemw';
+import * as Fandom from 'nodemw';
 import { promisify } from 'util';
 // @ts-ignore
 import { defaultPrefix } from '../../auth';
@@ -97,7 +97,7 @@ export default class ErosClient extends AkairoClient {
 
     this.guildSettings = new SequelizeProvider(db.Guild, { idColumn: 'id' });
 
-    this.wikiApi = this._wikiApi;
+    this.fandomApi = this._fandomApi;
 
     this.ErosError = ErosError;
 
@@ -110,12 +110,12 @@ export default class ErosClient extends AkairoClient {
   public config: any;
   public guildSettings: SequelizeProvider;
   public tagSettings: SequelizeProvider;
-  public wikiApi: Wikia;
+  public fandomApi: Fandom;
   public ErosError = ErosError;
   public util: IClientUtil;
 
-  get _wikiApi () {
-    return this.wikiApi;
+  get _fandomApi () {
+    return this.fandomApi;
   }
 
   public build () {
@@ -143,15 +143,15 @@ export default class ErosClient extends AkairoClient {
     await this.guildSettings.init();
     status('Provider set!');
 
-    this.wikiApi = new Wikia({
+    this.fandomApi = new Fandom({
       debug: false,
       path: '',
       protocol: 'https',
       server: 'kamihime-project.fandom.com'
     });
-    this.util.getArticle = promisify(this.wikiApi.getArticle.bind(this._wikiApi));
-    this.util.getArticleCategories = promisify(this.wikiApi.getArticleCategories.bind(this._wikiApi));
-    status(`Initiated Wikia Server: ${this.wikiApi.protocol} | ${this.wikiApi.server}`);
+    this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this._fandomApi));
+    this.util.getArticleCategories = promisify(this.fandomApi.getArticleCategories.bind(this._fandomApi));
+    status(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
 
     return this.login(this.config.token);
   }

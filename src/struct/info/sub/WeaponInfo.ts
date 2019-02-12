@@ -2,7 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import Info from '../base/Info';
 
 export default class WeaponInfo extends Info {
-  public character: IKamihimeWikiWeapon;
+  public character: IKamihimeFandomWeapon;
 
   public async format () {
     const { fandomURI, colors } = this;

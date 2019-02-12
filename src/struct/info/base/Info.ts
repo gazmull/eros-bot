@@ -3,7 +3,7 @@ import { url } from '../../../../auth';
 import ErosClient from '../../ErosClient';
 
 export default class Info {
-  constructor (client: ErosClient, prefix: string, res: IKamihimeDB, character: IKamihimeWiki) {
+  constructor (client: ErosClient, prefix: string, res: IKamihimeDB, character: IKamihimeFandom) {
     this.colors = {
       Elite: 0xe5e5e5,
       Legendary: 0xffbf50,
@@ -34,7 +34,7 @@ export default class Info {
   public client: ErosClient;
   public prefix: string;
   public res: IKamihimeDB;
-  public character: IKamihimeWiki;
+  public character: IKamihimeFandom;
 
   public format (embed, template) {
     const { prefix } = this;
@@ -120,14 +120,14 @@ export default class Info {
   get itemPortrait () {
     const res = this.res;
 
-    return encodeURI(`${url.rootURL}img/wiki/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
+    return encodeURI(`${url.root}img/wiki/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
   }
 
   get itemPreview () {
     const res = this.res;
     const isWeap = res.id.startsWith('w');
     const result = encodeURI(
-      `${url.rootURL}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`
+      `${url.root}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`
     );
 
     this.character.preview = result;
