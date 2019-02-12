@@ -38,10 +38,11 @@ export default class extends ErosCommand {
 
     const embed = this.util.embed(message)
       .setTitle('Tag: ' + tag.name)
-      .addField('Created By', user ? `${user.tag} (${user.id})` : 'Cannot resolve user',  true)
+      .setThumbnail(user.displayAvatarURL({ format: 'webp' }))
+      .addField('Created By', user ? `${user.tag} (${user.id})` : 'Cannot resolve user')
+      .addField('Times Used', tag.uses)
       .addField('Created At', moment.utc(tag.createdAt).format('DD/MM/YYYY hh:mm:ss'), true)
-      .addField('Updated At', moment.utc(tag.updatedAt).format('DD/MM/YYYY hh:mm:ss'), true)
-      .addField('Times Used', tag.uses);
+      .addField('Updated At', moment.utc(tag.updatedAt).format('DD/MM/YYYY hh:mm:ss'), true);
 
     if (modifiedBy) embed.addField('Last Updated By', `${modifiedBy.tag} (${modifiedBy.id})`);
 

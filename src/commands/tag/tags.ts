@@ -4,11 +4,11 @@ import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
-    super('tags', {
+    super('tag-list', {
       aliases: [ 'tags' ],
       description: {
         content: 'Displays a list of tags from the current server or the specified member.',
-        usage: '<tag name>'
+        usage: '[member name]'
       },
       channel: 'guild',
       ratelimit: 2,
@@ -41,7 +41,8 @@ export default class extends ErosCommand {
       }
 
       const memberEmbed = this.util.embed(message)
-        .setAuthor(`${member.user.tag} (${member.id})`, member.user.displayAvatarURL({ format: 'webp' }))
+        .setAuthor(`${member.user.tag} (${member.id})`)
+        .setThumbnail(member.user.displayAvatarURL({ format: 'webp' }))
         .addField(
           `${member.displayName}${member.displayName.endsWith('s') ? '\'' : '\'s'} Pinned Tags`,
           memberTags
@@ -66,8 +67,9 @@ export default class extends ErosCommand {
 
     if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
 
-    const embed = this.util.embed()
-      .setAuthor(`${message.guild} (${message.guild.id})`, message.guild.iconURL({ format: 'webp' }))
+    const embed = this.util.embed(message)
+      .setAuthor(`${message.guild} (${message.guild.id})`)
+      .setThumbnail(message.guild.iconURL({ format: 'webp' }))
       .addField(
         'Pinned Tags',
         tags
