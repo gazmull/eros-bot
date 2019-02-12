@@ -8,8 +8,8 @@ export default class extends Command {
     super('help', {
       aliases: [ 'help', 'commands' ],
       description: {
-        content: 'Displays available commands.',
-        usage: '<command name>',
+        content: 'Displays available commands or command information',
+        usage: '[command name]',
         examples: [ '', 'ping', 'info' ]
       },
       args: [
@@ -57,7 +57,8 @@ export default class extends Command {
       .setTitle('Commands')
       .setDescription([
         message.guild ? `This guild's prefix is \`${(this.handler.prefix as PrefixSupplier)(message)}\`` : '',
-        'For more info about a command, see: \`help [command]\`',
+        'For more info about a command, see: `help [command name]`',
+        'For an in-depth guide on how to use this bot, see: `guide`',
       ]);
 
     for (const category of this.handler.categories.values()) {
@@ -65,6 +66,7 @@ export default class extends Command {
         admin: 'Server Manager',
         general: 'General',
         kamihime: 'Kamihime',
+        tag: 'Tag System',
         util: 'Utilities'
       }[category.id];
 

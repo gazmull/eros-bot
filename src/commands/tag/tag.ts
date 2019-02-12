@@ -15,10 +15,11 @@ export default class extends ErosCommand {
           '\t- `edit`',
           '\t- `info`',
           '\t- `leaderboard`',
+          '\t- `list`',
           '\t- `show`',
           '\t- `source`',
         ],
-        usage: '<method> <arguments>',
+        usage: '<method> [arguments]',
         examples: [
           'add SoS Yo --hoist',
           'add xd ROFL',
@@ -29,7 +30,7 @@ export default class extends ErosCommand {
           'leaderboard 5',
           'show Leon',
           'source xd',
-          'tags @Eros',
+          'list @Eros',
         ]
       },
       channel: 'guild',
@@ -44,6 +45,7 @@ export default class extends ErosCommand {
             'edit',
             'info',
             'leaderboard',
+            'list',
             'show',
             'source',
           ]
@@ -68,6 +70,7 @@ export default class extends ErosCommand {
       edit: this.handler.modules.get('tag-edit'),
       info: this.handler.modules.get('tag-info'),
       leaderboard: this.handler.modules.get('tag-leaderboard'),
+      list: this.handler.modules.get('tag-list'),
       show: this.handler.modules.get('tag-show'),
       source: this.handler.modules.get('tag-source')
     };

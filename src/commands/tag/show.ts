@@ -37,7 +37,7 @@ export default class extends ErosCommand {
       }
     });
 
-    if (!tag) return this.fail(message);
+    if (!tag) return;
 
     await client.db.Tag.update({ uses: ++tag.uses }, {
       where: {

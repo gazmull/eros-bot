@@ -79,6 +79,12 @@ export default class extends ErosCommand {
       }
     });
 
-    return message.util.reply(`Done! tag **${tag.name}** has been updated.`);
+    const hoistStatus = hoist !== undefined
+      ? hoist
+        ? ' and hoisted'
+        : ' and unhoisted'
+      : '';
+
+    return message.util.reply(`Done! tag **${tag.name}** has been updated${hoistStatus}.`);
   }
 }

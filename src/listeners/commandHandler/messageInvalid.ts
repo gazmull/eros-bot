@@ -10,14 +10,13 @@ export default class extends Listener {
   }
 
   public async exec (message: Message) {
-    if (!message.guild) return;
-    if (!message.util!.parsed!.prefix && !message.util!.parsed!.afterPrefix) return;
+    const parsed = message.util.parsed;
+
+    if (!message.guild && parsed!.prefix) return;
+    if (!parsed.afterPrefix || !parsed.alias) return;
 
     const commandHandler = (this.client as ErosClient).commandHandler;
     const command = commandHandler.modules.get('tag-show');
-
-    if (!command) return;
-
     const args = await command.parse(message, message.util.parsed.afterPrefix);
 
     return commandHandler.runCommand(message, command, args);
