@@ -1,4 +1,5 @@
 import { PrefixSupplier } from 'discord-akairo';
+import { MessageEmbed } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
 import fetch from 'node-fetch';
 // @ts-ignore
@@ -6,6 +7,10 @@ import { emojis, url } from '../../../auth';
 import Command from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 import { Eidolon, Kamihime, Soul, Weapon } from '../../struct/Info';
+import EidolonInfo from '../../struct/info/sub/EidolonInfo';
+import KamihimeInfo from '../../struct/info/sub/KamihimeInfo';
+import SoulInfo from '../../struct/info/sub/SoulInfo';
+import WeaponInfo from '../../struct/info/sub/WeaponInfo';
 
 const flag = [ '-r', '--release', '--releases', '--releaseweapon' ];
 
@@ -162,13 +167,13 @@ export default class extends Command {
         .replace(/\|([^|])/g, '\n| $1'); // Fix ugly Infobox format
     };
 
-    const { general: info } = parseInfo(sanitisedData(rawData));
+    const { general: info }: { general: IKamihimeFandom } = parseInfo(sanitisedData(rawData));
     info.name = info.name.replace(/(?:\[)(.+)(?:\])/g, '($1)');
 
     return info;
   }
 
-  public async parseKamihime (template, message: Message) {
+  public async parseKamihime (template: WeaponInfo, message: Message) {
     const db = await this.acquire(template.character.releases, true);
     const infoSub = await this.parseArticle(template.character.releases);
 
@@ -180,7 +185,7 @@ export default class extends Command {
     );
   }
 
-  public async parseWeapon (template) {
+  public async parseWeapon (template: KamihimeInfo) {
     const db = await this.acquire(template.character.releaseWeapon, true);
     const infoSub = await this.parseArticle(template.character.releaseWeapon);
 
@@ -209,9 +214,9 @@ export default class extends Command {
       const prefix = (this.handler.prefix as PrefixSupplier)(message) as string;
       const [ category ] = await client.util.getArticleCategories(item);
       const info = await this.parseArticle(item);
-      let template;
-      let template2;
-      let format2;
+      let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo;
+      let template2: KamihimeInfo | WeaponInfo;
+      let format2: MessageEmbed;
 
       switch (category) {
         case 'Category:Kamihime':
@@ -229,10 +234,13 @@ export default class extends Command {
         default: return message.util.edit(':x: Invalid article.');
       }
 
-      if (template.character.releases)
-        template2 = await this.parseKamihime(template, message).catch(() => null);
-      else if (template.character.releaseWeapon)
-        template2 = await this.parseWeapon(template).catch(() => null);
+      const releases = (template.character as IKamihimeFandomWeapon).releases;
+      const releaseWeapon = (template.character as IKamihimeFandomKamihime).releaseWeapon;
+
+      if (releases)
+        template2 = await this.parseKamihime(template as WeaponInfo, message).catch(() => null);
+      else if (releaseWeapon)
+        template2 = await this.parseWeapon(template as KamihimeInfo).catch(() => null);
 
       if (
         message.needsRelease &&
@@ -284,7 +292,7 @@ export default class extends Command {
         oldClass: template2 ? template2.constructor.name : null
       });
 
-      if ((template.character.releaseWeapon || template.character.releases) && template && template2)
+      if ((releaseWeapon || releases) && template && template2)
         embed.addFunctionEmoji('🔄', (_, instance) => {
           const tmp = instance.currentClass;
           instance.currentClass = instance.oldClass;

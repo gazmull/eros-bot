@@ -41,6 +41,63 @@ declare global {
     type?: string;
   }
 
+  interface IKamihimeFandomFormatted {
+    name: string;
+    atk?: number;
+    atkFBL?: number;
+    hp?: number;
+    hpFBL?: number;
+    obtainedFrom?: string;
+    releaseWeapon?: string;
+    releases?: string;
+    favouriteWeapon?: string;
+    souls?: string[];
+    weapons?: string[];
+    masterBonus?: string;
+    soulPoints?: string;
+    description: string;
+    rarity?: string;
+    tier?: string;
+    thumbnail: string;
+    preview: string;
+    link?: string;
+    type?: string;
+    skills?: string[];
+    skillDesc?: string[];
+    skillFBL?: string[];
+    element?: string;
+    elements?: string[];
+    burst?: {
+      name: string;
+      description: string;
+      upgradeDescription?: string;
+    };
+    burstDesc?: string[];
+    burstFBL?: string;
+    abilities?: {
+      name: string;
+      cooldown: string;
+      duration?: string;
+      description: string;
+      upgradeDescription?: string;
+    }[];
+    assistAbilities?: {
+      name: string;
+      description: string;
+      upgradeDescription?: string;
+    }[];
+    summon?: {
+      name: string;
+      cooldown: string;
+      description: string;
+    };
+    effect?: {
+      name: string;
+      description: string[];
+    };
+    harem?: string;
+  }
+
   interface IKamihimeFandomEidolon extends IKamihimeFandom {
     summonAtk: string;
     summonAtkDes: string;
@@ -106,6 +163,8 @@ declare global {
     element2?: string;
     element3?: string;
     element4?: string;
+    element5: string;
+    element6: string;
     atkFbl?: number;
     hpFbl?: number;
     burstFbl?: string;

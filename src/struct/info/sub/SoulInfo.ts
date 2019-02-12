@@ -108,6 +108,6 @@ export default class SoulInfo extends Info {
       ],
 
       harem: res.harem1Resource2
-    };
+    } as IKamihimeFandomFormatted;
   }
 }

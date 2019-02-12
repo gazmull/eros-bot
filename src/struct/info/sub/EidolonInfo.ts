@@ -60,6 +60,6 @@ export default class EidolonInfo extends Info {
 
       obtainedFrom: character.obtained,
       harem: res.harem2Resource2
-    };
+    } as IKamihimeFandomFormatted;
   }
 }

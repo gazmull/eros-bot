@@ -164,6 +164,8 @@ export default class WeaponInfo extends Info {
         character.element2,
         character.element3,
         character.element4,
+        character.element5,
+        character.element6,
       ],
       atk: character.atkMax,
       atkFBL: character.atkFbl,
@@ -178,6 +180,6 @@ export default class WeaponInfo extends Info {
       ],
       obtainedFrom: character.obtained,
       releases: character.releases || null
-    };
+    } as IKamihimeFandomFormatted;
   }
 }

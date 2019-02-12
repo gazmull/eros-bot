@@ -1,4 +1,5 @@
 // @ts-ignore
+import { MessageEmbed } from 'discord.js';
 import { url } from '../../../../auth';
 import ErosClient from '../../ErosClient';
 
@@ -36,7 +37,10 @@ export default class Info {
   public res: IKamihimeDB;
   public character: IKamihimeFandom;
 
-  public format (embed, template) {
+  public async format (
+    embed: MessageEmbed,
+    template: IKamihimeFandomFormatted
+  ) {
     const { prefix } = this;
     const character = template;
 

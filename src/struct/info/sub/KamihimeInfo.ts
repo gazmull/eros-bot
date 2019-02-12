@@ -6,7 +6,7 @@ export default class KamihimeInfo extends Info {
 
   public async format () {
     const { fandomURI, colors } = this;
-    const hime = await this.template();
+    const hime = this.template();
     const embed = new MessageEmbed()
       .setDescription(
         [
@@ -138,6 +138,6 @@ export default class KamihimeInfo extends Info {
 
       obtainedFrom: character.obtained,
       harem: res.harem2Resource2 || res.harem3Resource2
-    };
+    } as IKamihimeFandomFormatted;
   }
 }
