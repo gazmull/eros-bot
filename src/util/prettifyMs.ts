@@ -1,4 +1,4 @@
-export default function prettyMilliseconds (ms: number) {
+export default function prettifyMs (ms: number) {
   let base = Math.floor(ms / 1000);
   let seconds: number | string = base % 60;
   base = Math.floor(base / 60);
