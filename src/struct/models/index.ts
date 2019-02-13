@@ -9,7 +9,7 @@ export const create = (): DbInterface => {
     dialect: 'sqlite',
     logging: false,
     omitNull: true,
-    operatorsAliases: true,
+    operatorsAliases: false,
     pool: {
       acquire: 30 * 1000,
       max: 10,
