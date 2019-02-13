@@ -1,9 +1,8 @@
 import { PrefixSupplier } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
-import Command from '../../struct/command';
 import ErosCommand from '../../struct/command';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('help', {
       aliases: [ 'help', 'commands' ],
@@ -69,6 +68,7 @@ export default class extends Command {
         admin: 'Server Manager',
         general: 'General',
         kamihime: 'Kamihime',
+        countdown: 'Kamihime - Countdown',
         tag: 'Tag System',
         util: 'Utilities'
       }[category.id];

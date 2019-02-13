@@ -1,11 +1,11 @@
 import { Role } from 'discord.js';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('nsfwrole', {
-      aliases: [ 'nsfwrole', 'role' ],
+      aliases: [ 'nsfwrole' ],
       description: {
         content: 'Changes this guild\'s NSFW Role.',
         usage: '<resolvable role>',

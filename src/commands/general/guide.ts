@@ -2,9 +2,9 @@ import { PrefixSupplier } from 'discord-akairo';
 import { StringResolvable } from 'discord.js';
 // @ts-ignore
 import { emojis } from '../../../auth';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('guide', {
       aliases: [ 'guide' ],
@@ -42,6 +42,7 @@ export default class extends Command {
 
         let title = v.title || null;
         let description: StringResolvable = v.description || '';
+        const embed = this.util.embed();
 
         if (v.category) {
           const category = this.handler.categories.get(v.category);
@@ -54,8 +55,9 @@ export default class extends Command {
             category.map(c => {
               let content: string | string[] = c.description.content;
               content = Array.isArray(content) ? content[0] : content;
+              const id = /-/.test(c.id) ? c.id.split('-').join(' ') : c.id;
 
-              return `**\`${c.id}\`** - ${content}`;
+              return `**\`${id}\`** - ${content}`;
             }).join('\n'),
           ];
         } else if (v.command) {
@@ -66,18 +68,22 @@ export default class extends Command {
           const hasAliases = command.aliases && command.aliases.length;
           let content: string | string[] = command.description.content;
           content = Array.isArray(content) ? content.join('\n') : content;
+          const id = /-/.test(v.command) ? v.command.split('-').join(' ') : v.command;
 
-          title = `Command: ${v.command.toLowerCase()}`;
+          title = `Command: ${id.toLowerCase()}`;
           description = [
-            `**Usage**: \`@Eros ${v.command} ${command.description.usage || ''}\``,
+            `**Usage**: \`@Eros ${id} ${command.description.usage || ''}\``,
             `**Aliases**: ${hasAliases ? command.aliases.map(c => `\`${c}\``).join(', ') : 'None'}`,
             `**Brief Description**: ${content}`,
             '',
             ...description,
           ];
+
+          if (command.description.examples)
+            embed.addField('Examples', '@Eros ' + command.description.examples.map(c => `${id} ${c}`));
         }
 
-        const embed = this.util.embed()
+        embed
           .setTitle(title)
           .setDescription(description)
           .setImage(v.image);

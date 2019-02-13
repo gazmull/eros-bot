@@ -1,7 +1,7 @@
 import { TextChannel } from 'discord.js';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('clear', {
       aliases: [ 'clear' ],

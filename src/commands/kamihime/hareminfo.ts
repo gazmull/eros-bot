@@ -3,10 +3,10 @@ import { TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 // @ts-ignore
 import { emojis, url } from '../../../auth';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('hareminfo', {
       aliases: [ 'hareminfo', 'hinfo', 'hi', 'peek', 'p' ],
@@ -98,8 +98,6 @@ export default class extends Command {
             ? ` Please configure your Loli Contents Restriction via ${prefix}loli`
             : ' Please contact the guild owner.'
         }`);
-
-      await message.util.edit(`${emojis.emojis.loading} Preparing...`, { embed: null });
 
       const harems = [
         {

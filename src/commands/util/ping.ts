@@ -1,7 +1,7 @@
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 import { error } from '../../util/console';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('ping', {
       aliases: [ 'ping', 'pong', 'trace' ],

@@ -1,5 +1,5 @@
 import * as util from 'util';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 import { evalStatus } from '../../util/console';
 
 function clean (text: string) {
@@ -9,7 +9,7 @@ function clean (text: string) {
   return text;
 }
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('eval', {
       aliases: [ 'eval', 'ev', 'e' ],

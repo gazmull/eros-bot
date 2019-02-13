@@ -4,7 +4,7 @@ import * as parseInfo from 'infobox-parser';
 import fetch from 'node-fetch';
 // @ts-ignore
 import { emojis, url } from '../../../auth';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 import { Eidolon, Kamihime, Soul, Weapon } from '../../struct/Info';
 import EidolonInfo from '../../struct/info/sub/EidolonInfo';
@@ -15,14 +15,21 @@ import WeaponInfo from '../../struct/info/sub/WeaponInfo';
 const flag = [ '-r', '--release', '--releases', '--releaseweapon' ];
 
 // ! - Rework the flag prefixes; unite them
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('info', {
       aliases: [ 'info', 'i', 'khinfo', 'khi', 'kh' ],
       description: {
         content: 'Looks up for a Kamihime Project Character/Weapon at Kamihime Project Nutaku Fandom.',
         usage: '<item name> [flags]',
-        examples: [ 'eros', 'mars', 'mars -r' ],
+        examples: [
+          'eros',
+          'mars -r',
+          'masamune -ts',
+          'ea -tw',
+          'hell staff -tw -r',
+          'ea -tk -r',
+        ],
         flags: [
           {
             names: [ '-ts', '--type=soul', '-te', '--type=eidolon', '-tk', '--type=kamihime', '-tw', '--type=weapon' ],

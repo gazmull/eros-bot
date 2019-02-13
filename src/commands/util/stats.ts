@@ -4,10 +4,10 @@ import { version as discordVersion } from 'discord.js';
 import { version as kamihimedbVersion } from '../../../../kamihimedb/package.json';
 // @ts-ignore
 import { description, version as erosVersion } from '../../../package.json';
-import prettyMilliseconds from '../..//util/prettyMilliseconds';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
+import prettifyMs from '../../util/prettifyMs';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('stats', {
       aliases: [ 'stats', 'status', 'about', 'aboutme' ],
@@ -34,7 +34,7 @@ export default class extends Command {
           '**Users**: ' + this.client.users.size,
         ], true)
         .addField('System', [
-          '**Uptime**: ' + prettyMilliseconds(this.client.uptime),
+          '**Uptime**: ' + prettifyMs(this.client.uptime),
           `**Memory**: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`,
         ], true)
     );

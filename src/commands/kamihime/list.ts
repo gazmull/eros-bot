@@ -2,9 +2,9 @@ import { PrefixSupplier } from 'discord-akairo';
 import fetch from 'node-fetch';
 // @ts-ignore
 import { emojis, url } from '../../../auth';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('list', {
       aliases: [ 'list', 'l' ],

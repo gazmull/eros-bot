@@ -1,9 +1,9 @@
 // @ts-ignore
 import { defaultPrefix } from '../../../auth';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('prefix', {
       aliases: [ 'prefix' ],

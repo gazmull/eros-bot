@@ -1,7 +1,7 @@
 import { GuildMember } from 'discord.js';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('memberinfo', {
       aliases: [ 'memberinfo', 'minfo', 'mi', 'userinfo', 'uinfo', 'ui' ],

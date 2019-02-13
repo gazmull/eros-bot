@@ -1,8 +1,8 @@
 // @ts-ignore
 import { docs, inviteLink } from '../../../auth';
-import Command from '../../struct/command';
+import ErosCommand from '../../struct/command';
 
-export default class extends Command {
+export default class extends ErosCommand {
   constructor () {
     super('invite', {
       aliases: [ 'invite', 'addbot', 'inviteme' ],
