@@ -7,16 +7,15 @@ export default class ErosCommand extends Command {
     super(id, options);
 
     this.paginated = options.paginated || false;
-
-    this.util = {
-      embed: this.embed,
-      embeds: this.embeds,
-      fields: this.fields
-    };
   }
 
   public paginated: boolean;
-  public util: IUtil;
+
+  public util: IUtil = {
+    embed: this.embed,
+    embeds: this.embeds,
+    fields: this.fields
+  };
 
   public embed (message: Message = null) {
     const instance = new MessageEmbed()

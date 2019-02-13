@@ -1,3 +1,4 @@
+import { TextChannel } from 'discord.js';
 import Command from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 
@@ -27,7 +28,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { channel }) {
+  public async exec (message: Message, { channel }: { channel: TextChannel }) {
     const client = this.client as ErosClient;
     const oldChannel = client.guildSettings.get(message.guild.id, 'cdChannelID', null);
     const resolvedChannel = client.channels.get(oldChannel);

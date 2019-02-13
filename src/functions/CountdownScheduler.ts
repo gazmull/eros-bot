@@ -12,12 +12,11 @@ import ErosClient from '../struct/ErosClient';
 export default class {
   constructor (client: ErosClient) {
     this.client = client;
-
-    this.schedules = new Collection();
   }
 
   protected client: ErosClient;
-  public schedules: Collection<Date, any>;
+
+  public schedules: Collection<Date, any> = new Collection();
 
   public async init () {
     if (this.schedules.size) this.schedules.clear();
@@ -80,7 +79,7 @@ export default class {
     return result;
   }
 
-  public relinquish (entry) {
+  public relinquish (entry: string) {
     const entries = this.schedules.find(el => el.names.includes(entry));
 
     if (!entries) return `${entry} Schedule does not exist.`;

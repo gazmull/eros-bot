@@ -12,8 +12,11 @@ export default class {
   }
 
   public client: ErosClient;
-  protected tick: NodeJS.Timer;
-  protected recon: NodeJS.Timer;
+
+  protected tick: NodeJS.Timer = null;
+
+  protected recon: NodeJS.Timer = null;
+
   protected lastTweetId: string = null;
 
   public init () {
@@ -25,7 +28,7 @@ export default class {
     const stream = twitter.stream('statuses/filter', { follow: config.user });
 
     stream
-      .on('data', async tweet => {
+      .on('data', async (tweet: ITweet) => {
         if (
           !tweet ||
           tweet.retweeted_status ||
@@ -80,7 +83,7 @@ export default class {
 
         this.recon = client.setTimeout(() => this.init(), 3e5);
       })
-      .on('error', async err => {
+      .on('error', async (err: Error) => {
         const msg = `Twitter Module: Error ${err}`;
         const owner = await client.users.fetch(ownerID);
         owner.send(msg);
@@ -91,4 +94,14 @@ export default class {
 
     return 1;
   }
+}
+
+interface ITweet {
+  retweeted_status?: string;
+  user: {
+    id_str: string;
+    screen_name?: string;
+  };
+  in_reply_to_status_id?: string;
+  id_str: string;
 }

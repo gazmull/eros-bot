@@ -25,7 +25,9 @@ export default class ErosError {
   }
 
   protected message: Message;
+
   protected err: Error;
+
   protected code: number;
 
   protected exec () {

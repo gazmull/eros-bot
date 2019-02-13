@@ -1,3 +1,4 @@
+import { Role } from 'discord.js';
 import Command from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
 
@@ -27,7 +28,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { role }) {
+  public async exec (message: Message, { role }: { role: Role }) {
     const client = this.client as ErosClient;
     const oldRole = client.guildSettings.get(message.guild.id, 'nsfwRoleID', null);
     const resolvedRole = message.guild.roles.get(oldRole);

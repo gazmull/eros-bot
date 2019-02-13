@@ -1,3 +1,4 @@
+import IErosClientOptions from 'auth';
 import { MessageEmbed } from 'discord.js';
 // @ts-ignore
 import { url } from '../../../../auth';
@@ -5,21 +6,6 @@ import ErosClient from '../../ErosClient';
 
 export default class Info {
   constructor (client: ErosClient, prefix: string, res: IKamihimeDB, character: IKamihimeFandom) {
-    this.colors = {
-      Elite: 0xe5e5e5,
-      Legendary: 0xffbf50,
-      N: 0x918f8f,
-      R: 0xb4632c,
-      SR: 0xe5e5e5,
-      SSR: 0xffbf50,
-      SSRA: 0x8a57ff,
-      Standard: 0xb4632c
-    };
-
-    this.apiURI = url.api;
-
-    this.fandomURI = url.fandom;
-
     this.client = client;
 
     this.prefix = prefix;
@@ -29,12 +15,27 @@ export default class Info {
     this.character = character;
   }
 
-  public colors: {  [key: string]: number; };
-  public apiURI: string;
-  public fandomURI: string;
+  public colors = {
+    Elite: 0xe5e5e5,
+    Legendary: 0xffbf50,
+    N: 0x918f8f,
+    R: 0xb4632c,
+    SR: 0xe5e5e5,
+    SSR: 0xffbf50,
+    SSRA: 0x8a57ff,
+    Standard: 0xb4632c
+  };
+
+  public apiURI: IErosClientOptions['url']['api'] = url.api;
+
+  public fandomURI: IErosClientOptions['url']['fandom'] = url.fandom;
+
   public client: ErosClient;
+
   public prefix: string;
+
   public res: IKamihimeDB;
+
   public character: IKamihimeFandom;
 
   public async format (

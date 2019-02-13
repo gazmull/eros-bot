@@ -34,7 +34,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { prefix }) {
+  public async exec (message: Message, { prefix }: { prefix: string }) {
     const client = this.client as ErosClient;
     const oldPrefix = client.guildSettings.get(message.guild.id, 'prefix', defaultPrefix);
     await client.guildSettings.set(message.guild.id, 'prefix', prefix);

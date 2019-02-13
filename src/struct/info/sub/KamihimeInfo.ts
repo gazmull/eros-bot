@@ -35,7 +35,7 @@ export default class KamihimeInfo extends Info {
         case 'R': return `${character.element} DMG (2x Burst DMG)`;
       }
     };
-    const abilityDescParse = (desc, ability) => {
+    const abilityDescParse = (desc: string, ability: number) => {
       switch (character.rarity) {
         default:
           switch (ability) {

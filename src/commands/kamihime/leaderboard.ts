@@ -28,7 +28,7 @@ export default class extends Command {
     });
   }
 
-  public async exec (message, { page, advanced }: { page: number, advanced: boolean }) {
+  public async exec (message: Message, { page, advanced }: { page: number, advanced: boolean }) {
     try {
       await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 

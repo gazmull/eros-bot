@@ -106,7 +106,7 @@ export default class extends Command {
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 
-  public async acquire (item: string, accurate = false, type = null) {
+  public async acquire (item: string, accurate = false, type: string = null) {
     const typeQ = type || '';
     const request = await fetch(`${url.api}search?name=${encodeURI(item)}${typeQ}`, {
       headers: { Accept: 'application/json' }

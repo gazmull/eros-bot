@@ -16,8 +16,8 @@ export default class extends Command {
     const client = this.client as ErosClient;
     const memberCount = message.guild.memberCount;
     const presenceCount = message.guild.presences.filter(m => m.status !== 'offline').size;
-    const filterChannels = channelType => message.guild.channels.filter(c => c.type === channelType).size;
-    const getRecord = (guildID, column) => {
+    const filterChannels = (channelType: string) => message.guild.channels.filter(c => c.type === channelType).size;
+    const getRecord = (guildID: string, column: string) => {
       if (column === 'nsfwRoleID') {
         const guild = client.guilds.get(guildID);
         const role = client.guildSettings.get(guildID, column, null);

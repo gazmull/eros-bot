@@ -26,43 +26,14 @@ export default class extends Command {
       ]
     });
 
-    this.timezone = 'America/Los_Angeles';
-
-    this.filename = `${__dirname}../../../../provider/countdown.json`;
-
-    this.countdowns = new Collection();
-
     this.init();
   }
 
-  protected timezone: string;
-  private filename: string;
-  public countdowns: Collection<string, moment.Moment>;
+  protected timezone = 'America/Los_Angeles';
 
-  get preset () {
-    return [
-      { class: 'DLY', name: 'Daily Reset', time: '00:00', day: '*' },
-      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 1', time: '12:00', day: '*' },
-      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 2', time: '19:00', day: '*' },
-      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 3', time: '22:00', day: '*' },
-      { class: 'GEM', name: 'Monday Gem Quest 1', time: '12:00', day: 'Monday' },
-      { class: 'GEM', name: 'Monday Gem Quest 2', time: '19:00', day: 'Monday' },
-      { class: 'GEM', name: 'Tuesday Gem Quest 1', time: '12:30', day: 'Tuesday' },
-      { class: 'GEM', name: 'Tuesday Gem Quest 2', time: '19:30', day: 'Tuesday' },
-      { class: 'GEM', name: 'Wednesday Gem Quest 1', time: '18:00', day: 'Wednesday' },
-      { class: 'GEM', name: 'Wednesday Gem Quest 2', time: '22:30', day: 'Wednesday' },
-      { class: 'GEM', name: 'Thursday Gem Quest 1', time: '19:00', day: 'Thursday' },
-      { class: 'GEM', name: 'Thursday Gem Quest 2', time: '23:00', day: 'Thursday' },
-      { class: 'GEM', name: 'Friday Gem Quest 1', time: '19:30', day: 'Friday' },
-      { class: 'GEM', name: 'Friday Gem Quest 2', time: '23:30', day: 'Friday' },
-      { class: 'GEM', name: 'Saturday Gem Quest 1', time: '12:00', day: 'Saturday' },
-      { class: 'GEM', name: 'Saturday Gem Quest 2', time: '18:00', day: 'Saturday' },
-      { class: 'GEM', name: 'Saturday Gem Quest 3', time: '22:00', day: 'Saturday' },
-      { class: 'GEM', name: 'Sunday Gem Quest 1', time: '12:30', day: 'Sunday' },
-      { class: 'GEM', name: 'Sunday Gem Quest 2', time: '19:00', day: 'Sunday' },
-      { class: 'GEM', name: 'Sunday Gem Quest 3', time: '23:00', day: 'Sunday' },
-    ];
-  }
+  private filename = `${__dirname}../../../../provider/countdown.json`;
+
+  public countdowns: Collection<string, moment.Moment> = new Collection();
 
   public exists (filename: string) {
       return fs.stat(filename)
@@ -286,5 +257,30 @@ export default class extends Command {
       ]);
 
     return message.util.edit({ embed });
+  }
+
+  get preset () {
+    return [
+      { class: 'DLY', name: 'Daily Reset', time: '00:00', day: '*' },
+      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 1', time: '12:00', day: '*' },
+      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 2', time: '19:00', day: '*' },
+      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 3', time: '22:00', day: '*' },
+      { class: 'GEM', name: 'Monday Gem Quest 1', time: '12:00', day: 'Monday' },
+      { class: 'GEM', name: 'Monday Gem Quest 2', time: '19:00', day: 'Monday' },
+      { class: 'GEM', name: 'Tuesday Gem Quest 1', time: '12:30', day: 'Tuesday' },
+      { class: 'GEM', name: 'Tuesday Gem Quest 2', time: '19:30', day: 'Tuesday' },
+      { class: 'GEM', name: 'Wednesday Gem Quest 1', time: '18:00', day: 'Wednesday' },
+      { class: 'GEM', name: 'Wednesday Gem Quest 2', time: '22:30', day: 'Wednesday' },
+      { class: 'GEM', name: 'Thursday Gem Quest 1', time: '19:00', day: 'Thursday' },
+      { class: 'GEM', name: 'Thursday Gem Quest 2', time: '23:00', day: 'Thursday' },
+      { class: 'GEM', name: 'Friday Gem Quest 1', time: '19:30', day: 'Friday' },
+      { class: 'GEM', name: 'Friday Gem Quest 2', time: '23:30', day: 'Friday' },
+      { class: 'GEM', name: 'Saturday Gem Quest 1', time: '12:00', day: 'Saturday' },
+      { class: 'GEM', name: 'Saturday Gem Quest 2', time: '18:00', day: 'Saturday' },
+      { class: 'GEM', name: 'Saturday Gem Quest 3', time: '22:00', day: 'Saturday' },
+      { class: 'GEM', name: 'Sunday Gem Quest 1', time: '12:30', day: 'Sunday' },
+      { class: 'GEM', name: 'Sunday Gem Quest 2', time: '19:00', day: 'Sunday' },
+      { class: 'GEM', name: 'Sunday Gem Quest 3', time: '23:00', day: 'Sunday' },
+    ];
   }
 }

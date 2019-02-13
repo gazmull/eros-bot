@@ -2,7 +2,7 @@ import * as util from 'util';
 import Command from '../../struct/command';
 import { evalStatus } from '../../util/console';
 
-function clean (text) {
+function clean (text: string) {
   if (typeof text === 'string')
     return text.replace(/`/g, `\`${String.fromCharCode(8203)}`).replace(/@/g, `@${String.fromCharCode(8203)}`);
 

@@ -32,19 +32,17 @@ export default class extends Command {
         },
       ]
     });
-
-    this.rassedMsg = [
-      'b-but why m-me?!',
-      'I have the b-best scene... right?!',
-      'p-pervert!!!',
-      'y-you came to see me, or you came to... *c-come* in me?!',
-      'we already did this before... s-secretly... didn\'t we?',
-    ];
   }
 
-  protected rassedMsg: string[];
+  protected rassedMsg = [
+    'b-but why m-me?!',
+    'I have the b-best scene... right?!',
+    'p-pervert!!!',
+    'y-you came to see me, or you came to... *c-come* inside me?!',
+    'we already did this before... s-secretly... didn\'t we?',
+  ];
 
-  public async exec (message, { character }: { character: string }) {
+  public async exec (message: Message, { character }: { character: string }) {
     try {
       await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
 
@@ -55,7 +53,7 @@ export default class extends Command {
 
       if (data.error) throw data.error.message;
 
-      const rows = (data).filter(c => ![ 'x', 'w' ].includes(c.id.charAt(0)));
+      const rows = (data as IKamihimeDB[]).filter(c => ![ 'x', 'w' ].includes(c.id.charAt(0)));
 
       if (!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if (rows.length === 1) {

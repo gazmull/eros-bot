@@ -33,6 +33,9 @@ export default class extends Command {
 
     const clientPermissions = command.clientPermissions as string[];
     const userPermissions = command.userPermissions as string[];
+    const flags: Array<{ names: string[], value: string }> = command.description.flags;
+    const examples: string[] = command.description.examples;
+
     const embed = this.util.embed(message)
       .setTitle(`${prefix}${command} ${command.description.usage ? command.description.usage : ''}`)
       .setDescription(command.description.content);
@@ -43,10 +46,10 @@ export default class extends Command {
       embed.addField('Required User Permissions:', userPermissions.map(p => `\`${p}\``).join(', '));
     if (command.aliases.length > 1)
       embed.addField('Aliases', command.aliases.slice(1).map(a => `\`${a}\``).join(', '));
-    if (command.description.flags)
-      embed.addField('Flags', command.description.flags.map(f => `**${f.names.join(' ')}**\n\t${f.value}`));
-    if (command.description.examples)
-      embed.addField('Examples', command.description.examples.map(e => `${prefix}${command} ${e}`).join('\n'));
+    if (flags)
+      embed.addField('Flags', flags.map(f => `**${f.names.join(' ')}**\n\t${f.value}`));
+    if (examples)
+      embed.addField('Examples', examples.map(e => `${prefix}${command} ${e}`).join('\n'));
 
     return message.util.send({ embed });
   }
