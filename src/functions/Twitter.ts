@@ -39,7 +39,6 @@ export default class {
           return;
 
         this.lastTweetId = tweet.id_str;
-        // @ts-ignore
         const guilds = await client.db.Guild.findAll({ where: { twitterChannelID: { [Op.ne]: null } } });
 
         this.tick = client.setInterval(() => {
