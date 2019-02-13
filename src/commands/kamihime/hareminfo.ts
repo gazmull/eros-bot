@@ -145,7 +145,7 @@ export default class extends Command {
         .setAuthor(result.name, null, `${url.fandom}${encodeURI(result.name)}`)
         .setDescription(
           `${result.loli ? '**Flagged as Loli**' : ''}${
-            result.name.toLowerCase() === (client.user.username.toLowerCase())
+            new RegExp(result.name.replace(/[()]/g, '\\$&')).test(client.user.username)
               ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${emojis.embarassed}`
               : ''}`
         )
