@@ -42,23 +42,26 @@ export default class extends ErosCommand {
 
       const memberEmbed = this.util.embed(message)
         .setAuthor(`${member.user.tag} (${member.id})`)
-        .setThumbnail(member.user.displayAvatarURL({ format: 'webp' }))
-        .addField(
+        .setThumbnail(member.user.displayAvatarURL({ format: 'webp' }));
+
+      const hoisted = memberTags.filter(el => el.hoisted);
+
+      if (hoisted.length)
+        memberEmbed.addField(
           `${member.displayName}${member.displayName.endsWith('s') ? '\'' : '\'s'} Pinned Tags`,
-          memberTags
-            .filter(el => el.hoisted)
-            .map(el => `**\`${el.name}\`**`)
-            .sort()
-            .join(', ')
-        )
-        .addField(
-          'Tags',
-          memberTags
-            .filter(el => !el.hoisted)
+          hoisted
             .map(el => `**\`${el.name}\`**`)
             .sort()
             .join(', ')
         );
+
+      memberEmbed.addField(
+        'Tags',
+        memberTags
+          .map(el => `**\`${el.name}\`**`)
+          .sort()
+          .join(', ')
+      );
 
       return message.util.send(memberEmbed);
     }
@@ -69,19 +72,25 @@ export default class extends ErosCommand {
 
     const embed = this.util.embed(message)
       .setAuthor(`${message.guild} (${message.guild.id})`)
-      .setThumbnail(message.guild.iconURL({ format: 'webp' }))
-      .addField(
+      .setThumbnail(message.guild.iconURL({ format: 'webp' }));
+
+    const serverHoisted = tags.filter(el => el.hoisted);
+
+    if (serverHoisted.length)
+      embed.addField(
         'Pinned Tags',
-        tags
-          .filter(el => el.hoisted)
+        serverHoisted
           .map(el => `**\`${el.name}\`**`)
           .sort()
           .join(', ')
-      )
-      .addField(
+      );
+
+    const myTags = tags.filter(el => el.authorId === message.author.id);
+
+    if (myTags.length)
+      embed.addField(
         `${message.member.displayName}${message.member.displayName.endsWith('s') ? '\'' : '\'s'} Tags`,
-        tags
-          .filter(el => el.authorId === message.author.id)
+        myTags
           .map(el => `**\`${el.name}\`**`)
           .sort()
           .join(', ')
