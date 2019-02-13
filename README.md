@@ -29,20 +29,22 @@
 - *More to come�*
 
 # Commands
+> For more information, see [**Bot Guide**](https://docs.thegzm.space/eros-bot) or say **`@Eros guide 4`** when using the bot.
 - **Admin/Server Manager**
   - Main: `prefix`
-  - Kamihime-specific: `loli`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
+  - Kamihime-specific: `loli`, `cdchannel`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
 - **General**
   - Main: `help`, `guide`, `invite`
 - **Utility**
   - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
   - Bot Owner: `eval`, `clear`
+- **Tag**
+  - Main: `tag`, `tags`
 - **Kamihime**
   - Main: `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`, `countdown`
 
 # Self-Hosting
 > ### [**Add her to your server instead? (24/7)**](http://addbot.thegzm.space)
-
 - Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
 - Eros requires at least [**Node 10**](https://nodejs.org) for runtime
   - Clone this repository [via command shell] after installing Node: `$ git clone https://github.com/gazmull/eros-bot.git`
@@ -61,26 +63,30 @@
 Looking for feedbacks, so feel free to file an issue or a pull request!
 
 ## Issue
+For an issue that is only needed to be addressed instantly (if you feel like it), proceed to the [**Discord server**](http://thegzm.space).
+
+Please make sure your issue isn't reported at all before filing, instead submit a comment in the existing issue thread.
 > File an issue [**here**](https://github.com/gazmull/eros-bot/issues)!
+
 If an issue has a vague message, please do add:
   - Recreation steps
   - Screenshots
 
-For an issue that is only needed to be addressed instantly (if you feel like it), proceed to the [**Discord server**](http://thegzm.space).
-
 ## Pull Request
 
-### Documentation / Guide
+### Documentation
 > Since this still involves building the source code, please read [**Code**](#Code) first.
-1. Proceed to [`src / commands / general / guide-pages`](src/commands/general/guide-pages).
+
+1. Proceed to [`src / commands / general / guide-pages`](/src/commands/general/guide-pages).
     > If you are writing to a general guide (not a command guide), feel free to edit `index.ts` once you're inside the folder mentioned above.
 
-    > If you are writing to a command guide, proceed to [`commands`](src/commands/general/guide-pages/commands).
+    > If you are writing to a command guide, proceed to [`commands`](/src/commands/general/guide-pages/commands).
     1. Select a category (e.g. `general` or `kamihime`).
     2. Go to `assets` and you should see `.ts` file for each command.
         > Feel free to either edit the file or create a new one— if it's a valid command within the bot.
 ### Code
-> When adding/updating a command, `guide-pages` must be updated. See [**Documentation / Guide**](#Documentation-/-Guide)
+> When adding/updating a command, `guide-pages` must be updated. See [**Documentation**](#Documentation)
+
 1. Fork this repository, clone to your machine, and then follow the project's development configuration [e.g. TSLint]
     > `$ yarn --production=false` to install.
 2. Run `$ yarn test` to verify if your build is passing.
