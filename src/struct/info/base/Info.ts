@@ -1,5 +1,5 @@
-// @ts-ignore
 import { MessageEmbed } from 'discord.js';
+// @ts-ignore
 import { url } from '../../../../auth';
 import ErosClient from '../../ErosClient';
 
