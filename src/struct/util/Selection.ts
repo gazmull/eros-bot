@@ -25,7 +25,7 @@ export default class {
 
     await message.util.edit({ embed });
 
-    let character = null;
+    let character: IKamihimeDB = null;
 
     try {
       const channel = message.channel as TextChannel;
