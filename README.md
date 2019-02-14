@@ -18,10 +18,10 @@
     - Only Nutaku version is available.
     - Uses REST API (JSON) from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
 - Tweets updates from [**@Kamihime_Nutaku**](https://twitter.com/kamihime_nutaku)
-    - Customise your `Twitter Channel` with `?twitterchannel <mention channel>`
+    - Customise the `Twitter Channel` with `?twitterchannel <mention channel>`
 - Get notified with in-game events via Countdown notification system
-    - Customise your `Countdown Channel` with `?cdchannel <mention channel>`
-- Save your memos with Tag system
+    - Customise the `Countdown Channel` with `?cdchannel <mention channel>`
+- Save memos or notes with Tag system
     - See `tag` command for more info
 - Basic bot commands
     - See `help` command for more info for each command
@@ -37,7 +37,7 @@
 
 - **Admin/Server Manager**
     - Main: `prefix`
-    - Kamihime-specific: `loli`, `cdchannel`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
+    - Kamihime-specific: `loli`, `cdchannel`, `cdrole`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
 - **General**
     - Main: `help`, `guide`, `invite`
 - **Utility**
@@ -51,16 +51,17 @@
     - Main: `countdown`
 
 # Self-Hosting
-> ### [**Add her to your server instead? (24/7)**](http://addbot.thegzm.space)
+> ### [**Add the bot instead? (24/7)**](http://addbot.thegzm.space)
 
 - Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
 - Eros requires at least [**Node 10**](https://nodejs.org) for runtime and [**MariaDB 10.1**](https://mariadb.org) for data persistence
     - Clone this repository [via command shell] after installing the requirements above: `$ git clone https://github.com/gazmull/eros-bot.git`
-    - Run `$ yarn` (Before this, make sure you have [**Yarn**](https://yarnpkg.com/en/docs/getting-started) and [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on))
-    - You have to build the src too
+    - Run `$ yarn` (Before this, make sure [**Yarn**](https://yarnpkg.com/en/docs/getting-started) and [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on) are installed)
+    - `src` must also be built
         - `$ yarn --production=false`
         - `$ yarn run compile`
-- Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `// comments` to help you set up the file
+- Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `// comments` to help set up the file
+- Create a database [with `utf8_unicode_ci`] collation named with the name provided in `auth.js` (default: `eros`). Please make sure MariaDB is installed in the machine beforehand.
 - Run the bot!
     - Node: `node .`
     - Process Managers
@@ -71,9 +72,9 @@
 Looking for feedbacks, so feel free to file an issue or a pull request!
 
 ## Issue
-For an issue that is only needed to be addressed instantly (if you feel like it), proceed to the [**Discord server**](http://thegzm.space).
+For an issue that is only needed to be addressed instantly (if the issuer feels like it), proceed to the [**Discord server**](http://thegzm.space).
 
-Please make sure your issue isn't reported at all before filing, instead submit a comment in the existing issue thread.
+Please make sure the issue isn't reported at all before filing, instead submit a comment in the existing issue thread.
 > File an issue [**here**](https://github.com/gazmull/eros-bot/issues)!
 
 If an issue has a vague message, please do add:
@@ -81,7 +82,7 @@ If an issue has a vague message, please do add:
     - Screenshots
 
 ### Documentation (Issue)
-If you cannot afford to do a pull request, you may as well submit documentation contributions via filing an issue, but please make sure it does follow the standards of the documentation.
+If one cannot afford to do a pull request, submitting documentation contributions via filing an issue is also fine, but please make sure it does follow the standards of the documentation.
 
 ## Pull Request
 
@@ -89,14 +90,14 @@ If you cannot afford to do a pull request, you may as well submit documentation 
 > Since this still involves building the source code, please read [**Code**](#Code) first.
 
 1. Proceed to [`src / commands / general / guide-pages`](/src/commands/general/guide-pages).
-    > If you are writing to a general guide (not a command guide), feel free to edit `index.ts` once you're inside the folder mentioned above.
+    > When writing to a general guide (not a command guide), feel free to edit `index.ts` once inside the folder mentioned above.
 
-    > If you are writing to a command guide, proceed to [`commands`](/src/commands/general/guide-pages/commands).
+    > When writing to a command guide, proceed to [`commands`](/src/commands/general/guide-pages/commands).
 
     1. Select a category (e.g. `general` or `kamihime`).
-    2. Go to `assets` and you should see `.ts` file for each command.
+    2. Go to `assets` and there should be `.ts` file for each command.
         - Feel free to either edit the file or create a new one— if it's a valid command within the bot.
-        - Make sure you're following the syntax (open one file and you'll get the idea).
+        - Make sure the syntax has been followed (open one file will grant an idea).
 2. After doing everything above, run `$ yarn run docs:parse` to generate the updated documentation.
 3. Make sure to do `$ git push` to the gh-pages branch!
 4. File a [**Pull Request**](https://github.com/gazmull/eros-bot/compare/gh-pages).
@@ -104,12 +105,12 @@ If you cannot afford to do a pull request, you may as well submit documentation 
 ### Code
 > When adding/updating a command, `guide-pages` must be updated. See [**Documentation**](#Documentation-(Pull-Request))
 
-1. Fork this repository, clone to your machine, and then follow the project's development configuration [e.g. TSLint]
+1. Fork this repository, clone to local machine, and then follow the project's development configuration [e.g. TSLint]
     > `$ yarn --production=false` to install.
 
 2. Code x10
 
-3. Run `$ yarn test` to verify if your build is passing.
+3. Run `$ yarn test` to verify if the build is passing.
     > Failing build will be rejected at default.
 
 4. Make sure to do `$ git push` to the master branch!
