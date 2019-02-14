@@ -34,11 +34,12 @@
     "lint": "tslint -c .tslint.js -p .",
     "lint-fix": "yarn run lint --fix",
     "pm2": "pm2 start .pm2.yml --env production",
-    "dev:start": "nodemon . --config .nodemon.json"
+    "dev:start": "nodemon . --config .nodemon.json",
+    "docs:parse": "node . --parseDocs"
   },
   "dependencies": {
     "bufferutil": "^4.0.1",
-    "discord-akairo": "1Computer1/discord-akairo#0c13617",
+    "discord-akairo": "1Computer1/discord-akairo#6f48680",
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "github:discordjs/discord.js",
     "erlpack": "github:discordapp/erlpack",
@@ -53,13 +54,15 @@
     "zlib-sync": "^0.1.4"
   },
   "devDependencies": {
-    "@types/fs-extra": "^5.0.4",
+    "@types/fs-extra": "^5.0.5",
+    "@types/json2md": "^1.5.0",
     "@types/moment-timezone": "^0.5.10",
-    "@types/node": "^10.12.18",
-    "@types/node-fetch": "^2.1.4",
-    "@types/sequelize": "^4.27.35",
+    "@types/node": "^11.9.3",
+    "@types/node-fetch": "^2.1.6",
+    "@types/sequelize": "^4.27.36",
+    "json2md": "^1.6.2",
     "tslint": "^5.12.1",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.2.4"
+    "typescript": "^3.3.3"
   }
 }

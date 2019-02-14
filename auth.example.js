@@ -42,9 +42,6 @@ module.exports = {
   // Authorised for coutdown management.
   countdownAuthorized: [ '319102712383799296' ],
 
-  // API token for kamihime-database. Not really that token... let's say a secret.
-  apiToken: 'whatisthepurposeofthis',
-
   // Get your own application at https://apps.twitter.com
   twitter: {
     access_token_key: 'xxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxx',
