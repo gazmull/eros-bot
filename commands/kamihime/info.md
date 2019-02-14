@@ -38,9 +38,9 @@ __Each flag is compatible with *any other flag*.__
 ## Emoji Reacts To Interact
 
 
-:frame_photo: — Toggle image
+🖼 — Toggle image
 
-:arrows_counterclockwise: — **only for kamihime/weapon**— See Kamihime / Weapon
+🔄 — **only for kamihime/weapon**— See Kamihime / Weapon
 
 ## Examples
 
