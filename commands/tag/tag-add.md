@@ -1,4 +1,5 @@
-# tag-add
+# Command: tag add
+
 
 **Usage**: `@Eros tag add <tag name> <tag content> [--hoist]`
 
@@ -6,11 +7,24 @@
 
 **Brief Description**: Adds a tag.
 
+
+
 ## Warning
+
 
 Tags created in this server cannot be carried over to other servers.
 
-### Contributors
+## Examples
+
+```
+@Eros tag add codes ***breathes heavily*** CODES
+@Eros tag add thisIsHoisted hoisted, sir --hoist
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

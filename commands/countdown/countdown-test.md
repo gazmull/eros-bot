@@ -1,4 +1,5 @@
-# countdown-test
+# Command: countdown test
+
 
 **Usage**: `@Eros countdown test <countdown date>`
 
@@ -6,13 +7,25 @@
 
 **Brief Description**: Tests a date for countdown.
 
+
+
 ## Testing a Countdown
 
-❯ Date Format: \[YYYY\]-\[MM\]-\[DD\]T\[HH\]:\[mm\]
 
-❯ Note: Date has to be provided in PDT. [https://time.is/PDT](https://time.is/PDT)
+❯ Date Format: [YYYY]-[MM]-[DD]T[HH]:[mm]
 
-### Contributors
+❯ Note: Date has to be provided in PDT. https://time.is/PDT
+
+## Examples
+
+```
+@Eros countdown test 2018-04-23T00:00
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

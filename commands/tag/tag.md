@@ -1,4 +1,5 @@
-# tag
+# Command: tag
+
 
 **Usage**: `@Eros tag <method> [arguments]`
 
@@ -8,21 +9,50 @@
 
 Available Methods:
 
-* `add`
-* `del`
-* `delete`
-* `edit`
-* `info`
-* `leaderboard`
-* `list`
-* `show`
-* `source`
+	- `add`
+
+	- `del`
+
+	- `delete`
+
+	- `edit`
+
+	- `info`
+
+	- `leaderboard`
+
+	- `list`
+
+	- `show`
+
+	- `source`
+
+
 
 ## Warning
 
+
 You can affect tags created in this server only.
 
-### Contributors
+## Examples
+
+```
+@Eros tag add SoS Yo --hoist
+@Eros tag add xd ROFL
+@Eros tag delete SoS
+@Eros tag edit Jump In the caAc --hoist
+@Eros tag edit SoS caAc
+@Eros tag info Leon
+@Eros tag leaderboard 5
+@Eros tag show Leon
+@Eros tag source xd
+@Eros tag list @Eros
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

@@ -1,4 +1,5 @@
-# memberinfo
+# Command: memberinfo
+
 
 **Usage**: `@Eros memberinfo [member name]`
 
@@ -6,7 +7,21 @@
 
 **Brief Description**: Displays a guild member information. No arguments will display yours instead.
 
-## Contributors
+
+
+## Examples
+
+```
+@Eros memberinfo A Binary Large OBject
+@Eros memberinfo Euni
+@Eros memberinfo Euni#0011
+@Eros memberinfo 319102712383799296
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

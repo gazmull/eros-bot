@@ -1,24 +1,12 @@
-# countdown
+# Category: countdown
 
-**Usage**: `@Eros countdown [method] [arguments]`
 
-**Aliases**: `countdown`, `cd`
+Commands within this category:
 
-**Brief Description**: Displays countdowns related to Kamihime Project in-game events.
+[**`countdown add`**](/commands/countdown/countdown-add.md) - Adds a countdown.
 
-It includes special and some regular events.
+[**`countdown`**](/commands/countdown/countdown.md) - Displays countdowns related to Kamihime Project in-game events.
 
-Available Methods:
+[**`countdown delete`**](/commands/countdown/countdown-delete.md) - Deletes a countdown.
 
-* `help`
-* `add`
-* `remove`
-* `del`
-* `delete`
-* `test`
-* `check`
-
-## Contributors
-
-Euni
-
+[**`countdown test`**](/commands/countdown/countdown-test.md) - Tests a date for countdown.

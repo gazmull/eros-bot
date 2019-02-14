@@ -1,4 +1,5 @@
-# help
+# Command: help
+
 
 **Usage**: `@Eros help [command name]`
 
@@ -6,7 +7,20 @@
 
 **Brief Description**: Displays available commands or command information
 
-## Contributors
+
+
+## Examples
+
+```
+@Eros help 
+@Eros help ping
+@Eros help info
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

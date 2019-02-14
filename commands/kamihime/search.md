@@ -1,4 +1,5 @@
-# search
+# Command: search
+
 
 **Usage**: `@Eros search <character name>`
 
@@ -6,11 +7,24 @@
 
 **Brief Description**: Searches for characters matched with your input.
 
+
+
 ## Warning
+
 
 Results are only from [Kamhime Database](https://kamihimedb.thegzm.space/).
 
-### Contributors
+## Examples
+
+```
+@Eros search eros
+@Eros search mars
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

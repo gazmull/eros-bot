@@ -1,4 +1,5 @@
-# countdown
+# Command: countdown
+
 
 **Usage**: `@Eros countdown [method] [arguments]`
 
@@ -10,15 +11,35 @@ It includes special and some regular events.
 
 Available Methods:
 
-* `help`
-* `add`
-* `remove`
-* `del`
-* `delete`
-* `test`
-* `check`
+- `help`
 
-## Contributors
+- `add`
+
+- `remove`
+
+- `del`
+
+- `delete`
+
+- `test`
+
+- `check`
+
+
+
+## Examples
+
+```
+@Eros countdown 
+@Eros countdown add 2018-04-23T00:00 A User's Birthday
+@Eros countdown delete A User's Birthday
+@Eros countdown test 2018-05-16T20:00
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

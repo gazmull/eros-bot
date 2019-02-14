@@ -1,4 +1,5 @@
-# info
+# Command: info
+
 
 **Usage**: `@Eros info <item name> [flags]`
 
@@ -6,13 +7,16 @@
 
 **Brief Description**: Looks up for a Kamihime Project Character/Weapon at Kamihime Project Nutaku Fandom.
 
+
+
 Min. requirement for input length is 2.
 
 If there are multiple results, you will be prompted to select what exactly you would like to see.
 
 ## Flags: Options For Narrowing Down Your Search
 
-**Each flag is not compatible with** _**any other flag within this flag type**_**.**
+
+__Each flag is not compatible with *any other flag within this flag type*.__
 
 `-ts`, `--type=soul` souls pool only
 
@@ -24,7 +28,8 @@ If there are multiple results, you will be prompted to select what exactly you w
 
 ## Flags: Options For Requesting Other Info
 
-**Each flag is compatible with** _**any other flag**_**.**
+
+__Each flag is compatible with *any other flag*.__
 
 `-r`, `--release`, `--releases`, `--releaseweapon` **only for kamihime/weapon**— requests Kamihime's weapon / Kamihime Release instead
 
@@ -32,11 +37,26 @@ If there are multiple results, you will be prompted to select what exactly you w
 
 ## Emoji Reacts To Interact
 
-:frame\_photo: — Toggle image
 
-:arrows\_counterclockwise: — **only for kamihime/weapon**— See Kamihime / Weapon
+:frame_photo: — Toggle image
 
-### Contributors
+:arrows_counterclockwise: — **only for kamihime/weapon**— See Kamihime / Weapon
+
+## Examples
+
+```
+@Eros info eros
+@Eros info mars -r
+@Eros info masamune -ts
+@Eros info ea -tw
+@Eros info hell staff -tw -r
+@Eros info ea -tk -r
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-

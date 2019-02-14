@@ -1,4 +1,5 @@
-# tag-info
+# Command: tag info
+
 
 **Usage**: `@Eros tag info <tag name>`
 
@@ -6,7 +7,12 @@
 
 **Brief Description**: Display a tag's info.
 
-## Contributors
+
+
+
+---
+
+#### Contributors
+
 
 Euni
-

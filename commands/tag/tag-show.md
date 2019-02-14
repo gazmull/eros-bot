@@ -1,4 +1,5 @@
-# tag-show
+# Command: tag show
+
 
 **Usage**: `@Eros tag show <tag name>`
 
@@ -6,7 +7,12 @@
 
 **Brief Description**: Displays a tag.
 
-## Contributors
+
+
+
+---
+
+#### Contributors
+
 
 Euni
-

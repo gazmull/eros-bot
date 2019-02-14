@@ -1,28 +1,22 @@
-# tag
+# Category: tag
 
-**Usage**: `@Eros tag <method> [arguments]`
 
-**Aliases**: `tag`
+Commands within this category:
 
-**Brief Description**: Parent command of tag system.
+[**`tag add`**](/commands/tag/tag-add.md) - Adds a tag.
 
-Available Methods:
+[**`tag delete`**](/commands/tag/tag-delete.md) - Deletes a tag.
 
-* `add`
-* `del`
-* `delete`
-* `edit`
-* `info`
-* `leaderboard`
-* `list`
-* `show`
-* `source`
+[**`tag edit`**](/commands/tag/tag-edit.md) - Edits a tag.
 
-## Warning
+[**`tag info`**](/commands/tag/tag-info.md) - Display a tag's info.
 
-You can affect tags created in this server only.
+[**`tag leaderboard`**](/commands/tag/tag-leaderboard.md) - Displays a leaderboard of tags from the current server or the specified member.
 
-### Contributors
+[**`tag show`**](/commands/tag/tag-show.md) - Displays a tag.
 
-Euni
+[**`tag source`**](/commands/tag/tag-source.md) - Displays a tag's source.
 
+[**`tag`**](/commands/tag/tag.md) - Parent command of tag system.
+
+[**`tag list`**](/commands/tag/tag-list.md) - Displays a list of tags from the current server or the specified member.

@@ -1,4 +1,5 @@
-# leaderboard
+# Command: leaderboard
+
 
 **Usage**: `@Eros leaderboard [page number]`
 
@@ -6,7 +7,20 @@
 
 **Brief Description**: Displays leaderboard for top views on harem scenes from Kamihime Database.
 
-## Contributors
+
+
+## Examples
+
+```
+@Eros leaderboard 
+@Eros leaderboard 13
+@Eros leaderboard 37
+```
+
+
+---
+
+#### Contributors
+
 
 Euni
-
