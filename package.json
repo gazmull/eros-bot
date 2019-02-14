@@ -46,10 +46,10 @@
     "fs-extra": "^7.0.1",
     "infobox-parser": "^3.0.3",
     "moment-timezone": "^0.5.23",
+    "mysql2": "^1.6.5",
     "node-fetch": "^2.3.0",
     "nodemw": "^0.12.2",
     "sequelize": "^4.42.0",
-    "sqlite": "^3.0.0",
     "twitter-lite": "^0.9.0",
     "zlib-sync": "^0.1.4"
   },

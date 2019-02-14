@@ -42,6 +42,14 @@ module.exports = {
   // Authorised for coutdown management.
   countdownAuthorized: [ '319102712383799296' ],
 
+  // Database (MySQL / MariaDB) Credentials
+  db: {
+    username: 'euni',
+    password: 'monica',
+    database: 'eros',
+    host: 'localhost'
+  },
+
   // Get your own application at https://apps.twitter.com
   twitter: {
     access_token_key: 'xxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxx',

@@ -1,12 +1,15 @@
 import * as Sequelize from 'sequelize';
+// @ts-ignore
+import { db as cred } from '../../../auth.js';
 import { DbInterface } from '../../../typings/DbInterface';
 import { GuildFactory } from './guild';
 import { TagFactory } from './tag';
 
 export const create = (): DbInterface => {
-  const sequelize = new Sequelize('Eros', null, null, {
+  const sequelize = new Sequelize(cred.database, cred.username, cred.password, {
+    host: cred.host,
     define: { freezeTableName: true },
-    dialect: 'sqlite',
+    dialect: 'mysql',
     logging: false,
     omitNull: true,
     operatorsAliases: false,
@@ -14,8 +17,7 @@ export const create = (): DbInterface => {
       acquire: 30 * 1000,
       max: 10,
       min: 0
-    },
-    storage: `${__dirname}/../../../provider/Eros.db`
+    }
   });
 
   return {

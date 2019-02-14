@@ -33,8 +33,7 @@ export const GuildFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<IG
     },
     id: {
       primaryKey: true,
-      type: Sequelize.TEXT,
-      unique: true
+      type: Sequelize.STRING
     },
     loli: {
       allowNull: false,
