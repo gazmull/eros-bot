@@ -7,7 +7,7 @@ sudo: false
 jobs:
   include:
     - stage: docs-build
-      script: yarn run test && yarn run docs:parse
+      script: cp auth.example.js auth.js && yarn run test && yarn run docs:parse
 cache:
   directories:
     - node_modules
