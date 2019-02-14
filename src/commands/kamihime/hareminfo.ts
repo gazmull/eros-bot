@@ -11,7 +11,7 @@ export default class extends ErosCommand {
     super('hareminfo', {
       aliases: [ 'hareminfo', 'hinfo', 'hi', 'peek', 'p' ],
       description: {
-        content: 'Sends a list of Harem Episodes of a character.',
+        content: 'Sends a list of Harem Episodes of a character from Kamihime Database.',
         usage: '<character name>',
         examples: [ 'eros', 'mars' ]
       },

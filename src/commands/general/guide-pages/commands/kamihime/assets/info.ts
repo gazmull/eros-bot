@@ -16,9 +16,6 @@ export default {
         '`-te`, `--type=eidolon` eidolons pool only',
         '`-tk`, `--type=kamihime` kamihime pool only',
         '`-tw`, `--type-weapon` weapons pool only',
-        '\n❯ Example',
-        '`@Eros info masamune -ts` — search within souls pool only',
-        '`@Eros info ea -tw` — search within weapons pool only',
       ]
     },
     {
@@ -27,9 +24,6 @@ export default {
         '__Each flag is compatible with *any other flag*.__',
         '`-r`, `--release`, `--releases`, `--releaseweapon` **only for kamihime/weapon**— requests Kamihime\'s weapon / Kamihime Release instead',
         '`-p`, `--preview` requests to show the item\'s image',
-        '\n❯ Example',
-        '`@Eros info hell staff -tw -r` — request for the kamihime instead',
-        '`@Eros info ea -tk -r` — request for the weapon instead',
       ]
     },
     {

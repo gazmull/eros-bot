@@ -8,7 +8,7 @@ export default class extends ErosCommand {
     super('leaderboard', {
       aliases: [ 'leaderboard', 'lb', 'toppeeks', 'top' ],
       description: {
-        content: 'Displays leaderboard of kamihime for top views on harem scenes.',
+        content: 'Displays leaderboard for top views on harem scenes from Kamihime Database.',
         usage: '[page number]',
         examples: [ '', '13', '37' ]
       },

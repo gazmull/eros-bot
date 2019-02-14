@@ -3,9 +3,10 @@ import * as config from '../auth';
 import ErosClient from './struct/ErosClient';
 import { error, warn } from './util/console';
 
-const client = new ErosClient(config).build();
+const client = new ErosClient(config);
 
 client
+  .build()
   .init()
   .catch(error);
 

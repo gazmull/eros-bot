@@ -63,7 +63,7 @@ export default class extends ErosCommand {
         'For an in-depth guide on how to use this bot, see: `guide`',
       ]);
 
-    for (const category of this.handler.categories.values()) {
+    for (const [ category, commands ] of this.handler.categories) {
       const title = {
         admin: 'Server Manager',
         general: 'General',
@@ -71,20 +71,21 @@ export default class extends ErosCommand {
         countdown: 'Kamihime - Countdown',
         tag: 'Tag System',
         util: 'Utilities'
-      }[category.id];
+      }[category];
 
       if (
-        (!message.guild && category.id === 'admin') || (
-            message.guild && category.id === 'admin' &&
+        (!message.guild && category === 'admin') || (
+            message.guild && category === 'admin' &&
             !(message.channel as TextChannel).permissionsFor(message.member).has('MANAGE_GUILD')
           )
       ) continue;
 
       const publicCommands = message.author.id === this.client.ownerID && !pub
-        ? category
-        : category.filter(c => !c.ownerOnly);
+        ? commands
+        : commands.filter(c => !c.ownerOnly);
+      const parentCommands = publicCommands.filter(c => Boolean(c.aliases && c.aliases.length));
 
-      if (title) embed.addField(title, publicCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
+      if (title) embed.addField(title, parentCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
     }
 
     return message.util.send({ embed });
