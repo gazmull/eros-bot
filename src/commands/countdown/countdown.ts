@@ -5,6 +5,8 @@ import * as moment from 'moment-timezone';
 // @ts-ignore
 import { countdownAuthorized, emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
+import ErosClient from '../../struct/ErosClient';
+// import ErosClient from '../../struct/ErosClient';
 import prettifyMs from '../../util/prettifyMs';
 
 export default class extends ErosCommand {
@@ -47,6 +49,8 @@ export default class extends ErosCommand {
 
   public countdowns: Collection<number, string[]> = new Collection();
 
+  public userCountdowns: Collection<number, string[]> = new Collection();
+
   public authorized (user: User) {
     return countdownAuthorized.includes(user.id);
   }
@@ -75,11 +79,8 @@ export default class extends ErosCommand {
 
     await this.prepareCountdowns();
 
-    for (const [ key, names ] of this.countdowns) {
-      const date = Number(moment(key).tz(this.timezone).format('x'));
-
-      embed.addField(this.getCountdown(date), names.map(n => `❯ ${n}`).join('\n'));
-    }
+    for (const [ key, names ] of this.countdowns)
+      embed.addField(this.getCountdown(key), names.map(n => `❯ ${n}`).join('\n'));
 
     return message.util.send({ embed });
   }
@@ -104,59 +105,61 @@ export default class extends ErosCommand {
   }
 
   public async prepareCountdowns () {
-    if (this.countdowns.size)
-      for (const [ date, names ] of this.countdowns) {
-        const key = moment(date).tz(this.timezone);
-        const now = moment.tz(this.timezone);
-        const expired = now.isAfter(key);
+    const now = moment.tz(this.timezone);
 
-        if (expired) {
-          this.countdowns.delete(date);
+    this.userCountdowns = this.userCountdowns.filter((_, date) => {
+      const parsed = moment(date);
 
-          continue;
-        }
+      return !now.isAfter(parsed);
+    });
 
-        const parsedDate = Number(key.format('x'));
+    const presets = this.preset;
 
-        for (const name of names)
-          this.checkDuplicate({ name, date: parsedDate });
-      }
-
-    const preset = this.preset;
-
-    for (const countdown of preset) {
-      const [ hour, minute ] = countdown.time.split(':').map(i => Number(i));
-      const now = moment().tz(this.timezone);
-      const date = moment().tz(this.timezone, true).hours(hour).minutes(minute).seconds(0).milliseconds(0);
+    for (const preset of presets) {
+      const name = preset.name;
+      const [ hour, minute ] = preset.time.split(':').map(i => Number(i));
+      const date = moment.tz(this.timezone)
+        .hours(hour)
+        .minutes(minute)
+        .seconds(0)
+        .milliseconds(0);
       const dayNow = now.format('dddd');
+      const today = preset.day === '*' || preset.day === dayNow;
       const expired = () => now.isAfter(date);
-      const today = countdown.day === '*' || dayNow === countdown.day;
       const toAppend = ' - End';
 
       if (today && expired())
-        if (countdown.class) {
+        if (preset.class) {
           let offset: number;
 
-          switch (countdown.class) {
+          switch (preset.class) {
             case 'ENH':
               offset = 60;
-              countdown.name += toAppend;
+              preset.name += toAppend;
               break;
             case 'GEM':
               offset = 30;
-              countdown.name += toAppend;
+              preset.name += toAppend;
+              break;
+            case 'DLY':
+              offset = 60 * 24;
               break;
           }
 
           date.add(offset, 'minute');
         }
 
-      const parsedDate = Number(date.format('x'));
+      if (today && !expired()) {
+        const parsedDate = date.valueOf();
 
-      if (today && !expired())
-        this.checkDuplicate({ name: countdown.name, date: parsedDate });
+        this.checkDuplicate(this.countdowns, { name, date: parsedDate });
+        const client = this.client as ErosClient;
+
+        if (client.scheduler) client.scheduler.add(parsedDate, name);
+      }
     }
 
+    this.countdowns = this.countdowns.concat(this.userCountdowns);
     this.countdowns = this.countdowns.sort((_, __, a, b) => a - b);
 
     await this.save();
@@ -180,7 +183,7 @@ export default class extends ErosCommand {
         const date = Number(Object.keys(countdown)[0]);
         const names = Object.values(countdown)[0];
 
-        this.countdowns.set(date, names);
+        this.userCountdowns.set(date, names);
       }
     }
 
@@ -190,40 +193,39 @@ export default class extends ErosCommand {
   public async save () {
     const array: ICountdown[] = [];
 
-    for (const [ date, names ] of this.countdowns)
+    for (const [ date, names ] of this.userCountdowns)
       array.push({ [ date ]: names });
 
     return fs.writeFile(this.filename, JSON.stringify(array));
   }
 
-  public getCountdown (_date: number) {
-    const date = Number(moment(_date, 'x').tz(this.timezone).format('x'));
-    const now = Number(moment().tz(this.timezone).format('x'));
+  public getCountdown (date: number) {
+    const now = moment.tz(this.timezone).valueOf();
     const remaining = date - now;
 
     return prettifyMs(remaining);
   }
 
   public resolveCountdown (name: string) {
-    const resolvedName = this.countdowns.filter(el => el.includes(name));
+    const resolvedName = this.userCountdowns.filter(el => el.includes(name));
 
     return resolvedName.size
       ?
         {
-          date: this.countdowns.findKey(el => el.includes(name)),
+          date: this.userCountdowns.findKey(el => el.includes(name)),
           name
         }
       : null;
   }
 
-  public checkDuplicate ({ name, date }: { name: string, date: number }) {
-    const entry = this.countdowns.get(date);
+  public checkDuplicate (countdowns: Collection<number, string[]>, { name, date }: { name: string, date: number }) {
+    const entry = countdowns.get(date);
 
-    if (!entry) return this.countdowns.set(date, [ name ]);
+    if (!entry) return countdowns.set(date, [ name ]);
 
     const hasTheName = entry.includes(name);
 
-    if (!hasTheName) this.countdowns.set(date, entry.concat(name));
+    if (!hasTheName) return countdowns.set(date, entry.concat(name));
   }
 
   get preset () {

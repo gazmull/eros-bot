@@ -37,7 +37,7 @@ export default class CommandHandlerResolverTypes {
 
         if (!parsed.isValid()) return null;
 
-        const now = moment().tz(parent.timezone);
+        const now = moment.tz(parent.timezone);
         const expired = now.isAfter(parsed);
 
         if (expired) return null;

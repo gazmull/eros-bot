@@ -81,7 +81,7 @@ export default class extends EventEmitter {
     if (job && job.names.includes(name)) return this;
 
     const names  = job ? job.names.concat(name) : [ name ];
-    const parsedDate = date - Number(moment().tz(this.provider.timezone).format('x'));
+    const parsedDate = date - moment.tz(this.provider.timezone).valueOf();
     const fn = this.client.setTimeout(() => this.distribute(date, names), parsedDate);
 
     if (job) this.client.clearTimeout(job.fn);
@@ -99,7 +99,7 @@ export default class extends EventEmitter {
     if (job) {
       job.names.splice(job.names.indexOf(name), 1);
 
-      const parsedDate = date - Number(moment().tz(this.provider.timezone).format('x'));
+      const parsedDate = date - moment.tz(this.provider.timezone).valueOf();
       const names = job.names;
       const fn = this.client.setTimeout(() => this.distribute(date, names), parsedDate);
 

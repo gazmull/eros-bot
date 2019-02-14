@@ -40,7 +40,7 @@ export default class extends ErosCommand {
     const parent = this.handler.modules.get('countdown') as CountdownCommand;
     const parsedDate = Number(date.format('x'));
 
-    parent.checkDuplicate({ name, date: parsedDate });
+    parent.checkDuplicate(parent.userCountdowns, { name, date: parsedDate });
     await parent.save();
 
     (this.client as ErosClient).scheduler.emit('add', parsedDate, name);
