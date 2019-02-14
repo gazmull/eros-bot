@@ -1,5 +1,7 @@
 import { ArgumentTypeCaster } from 'discord-akairo';
 import { Util } from 'discord.js';
+import * as moment from 'moment';
+import CountdownCommand from '../../commands/countdown/countdown';
 import ErosClient from '../ErosClient';
 
 export default class CommandHandlerResolverTypes {
@@ -11,6 +13,42 @@ export default class CommandHandlerResolverTypes {
 
   public distribute (): { [name: string]: ArgumentTypeCaster } {
     return {
+      existingCountdown: phrase => {
+        if (!phrase) return null;
+
+        const parent = this.client.commandHandler.modules.get('countdown') as CountdownCommand;
+        const countdown = parent.resolveCountdown(phrase);
+
+        return countdown ? null : phrase;
+      },
+      countdown: phrase => {
+        if (!phrase) return null;
+
+        const parent = this.client.commandHandler.modules.get('countdown') as CountdownCommand;
+        const countdown = parent.resolveCountdown(phrase);
+
+        return countdown || null;
+      },
+      countdownDate: phrase => {
+        if (!phrase) return null;
+
+        const parent = this.client.commandHandler.modules.get('countdown') as CountdownCommand;
+        const parsed = moment(phrase, moment.HTML5_FMT.DATETIME_LOCAL, true).tz(parent.timezone, true);
+
+        if (!parsed.isValid()) return null;
+
+        const now = moment().tz(parent.timezone);
+        const expired = now.isAfter(parsed);
+
+        if (expired) return null;
+
+        const result = moment
+          .tz(parsed, parent.timezone)
+          .seconds(0)
+          .milliseconds(0);
+
+        return result;
+      },
       existingTag: async (phrase, message) => {
         if (!phrase) return null;
 

@@ -1,8 +1,8 @@
 import { Listener } from 'discord-akairo';
+import CountdownScheduler from '../../functions/CountdownScheduler';
 import Twitter from '../../functions/Twitter';
 import ErosClient from '../../struct/ErosClient';
 import { error, status } from '../../util/console';
-// import * as CountdownScheduler from '../../functions/CountdownScheduler';
 
 export default class extends Listener {
   constructor () {
@@ -27,8 +27,12 @@ export default class extends Listener {
           : `${guildSize} Guilds`}`);
       else status('Standby Mode');
 
-      // client.scheduler = new CountdownScheduler(client);
-      // client.scheduler.init();
+      client.scheduler = new CountdownScheduler(client);
+
+      client.scheduler
+        .on('add', (date, name) => client.scheduler.add(date, name))
+        .on('delete', (date, name) => client.scheduler.delete(date, name));
+
       return new Twitter(client).init();
     } catch (err) {
       error(err);

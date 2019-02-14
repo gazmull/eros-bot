@@ -1,5 +1,6 @@
 // @ts-ignore
 import { bugs } from '../../../../../package.json';
+import countdown from './countdown';
 import general from './general';
 import kamihime from './kamihime';
 import tag from './tag';
@@ -29,6 +30,7 @@ export default [
   },
   ...general,
   ...kamihime,
+  ...countdown,
   ...tag,
   ...util,
 ] as IDialog[];

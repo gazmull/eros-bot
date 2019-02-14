@@ -1,99 +1,136 @@
 import { Collection, TextChannel } from 'discord.js';
-import Scheduler from 'node-schedule';
+import { EventEmitter } from 'events';
+import * as moment from 'moment';
 import { Op } from 'sequelize';
+import CountdownCommand from '../commands/countdown/countdown';
 import ErosClient from '../struct/ErosClient';
+import { status, warn } from '../util/console';
 
-/**
- * todo
- *  - make it possible not to restart the client just for this
- *  - non-destructive entries
- *  - basically screw this shit
- */
-export default class {
+export default class extends EventEmitter {
   constructor (client: ErosClient) {
+    super();
+
     this.client = client;
+
+    this.init();
   }
 
   protected client: ErosClient;
 
-  public schedules: Collection<Date, any> = new Collection();
+  public schedules: Collection<number, { names: string[], fn: NodeJS.Timer }> = new Collection();
 
-  public async init () {
-    if (this.schedules.size) this.schedules.clear();
+  public init () {
+    this.provider.prepareCountdowns().then(() => {
+      const countdowns = this.provider.countdowns;
 
-    // @ts-ignore
-    const countdowns = await this.client.commandHandler.findCommand('countdown').prepareCountdowns(true);
+      for (const [ date, names ] of countdowns)
+        for (const name of names)
+          this.add(date, name);
 
-    for (const [ date, entries ] of countdowns.entries()) {
-      const entry = { type: entries[0].type, names: entries.map(el => el.name) };
-
-      this.assign(date, entry);
-    }
-
-    Scheduler.scheduleJob({ hour: 0, minute: 0, second: 0 }, () => this.init());
-  }
-
-  public async distribute (names: string[]) {
-    const guilds = await this.client.db.Guild.findAll({
-      // @ts-ignore
-      where: {
-        cdChannelID: { [Op.ne]: null },
-        cdRoleID: { [Op.ne]: null }
-      }
+      status('CountdownScheduler Module: Initialised.');
     });
-
-    const tick = this.client.setInterval(() => {
-      if (!guilds.length) return this.client.clearInterval(tick);
-
-      const spliced = guilds.splice(0, 5);
-
-      for (const guild of spliced) {
-        const channel = this.client.channels.get(guild.cdChannelID) as TextChannel;
-
-        if (!channel) continue;
-
-        const role = channel.guild.roles.get(guild.cdRoleID);
-
-        if (!role) continue;
-
-        channel.send(`${role}, **countdown** for ${names.map(n => `**${n}**`).join(', ')} has ended.`);
-      }
-    }, 3000);
   }
 
-  public assign (date: Date, data) {
-    let result = `${date} Assigned.`;
+  public async distribute (date: number, names: string[]) {
+    try {
+      this.destroy(date);
 
-    switch (data.type) {
-      default: {
-        result = `${date} Invalid.`;
-        break;
-      }
-      case 'PRE': {
-        const fn = Scheduler.scheduleJob(date, this.distribute(data.names));
+      const guilds = await this.client.db.Guild.findAll({ where: { cdChannelID: { [Op.ne]: null } } });
+      const tick = this.client.setInterval(async () => {
+        if (!guilds.length) return this.client.clearInterval(tick);
 
-        this.schedules.set(date, { names: data.names, fn, type: data.type });
-      }
+        const spliced = guilds.splice(0, 5);
+
+        for (const guild of spliced) {
+          const channel = this.client.channels.get(guild.cdChannelID) as TextChannel;
+
+          if (!channel) continue;
+
+          const role = channel.guild.roles.get(guild.cdRoleID);
+          const roleText = role ? `${role}, ` : '';
+          let prettyNames = [
+            ...names.filter(n => !n.endsWith('End')).sort(),
+            ... names.filter(n => n.endsWith('End')).sort(),
+          ];
+          prettyNames = prettyNames.map((v, i, arr) => {
+              const end = arr.length > 1 && i === (arr.length - 1) ? 'and ' : '';
+
+              return `${end}**${v}**`;
+            });
+          const nameEnds =  names.filter(n => n.endsWith('End'));
+          const nameNotEnds = names.filter(n => !n.endsWith('End'));
+          const isPlural = names.length > 1 ? 'have' : 'has';
+          let action = 'started/ended';
+
+          if (nameEnds.length > nameNotEnds.length) action = 'ended';
+          else if (nameEnds.length < nameNotEnds.length) action = 'started';
+
+          await channel.send(`${roleText}${prettyNames.join(', ')} ${isPlural} ${action}!`);
+        }
+      }, 3000);
+
+      status('CountdownScheduler Module: Distributed ' + names.join(', '));
+    } catch (err) { warn('Error Sending Notification: ' + err); }
+
+    await this.provider.prepareCountdowns();
+  }
+
+  public add (date: number, name: string) {
+    const job = this.schedules.get(date);
+
+    if (job && job.names.includes(name)) return this;
+
+    const names  = job ? job.names.concat(name) : [ name ];
+    const parsedDate = date - Number(moment().tz(this.provider.timezone).format('x'));
+    const fn = this.client.setTimeout(() => this.distribute(date, names), parsedDate);
+
+    if (job) this.client.clearTimeout(job.fn);
+
+    this.schedules.set(date, { names, fn });
+
+    status('CountdownScheduler Module: Added ' + name);
+
+    return this;
+  }
+
+  public delete (date: number, name: string) {
+    const job = this.schedules.get(date);
+
+    if (job) {
+      job.names.splice(job.names.indexOf(name), 1);
+
+      const parsedDate = date - Number(moment().tz(this.provider.timezone).format('x'));
+      const names = job.names;
+      const fn = this.client.setTimeout(() => this.distribute(date, names), parsedDate);
+
+      this.client.clearTimeout(job.fn);
+
+      if (!job.names.length) return this.destroy(date);
+
+      this.schedules.set(date, { names, fn });
     }
 
-    return result;
+    status('CountdownScheduler Module: Deleted ' + name);
+
+    return this;
   }
 
-  public relinquish (entry: string) {
-    const entries = this.schedules.find(el => el.names.includes(entry));
+  public destroy (date: number) {
+    const job = this.schedules.get(date);
 
-    if (!entries) return `${entry} Schedule does not exist.`;
+    if (job) this.schedules.delete(date);
+    status('CountdownScheduler Module: Destroyed ' + date);
 
-    const entryKey = this.schedules.findKey(el => JSON.stringify(el) === JSON.stringify(entries));
-
-    if (!entryKey) return `${entry} Schedule does not exist.`;
-    if (entries.type === 'PRE') return `${entry} Cannot modify preset countdowns.`;
-
-    entries.names.splice(entries.names.indexOf(entry), 1);
-    entries.fn = this.distribute(entries.names);
-
-    this.schedules.set(entryKey, entries);
-
-    return `${entry} Relinquished.`;
+    return this;
   }
+
+  get provider () {
+    return this.client.commandHandler.modules.get('countdown') as CountdownCommand;
+  }
+
+  // @ts-ignore
+  public emit (event: 'delete' | 'add', date: number, name: string): boolean;
+
+  // @ts-ignore
+  public on (event: 'delete' | 'add', listener: (date: number, name: string) => any): this;
 }

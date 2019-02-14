@@ -19,18 +19,21 @@ export default class extends Listener {
 
     try {
       const cdChannel = guild.channels.find(c => /countdown/ig.test(c.name));
+      const cdRole = guild.roles.find(r => /countdown/ig.test(r.name));
       const twitterChannel = guild.channels.find(c => /twitter/ig.test(c.name));
       const nsfwChannel = guild.channels.find(c => /nsfw/ig.test(c.name));
       const nsfwRole = guild.roles.find(r => /nsfw/ig.test(r.name));
-      const existing = [ cdChannel, twitterChannel, nsfwChannel, nsfwRole ].filter(el => el);
+      const existing = [ cdChannel, cdRole, twitterChannel, nsfwChannel, nsfwRole ].filter(el => el);
       const client = this.client as ErosClient;
 
       await client.db.Guild.create({
         id: guild.id,
         loli: false,
         name: guild.name,
+        cdChannelID: cdChannel ? cdChannel.id : null,
+        cdRoleID: cdRole ? cdRole.id : null,
         nsfwChannelID: nsfwChannel ? nsfwChannel.id : null,
-        nsfwRoleID: nsfwChannel ? nsfwChannel.id : null,
+        nsfwRoleID: nsfwRole ? nsfwRole.id : null,
         owner: guild.owner.id,
         prefix: defaultPrefix,
         twitterChannelID: twitterChannel ? twitterChannel.id : null
@@ -49,6 +52,7 @@ export default class extends Listener {
           `\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild (please configure your settings there).`,
           '\tExamples:',
           cdChannel ? `\t\`${defaultPrefix}cdchannel <channel mention>\`` : '',
+          cdRole ? `\t\`${defaultPrefix}cdrole <role mention>\`` : '',
           nsfwChannel ? `\t\`${defaultPrefix}nsfwchannel <channel mention>\`` : '',
           nsfwRole ? `\t\`${defaultPrefix}nsfwrole <role mention>\`` : '',
           twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel mention>\`` : '',

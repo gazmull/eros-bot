@@ -67,6 +67,7 @@ export default [
           'Set Server Prefix: `@Eros prefix <prefix>`',
           'Set Twitter feed channel: `@Eros twitterchannel <mention channel>`',
           'Set Countdown channel: `@Eros cdchannel <mention channel>`',
+          'Set Countdown Subscriber role: `@Eros cdrole <mention role>`',
           'Set hareminfo-allowed channel: `@Eros nsfwchannel <mention channel>`',
           'Set NSFW role: `@Eros nsfwrole <mention role>`',
           'Disable/Enable loli contents (hareminfo): `@Eros loli`',

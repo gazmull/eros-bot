@@ -1,6 +1,7 @@
 import { ClientUtil } from 'discord-akairo';
 import Selection from '../src/struct/util/Selection';
 import { Message as Msg, StringResolvable } from 'discord.js';
+import CountdownScheduler from '../src/functions/CountdownScheduler';
 
 declare global {
   interface Message extends Msg {}
@@ -24,6 +25,10 @@ declare global {
     }[];
     contributors?: string[];
     
+  }
+
+  interface ICountdown {
+    [ date: number ]: string[];
   }
 
   interface IKamihimeFandom {
