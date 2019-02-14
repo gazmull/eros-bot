@@ -75,14 +75,18 @@ export default class extends ErosCommand {
       .setThumbnail(message.guild.iconURL({ format: 'webp' }));
 
     const serverHoisted = tags.filter(el => el.hoisted);
+    const serverNotHoisted = tags.filter(el => !el.hoisted);
 
     if (serverHoisted.length)
       embed.addField(
-        'Pinned Tags',
-        serverHoisted
-          .map(el => `**\`${el.name}\`**`)
-          .sort()
-          .join(', ')
+        'Server Tags', [
+          ...serverHoisted
+            .map(el => `**\`${el.name}\`**`)
+            .sort(),
+          ...serverNotHoisted
+            .map(el => `**\`${el.name}\`**`)
+            .sort(),
+        ].join(', ')
       );
 
     const myTags = tags.filter(el => el.authorId === message.author.id);

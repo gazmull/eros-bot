@@ -17,12 +17,9 @@ export default class extends ErosCommand {
           id: 'name',
           type: 'existingTag',
           prompt: {
-            start: 'what should the future tag be named?',
-            retry: (message: Message, input: { phrase: string }) => {
-              return input.phrase
-                ? `${message.author}, **${input.phrase}** already exists or it's too long. Please provide again.`
-                : `${message.author}, Please provide a name!`;
-            }
+            start: 'what should the new tag be named?',
+            retry: (_, __, input: { phrase: string }) =>
+              `**${input.phrase}** already exists or it's too long. Please provide again.`
           }
         },
         {
@@ -30,8 +27,8 @@ export default class extends ErosCommand {
           match: 'rest',
           type: 'tagContent',
           prompt: {
-            start: 'what should the future tag contain?',
-            retry: 'content should not be empty or not be exceeding 1950 characters. Please provide again.'
+            start: 'what should the new tag contain?',
+            retry: 'content should not be exceeding 1950 characters. Please provide again.'
           }
         },
         {
@@ -47,12 +44,12 @@ export default class extends ErosCommand {
     message: Message,
     { name, content, hoisted }: { name: string, content: string, hoisted: boolean }
   ) {
-    if (name && name.length > 256) {
+    if (name.length > 256) {
       message.util.reply('why bother to name a tag too long?');
 
       return this.fail(message);
     }
-    if (content && content.length > 1950) {
+    if (content.length > 1950) {
       message.util.reply('uh oh, your content exceeds the 2000 characters limit!');
 
       return this.fail(message);

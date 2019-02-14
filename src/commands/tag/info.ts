@@ -19,8 +19,8 @@ export default class extends ErosCommand {
           type: 'tag',
           prompt: {
             start: 'what is the name of the tag?',
-            retry: (message: Message, input: { phrase: string }) =>
-              `${message.author}, **${input.phrase}** does not exist. Please provide again.`
+            retry: (_, __, input: { phrase: string }) =>
+              `**${input.phrase}** does not exist. Please provide again.`
           }
         },
       ]
