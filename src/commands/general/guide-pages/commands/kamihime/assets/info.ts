@@ -29,8 +29,8 @@ export default {
     {
       name: 'Emoji Reacts To Interact',
       value: [
-        ':frame_photo: — Toggle image',
-        ':arrows_counterclockwise: — **only for kamihime/weapon**— See Kamihime / Weapon',
+        '🖼 — Toggle image',
+        '🔄 — **only for kamihime/weapon**— See Kamihime / Weapon',
       ]
     },
   ]
