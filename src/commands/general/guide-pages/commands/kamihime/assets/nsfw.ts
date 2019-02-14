@@ -2,5 +2,15 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'nsfw'
+  command: 'nsfw',
+  fields: [
+    {
+      name: 'To Work Normally',
+      value: [
+        'The following commands must be properly configured before using this command:',
+        '- `nsfwrole`',
+        '- `nsfwchannel`',
+      ]
+    },
+  ]
 } as IDialog;

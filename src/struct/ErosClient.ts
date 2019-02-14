@@ -5,6 +5,8 @@ import * as Fandom from 'nodemw';
 import { promisify } from 'util';
 // @ts-ignore
 import { defaultPrefix } from '../../auth';
+import GuideCommand from '../commands/general/guide';
+import CountdownScheduler from '../functions/CountdownScheduler';
 import ErosError from '../struct/ErosError';
 import { create } from '../struct/models';
 import { status } from '../util/console';
@@ -69,6 +71,8 @@ export default class ErosClient extends AkairoClient {
 
   public fandomApi: Fandom = this._fandomApi;
 
+  public scheduler: CountdownScheduler;
+
   public ErosError = ErosError;
 
   public util: IClientUtil;
@@ -91,6 +95,14 @@ export default class ErosClient extends AkairoClient {
   }
 
   public async init () {
+    if (this.parseMode) {
+      status('Docs Parsing Mode Engaged');
+
+      const docs = this.commandHandler.modules.get('guide') as GuideCommand;
+
+      return docs.parseDialogs();
+    }
+
     await db.sequelize.sync();
     status('Guild Settings Database synchronised!');
 
@@ -119,5 +131,9 @@ export default class ErosClient extends AkairoClient {
 
   get db () {
     return db;
+  }
+
+  get parseMode () {
+    return process.argv.includes('--parseDocs');
   }
 }

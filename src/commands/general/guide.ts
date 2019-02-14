@@ -1,8 +1,11 @@
 import { PrefixSupplier } from 'discord-akairo';
-import { StringResolvable } from 'discord.js';
+import { StringResolvable, Util } from 'discord.js';
+import * as fs from 'fs-extra';
+import * as json2md from 'json2md';
 // @ts-ignore
 import { emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
+import { error, status } from '../../util/console';
 
 export default class extends ErosCommand {
   constructor () {
@@ -37,7 +40,11 @@ export default class extends ErosCommand {
       const embeds = this.dialogs.map((v, i) => {
         if (!v)
           throw new Error(
-            `Empty Dialog: Before ${this.dialogs[i].title || this.dialogs[i].category || this.dialogs[i].command}`
+            `Empty Dialog: Before ${
+              this.dialogs[i - 1].title ||
+              this.dialogs[i - 1].category ||
+              this.dialogs[i - 1].command
+            }`
           );
 
         let title = v.title || null;
@@ -80,7 +87,7 @@ export default class extends ErosCommand {
           ];
 
           if (command.description.examples)
-            embed.addField('Examples', '@Eros ' + command.description.examples.map(c => `${id} ${c}`));
+            embed.addField('Examples', command.description.examples.map(c => `@Eros ${id} ${c}`));
         }
 
         embed
@@ -143,5 +150,156 @@ export default class extends ErosCommand {
         .showPageIndicator(true)
         .build();
     } catch (err) { this.emitError(err, message, this); }
+  }
+
+  public async parseDialogs () {
+    try {
+      const dialogs = this.dialogs.map((v, i) => {
+        if (!v)
+          throw new Error(
+            `Empty Dialog: Before ${
+              this.dialogs[i - 1].title ||
+              this.dialogs[i - 1].category ||
+              this.dialogs[i - 1].command
+            }`
+          );
+
+        let filename: string = null;
+
+        if (v.title) {
+          const dirt = v.title.toLowerCase().replace(/ +/g, '-');
+
+          filename = [ 'Commands' ].includes(v.title)
+            ? dirt + '/README.md'
+            : dirt + '.md';
+        }
+        else if (v.category)
+            filename = `commands/${v.category}/README.md`;
+
+        let title = v.title || null;
+        let description: StringResolvable = v.description || '';
+        let example: Array<{}> = null;
+        const page: Array<{}> = [];
+
+        if (v.category) {
+          const category = this.handler.categories.get(v.category);
+
+          if (!category) throw new Error('Invalid Category ' + v.category);
+
+          title = `Category: ${v.category.toLowerCase()}`;
+          description = [
+            'Commands within this category:',
+            category.map(c => {
+              let content: string | string[] = c.description.content;
+              content = Array.isArray(content) ? content[0] : content;
+              const id = /-/.test(c.id) ? c.id.split('-').join(' ') : c.id;
+
+              return `[**\`${id}\`**](/commands/${v.category}/${c.id}.md) - ${content}`;
+            }).join('\n'),
+          ];
+        } else if (v.command) {
+          const command = this.handler.modules.get(v.command);
+
+          if (!command) throw new Error('Invalid Command ' + v.command);
+
+          const hasAliases = command.aliases && command.aliases.length;
+          let content: string | string[] = command.description.content;
+          content = Array.isArray(content) ? content.join('\n') : content;
+          const id = /-/.test(v.command) ? v.command.split('-').join(' ') : v.command;
+
+          filename = `commands/${command.categoryID}/${v.command}.md`;
+          title = `Command: ${id.toLowerCase()}`;
+          description = [
+            `**Usage**: \`@Eros ${id} ${command.description.usage || ''}\``,
+            `**Aliases**: ${hasAliases ? command.aliases.map(c => `\`${c}\``).join(', ') : 'None'}`,
+            `**Brief Description**: ${content}`,
+            '',
+            ...description,
+          ];
+
+          if (command.description.examples)
+            example = [
+              { h2: 'Examples' },
+              { code: { content: command.description.examples.map(c => `@Eros ${id} ${c}`) } },
+            ];
+        }
+
+        const descriptor: Array<{}> = [
+          { h1: title },
+          { p: Util.resolveString(description) },
+        ];
+
+        if (v.image)
+          descriptor.push({ img: [ { title: `${title} image`, source: v.image } ] });
+
+        page.push(descriptor);
+
+        if (v.fields)
+          for (const field of v.fields)
+            page.push(
+              { h2: field.name },
+              { p: Util.resolveString(field.value) }
+            );
+        if (example)
+          page.push(...example);
+        if (v.contributors)
+          page.push(
+            { p: '---' },
+            { h4: 'Contributors' },
+            { p: v.contributors.join(', ') }
+          );
+
+        return [ filename, page ];
+      });
+
+      dialogs.unshift([
+        'SUMMARY.md',
+        [ { h1: 'Table of Contents' },
+          ...this.dialogs.map(v => {
+            let title = null;
+
+            if (v.category)
+              title = `  - CATEGORY: [${v.category}](commands/${v.category}/README.md)`;
+            else if (v.command) {
+              const command = this.handler.modules.get(v.command);
+
+              title = `    - [${v.command}](commands/${command.categoryID}/${v.command}.md)`;
+            }
+            else
+              title = `- [${v.title}](${v.title.replace(/ +/g, '-').toLowerCase()}.md)`;
+
+            return title;
+          }),
+        ],
+      ]);
+
+      for (const dialog of dialogs)
+        try {
+          await fs.outputFile(`${__dirname}/../../../../eros-docs/${dialog[0]}`, json2md(dialog[1]));
+
+          status(`-- Successfully parsed ${dialog[0]}`);
+        } catch (err) { throw new Error(`Failed to write ${dialog[0]}: ${err}`); }
+
+      let readme = (await fs.readFile(`${__dirname}/../../../README.md`)).toString();
+      readme = readme.slice(readme.indexOf('# Eros'));
+      readme = [
+        '![Click the image to proceed to the invite URL](.gitbook/assets/ersu.webp)',
+        '',
+        '[![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)]' +
+        '(https://travis-ci.org/gazmull/eros-bot)',
+      ]
+      .join('\n')
+      .concat('\n' + readme);
+
+      await fs.outputFile(`${__dirname}/../../../../eros-docs/README.md`, readme);
+
+      status('-- Successfully copied README');
+
+      status('Done parsing docs.');
+      process.exit(0);
+    } catch (err) {
+      error(err);
+      process.exit(1);
+    }
   }
 }

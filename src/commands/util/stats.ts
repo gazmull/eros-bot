@@ -3,7 +3,9 @@ import { version as discordVersion } from 'discord.js';
 // @ts-ignore
 import { version as kamihimedbVersion } from '../../../../kamihimedb/package.json';
 // @ts-ignore
-import { description, version as erosVersion } from '../../../package.json';
+import { docs } from '../../../auth';
+// @ts-ignore
+import { description, homepage, version as erosVersion } from '../../../package.json';
 import ErosCommand from '../../struct/command';
 import prettifyMs from '../../util/prettifyMs';
 
@@ -16,10 +18,16 @@ export default class extends ErosCommand {
   }
 
   public exec (message: Message) {
+    const _description = [
+      description,
+      '',
+      `[**Github**](${homepage}) | [**Bot Documentation & Guide**](${docs})`,
+    ];
+
     return message.util.send(
       this.util.embed(message)
         .setTitle('Eros')
-        .setDescription(description)
+        .setDescription(_description)
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))
         .addField('Author', this.client.users.get(this.client.ownerID as string), true)
         .addField('Libraries and Applications', [
