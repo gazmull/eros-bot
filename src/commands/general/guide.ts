@@ -169,7 +169,7 @@ export default class extends ErosCommand {
         if (v.title) {
           const dirt = v.title.toLowerCase().replace(/ +/g, '-');
 
-          filename = [ 'Commands' ].includes(v.title)
+          filename = [ 'commands' ].includes(v.title)
             ? dirt + '/README.md'
             : dirt + '.md';
         }
