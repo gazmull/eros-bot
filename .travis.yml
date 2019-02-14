@@ -4,6 +4,10 @@ node_js:
   - 10
 install: yarn install
 sudo: false
+jobs:
+  include:
+    - stage: docs-build
+      script: yarn run docs:parse
 cache:
   directories:
     - node_modules
