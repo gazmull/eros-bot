@@ -1,7 +1,7 @@
 import { version as akairoVersion } from 'discord-akairo';
 import { version as discordVersion } from 'discord.js';
 // @ts-ignore
-import { version as kamihimedbVersion } from '../../../../kamihimedb/package.json';
+import { version as kamihimedbVersion } from 'kamihime-database/package.json';
 // @ts-ignore
 import { docs } from '../../../auth';
 // @ts-ignore

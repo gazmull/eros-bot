@@ -64,5 +64,8 @@
     "tslint": "^5.12.1",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.3.3"
+  },
+  "peerDependencies": {
+    "kamihime-database": "github:gazmull/kamihime-database"
   }
 }
