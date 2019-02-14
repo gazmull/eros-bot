@@ -1,0 +1,37 @@
+# Table of Contents
+
+
+ - [Guide Start](Guide Start)           :: 2
+ - [Using the Bot](Using the Bot)         :: 3
+ - [Commands](Commands)              :: 4
+ -   CATEGORY: [general](general)   :: 5
+ -     [help](help)              :: 6
+ -     [invite](invite)            :: 7
+ -   CATEGORY: [kamihime](kamihime)  :: 8
+ -     [hareminfo](hareminfo)         :: 9
+ -     [info](info)              :: 10
+ -     [leaderboard](leaderboard)       :: 11
+ -     [list](list)              :: 12
+ -     [nsfw](nsfw)              :: 13
+ -     [search](search)            :: 14
+ -   CATEGORY: [countdown](countdown) :: 15
+ -     [countdown](countdown)         :: 16
+ -     [countdown-add](countdown-add)     :: 17
+ -     [countdown-delete](countdown-delete)  :: 18
+ -     [countdown-test](countdown-test)    :: 19
+ -   CATEGORY: [tag](tag)       :: 20
+ -     [tag](tag)               :: 21
+ -     [tag-add](tag-add)           :: 22
+ -     [tag-delete](tag-delete)        :: 23
+ -     [tag-edit](tag-edit)          :: 24
+ -     [tag-info](tag-info)          :: 25
+ -     [tag-leaderboard](tag-leaderboard)   :: 26
+ -     [tag-show](tag-show)          :: 27
+ -     [tag-source](tag-source)        :: 28
+ -     [tag-list](tag-list)          :: 29
+ -   CATEGORY: [util](util)      :: 30
+ -     [memberinfo](memberinfo)        :: 31
+ -     [ping](ping)              :: 32
+ -     [serverinfo](serverinfo)        :: 33
+ -     [stats](stats)             :: 34
+ - [Guide End](Guide End)             :: 35
