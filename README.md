@@ -57,7 +57,7 @@
         - `$ yarn --production=false`
         - `$ yarn run compile`
 - Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `// comments` to help set up the file
-- Create a database [with `utf8_unicode_ci`] collation named with the name provided in `auth.js` (default: `eros`). Please make sure MariaDB is installed in the machine beforehand.
+- Create a database [with `utf8_unicode_ci` collation] named with the name provided in `auth.js` (default: `eros`). Please make sure MariaDB is installed in the machine beforehand.
 - Run the bot!
     - Node: `node .`
     - Process Managers
