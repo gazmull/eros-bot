@@ -40,15 +40,17 @@
     - Kamihime-specific: `loli`, `cdchannel`, `cdrole`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
 - **General**
     - Main: `help`, `guide`, `invite`
-- **Utility**
-    - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
-    - Bot Owner: `eval`, `clear`
-- **Tag**
-    - Main: `tag`, `tags`
 - **Kamihime**
     - Main: `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`
 - **Kamihime - Countdown**
     - Main: `countdown`
+- **Tag**
+    - Main: `tag`, `tags`
+- **Fun**
+    - Main: `ask`, `insult`, `say`
+- **Utility**
+    - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
+    - Bot Owner: `eval`, `clear`
 
 # Self-Hosting
 > ### [**Add the bot instead? (24/7)**](http://addbot.thegzm.space)

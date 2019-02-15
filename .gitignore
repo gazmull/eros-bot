@@ -9,5 +9,4 @@ build
 #Private Source
 auth.js
 provider
-src/commands/fun
 src/commands/kamihime/test.js

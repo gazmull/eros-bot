@@ -2,6 +2,7 @@
 import { bugs } from '../../../../../package.json';
 import admin from './admin';
 import countdown from './countdown';
+import fun from './fun';
 import general from './general';
 import kamihime from './kamihime';
 import tag from './tag';
@@ -34,5 +35,6 @@ export default [
   ...kamihime,
   ...countdown,
   ...tag,
+  ...fun,
   ...util,
 ] as IDialog[];

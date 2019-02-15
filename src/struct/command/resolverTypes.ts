@@ -13,6 +13,11 @@ export default class CommandHandlerResolverTypes {
 
   public distribute (): { [name: string]: ArgumentTypeCaster } {
     return {
+      question: phrase => {
+        if (!phrase) return null;
+
+        return phrase.endsWith('?') ? phrase : null;
+      },
       existingCountdown: phrase => {
         if (!phrase) return null;
 
