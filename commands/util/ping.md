@@ -5,7 +5,7 @@
 
 **Aliases**: `ping`, `pong`, `trace`
 
-**Brief Description**: Checks the bot's status.
+**Brief Description**: Checks my status.
 
 
 

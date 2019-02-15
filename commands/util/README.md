@@ -9,7 +9,7 @@ Commands within this category:
 
 [**`memberinfo`**](/commands/util/memberinfo.md) - Displays a server member information. No arguments will display yours instead.
 
-[**`ping`**](/commands/util/ping.md) - Checks the bot's status.
+[**`ping`**](/commands/util/ping.md) - Checks my status.
 
 [**`serverinfo`**](/commands/util/serverinfo.md) - Displays information and bot settings of this server.
 
