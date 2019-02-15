@@ -74,8 +74,8 @@ Please make sure the issue isn't reported at all before filing, instead submit a
 > File an issue [**here**](https://github.com/gazmull/eros-bot/issues)!
 
 If an issue has a vague message, please do add:
-    - Recreation steps
-    - Screenshots
+- Recreation steps
+- Screenshots
 
 ### Documentation (Issue)
 If one cannot afford to do a pull request, submitting documentation contributions via filing an issue is also fine, but please make sure it does follow the standards of the documentation.
@@ -99,7 +99,7 @@ If one cannot afford to do a pull request, submitting documentation contribution
 4. File a [**Pull Request**](https://github.com/gazmull/eros-bot/compare/gh-pages).
 
 ### Code
-> When adding/updating a command, `guide-pages` must be updated. See [**Documentation**](#Documentation-(Pull-Request))
+> When adding/updating a command, `guide-pages` must be updated. See [**Documentation**](#Documentation-Pull-Request)
 
 1. Fork this repository, clone to local machine, and then follow the project's development configuration [e.g. TSLint]
     > `$ yarn --production=false` to install.

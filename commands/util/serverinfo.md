@@ -1,3 +1,13 @@
+## Required Bot Permissions
+
+```
+embed links
+send messages
+manage messages
+add reactions
+embed links
+```
+
 # Command: serverinfo
 
 

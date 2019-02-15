@@ -1,3 +1,14 @@
+## Required Bot Permissions
+
+```
+manage roles
+manage channels
+send messages
+manage messages
+add reactions
+embed links
+```
+
 # Command: nsfw
 
 
