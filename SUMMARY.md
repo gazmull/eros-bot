@@ -12,6 +12,7 @@
     - [prefix](commands/admin/prefix.md)
     - [twitterchannel](commands/admin/twitterchannel.md)
   - CATEGORY: [general](commands/general/README.md)
+    - [guide](commands/general/guide.md)
     - [help](commands/general/help.md)
     - [invite](commands/general/invite.md)
   - CATEGORY: [kamihime](commands/kamihime/README.md)
