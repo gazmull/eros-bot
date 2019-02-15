@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: tag add
 
 
@@ -17,6 +8,15 @@ embed links
 **Brief Description**: Adds a tag.
 
 
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## Warning
 

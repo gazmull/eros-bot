@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: stats
 
 
@@ -17,6 +8,15 @@ embed links
 **Brief Description**: Displays my information.
 
 
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 
 ---

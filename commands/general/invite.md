@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: invite
 
 
@@ -17,6 +8,15 @@ embed links
 **Brief Description**: Displays my invite link and my author's tag to contact.
 
 
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 
 ---

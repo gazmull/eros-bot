@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: countdown test
 
 
@@ -17,6 +8,15 @@ embed links
 **Brief Description**: Tests a date for countdown.
 
 
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## Testing a Countdown
 

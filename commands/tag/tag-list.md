@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: tag list
 
 
@@ -17,6 +8,15 @@ embed links
 **Brief Description**: Displays a list of tags from the current server or the specified member.
 
 
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 
 ---

@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: search
 
 
@@ -17,6 +8,15 @@ embed links
 **Brief Description**: Searches for characters matched with your input.
 
 
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## Warning
 

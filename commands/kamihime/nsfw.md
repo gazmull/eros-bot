@@ -1,14 +1,3 @@
-## Required Bot Permissions
-
-```
-manage roles
-manage channels
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: nsfw
 
 
@@ -19,6 +8,17 @@ embed links
 **Brief Description**: Grants you access to marked `NSFW Channel` in this guild.
 
 
+
+## Required Bot Permissions
+
+```
+manage roles
+manage channels
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## To Work Normally
 

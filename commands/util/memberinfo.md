@@ -1,13 +1,3 @@
-## Required Bot Permissions
-
-```
-embed links
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: memberinfo
 
 
@@ -18,6 +8,16 @@ embed links
 **Brief Description**: Displays a guild member information. No arguments will display yours instead.
 
 
+
+## Required Bot Permissions
+
+```
+embed links
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## Examples
 

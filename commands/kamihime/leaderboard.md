@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: leaderboard
 
 
@@ -17,6 +8,15 @@ embed links
 **Brief Description**: Displays leaderboard for top views on harem scenes from Kamihime Database.
 
 
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## Examples
 

@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: hareminfo
 
 
@@ -21,6 +12,15 @@ embed links
 Min. requirement for input length is 2.
 
 If there are multiple result, you will be prompted to select what exactly you would like to see.
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## Using This Command Normally (Server Manager only)
 

@@ -1,12 +1,3 @@
-## Required Bot Permissions
-
-```
-send messages
-manage messages
-add reactions
-embed links
-```
-
 # Command: list
 
 
@@ -25,6 +16,15 @@ Required variables can be seen via `@Eros list variables`.
 Variables can be combined, but variables will always start with __Primary Variables__ such as:
 
 	`kamihime`, `eidolon`, `soul`
+
+## Required Bot Permissions
+
+```
+send messages
+manage messages
+add reactions
+embed links
+```
 
 ## Examples
 
