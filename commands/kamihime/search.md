@@ -33,7 +33,7 @@ Results are only from [Kamhime Database](https://kamihimedb.thegzm.space/).
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni

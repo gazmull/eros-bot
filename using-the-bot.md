@@ -48,7 +48,7 @@ Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot) or to `g
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni

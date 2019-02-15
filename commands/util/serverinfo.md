@@ -5,7 +5,7 @@
 
 **Aliases**: `serverinfo`, `sinfo`, `si`, `guildinfo`, `ginfo`, `gi`
 
-**Brief Description**: Displays information of this guild.
+**Brief Description**: Displays information and bot settings of this server.
 
 
 
@@ -22,7 +22,7 @@ Embed Links
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni

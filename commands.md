@@ -23,7 +23,7 @@ You use it as **`@Eros info eros -tw`**, not as **`@Eros info <item name> [flags
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni

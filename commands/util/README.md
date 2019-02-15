@@ -7,10 +7,10 @@ Commands within this category:
 
 [**`eval`**](/commands/util/eval.md) - Evaluates text from agument.
 
-[**`memberinfo`**](/commands/util/memberinfo.md) - Displays a guild member information. No arguments will display yours instead.
+[**`memberinfo`**](/commands/util/memberinfo.md) - Displays a server member information. No arguments will display yours instead.
 
 [**`ping`**](/commands/util/ping.md) - Checks the bot's status.
 
-[**`serverinfo`**](/commands/util/serverinfo.md) - Displays information of this guild.
+[**`serverinfo`**](/commands/util/serverinfo.md) - Displays information and bot settings of this server.
 
 [**`stats`**](/commands/util/stats.md) - Displays my information.

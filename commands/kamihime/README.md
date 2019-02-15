@@ -11,6 +11,6 @@ Commands within this category:
 
 [**`list`**](/commands/kamihime/list.md) - Displays character/weapon names based on your arguments.
 
-[**`nsfw`**](/commands/kamihime/nsfw.md) - Grants you access to marked `NSFW Channel` in this guild.
+[**`nsfw`**](/commands/kamihime/nsfw.md) - Grants you access to marked `NSFW Channel` in this server.
 
 [**`search`**](/commands/kamihime/search.md) - Searches for characters matched with your input.

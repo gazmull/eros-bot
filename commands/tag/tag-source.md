@@ -26,7 +26,7 @@ It displays the syntax used in a tag content, so you can recreate it with ease (
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni

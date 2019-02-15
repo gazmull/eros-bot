@@ -9,4 +9,6 @@ Commands within this category:
 
 [**`countdown delete`**](/commands/countdown/countdown-delete.md) - Deletes a countdown.
 
+[**`countdown subscribe`**](/commands/countdown/countdown-subscribe.md) - Lets you subscribe to countdown notifications to this server. Toggle-able command.
+
 [**`countdown test`**](/commands/countdown/countdown-test.md) - Tests a date for countdown.

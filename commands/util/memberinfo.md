@@ -5,7 +5,7 @@
 
 **Aliases**: `memberinfo`, `minfo`, `mi`, `userinfo`, `uinfo`, `ui`
 
-**Brief Description**: Displays a guild member information. No arguments will display yours instead.
+**Brief Description**: Displays a server member information. No arguments will display yours instead.
 
 
 
@@ -31,7 +31,7 @@ Embed Links
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni

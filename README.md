@@ -22,7 +22,7 @@
 - Basic bot commands
     - See `help` command for more info for each command
     - See `guide` command for an in-depth guide for each command
-- Guild-wide Customisable Prefix
+- Server-wide Customisable Prefix
     - Default Prefix: **?** or **`@Eros` (Mention)**
 - DM the bot directly for commands without the default prefix
     - e.g: `info Eros -tw`

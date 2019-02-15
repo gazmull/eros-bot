@@ -30,7 +30,7 @@ Euni: [Kamihime Web Player](https://kamihimedb.thegzm.space)
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni, J-Star

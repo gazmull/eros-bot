@@ -5,7 +5,7 @@
 
 **Aliases**: `nsfw`, `nsfwaccess`, `access`
 
-**Brief Description**: Grants you access to marked `NSFW Channel` in this guild.
+**Brief Description**: Grants you access to marked `NSFW Channel` in this server.
 
 
 
@@ -13,7 +13,6 @@
 
 ```
 Manage Roles
-Manage Channels
 Send Messages
 Manage Messages
 Add Reactions
@@ -32,7 +31,7 @@ The following commands must be properly configured before using this command:
 
 ---
 
-#### Contributors
+##### Contributors
 
 
 Euni
