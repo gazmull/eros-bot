@@ -51,7 +51,7 @@ export default class extends ErosCommand {
     if (examples)
       embed.addField('Examples', examples.map(e => `${prefix}${command} ${e}`).join('\n'));
 
-    return message.util.send({ embed });
+    return message.util.send(embed);
   }
 
   public defaultHelp (message: Message, pub = false) {
@@ -89,6 +89,6 @@ export default class extends ErosCommand {
       if (title) embed.addField(title, parentCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
     }
 
-    return message.util.send({ embed });
+    return message.util.send(embed);
   }
 }

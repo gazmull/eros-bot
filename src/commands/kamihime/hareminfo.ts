@@ -173,7 +173,7 @@ export default class extends ErosCommand {
       const channel = message.channel as TextChannel;
 
       if (!channel.guild)
-        return message.util.edit({ embed });
+        return message.util.edit(embed);
 
       const nsfwChannelID = client.guildSettings.get(guild.id, 'nsfwChannelID', null);
       const nsfwChannel = guild.channels.get(nsfwChannelID) as TextChannel;
@@ -186,9 +186,9 @@ export default class extends ErosCommand {
         }`);
 
       if (channel.id === nsfwChannelID)
-        return message.util.edit({ embed });
+        return message.util.edit(embed);
 
-      await nsfwChannel.send({ embed });
+      await nsfwChannel.send(embed);
 
       return message.util.edit(
         `I have sent my response at ${nsfwChannel}. If you have no access to that channel, say \`${prefix}nsfw\`.`

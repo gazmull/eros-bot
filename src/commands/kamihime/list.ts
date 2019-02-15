@@ -94,6 +94,6 @@ export default class extends ErosCommand {
         '**Souls/Kamihime**\n\toffense, defense, balance, tricky, healer',
       ]);
 
-    return message.util.send({ embed });
+    return message.util.send(embed);
   }
 }

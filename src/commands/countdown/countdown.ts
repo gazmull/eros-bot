@@ -84,7 +84,7 @@ export default class extends ErosCommand {
     for (const [ key, names ] of this.countdowns)
       embed.addField(this.getCountdown(key), names.map(n => `❯ ${n}`).join('\n'));
 
-    return message.util.send({ embed });
+    return message.util.send(embed);
   }
 
   public authorisedHelp (message: Message) {
@@ -103,7 +103,7 @@ export default class extends ErosCommand {
         '❯ Same date format from adding a countdown.',
       ]);
 
-    return message.util.send({ embed });
+    return message.util.send(embed);
   }
 
   public async prepareCountdowns () {

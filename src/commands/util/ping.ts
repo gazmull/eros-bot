@@ -5,7 +5,7 @@ export default class extends ErosCommand {
   constructor () {
     super('ping', {
       aliases: [ 'ping', 'pong', 'trace' ],
-      description: { content: 'Checks the bot\'s status.' }
+      description: { content: 'Checks my status.' }
     });
   }
 

@@ -53,6 +53,6 @@ export default class extends ErosCommand {
       .addField('NSFW Role', getRecord(message.guild.id, 'nsfwRoleID'), true)
       .addField('Loli Restricted?', getRecord(message.guild.id, 'loli') ? 'Yes. :triumph:' : 'No. :sweat_smile:');
 
-    return message.util.send({ embed });
+    return message.util.send(embed);
   }
 }

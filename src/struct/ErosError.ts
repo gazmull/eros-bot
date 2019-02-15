@@ -1,5 +1,5 @@
 // @ts-ignore
-import { bugs } from '../../package.json';
+import { supportLink } from '../../auth';
 import { error as err } from '../util/console';
 
 export default class ErosError {
@@ -46,7 +46,7 @@ export default class ErosError {
       'I cannot complete the command because:',
       '\`\`\`x1',
       `${this.err}\`\`\`${this.code >= 0 && this.code <= 3 ? `Step: ${step}` : step}`,
-      `\nIs it a consistent error? Submit an issue here: ${bugs.url}`,
+      `\nIs it a consistent error? Submit an issue here: ${supportLink}`,
     ];
 
     return this.message.util.lastResponse

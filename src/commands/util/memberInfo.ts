@@ -46,7 +46,7 @@ export default class extends ErosCommand {
       if (member.user.presence.activity)
         embed.addField('Activity', this.memberActivity(member));
 
-      return message.util.send({ embed });
+      return message.util.send(embed);
     } catch (err) { this.emitError(err, message, this); }
   }
 

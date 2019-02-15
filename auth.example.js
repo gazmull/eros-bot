@@ -11,9 +11,12 @@ module.exports = {
   // this is the default documentation of the bot, dont replace if you wont change things
   docs: 'https://docs.thegzm.space/eros-bot',
 
-  // this the invite link for eros bot that i host 24/7.
+  // this is the invite link for eros bot that i host 24/7.
   // of course replace this if you will self-host it
   inviteLink: 'http://addbot.thegzm.space',
+
+  // this is the support server for eros bot
+  supportLink: 'https://discord.gg/QTQCcah',
 
   // default prefix. unified :bloblul:
   defaultPrefix: '?',
@@ -27,7 +30,7 @@ module.exports = {
     // hmmm... no comment
     embarassed: '<:rassed:405542775619190786>',
     // the emoji used for "Awaiting {{text}}..." prompts by the bot
-    loading: '<a:atyping:408054205757259776>'
+    loading: '<a:aloading:410783790382841857>'
   },
 
   // do not touch this unless you know what you're doing
