@@ -7,7 +7,7 @@ export default class extends ErosCommand {
     super('nsfwrole', {
       aliases: [ 'nsfwrole' ],
       description: {
-        content: 'Changes this guild\'s NSFW Role.',
+        content: 'Changes this server\'s NSFW Role.',
         usage: '<resolvable role>',
         examples: [ '@lewd', '2138547751248890915', 'nsfw' ]
       },

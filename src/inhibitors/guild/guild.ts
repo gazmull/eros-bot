@@ -5,7 +5,7 @@ import { blacklist } from '../../../auth';
 export default class extends Inhibitor {
   constructor () {
     super('guildInhibit', {
-      reason: 'blacklisted guild',
+      reason: 'blacklisted server',
       type: 'all'
     });
   }

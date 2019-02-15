@@ -7,7 +7,7 @@ export default class extends ErosCommand {
     super('cdchannel', {
       aliases: [ 'cdchannel', 'countdownchannel' ],
       description: {
-        content: 'Changes this guild\'s Countdown Channel.',
+        content: 'Changes this server\'s Countdown Channel.',
         usage: '<resolvable channel>',
         examples: [ '#newbie-lib-questions-not-other-js', '312874659902115460', 'countdown' ]
       },

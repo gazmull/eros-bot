@@ -5,8 +5,8 @@ export default {
   command: 'countdown-delete',
   fields: [
     {
-      name: 'For Server Manager Only',
-      value: 'Normal users cannot use this command.'
+      name: 'For Authorized Countdown Managers Only',
+      value: 'Normal users or server managers cannot use this command.'
     },
   ]
 } as IDialog;

@@ -93,10 +93,10 @@ export default class extends ErosCommand {
       const restricted = guild ? client.guildSettings.get(guild.id, 'loli', null) : null;
 
       if (result.loli && restricted)
-        throw new Error(`This character has loli contents, but loli contents are restricted within this guild.${
+        throw new Error(`This character has loli contents, but loli contents are restricted within this server.${
           message.author.id === message.guild.ownerID
             ? ` Please configure your Loli Contents Restriction via ${prefix}loli`
-            : ' Please contact the guild owner.'
+            : ' Please contact the server owner.'
         }`);
 
       const harems = [
@@ -182,7 +182,7 @@ export default class extends ErosCommand {
         throw new Error(`NSFW Channel is not configured.${
           message.author.id === guild.ownerID
             ? ` Please configure your NSFW Channel via ${prefix}nsfwchannel`
-            : ' Please contact the guild owner.'
+            : ' Please contact the server owner.'
         }`);
 
       if (channel.id === nsfwChannelID)

@@ -7,7 +7,7 @@ export default class extends ErosCommand {
     super('nsfwchannel', {
       aliases: [ 'nsfwchannel' ],
       description: {
-        content: 'Changes this guild\'s NSFW Channel.',
+        content: 'Changes this server\'s NSFW Channel.',
         usage: '<resolvable channel>',
         examples: [ '#newbie-lib-questions-not-other-js', '312874659902115460', 'nsfw' ]
       },

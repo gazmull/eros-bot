@@ -8,7 +8,7 @@ export default class extends ErosCommand {
     super('prefix', {
       aliases: [ 'prefix' ],
       description: {
-        content: 'Changes this guild\'s prefix.',
+        content: 'Changes this server\'s prefix.',
         usage: '<prefix value>',
         examples: [ 'e?', 'eros' ]
       },
@@ -39,6 +39,6 @@ export default class extends ErosCommand {
     const oldPrefix = client.guildSettings.get(message.guild.id, 'prefix', defaultPrefix);
     await client.guildSettings.set(message.guild.id, 'prefix', prefix);
 
-    return message.util.reply(`I have changed the guild prefix from \`${oldPrefix}\` to \`${prefix}\`.`);
+    return message.util.reply(`I have changed the server prefix from \`${oldPrefix}\` to \`${prefix}\`.`);
   }
 }

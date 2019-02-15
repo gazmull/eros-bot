@@ -6,7 +6,7 @@ export default class extends ErosCommand {
     super('memberinfo', {
       aliases: [ 'memberinfo', 'minfo', 'mi', 'userinfo', 'uinfo', 'ui' ],
       description: {
-        content: 'Displays a guild member information. No arguments will display yours instead.',
+        content: 'Displays a server member information. No arguments will display yours instead.',
         usage: '[member name]',
         examples: [ 'A Binary Large OBject', 'Euni', 'Euni#0011', '319102712383799296' ]
       },
@@ -41,7 +41,7 @@ export default class extends ErosCommand {
           member.roles.map(r => member.roles.array().indexOf(r) % 3 === 0 ? `\n${r}` : `${r}`).join(', ')
         )
         .addField('Creation Date', member.user.createdAt.toUTCString(), true)
-        .addField('Join Date (This guild)', member.joinedAt.toUTCString(), true);
+        .addField('Join Date (This server)', member.joinedAt.toUTCString(), true);
 
       if (member.user.presence.activity)
         embed.addField('Activity', this.memberActivity(member));

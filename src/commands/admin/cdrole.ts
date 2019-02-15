@@ -7,7 +7,7 @@ export default class extends ErosCommand {
     super('cdrole', {
       aliases: [ 'cdrole', 'countdownrole' ],
       description: {
-        content: 'Changes this guild\'s Countdown Subscriber Role.',
+        content: 'Changes this server\'s Countdown Subscriber Role.',
         usage: '<resolvable role>',
         examples: [ '@cd', '2138547751248890915', 'countdown' ]
       },

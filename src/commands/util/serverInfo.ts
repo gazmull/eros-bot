@@ -6,7 +6,7 @@ export default class extends ErosCommand {
   constructor () {
     super('serverinfo', {
       aliases: [ 'serverinfo', 'sinfo', 'si', 'guildinfo', 'ginfo', 'gi' ],
-      description: { content: 'Displays information of this guild.' },
+      description: { content: 'Displays information and bot settings of this server.' },
       clientPermissions: [ 'EMBED_LINKS' ],
       channel: 'guild'
     });
