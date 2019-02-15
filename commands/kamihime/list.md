@@ -20,10 +20,10 @@ Variables can be combined, but variables will always start with __Primary Variab
 ## Required Bot Permissions
 
 ```
-send messages
-manage messages
-add reactions
-embed links
+Send Messages
+Manage Messages
+Add Reactions
+Embed Links
 ```
 
 ## Examples

@@ -12,11 +12,11 @@
 ## Required Bot Permissions
 
 ```
-embed links
-send messages
-manage messages
-add reactions
-embed links
+Embed Links
+Send Messages
+Manage Messages
+Add Reactions
+Embed Links
 ```
 
 ## Examples

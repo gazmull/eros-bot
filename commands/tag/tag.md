@@ -32,10 +32,10 @@ Available Methods:
 ## Required Bot Permissions
 
 ```
-send messages
-manage messages
-add reactions
-embed links
+Send Messages
+Manage Messages
+Add Reactions
+Embed Links
 ```
 
 ## Warning

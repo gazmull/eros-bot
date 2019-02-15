@@ -12,12 +12,12 @@
 ## Required Bot Permissions
 
 ```
-manage roles
-manage channels
-send messages
-manage messages
-add reactions
-embed links
+Manage Roles
+Manage Channels
+Send Messages
+Manage Messages
+Add Reactions
+Embed Links
 ```
 
 ## To Work Normally

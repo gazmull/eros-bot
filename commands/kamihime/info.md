@@ -16,10 +16,10 @@ If there are multiple results, you will be prompted to select what exactly you w
 ## Required Bot Permissions
 
 ```
-send messages
-manage messages
-add reactions
-embed links
+Send Messages
+Manage Messages
+Add Reactions
+Embed Links
 ```
 
 ## Flags: Options For Narrowing Down Your Search
