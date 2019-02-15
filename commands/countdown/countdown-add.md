@@ -18,10 +18,10 @@ Add Reactions
 Embed Links
 ```
 
-## For Server Manager Only
+## For Authorized Countdown Managers Only
 
 
-Normal users cannot use this command.
+Normal users or server managers cannot use this command.
 
 ## Adding a Countdown
 
