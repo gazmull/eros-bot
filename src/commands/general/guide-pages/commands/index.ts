@@ -1,5 +1,6 @@
 // @ts-ignore
 import { bugs } from '../../../../../package.json';
+import admin from './admin';
 import countdown from './countdown';
 import general from './general';
 import kamihime from './kamihime';
@@ -28,6 +29,7 @@ export default [
       },
     ]
   },
+  ...admin,
   ...general,
   ...kamihime,
   ...countdown,

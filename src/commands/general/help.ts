@@ -1,6 +1,7 @@
 import { PrefixSupplier } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
 import ErosCommand from '../../struct/command';
+import toTitleCase from '../../util/toTitleCase';
 
 export default class extends ErosCommand {
   constructor () {
@@ -40,9 +41,9 @@ export default class extends ErosCommand {
       .setDescription(command.description.content);
 
     if (clientPermissions)
-      embed.addField('Required Bot Permissions', clientPermissions.map(p => `\`${p}\``).join(', '));
+      embed.addField('Required Bot Permissions', clientPermissions.map(p => `\`${toTitleCase(p)}\``).join(', '));
     if (userPermissions)
-      embed.addField('Required User Permissions:', userPermissions.map(p => `\`${p}\``).join(', '));
+      embed.addField('Required User Permissions:', userPermissions.map(p => `\`${toTitleCase(p)}\``).join(', '));
     if (command.aliases.length > 1)
       embed.addField('Aliases', command.aliases.slice(1).map(a => `\`${a}\``).join(', '));
     if (flags)
@@ -58,7 +59,7 @@ export default class extends ErosCommand {
       .setColor(0xFF00AE)
       .setTitle('Commands')
       .setDescription([
-        message.guild ? `This guild's prefix is \`${(this.handler.prefix as PrefixSupplier)(message)}\`` : '',
+        message.guild ? `This server's prefix is \`${(this.handler.prefix as PrefixSupplier)(message)}\`` : '',
         'For more info about a command, see: `help [command name]`',
         'For an in-depth guide on how to use this bot, see: `guide`',
       ]);

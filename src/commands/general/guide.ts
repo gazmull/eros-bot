@@ -6,6 +6,7 @@ import * as json2md from 'json2md';
 import { emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
 import { error, status } from '../../util/console';
+import toTitleCase from '../../util/toTitleCase';
 
 export default class extends ErosCommand {
   constructor () {
@@ -49,6 +50,7 @@ export default class extends ErosCommand {
 
         let title = v.title || null;
         let description: StringResolvable = v.description || '';
+        let example: string[] = null;
         const embed = this.util.embed();
 
         if (v.category) {
@@ -87,7 +89,7 @@ export default class extends ErosCommand {
           ];
 
           if (command.description.examples)
-            embed.addField('Examples', command.description.examples.map(c => `@Eros ${id} ${c}`));
+            example = command.description.examples.map(c => `@Eros ${id} ${c}`);
         }
 
         embed
@@ -98,6 +100,9 @@ export default class extends ErosCommand {
         if (v.fields)
           for (const field of v.fields)
             embed.addField(field.name, field.value, field.inline || false);
+
+        if (example)
+          embed.addField('Examples', example);
 
         if (v.contributors)
           embed
@@ -178,8 +183,10 @@ export default class extends ErosCommand {
 
         let title = v.title || null;
         let description: StringResolvable = v.description || '';
-        let example: Array<{}> = null;
-        const page: Array<{}> = [];
+        let _clientPermissions: json2md.DataObject[] = null;
+        let _userPermissions: json2md.DataObject[] = null;
+        let example: json2md.DataObject[] = null;
+        const page: json2md.DataObject[] = [];
 
         if (v.category) {
           const category = this.handler.categories.get(v.category);
@@ -206,6 +213,8 @@ export default class extends ErosCommand {
           let content: string | string[] = command.description.content;
           content = Array.isArray(content) ? content.join('\n') : content;
           const id = /-/.test(v.command) ? v.command.split('-').join(' ') : v.command;
+          const clientPermissions = command.clientPermissions as string[];
+          const userPermissions = command.userPermissions as string[];
 
           filename = `commands/${command.categoryID}/${v.command}.md`;
           title = `Command: ${id.toLowerCase()}`;
@@ -217,6 +226,16 @@ export default class extends ErosCommand {
             ...description,
           ];
 
+          if (clientPermissions)
+            _clientPermissions = [
+              { h2: 'Required Bot Permissions' },
+              { code: { content: clientPermissions.map(p => toTitleCase(p)) } },
+            ];
+          if (userPermissions)
+            _userPermissions = [
+              { h2: 'Required User Permissions' },
+              { code: { content: userPermissions.map(p => toTitleCase(p)) } },
+            ];
           if (command.description.examples)
             example = [
               { h2: 'Examples' },
@@ -224,15 +243,16 @@ export default class extends ErosCommand {
             ];
         }
 
-        const descriptor: Array<{}> = [
+        page.push(
           { h1: title },
-          { p: Util.resolveString(description) },
-        ];
+          { p: Util.resolveString(description) }
+        );
 
-        if (v.image)
-          descriptor.push({ img: [ { title: `${title} image`, source: v.image } ] });
+        if (_clientPermissions)
+          page.push(_clientPermissions);
 
-        page.push(descriptor);
+        if (_userPermissions)
+          page.push(_userPermissions);
 
         if (v.fields)
           for (const field of v.fields)
@@ -240,12 +260,17 @@ export default class extends ErosCommand {
               { h2: field.name },
               { p: Util.resolveString(field.value) }
             );
+
         if (example)
           page.push(...example);
+
+        if (v.image)
+          page.push({ img: [ { title: `${title} image`, source: v.image } ] });
+
         if (v.contributors)
           page.push(
             { p: '---' },
-            { h4: 'Contributors' },
+            { h5: 'Contributors' },
             { p: v.contributors.join(', ') }
           );
 
