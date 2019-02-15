@@ -7,9 +7,7 @@ Commands within this category:
 
 [**`cdrole`**](/commands/admin/cdrole.md) - Changes this server's Countdown Subscriber Role.
 
-[**`loli`**](/commands/admin/loli.md) - **Toggle-able**
-
-Changes this server's Loli restriction condition.
+[**`loli`**](/commands/admin/loli.md) - Changes this server's Loli restriction condition. Toggle-able command.
 
 [**`nsfwchannel`**](/commands/admin/nsfwchannel.md) - Changes this server's NSFW Channel.
 

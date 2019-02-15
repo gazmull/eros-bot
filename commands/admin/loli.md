@@ -5,9 +5,7 @@
 
 **Aliases**: `loli`
 
-**Brief Description**: **Toggle-able**
-
-Changes this server's Loli restriction condition.
+**Brief Description**: Changes this server's Loli restriction condition. Toggle-able command.
 
 
 
