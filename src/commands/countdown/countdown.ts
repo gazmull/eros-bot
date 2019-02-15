@@ -35,7 +35,7 @@ export default class extends ErosCommand {
         ]
       },
       args: [
-        { id: 'method', type: [ 'help', 'add', 'remove', 'delete', 'del', 'test', 'check' ] },
+        { id: 'method', type: [ 'help', 'current', 'add', 'remove', 'delete', 'del', 'test', 'check', 'subscribe' ] },
         { id: 'details', match: 'rest', default: '' },
       ]
     });
@@ -58,7 +58,8 @@ export default class extends ErosCommand {
   public async exec (message: Message, { method, details }: { method: string, details: string }) {
     const authorized = this.authorized(message.author);
 
-    if (!method || (!authorized && method !== 'test')) return this.defaultCommand(message);
+    if (!method || (!authorized && ![ 'test', 'check' ].includes(method))) return this.defaultCommand(message);
+    if (method === 'current') return message.util.reply(`Current time is: ${moment.tz(this.timezone)}`);
     if (method === 'help') return this.authorisedHelp(message);
 
     const commands: { [key: string]: Command } = {
@@ -67,7 +68,8 @@ export default class extends ErosCommand {
       delete: this.handler.modules.get('countdown-delete'),
       remove: this.handler.modules.get('countdown-delete'),
       test: this.handler.modules.get('countdown-test'),
-      check: this.handler.modules.get('countdown-test')
+      check: this.handler.modules.get('countdown-test'),
+      subscribe: this.handler.modules.get('countdown-subscribe')
     };
     const command = commands[method];
 
@@ -107,6 +109,11 @@ export default class extends ErosCommand {
   public async prepareCountdowns () {
     const now = moment.tz(this.timezone);
 
+    this.countdowns = this.countdowns.filter((_, date) => {
+      const parsed = moment(date);
+
+      return !now.isAfter(parsed);
+    });
     this.userCountdowns = this.userCountdowns.filter((_, date) => {
       const parsed = moment(date);
 
@@ -116,7 +123,7 @@ export default class extends ErosCommand {
     const presets = this.preset;
 
     for (const preset of presets) {
-      const name = preset.name;
+      let name = preset.name;
       const [ hour, minute ] = preset.time.split(':').map(i => Number(i));
       const date = moment.tz(this.timezone)
         .hours(hour)
@@ -135,11 +142,11 @@ export default class extends ErosCommand {
           switch (preset.class) {
             case 'ENH':
               offset = 60;
-              preset.name += toAppend;
+              name += toAppend;
               break;
             case 'GEM':
               offset = 30;
-              preset.name += toAppend;
+              name += toAppend;
               break;
             case 'DLY':
               offset = 60 * 24;

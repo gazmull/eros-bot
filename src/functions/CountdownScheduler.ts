@@ -37,7 +37,11 @@ export default class extends EventEmitter {
 
       const guilds = await this.client.db.Guild.findAll({ where: { cdChannelID: { [Op.ne]: null } } });
       const tick = this.client.setInterval(async () => {
-        if (!guilds.length) return this.client.clearInterval(tick);
+        if (!guilds.length) {
+          status('CountdownScheduler Module: Distributed ' + names.join(', '));
+
+          return this.client.clearInterval(tick);
+        }
 
         const spliced = guilds.splice(0, 5);
 
@@ -46,30 +50,31 @@ export default class extends EventEmitter {
 
           if (!channel) continue;
 
+          let action = 'started/ended';
+          const nameEnds =  names.filter(n => n.endsWith('End')).sort();
+          const nameNotEnds = names.filter(n => !n.endsWith('End')).sort();
+          let prettyNames = [
+            ...nameNotEnds,
+            ...nameEnds,
+          ];
+
+          if (nameEnds.length && !nameNotEnds.length) {
+            action = 'ended';
+            prettyNames = prettyNames.map(v => v.slice(0, -6));
+          } else if (nameNotEnds.length && !nameEnds.length) action = 'started';
+
+          prettyNames = prettyNames.map((v, i, arr) => {
+            const end = arr.length > 1 && i === (arr.length - 1) ? 'and ' : '';
+
+            return `${end}**${v}**`;
+          });
+          const isPlural = names.length > 1 ? 'have' : 'has';
           const role = channel.guild.roles.get(guild.cdRoleID);
           const roleText = role ? `${role}, ` : '';
-          let prettyNames = [
-            ...names.filter(n => !n.endsWith('End')).sort(),
-            ... names.filter(n => n.endsWith('End')).sort(),
-          ];
-          prettyNames = prettyNames.map((v, i, arr) => {
-              const end = arr.length > 1 && i === (arr.length - 1) ? 'and ' : '';
-
-              return `${end}**${v}**`;
-            });
-          const nameEnds =  names.filter(n => n.endsWith('End'));
-          const nameNotEnds = names.filter(n => !n.endsWith('End'));
-          const isPlural = names.length > 1 ? 'have' : 'has';
-          let action = 'started/ended';
-
-          if (nameEnds.length > nameNotEnds.length) action = 'ended';
-          else if (nameEnds.length < nameNotEnds.length) action = 'started';
 
           await channel.send(`${roleText}${prettyNames.join(', ')} ${isPlural} ${action}!`);
         }
       }, 3000);
-
-      status('CountdownScheduler Module: Distributed ' + names.join(', '));
     } catch (err) { warn('Error Sending Notification: ' + err); }
 
     await this.provider.prepareCountdowns();
@@ -96,19 +101,19 @@ export default class extends EventEmitter {
   public delete (date: number, name: string) {
     const job = this.schedules.get(date);
 
-    if (job) {
-      job.names.splice(job.names.indexOf(name), 1);
+    if (!job) return this;
 
-      const parsedDate = date - moment.tz(this.provider.timezone).valueOf();
-      const names = job.names;
-      const fn = this.client.setTimeout(() => this.distribute(date, names), parsedDate);
+    job.names.splice(job.names.indexOf(name), 1);
 
-      this.client.clearTimeout(job.fn);
+    const parsedDate = date - moment.tz(this.provider.timezone).valueOf();
+    const names = job.names;
+    const fn = this.client.setTimeout(() => this.distribute(date, names), parsedDate);
 
-      if (!job.names.length) return this.destroy(date);
+    this.client.clearTimeout(job.fn);
 
-      this.schedules.set(date, { names, fn });
-    }
+    if (!job.names.length) return this.destroy(date);
+
+    this.schedules.set(date, { names, fn });
 
     status('CountdownScheduler Module: Deleted ' + name);
 
