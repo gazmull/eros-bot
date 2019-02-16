@@ -23,6 +23,11 @@ Embed Links
 
 Gain EXP rewards by using this command!
 
+## Warning
+
+
+This command will be locked to a server member until he/she finally responds to this command.
+
 
 ---
 
