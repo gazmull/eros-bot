@@ -20,7 +20,6 @@ export const StorageFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<
     },
     user: {
       allowNull: false,
-      unique: true,
       type: Sequelize.STRING
     },
     amount: {

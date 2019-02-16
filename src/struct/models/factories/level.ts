@@ -16,7 +16,6 @@ export const LevelFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<IL
   const attributes: SequelizeAttributes<ILevelAttributes> = {
     id: {
       allowNull: false,
-      primaryKey: true,
       type: Sequelize.STRING
     },
     guild: {
