@@ -35,21 +35,22 @@ export default class extends ErosCommand {
 
       const client = this.client as ErosClient;
       const res = await client.db.Level.findOrCreate({
-        where: { id: fetchedMember.id, guild: message.guild.id },
+        where: { user: fetchedMember.id, guild: message.guild.id },
         attributes: [ 'title', 'exp' ]
       });
 
-      if (!res[0] && !res[1]) throw new Error('Cannot resolve the member.');
+      if (!res[0]) throw new Error('Cannot resolve the member.');
 
       const [ levelMember ] = res;
       const ranking = await client.db.Level.findAll({
         where: { guild: message.guild.id },
         order: [ [ 'exp', 'DESC' ] ],
-        attributes: [ 'id' ]
+        attributes: [ 'user' ]
       });
       const titlesMember = await client.db.Title.findAll({
         where: { [client.db.Sequelize.Op.or]: [ { id: levelMember.title }, { id: levelMember.title + 1 } ] },
-        order: [ [ 'id', 'ASC' ] ]
+        order: [ [ 'id', 'ASC' ] ],
+        attributes: [ 'id', 'name', 'threshold' ]
       });
       const nextTitle = titlesMember[1];
 
@@ -63,7 +64,7 @@ export default class extends ErosCommand {
           `**Current Title**: ${titlesMember[0].name}`,
           `**Next Title**: ${nextTitle ? nextTitle.name : '∞'}`,
           `**Progress**: ${levelMember.exp} / ${nextTitle ? nextTitle.threshold : '∞'}`,
-          `**Server Ranking**: ${ranking.findIndex(v => v.id === member.id) + 1} / ${ranking.length}`,
+          `**Server Ranking**: ${ranking.findIndex(v => v.user === member.id) + 1} / ${ranking.length}`,
         ])
         .addField('Roles',
           member.roles.map(r => member.roles.array().indexOf(r) % 3 === 0 ? `\n${r}` : `${r}`).join(', ')

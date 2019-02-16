@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { SequelizeAttributes } from '../../../../typings/SequelizeAttributes';
 
 export interface ILevelAttributes {
-  id: string;
+  user: string;
   guild: string;
   exp?: number;
   title?: number;
@@ -14,7 +14,7 @@ export interface ILevelInstance extends Sequelize.Instance<ILevelAttributes>, IL
 
 export const LevelFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<ILevelInstance, ILevelAttributes> => {
   const attributes: SequelizeAttributes<ILevelAttributes> = {
-    id: {
+    user: {
       allowNull: false,
       type: Sequelize.STRING
     },

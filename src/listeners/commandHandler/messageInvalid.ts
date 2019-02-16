@@ -21,12 +21,13 @@ export default class extends Listener {
 
       const res = await client.db.Level.findOrCreate({
         where: {
-          id: message.author.id,
+          user: message.author.id,
           guild: message.guild.id
-        }
+        },
+        attributes: [ 'id', 'updatedAt' ]
       });
 
-      if (!res[0] || !res[1]) return;
+      if (!res[0]) return;
 
       const [ member ] = res;
       const eligible = Date.now() > (new Date(member.updatedAt).getTime() + 10e3);
@@ -35,10 +36,11 @@ export default class extends Listener {
       if (eligible) {
         await member.increment('exp', { by: exp });
 
-        const totalExp = await client.db.Level.sum('exp', { where: { id: message.author.id } });
+        const totalExp = await client.db.Level.sum('exp', { where: { user: message.author.id } });
         const newTitle = await client.db.Title.findOne({
           where: { threshold: { [ Op.lte ]: totalExp } },
-          order: [ [ 'threshold', 'DESC' ] ]
+          order: [ [ 'threshold', 'DESC' ] ],
+          attributes: [ 'id' ]
         });
 
         if (newTitle) await member.update({ title: newTitle.id });
