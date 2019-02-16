@@ -12,7 +12,7 @@ export default class extends ErosCommand {
         usage: '[page number]',
         examples: [ '', '13', '37' ]
       },
-      paginated: true,
+      noTrash: true,
       args: [
         {
           id: 'page',

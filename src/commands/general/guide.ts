@@ -3,7 +3,7 @@ import { StringResolvable, Util } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as json2md from 'json2md';
 // @ts-ignore
-import { emojis } from '../../../auth';
+import { docs, emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
 import { error, status } from '../../util/console';
 import toTitleCase from '../../util/toTitleCase';
@@ -17,7 +17,7 @@ export default class extends ErosCommand {
         usage: '[page number]',
         examples: [ '', '13', '37' ]
       },
-      paginated: true,
+      noTrash: true,
       args: [
         {
           id: 'page',
@@ -141,7 +141,8 @@ export default class extends ErosCommand {
           'React with the emoji below to navigate. ↗ to skip a page.',
           `You may also do \`${
             (this.handler.prefix as PrefixSupplier)(message)}guide <page number>\` to jump to a page immediately.`,
-        ]);
+        ])
+        .addField('Documentation', 'Visiting the web documentation may be better to see what is new: ' + docs);
 
       embeds.unshift(tableOfContents);
 
@@ -317,8 +318,13 @@ export default class extends ErosCommand {
       .concat('\n' + readme);
 
       await fs.outputFile(`${__dirname}/../../../../eros-docs/README.md`, readme);
-
       status('-- Successfully copied README');
+
+      let changelog = (await fs.readFile(`${__dirname}/../../../CHANGELOG.md`)).toString();
+      changelog = changelog.split('#')[1];
+
+      await fs.outputFile(`${__dirname}/../../../../eros-docs/CHANGELOG.md`, '#' + changelog);
+      status('-- Successfully copied CHANGELOG');
 
       status('Done parsing docs.');
       process.exit(0);

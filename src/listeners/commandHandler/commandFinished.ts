@@ -14,7 +14,7 @@ export default class extends Listener {
   public async exec (message: Message, command: ErosCommand) {
     const channel = message.channel as TextChannel;
 
-    if (command.paginated) return;
+    if (command.noTrash) return;
     else if (!message.guild) return;
     else if (!channel.permissionsFor(message.guild.me).has([ 'ADD_REACTIONS' ])) return;
 

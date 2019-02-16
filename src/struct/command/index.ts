@@ -6,10 +6,10 @@ export default class ErosCommand extends Command {
   constructor (id: string, options: ICommandOptions) {
     super(id, options);
 
-    this.paginated = options.paginated || false;
+    this.noTrash = options.noTrash || false;
   }
 
-  public paginated: boolean;
+  public noTrash: boolean;
 
   public util: IUtil = {
     embed: this.embed,
@@ -71,7 +71,7 @@ interface ICommandOptions extends CommandOptions {
     examples?: string[];
     [key: string]: any;
   };
-  paginated?: boolean;
+  noTrash?: boolean;
   shouldAwait?: boolean;
 }
 

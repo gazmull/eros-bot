@@ -15,7 +15,7 @@ export default class extends ErosCommand {
       },
       cooldown: 5 * 1000,
       lock: 'user',
-      paginated: true,
+      noTrash: true,
       args: [
         {
           id: 'filter',

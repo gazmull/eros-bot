@@ -13,7 +13,7 @@ export default class extends ErosCommand {
         examples: [ 'eros', 'mars' ]
       },
       lock: 'user',
-      paginated: true,
+      noTrash: true,
       args: [
         {
           id: 'character',
