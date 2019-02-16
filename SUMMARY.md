@@ -1,5 +1,6 @@
 # Table of Contents
 
+[CHANGELOG](CHANGELOG.md)
 - [Guide Start](guide-start.md)
 - [Using the Bot](using-the-bot.md)
 - [Leveling System](leveling-system.md)
