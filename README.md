@@ -14,9 +14,9 @@
     - Only Nutaku version is available.
     - Uses REST API (JSON) from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
 - Tweets updates from [**@Kamihime_Nutaku**](https://twitter.com/kamihime_nutaku)
-    - Customise the `Twitter Channel` with `?twitterchannel <mention channel>`
+    - Customise the `Twitter Channel` with `?twitterchannel <channel>`
 - Get notified with in-game events via Countdown notification system
-    - Customise the `Countdown Channel` with `?cdchannel <mention channel>`
+    - Customise the `Countdown Channel` with `?cdchannel <channel>`
 - Save memos or notes with Tag system
     - See `tag` command for more info
 - Basic bot commands
@@ -36,15 +36,17 @@
     - Kamihime-specific: `loli`, `cdchannel`, `cdrole`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
 - **General**
     - Main: `help`, `guide`, `invite`
-- **Utility**
-    - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
-    - Bot Owner: `eval`, `clear`
-- **Tag**
-    - Main: `tag`, `tags`
 - **Kamihime**
     - Main: `nsfw`, `leaderboard`, `hareminfo`, `info`, `list`, `search`
 - **Kamihime - Countdown**
     - Main: `countdown`
+- **Tag**
+    - Main: `tag`, `tags`
+- **Fun**
+    - Main: `ask`, `insult`, `say`
+- **Utility**
+    - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
+    - Bot Owner: `eval`, `clear`
 
 # Self-Hosting
 > ### [**Add the bot instead? (24/7)**](http://addbot.thegzm.space)

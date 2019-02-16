@@ -3,7 +3,7 @@
 
 **Usage**: `@Eros serverinfo `
 
-**Aliases**: `serverinfo`, `sinfo`, `si`, `guildinfo`, `ginfo`, `gi`
+**Aliases**: `serverinfo`, `sinfo`, `si`, `guildinfo`, `ginfo`, `gi`, `settings`
 
 **Brief Description**: Displays information and bot settings of this server.
 

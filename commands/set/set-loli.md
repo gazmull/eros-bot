@@ -1,9 +1,9 @@
-# Command: loli
+# Command: set loli
 
 
-**Usage**: `@Eros loli `
+**Usage**: `@Eros set loli `
 
-**Aliases**: `loli`
+**Aliases**: None
 
 **Brief Description**: Changes this server's Loli restriction condition. Toggle-able command.
 
@@ -16,12 +16,6 @@ Send Messages
 Manage Messages
 Add Reactions
 Embed Links
-```
-
-## Required User Permissions
-
-```
-Manage Server
 ```
 
 

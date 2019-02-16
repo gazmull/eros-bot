@@ -1,7 +1,7 @@
 # Command: insult
 
 
-**Usage**: `@Eros insult <mention member>`
+**Usage**: `@Eros insult <member>`
 
 **Aliases**: `insult`
 

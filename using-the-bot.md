@@ -26,19 +26,21 @@ Eros requires the following permissions:
 
 ```
 
-Set Server Prefix: `@Eros prefix <prefix>`
+Set Server Prefix: `@Eros set prefix <prefix>`
 
-Set Twitter feed channel: `@Eros twitterchannel <mention channel>`
+Set Twitter feed channel: `@Eros set twitterchannel <channel>`
 
-Set Countdown channel: `@Eros cdchannel <mention channel>`
+Set Countdown channel: `@Eros set cdchannel <channel>`
 
-Set Countdown Subscriber role: `@Eros cdrole <mention role>`
+Set Countdown Subscriber role: `@Eros set cdrole <role>`
 
-Set hareminfo-allowed channel: `@Eros nsfwchannel <mention channel>`
+Set hareminfo-allowed channel: `@Eros set nsfwchannel <channel>`
 
-Set NSFW role: `@Eros nsfwrole <mention role>`
+Set NSFW role: `@Eros set nsfwrole <role>`
 
-Disable/Enable loli contents (hareminfo): `@Eros loli`
+Disable/Enable loli contents (hareminfo): `@Eros set loli`
+
+To view your server's current settings: `@Eros settings`
 
 ## Getting Familiar With the Commands
 

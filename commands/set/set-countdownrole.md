@@ -1,9 +1,9 @@
-# Command: cdrole
+# Command: set countdownrole
 
 
-**Usage**: `@Eros cdrole <resolvable role>`
+**Usage**: `@Eros set countdownrole <role>`
 
-**Aliases**: `cdrole`, `countdownrole`
+**Aliases**: None
 
 **Brief Description**: Changes this server's Countdown Subscriber Role.
 
@@ -18,18 +18,12 @@ Add Reactions
 Embed Links
 ```
 
-## Required User Permissions
-
-```
-Manage Server
-```
-
 ## Examples
 
 ```
-@Eros cdrole @cd
-@Eros cdrole 2138547751248890915
-@Eros cdrole countdown
+@Eros set countdownrole @cd
+@Eros set countdownrole 2138547751248890915
+@Eros set countdownrole countdown
 ```
 
 

@@ -1,9 +1,9 @@
-# Command: prefix
+# Command: set prefix
 
 
-**Usage**: `@Eros prefix <prefix value>`
+**Usage**: `@Eros set prefix <prefix value>`
 
-**Aliases**: `prefix`
+**Aliases**: None
 
 **Brief Description**: Changes this server's prefix.
 
@@ -18,17 +18,11 @@ Add Reactions
 Embed Links
 ```
 
-## Required User Permissions
-
-```
-Manage Server
-```
-
 ## Examples
 
 ```
-@Eros prefix e?
-@Eros prefix eros
+@Eros set prefix e?
+@Eros set prefix eros
 ```
 
 
