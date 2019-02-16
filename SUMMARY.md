@@ -11,7 +11,6 @@
     - [set-nsfwchannel](commands/set/set-nsfwchannel.md)
     - [set-nsfwrole](commands/set/set-nsfwrole.md)
     - [set-prefix](commands/set/set-prefix.md)
-    - [set](commands/set/set.md)
     - [set-twitterchannel](commands/set/set-twitterchannel.md)
   - CATEGORY: [general](commands/general/README.md)
     - [guide](commands/general/guide.md)
