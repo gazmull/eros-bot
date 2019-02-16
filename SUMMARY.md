@@ -4,6 +4,7 @@
 - [Using the Bot](using-the-bot.md)
 - [Commands](commands.md)
   - CATEGORY: [set](commands/set/README.md)
+    - [set](commands/set/set.md)
     - [set-countdownchannel](commands/set/set-countdownchannel.md)
     - [set-countdownrole](commands/set/set-countdownrole.md)
     - [set-loli](commands/set/set-loli.md)
