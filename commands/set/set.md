@@ -11,7 +11,11 @@ Available Methods:
 
 	- `cdchannel`
 
+	- `countdownchannel`
+
 	- `cdrole`
+
+	- `countdownrole`
 
 	- `loli`
 
@@ -20,6 +24,8 @@ Available Methods:
 	- `nsfwrole`
 
 	- `prefix`
+
+	- `twitter`
 
 	- `twitterchannel`
 
