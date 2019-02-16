@@ -83,7 +83,7 @@ export default [
   // Page 4
   {
     contributors: [ 'Euni' ],
-    title: 'Leveling System (LS)',
+    title: 'Leveling System',
     description: 'Enjoy your stay in the server for gaining EXPs and titles by participating in LS-featured commands, and communicating with fellow server members!',
     fields: [
       {
