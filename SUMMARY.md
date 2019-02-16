@@ -2,7 +2,7 @@
 
 - [Guide Start](guide-start.md)
 - [Using the Bot](using-the-bot.md)
-- [Leveling System (LS)](leveling-system-(ls).md)
+- [Leveling System](leveling-system.md)
 - [Commands](commands.md)
   - CATEGORY: [set](commands/set/README.md)
     - [set](commands/set/set.md)

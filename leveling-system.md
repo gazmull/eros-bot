@@ -1,4 +1,4 @@
-# Leveling System (LS)
+# Leveling System
 
 
 Enjoy your stay in the server for gaining EXPs and titles by participating in LS-featured commands, and communicating with fellow server members!
