@@ -1,4 +1,4 @@
-Changelog
+# Changelog
 # 3.0.0
 
 Please make sure you read the documentation [**here**](https://docs.thegzm.space/eros-bot) to fill you up without reading everything here.
