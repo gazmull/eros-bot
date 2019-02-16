@@ -55,28 +55,30 @@ export default class extends ErosCommand {
   }
 
   public defaultHelp (message: Message, pub = false) {
+    const prefix = (this.handler.prefix as PrefixSupplier)(message);
     const embed = this.util.embed(message)
       .setColor(0xFF00AE)
       .setTitle('Commands')
       .setDescription([
-        message.guild ? `This server's prefix is \`${(this.handler.prefix as PrefixSupplier)(message)}\`` : '',
+        message.guild ? `This server's prefix is \`${prefix}\`` : '',
         'For more info about a command, see: `help [command name]`',
-        'For an in-depth guide on how to use this bot, see: `guide`',
+        `For an in-depth guide on how to use this bot, see: \`${prefix}guide\``,
       ]);
 
     for (const [ category, commands ] of this.handler.categories) {
       const title = {
-        admin: 'Server Manager',
+        set: 'Server Settings',
         general: 'General',
         kamihime: 'Kamihime',
         countdown: 'Kamihime - Countdown',
         tag: 'Tag System',
+        fun: 'For teh Lulz',
         util: 'Utilities'
       }[category];
 
       if (
-        (!message.guild && category === 'admin') || (
-            message.guild && category === 'admin' &&
+        (!message.guild && category === 'set') || (
+            message.guild && category === 'set' &&
             !(message.channel as TextChannel).permissionsFor(message.member).has('MANAGE_GUILD')
           )
       ) continue;
@@ -88,6 +90,8 @@ export default class extends ErosCommand {
 
       if (title) embed.addField(title, parentCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
     }
+
+    embed.fields = embed.fields.sort((a, b) => a.name > b.name ? 1 : (a.name < b.name ? -1 : 0));
 
     return message.util.send(embed);
   }

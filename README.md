@@ -8,7 +8,7 @@
 # Eros Bot
 - Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     - Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-- Version: **3.0.0**
+- Version: **3** ([**What's new in v3?**](/CHANGELOG.md#3.0.0))
 - [**Discord Server**](http://thegzm.space)
 - [**Bot Guide**](https://docs.thegzm.space/eros-bot)
 
@@ -17,10 +17,14 @@
 - Kamihime Database (Harem Scenes)
     - Only Nutaku version is available.
     - Uses REST API (JSON) from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
+- Enjoy staying in your server by gaining a grand title and EXPs with Basic Level System
+    - This is an experimental feature.
 - Tweets updates from [**@Kamihime_Nutaku**](https://twitter.com/kamihime_nutaku)
-    - Customise the `Twitter Channel` with `?twitterchannel <mention channel>`
+    - Customise the `Twitter Channel` with `?set twitterchannel <channel>`
 - Get notified with in-game events via Countdown notification system
-    - Customise the `Countdown Channel` with `?cdchannel <mention channel>`
+    - Customise the `Countdown Channel` with `?set cdchannel <channel>`
+- Customise your server settings
+    - See `set` command for more info
 - Save memos or notes with Tag system
     - See `tag` command for more info
 - Basic bot commands
@@ -35,9 +39,8 @@
 # Commands
 > For more information, see [**Bot Guide**](https://docs.thegzm.space/eros-bot) or say **`@Eros guide 4`** when using the bot.
 
-- **Admin/Server Manager**
-    - Main: `prefix`
-    - Kamihime-specific: `loli`, `cdchannel`, `cdrole`, `twitterchannel`, `nsfwchannel`, `nsfwrole`
+- **Server Settings**
+    - Main: `set`, `settings`
 - **General**
     - Main: `help`, `guide`, `invite`
 - **Kamihime**
@@ -47,7 +50,7 @@
 - **Tag**
     - Main: `tag`, `tags`
 - **Fun**
-    - Main: `ask`, `insult`, `say`
+    - Main: `ask`, `insult`, `say`, `quiz`
 - **Utility**
     - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
     - Bot Owner: `eval`, `clear`

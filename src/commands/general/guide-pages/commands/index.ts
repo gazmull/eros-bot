@@ -1,10 +1,10 @@
 // @ts-ignore
 import { bugs } from '../../../../../package.json';
-import admin from './admin';
 import countdown from './countdown';
 import fun from './fun';
 import general from './general';
 import kamihime from './kamihime';
+import set from './set';
 import tag from './tag';
 import util from './util';
 
@@ -30,7 +30,7 @@ export default [
       },
     ]
   },
-  ...admin,
+  ...set,
   ...general,
   ...kamihime,
   ...countdown,

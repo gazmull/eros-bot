@@ -64,13 +64,14 @@ export default [
           '+ Send Messages',
           '+ Use External Emojis',
           '```',
-          'Set Server Prefix: `@Eros prefix <prefix>`',
-          'Set Twitter feed channel: `@Eros twitterchannel <mention channel>`',
-          'Set Countdown channel: `@Eros cdchannel <mention channel>`',
-          'Set Countdown Subscriber role: `@Eros cdrole <mention role>`',
-          'Set hareminfo-allowed channel: `@Eros nsfwchannel <mention channel>`',
-          'Set NSFW role: `@Eros nsfwrole <mention role>`',
-          'Disable/Enable loli contents (hareminfo): `@Eros loli`',
+          'Set Server Prefix: `@Eros set prefix <prefix>`',
+          'Set Twitter feed channel: `@Eros set twitterchannel <channel>`',
+          'Set Countdown channel: `@Eros set cdchannel <channel>`',
+          'Set Countdown Subscriber role: `@Eros set cdrole <role>`',
+          'Set hareminfo-allowed channel: `@Eros set nsfwchannel <channel>`',
+          'Set NSFW role: `@Eros set nsfwrole <role>`',
+          'Disable/Enable loli contents (hareminfo): `@Eros set loli`',
+          'To view your server\'s current settings: `@Eros settings`',
         ]
       },
       {
@@ -79,7 +80,21 @@ export default [
       },
     ]
   },
-  // Page 4+
+  // Page 4
+  {
+    contributors: [ 'Euni' ],
+    title: 'Leveling System (LS)',
+    description: 'Enjoy your stay in the server for gaining EXPs and titles by participating in LS-featured commands, and communicating with fellow server members!',
+    fields: [
+      {
+        name: 'Current LS-featured Commands',
+        value: [
+          `quiz`,
+        ]
+      },
+    ]
+  },
+  // Page 5+
   ...commands,
   // Last Page
   {
