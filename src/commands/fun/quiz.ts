@@ -13,7 +13,7 @@ const QUESTIONS: Array<{ text: string, type: PromptType, choices: string[] }> = 
   {
     text: 'What is this character\'s element?',
     type: 'element',
-    choices: [ 'Fire', 'Water', 'Wind', 'Thunder', 'Light', 'Dark', 'Phantom' ]
+    choices: [ 'Fire', 'Water', 'Wind', 'Thunder', 'Light', 'Dark', 'Phantom', 'Weapon Dependent' ]
   },
   { text: 'What is this character\'s rarity?', type: 'rarity', choices: [ 'SSR+', 'SSR', 'SR', 'R' ] },
   { text: 'What is this character\'s tier?', type: 'tier', choices: [ 'Legendary', 'Elite', 'Standard' ] },
@@ -88,7 +88,7 @@ export default class extends ErosComamnd {
 
       const userResponse = questionResponses.first();
       const client = this.client as ErosClient;
-      const member = await client.db.Level.findOne({ where: { id: userResponse.author.id } });
+      const member = await client.db.Level.findOne({ where: { user: userResponse.author.id } });
 
       await member.increment('exp', { by: exp });
 
