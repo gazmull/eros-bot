@@ -281,6 +281,7 @@ export default class extends ErosCommand {
       dialogs.unshift([
         'SUMMARY.md',
         [ { h1: 'Table of Contents' },
+          '- [CHANGELOG](CHANGELOG.md)',
           ...this.dialogs.map(v => {
             let title = null;
 
@@ -321,9 +322,9 @@ export default class extends ErosCommand {
       status('-- Successfully copied README');
 
       let changelog = (await fs.readFile(`${__dirname}/../../../CHANGELOG.md`)).toString();
-      changelog = changelog.split('#')[1];
+      changelog = '# Changelog\n' + changelog;
 
-      await fs.outputFile(`${__dirname}/../../../../eros-docs/CHANGELOG.md`, '#' + changelog);
+      await fs.outputFile(`${__dirname}/../../../../eros-docs/CHANGELOG.md`, changelog);
       status('-- Successfully copied CHANGELOG');
 
       status('Done parsing docs.');
