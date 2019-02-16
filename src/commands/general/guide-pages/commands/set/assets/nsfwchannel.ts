@@ -2,5 +2,5 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'nsfwchannel'
+  command: 'set-nsfwchannel'
 } as IDialog;

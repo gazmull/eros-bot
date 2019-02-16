@@ -2,5 +2,5 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'twitterchannel'
+  command: 'set-twitterchannel'
 } as IDialog;

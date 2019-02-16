@@ -2,5 +2,5 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'loli'
+  command: 'set-loli'
 } as IDialog;

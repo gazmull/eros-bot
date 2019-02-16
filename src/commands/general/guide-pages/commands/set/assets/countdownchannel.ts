@@ -2,5 +2,5 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'cdchannel'
+  command: 'set-countdownchannel'
 } as IDialog;

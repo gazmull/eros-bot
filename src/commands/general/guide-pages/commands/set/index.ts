@@ -3,7 +3,7 @@ import { readdirSync } from 'fs-extra';
 const currentDir = __dirname + '/assets/';
 
 const dialog: IDialog = {
-  category: 'admin'
+  category: 'set'
 };
 
 export default [ dialog ].concat(

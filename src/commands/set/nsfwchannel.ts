@@ -4,16 +4,12 @@ import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
-    super('nsfwchannel', {
-      aliases: [ 'nsfwchannel' ],
+    super('set-nsfwchannel', {
       description: {
         content: 'Changes this server\'s NSFW Channel.',
-        usage: '<resolvable channel>',
+        usage: '<channel>',
         examples: [ '#newbie-lib-questions-not-other-js', '312874659902115460', 'nsfw' ]
       },
-      userPermissions: [ 'MANAGE_GUILD' ],
-      channel: 'guild',
-      lock: 'user',
       args: [
         {
           id: 'channel',
@@ -21,7 +17,7 @@ export default class extends ErosCommand {
           default: null,
           prompt: {
             start: 'what would you like to set the NSFW Channel to?',
-            retry: 'please provide a valid channel resolvable.'
+            retry: 'please provide a valid channel.'
           }
         },
       ]
@@ -30,9 +26,9 @@ export default class extends ErosCommand {
 
   public async exec (message: Message, { channel }: { channel: TextChannel }) {
     const client = this.client as ErosClient;
-    const oldChannel = client.guildSettings.get(message.guild.id, 'nsfwChannelID', null);
+    const oldChannel = client.guildSettings.get(message.guild.id, 'nsfwChannel', null);
     const resolvedChannel = client.channels.get(oldChannel);
-    await client.guildSettings.set(message.guild.id, 'nsfwChannelID', channel.id);
+    await client.guildSettings.set(message.guild.id, 'nsfwChannel', channel.id);
 
     return message.util.reply(
       `I have changed the NSFW Channel ${

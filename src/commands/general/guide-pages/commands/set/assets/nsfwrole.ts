@@ -2,5 +2,5 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'prefix'
+  command: 'set-nsfwrole'
 } as IDialog;

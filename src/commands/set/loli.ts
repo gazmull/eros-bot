@@ -3,11 +3,8 @@ import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
-    super('loli', {
-      aliases: [ 'loli' ],
-      description: { content: 'Changes this server\'s Loli restriction condition. Toggle-able command.' },
-      userPermissions: [ 'MANAGE_GUILD' ],
-      channel: 'guild'
+    super('set-loli', {
+      description: { content: 'Changes this server\'s Loli restriction condition. Toggle-able command.' }
     });
   }
 

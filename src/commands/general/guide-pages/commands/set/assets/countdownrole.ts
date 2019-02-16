@@ -2,5 +2,5 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'cdrole'
+  command: 'set-countdownrole'
 } as IDialog;

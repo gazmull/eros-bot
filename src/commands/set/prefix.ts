@@ -5,16 +5,12 @@ import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
-    super('prefix', {
-      aliases: [ 'prefix' ],
+    super('set-prefix', {
       description: {
         content: 'Changes this server\'s prefix.',
         usage: '<prefix value>',
         examples: [ 'e?', 'eros' ]
       },
-      userPermissions: [ 'MANAGE_GUILD' ],
-      channel: 'guild',
-      lock: 'user',
       args: [
         {
           id: 'prefix',
