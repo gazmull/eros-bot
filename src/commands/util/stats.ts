@@ -1,9 +1,8 @@
 import { version as akairoVersion } from 'discord-akairo';
 import { version as discordVersion } from 'discord.js';
+import fetch from 'node-fetch';
 // @ts-ignore
-import { version as kamihimedbVersion } from 'kamihime-database/package.json';
-// @ts-ignore
-import { docs } from '../../../auth';
+import { docs, url } from '../../../auth';
 // @ts-ignore
 import { description, homepage, version as erosVersion } from '../../../package.json';
 import ErosCommand from '../../struct/command';
@@ -17,7 +16,14 @@ export default class extends ErosCommand {
     });
   }
 
-  public exec (message: Message) {
+  public async exec (message: Message) {
+    let kamihimedbVersion: string;
+    const response = await fetch(url.api + 'version', { headers: { Accept: 'application/json' } });
+
+    if (!response.ok) kamihimedbVersion = '2.what.ever';
+
+    kamihimedbVersion = (await response.json()).version;
+
     const _description = [
       description,
       '',
