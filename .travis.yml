@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - 11
   - 10
-install: yarn add github:gazmull/kamihime-database && yarn
+install: yarn
 sudo: false
 jobs:
   include:
