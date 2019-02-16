@@ -1,18 +1,15 @@
+import { Control } from 'discord-akairo';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
-import { ITagAttributes, ITagInstance } from '../../struct/models/tag';
+import { ITagAttributes, ITagInstance } from '../../struct/models/factories/tag';
 
 export default class extends ErosCommand {
   constructor () {
     super('tag-edit', {
       description: {
         content: 'Edits a tag.',
-        usage: '<tag name> <tag content> [--hoist/--unhoist]',
+        usage: '<tag name> [tag content] [--hoist/--unhoist]',
         examples: [ 'codes ***breathes heavily*** CODES', 'thisIsHoisted hoisted, sir --hoist' ]
       },
-      channel: 'guild',
-      ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'tag',
@@ -33,15 +30,17 @@ export default class extends ErosCommand {
           match: 'flag',
           flag: [ '-u', '--unhoist', '--unpin' ]
         },
-        {
-          id: 'content',
-          match: 'rest',
-          type: 'tagContent',
-          prompt: {
-            start: 'what should the future tag contain?',
-            retry: 'content should not be empty or not be exceeding 1950 characters. Please provide again.'
-          }
-        },
+        Control.if((_, args) => args.hoisted || args.unhoisted, [], [
+          {
+            id: 'content',
+            match: 'rest',
+            type: 'tagContent',
+            prompt: {
+              start: 'what should the future tag contain?',
+              retry: 'content should not be empty or not be exceeding 1950 characters. Please provide again.'
+            }
+          },
+        ]),
       ]
     });
   }
@@ -52,7 +51,7 @@ export default class extends ErosCommand {
   ) {
     const isManager = message.member.hasPermission('MANAGE_GUILD');
 
-    if (tag.authorId !== message.author.id && !isManager) {
+    if (tag.author !== message.author.id && !isManager) {
       message.util.reply('are you trying to vandalise?');
 
       return this.fail(message);
@@ -63,28 +62,23 @@ export default class extends ErosCommand {
       return this.fail(message);
     }
 
-    const client = this.client as ErosClient;
-    const updateValues: Partial<ITagAttributes> = { content, modifiedBy: message.author.id };
+    const updateValues: Partial<ITagAttributes> = { modifiedBy: message.author.id };
     let hoist;
 
     if (hoisted) hoist = true;
     else if (unhoisted) hoist = false;
 
     if (hoist !== undefined) updateValues.hoisted = hoist;
+    else updateValues.content = content;
 
-    await client.db.Tag.update(updateValues, {
-      where: {
-        name: tag.name,
-        guildId: tag.guildId
-      }
-    });
+    await tag.update(updateValues);
 
     const hoistStatus = hoist !== undefined
       ? hoist
-        ? ' and hoisted'
-        : ' and unhoisted'
-      : '';
+        ? 'hoisted'
+        : 'unhoisted'
+      : 'updated';
 
-    return message.util.reply(`Done! tag **${tag.name}** has been updated${hoistStatus}.`);
+    return message.util.reply(`Done! tag **${tag.name}** has been updated ${hoistStatus}.`);
   }
 }

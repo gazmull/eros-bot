@@ -35,7 +35,7 @@ export default class extends EventEmitter {
     try {
       this.destroy(date);
 
-      const guilds = await this.client.db.Guild.findAll({ where: { cdChannelID: { [Op.ne]: null } } });
+      const guilds = await this.client.db.Guild.findAll({ where: { cdChannel: { [Op.ne]: null } } });
       const tick = this.client.setInterval(async () => {
         if (!guilds.length) {
           status('CountdownScheduler Module: Distributed ' + names.join(', '));
@@ -46,7 +46,7 @@ export default class extends EventEmitter {
         const spliced = guilds.splice(0, 5);
 
         for (const guild of spliced) {
-          const channel = this.client.channels.get(guild.cdChannelID) as TextChannel;
+          const channel = this.client.channels.get(guild.cdChannel) as TextChannel;
 
           if (!channel) continue;
 
@@ -69,7 +69,7 @@ export default class extends EventEmitter {
             return `${end}**${v}**`;
           });
           const isPlural = names.length > 1 ? 'have' : 'has';
-          const role = channel.guild.roles.get(guild.cdRoleID);
+          const role = channel.guild.roles.get(guild.cdRole);
           const roleText = role ? `${role}, ` : '';
 
           await channel.send(`${roleText}${prettyNames.join(', ')} ${isPlural} ${action}!`);

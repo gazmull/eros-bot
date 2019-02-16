@@ -4,7 +4,7 @@ import { GuildMember } from 'discord.js';
 import { emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
-import { ITagInstance } from '../../struct/models/tag';
+import { ITagInstance } from '../../struct/models/factories/tag';
 
 const pageArg: ArgumentOptions = {
   id: 'page',
@@ -19,9 +19,7 @@ export default class extends ErosCommand {
         content: 'Displays a leaderboard of tags from the current server or the specified member.',
         usage: '<tag name> [page number]'
       },
-      channel: 'guild',
-      ratelimit: 2,
-      paginated: true,
+      noTrash: true,
       args: [
         Control.if(message => !isNaN(Number(message.util.parsed.content.split(/ +/g).slice(1)[0])),
           [ pageArg ], [
@@ -44,8 +42,8 @@ export default class extends ErosCommand {
       if (member) {
         const memberTags = await factory.findAll({
           where: {
-            authorId: member.id,
-            guildId: message.guild.id
+            author: member.id,
+            guild: message.guild.id
           },
           order: [ [ 'uses', 'DESC' ] ]
         });
@@ -77,7 +75,7 @@ export default class extends ErosCommand {
         return memberEmbed.build();
       }
 
-      const tags = await factory.findAll({ where: { guildId: message.guild.id }, order: [ [ 'uses', 'DESC' ] ] });
+      const tags = await factory.findAll({ where: { guild: message.guild.id }, order: [ [ 'uses', 'DESC' ] ] });
 
       if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
 

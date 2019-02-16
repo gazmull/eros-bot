@@ -1,9 +1,12 @@
 import * as Sequelize from 'sequelize';
 // @ts-ignore
-import { db as cred } from '../../../auth.js';
+import { db as cred } from '../../../auth';
 import { DbInterface } from '../../../typings/DbInterface';
-import { GuildFactory } from './guild';
-import { TagFactory } from './tag';
+import { GuildFactory } from './factories/guild';
+import { LevelFactory } from './factories/level';
+import { StorageFactory } from './factories/storage';
+import { TagFactory } from './factories/tag';
+import { TitleFactory } from './factories/title';
 
 export const create = (): DbInterface => {
   const sequelize = new Sequelize(cred.database, cred.username, cred.password, {
@@ -24,6 +27,9 @@ export const create = (): DbInterface => {
     sequelize,
     Sequelize,
     Guild: GuildFactory(sequelize),
-    Tag: TagFactory(sequelize)
+    Level: LevelFactory(sequelize),
+    Storage: StorageFactory(sequelize),
+    Tag: TagFactory(sequelize),
+    Title: TitleFactory(sequelize)
   };
 };

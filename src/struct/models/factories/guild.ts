@@ -1,19 +1,20 @@
 import * as Sequelize from 'sequelize';
 // @ts-ignore
-import { defaultPrefix } from '../../../auth';
-import { SequelizeAttributes } from '../../../typings/SequelizeAttributes';
+import { defaultPrefix } from '../../../../auth';
+import { SequelizeAttributes } from '../../../../typings/SequelizeAttributes';
 
 export interface IGuildAttributes {
-  cdChannelID?: string;
-  cdRoleID?: string;
+  cdChannel?: string;
+  cdRole?: string;
   id: string;
   loli: boolean;
-  name: string;
-  nsfwChannelID?: string;
-  nsfwRoleID?: string;
+  nsfwChannel?: string;
+  nsfwRole?: string;
   owner: string;
   prefix: string;
-  twitterChannelID?: string;
+  twitterChannel?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IGuildInstance extends Sequelize.Instance<IGuildAttributes>, IGuildAttributes { }
@@ -21,12 +22,12 @@ export interface IGuildInstance extends Sequelize.Instance<IGuildAttributes>, IG
 // tslint:disable-next-line: max-line-length
 export const GuildFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<IGuildInstance, IGuildAttributes> => {
   const attributes: SequelizeAttributes<IGuildAttributes> = {
-    cdChannelID: {
+    cdChannel: {
       allowNull: true,
       defaultValue: null,
       type: Sequelize.TEXT
     },
-    cdRoleID: {
+    cdRole: {
       allowNull: true,
       defaultValue: null,
       type: Sequelize.TEXT
@@ -40,18 +41,37 @@ export const GuildFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<IG
       defaultValue: false,
       type: Sequelize.BOOLEAN
     },
-    name: Sequelize.TEXT,
-    nsfwChannelID: Sequelize.TEXT,
-    nsfwRoleID: Sequelize.TEXT,
+    nsfwChannel: {
+      allowNull: true,
+      defaultValue: null,
+      type: Sequelize.TEXT
+    },
+    nsfwRole: {
+      allowNull: true,
+      defaultValue: null,
+      type: Sequelize.TEXT
+    },
     owner: Sequelize.TEXT,
     prefix: {
       defaultValue: defaultPrefix,
       type: Sequelize.TEXT
     },
-    twitterChannelID: {
+    twitterChannel: {
       allowNull: true,
       defaultValue: null,
       type: Sequelize.TEXT
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('NOW()'),
+      onUpdate: 'CURRENT_TIMESTAMP'
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('NOW()'),
+      onUpdate: 'CURRENT_TIMESTAMP'
     }
   };
 

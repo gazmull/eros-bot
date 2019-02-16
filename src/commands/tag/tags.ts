@@ -28,8 +28,8 @@ export default class extends ErosCommand {
     if (member) {
       const memberTags = await factory.findAll({
         where: {
-          authorId: member.id,
-          guildId: message.guild.id
+          author: member.id,
+          guild: message.guild.id
         }
       });
 
@@ -66,7 +66,7 @@ export default class extends ErosCommand {
       return message.util.send(memberEmbed);
     }
 
-    const tags = await factory.findAll({ where: { guildId: message.guild.id } });
+    const tags = await factory.findAll({ where: { guild: message.guild.id } });
 
     if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
 
@@ -89,7 +89,7 @@ export default class extends ErosCommand {
         ].join(', ')
       );
 
-    const myTags = tags.filter(el => el.authorId === message.author.id);
+    const myTags = tags.filter(el => el.author === message.author.id);
 
     if (myTags.length)
       embed.addField(

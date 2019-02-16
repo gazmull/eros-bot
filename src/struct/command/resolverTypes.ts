@@ -61,7 +61,7 @@ export default class CommandHandlerResolverTypes {
         const tag = await this.client.db.Tag.findOne({
           where: {
             name: phrase,
-            guildId: message.guild.id
+            guild: message.guild.id
           }
         });
 
@@ -76,7 +76,7 @@ export default class CommandHandlerResolverTypes {
         const tag = await this.client.db.Tag.findOne({
           where: {
             name: phrase,
-            guildId: message.guild.id
+            guild: message.guild.id
           }
         });
 

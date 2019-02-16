@@ -1,34 +1,27 @@
 import * as Sequelize from 'sequelize';
-import { SequelizeAttributes } from '../../../typings/SequelizeAttributes';
+import { SequelizeAttributes } from '../../../../typings/SequelizeAttributes';
 
 export interface ITagAttributes {
-  id?: number;
-  authorId: string;
-  guildId: string;
+  author: string;
+  guild: string;
   name: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   modifiedBy?: string;
   uses?: number;
   hoisted: boolean;
   content: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ITagInstance extends Sequelize.Instance<ITagAttributes>, ITagAttributes { }
 
 export const TagFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<ITagInstance, ITagAttributes> => {
   const attributes: SequelizeAttributes<ITagAttributes> = {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: Sequelize.INTEGER
-    },
-    authorId: {
+    author: {
       allowNull: false,
       type: Sequelize.TEXT
     },
-    guildId: {
+    guild: {
       allowNull: false,
       type: Sequelize.TEXT
     },
@@ -36,20 +29,11 @@ export const TagFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<ITag
       allowNull: false,
       type: Sequelize.TEXT
     },
-    createdAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    },
     modifiedBy: {
       allowNull: false,
       type: Sequelize.TEXT
     },
     uses: {
-      allowNull: false,
       defaultValue: 0,
       type: Sequelize.INTEGER
     },
@@ -58,8 +42,20 @@ export const TagFactory = (sequelize: Sequelize.Sequelize): Sequelize.Model<ITag
       type: Sequelize.BOOLEAN
     },
     content: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.TEXT
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('NOW()'),
+      onUpdate: 'CURRENT_TIMESTAMP'
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('NOW()'),
+      onUpdate: 'CURRENT_TIMESTAMP'
     }
   };
 

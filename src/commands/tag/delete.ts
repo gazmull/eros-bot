@@ -1,6 +1,5 @@
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
-import { ITagInstance } from '../../struct/models/tag';
+import { ITagInstance } from '../../struct/models/factories/tag';
 
 export default class extends ErosCommand {
   constructor () {
@@ -9,9 +8,6 @@ export default class extends ErosCommand {
         content: 'Deletes a tag.',
         usage: '<tag name>'
       },
-      channel: 'guild',
-      ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'tag',
@@ -29,19 +25,13 @@ export default class extends ErosCommand {
   public async exec (message: Message, { tag }: { tag: ITagInstance }) {
     const isManager = message.member.hasPermission('MANAGE_GUILD');
 
-    if (tag.authorId !== message.author.id && !isManager) {
+    if (tag.author !== message.author.id && !isManager) {
       message.util.reply('you have no power here!');
 
       return this.fail(message);
     }
 
-    const client = this.client as ErosClient;
-    await client.db.Tag.destroy({
-      where: {
-        name: tag.name,
-        guildId: tag.guildId
-      }
-    });
+    await tag.destroy();
 
     return message.util.reply(`Done! tag **${tag.name}** has been deleted.`);
   }

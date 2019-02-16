@@ -9,9 +9,6 @@ export default class extends ErosCommand {
         usage: '<tag name> <tag content> [--hoist]',
         examples: [ 'codes ***breathes heavily*** CODES', 'thisIsHoisted hoisted, sir --hoist' ]
       },
-      channel: 'guild',
-      ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'name',
@@ -59,9 +56,9 @@ export default class extends ErosCommand {
     const isManager = message.member.hasPermission('MANAGE_GUILD');
 
     await client.db.Tag.create({
-      authorId: message.author.id,
+      author: message.author.id,
       content,
-      guildId: message.guild.id,
+      guild: message.guild.id,
       hoisted: hoisted && isManager ? true : false,
       modifiedBy: message.author.id,
       name

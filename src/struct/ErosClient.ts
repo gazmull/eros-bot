@@ -78,8 +78,9 @@ export default class ErosClient extends AkairoClient {
   public util: IClientUtil;
 
   public build () {
-    this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
-    this.commandHandler.useListenerHandler(this.listenerHandler);
+    this.commandHandler
+      .useInhibitorHandler(this.inhibitorHandler)
+      .useListenerHandler(this.listenerHandler);
 
     this.listenerHandler.setEmitters({
       commandHandler: this.commandHandler,
@@ -103,11 +104,12 @@ export default class ErosClient extends AkairoClient {
       return docs.parseDialogs();
     }
 
-    await db.sequelize.sync();
-    status('Guild Settings Database synchronised!');
+    const force = [ '-f', '--force' ].some(f => process.argv.includes(f));
 
-    await db.Tag.sync();
-    status('Tags Settings Database synchronised!');
+    if (force) status('Forced sync detected.');
+
+    await db.sequelize.sync({ force });
+    status('Database synchronised!');
 
     await this.guildSettings.init();
     status('Provider set!');

@@ -5,7 +5,7 @@ import ErosClient from '../../struct/ErosClient';
 export default class extends ErosCommand {
   constructor () {
     super('serverinfo', {
-      aliases: [ 'serverinfo', 'sinfo', 'si', 'guildinfo', 'ginfo', 'gi' ],
+      aliases: [ 'serverinfo', 'sinfo', 'si', 'guildinfo', 'ginfo', 'gi', 'settings' ],
       description: { content: 'Displays information and bot settings of this server.' },
       clientPermissions: [ 'EMBED_LINKS' ],
       channel: 'guild'
@@ -16,8 +16,8 @@ export default class extends ErosCommand {
     const client = this.client as ErosClient;
     const memberCount = message.guild.memberCount;
     const presenceCount = message.guild.presences.filter(m => m.status !== 'offline').size;
-    const factoryChannels = [ 'nsfwChannelID', 'twitterChannelID', 'cdChannelID' ];
-    const factoryRoles = [ 'nsfwRoleID', 'cdRoleID' ];
+    const factoryChannels = [ 'nsfwChannel', 'twitterChannel', 'cdChannel' ];
+    const factoryRoles = [ 'nsfwRole', 'cdRole' ];
     const filterChannels = (channelType: string) => message.guild.channels.filter(c => c.type === channelType).size;
     const getRecord = (guildID: string, column: string) => {
       if (factoryRoles.includes(column)) {
@@ -46,11 +46,11 @@ export default class extends ErosCommand {
       )
       .addField('Roles Count', message.guild.roles.size, true)
       .addField('Prefix', `\`${(this.handler.prefix as PrefixSupplier)(message)}\``, true)
-      .addField('Twitter Channel', getRecord(message.guild.id, 'twitterChannelID'))
-      .addField('Countdown Channel', getRecord(message.guild.id, 'cdChannelID'), true)
-      .addField('Countdown Subscriber Role', getRecord(message.guild.id, 'cdRoleID'), true)
-      .addField('NSFW Channel', getRecord(message.guild.id, 'nsfwChannelID'), true)
-      .addField('NSFW Role', getRecord(message.guild.id, 'nsfwRoleID'), true)
+      .addField('Twitter Channel', getRecord(message.guild.id, 'twitterChannel'))
+      .addField('Countdown Channel', getRecord(message.guild.id, 'cdChannel'), true)
+      .addField('Countdown Subscriber Role', getRecord(message.guild.id, 'cdRole'), true)
+      .addField('NSFW Channel', getRecord(message.guild.id, 'nsfwChannel'), true)
+      .addField('NSFW Role', getRecord(message.guild.id, 'nsfwRole'), true)
       .addField('Loli Restricted?', getRecord(message.guild.id, 'loli') ? 'Yes. :triumph:' : 'No. :sweat_smile:');
 
     return message.util.send(embed);

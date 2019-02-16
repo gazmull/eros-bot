@@ -175,7 +175,7 @@ export default class extends ErosCommand {
       if (!channel.guild)
         return message.util.edit(embed);
 
-      const nsfwChannelID = client.guildSettings.get(guild.id, 'nsfwChannelID', null);
+      const nsfwChannelID = client.guildSettings.get(guild.id, 'nsfwChannel', null);
       const nsfwChannel = guild.channels.get(nsfwChannelID) as TextChannel;
 
       if (!nsfwChannel)

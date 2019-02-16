@@ -1,5 +1,5 @@
 import ErosCommand from '../../struct/command';
-import { ITagInstance } from '../../struct/models/tag';
+import { ITagInstance } from '../../struct/models/factories/tag';
 
 export default class extends ErosCommand {
   constructor () {
@@ -8,9 +8,6 @@ export default class extends ErosCommand {
         content: 'Displays a tag\'s source.',
         usage: '<tag name>'
       },
-      channel: 'guild',
-      ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'tag',

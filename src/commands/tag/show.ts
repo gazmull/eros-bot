@@ -10,7 +10,6 @@ export default class extends ErosCommand {
       },
       channel: 'guild',
       ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'name',
@@ -31,18 +30,13 @@ export default class extends ErosCommand {
     const tag = await client.db.Tag.findOne({
       where: {
         name,
-        guildId: message.guild.id
+        guild: message.guild.id
       }
     });
 
     if (!tag) return;
 
-    await client.db.Tag.update({ uses: ++tag.uses }, {
-      where: {
-        name,
-        guildId: message.guild.id
-      }
-    });
+    await tag.increment('uses');
 
     return message.util.send(tag.content);
   }

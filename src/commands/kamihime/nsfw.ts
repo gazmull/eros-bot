@@ -16,8 +16,8 @@ export default class extends ErosCommand {
   public async exec (message: Message) {
     const guild = message.guild;
     const client = this.client as ErosClient;
-    const nsfwRole = client.guildSettings.get(guild.id, 'nsfwRoleID', null);
-    const nsfwChannel = client.guildSettings.get(guild.id, 'nsfwChannelID', null);
+    const nsfwRole = client.guildSettings.get(guild.id, 'nsfwRole', null);
+    const nsfwChannel = client.guildSettings.get(guild.id, 'nsfwChannel', null);
     const resolvedChannel = guild.channels.get(nsfwChannel);
     const prefix = (this.handler.prefix as PrefixSupplier)(message);
 

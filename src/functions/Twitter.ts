@@ -39,7 +39,7 @@ export default class {
           return;
 
         this.lastTweetId = tweet.id_str;
-        const guilds = await client.db.Guild.findAll({ where: { twitterChannelID: { [Op.ne]: null } } });
+        const guilds = await client.db.Guild.findAll({ where: { twitterChannel: { [Op.ne]: null } } });
 
         this.tick = client.setInterval(() => {
           if (!guilds.length) return client.clearInterval(this.tick);
@@ -47,7 +47,7 @@ export default class {
           const spliced = guilds.splice(0, 5);
 
           for (const guild of spliced) {
-            const channel = client.channels.get(guild.twitterChannelID) as TextChannel;
+            const channel = client.channels.get(guild.twitterChannel) as TextChannel;
 
             if (!channel) continue;
 

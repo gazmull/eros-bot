@@ -1,7 +1,7 @@
 import { User } from 'discord.js';
 import * as moment from 'moment-timezone';
 import ErosCommand from '../../struct/command';
-import { ITagInstance } from '../../struct/models/tag';
+import { ITagInstance } from '../../struct/models/factories/tag';
 
 export default class extends ErosCommand {
   constructor () {
@@ -10,9 +10,6 @@ export default class extends ErosCommand {
         content: 'Display a tag\'s info.',
         usage: '<tag name>'
       },
-      channel: 'guild',
-      ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'tag',
@@ -28,10 +25,10 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { tag }: { tag: ITagInstance }) {
-    const user = await this.client.users.fetch(tag.authorId);
+    const user = await this.client.users.fetch(tag.author);
     let modifiedBy: User;
 
-    if (tag.authorId === tag.modifiedBy) modifiedBy = user;
+    if (tag.author === tag.modifiedBy) modifiedBy = user;
     else
       try { modifiedBy = await this.client.users.fetch(tag.modifiedBy); }
       catch { modifiedBy = null; }

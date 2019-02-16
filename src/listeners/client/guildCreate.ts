@@ -1,7 +1,7 @@
 import { Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
 // @ts-ignore
-import { defaultPrefix } from '../../../auth';
+import { defaultPrefix, docs } from '../../../auth';
 import ErosClient from '../../struct/ErosClient';
 import { error, status } from '../../util/console';
 
@@ -29,14 +29,13 @@ export default class extends Listener {
       await client.db.Guild.create({
         id: guild.id,
         loli: false,
-        name: guild.name,
-        cdChannelID: cdChannel ? cdChannel.id : null,
-        cdRoleID: cdRole ? cdRole.id : null,
-        nsfwChannelID: nsfwChannel ? nsfwChannel.id : null,
-        nsfwRoleID: nsfwRole ? nsfwRole.id : null,
+        cdChannel: cdChannel ? cdChannel.id : null,
+        cdRole: cdRole ? cdRole.id : null,
+        nsfwChannel: nsfwChannel ? nsfwChannel.id : null,
+        nsfwRole: nsfwRole ? nsfwRole.id : null,
         owner: guild.owner.id,
         prefix: defaultPrefix,
-        twitterChannelID: twitterChannel ? twitterChannel.id : null
+        twitterChannel: twitterChannel ? twitterChannel.id : null
       });
 
       const welcomeMessage = [ `Hello, ${guild.owner.user.username}. I joined your server, ${guild.name}.` ];
@@ -47,20 +46,18 @@ export default class extends Listener {
           existing.map(el => `- ${el.name}`).join('\n'),
         ].join('\n'));
 
-      if (welcomeMessage.length > 1) {
-        welcomeMessage.push(
-          `\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild (please configure your settings there).`,
-          '\tExamples:',
-          cdChannel ? `\t\`${defaultPrefix}cdchannel <channel mention>\`` : '',
-          cdRole ? `\t\`${defaultPrefix}cdrole <role mention>\`` : '',
-          nsfwChannel ? `\t\`${defaultPrefix}nsfwchannel <channel mention>\`` : '',
-          nsfwRole ? `\t\`${defaultPrefix}nsfwrole <role mention>\`` : '',
-          twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel mention>\`` : '',
-          `\n Or refer to \`${defaultPrefix}guide\` which is recommended.`
-        );
+      welcomeMessage.push(
+        `\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild (please configure your settings there).`,
+        '\tExamples:',
+        cdChannel ? `\t\`${defaultPrefix}cdchannel <channel>\`` : '',
+        cdRole ? `\t\`${defaultPrefix}cdrole <role>\`` : '',
+        nsfwChannel ? `\t\`${defaultPrefix}nsfwchannel <channel>\`` : '',
+        nsfwRole ? `\t\`${defaultPrefix}nsfwrole <role>\`` : '',
+        twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel>\`` : '',
+        `\n Or refer to \`${defaultPrefix}guide\` (better yet, ${docs}) which is recommended.`
+      );
 
-        guild.owner.send(welcomeMessage.join('\n'));
-      }
+      guild.owner.send(welcomeMessage.join('\n'));
 
       status(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
     } catch (err) {
