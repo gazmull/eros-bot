@@ -7,4 +7,6 @@ Commands within this category:
 
 [**`insult`**](/commands/fun/insult.md) - Lets you insult someone in my stead.
 
+[**`quiz`**](/commands/fun/quiz.md) - Deploys a questionnaire related to Kamhime Project.
+
 [**`say`**](/commands/fun/say.md) - Lets you say something in the chat in my stead.

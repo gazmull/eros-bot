@@ -3,9 +3,9 @@
 
 **Usage**: `@Eros memberinfo [member name]`
 
-**Aliases**: `memberinfo`, `minfo`, `mi`, `userinfo`, `uinfo`, `ui`
+**Aliases**: `memberinfo`, `minfo`, `mi`, `userinfo`, `uinfo`, `ui`, `profile`, `rank`, `level`
 
-**Brief Description**: Displays a server member information. No arguments will display yours instead.
+**Brief Description**: Displays a server member information. No argument will display yours instead.
 
 
 

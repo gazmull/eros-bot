@@ -7,7 +7,7 @@ Commands within this category:
 
 [**`eval`**](/commands/util/eval.md) - Evaluates text from agument.
 
-[**`memberinfo`**](/commands/util/memberinfo.md) - Displays a server member information. No arguments will display yours instead.
+[**`memberinfo`**](/commands/util/memberinfo.md) - Displays a server member information. No argument will display yours instead.
 
 [**`ping`**](/commands/util/ping.md) - Checks my status.
 

@@ -5,7 +5,7 @@
 
 **Aliases**: `set`
 
-**Brief Description**: Parent command of tag system.
+**Brief Description**: Parent command of server settings.
 
 Available Methods:
 

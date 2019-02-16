@@ -15,6 +15,6 @@ Commands within this category:
 
 [**`set prefix`**](/commands/set/set-prefix.md) - Changes this server's prefix.
 
-[**`set`**](/commands/set/set.md) - Parent command of tag system.
+[**`set`**](/commands/set/set.md) - Parent command of server settings.
 
 [**`set twitterchannel`**](/commands/set/set-twitterchannel.md) - Changes this server's Twitter Channel.

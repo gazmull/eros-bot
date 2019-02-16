@@ -1,7 +1,7 @@
 # Command: tag edit
 
 
-**Usage**: `@Eros tag edit <tag name> <tag content> [--hoist/--unhoist]`
+**Usage**: `@Eros tag edit <tag name> [tag content] [--hoist/--unhoist]`
 
 **Aliases**: None
 

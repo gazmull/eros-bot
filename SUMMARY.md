@@ -2,6 +2,7 @@
 
 - [Guide Start](guide-start.md)
 - [Using the Bot](using-the-bot.md)
+- [Leveling System (LS)](leveling-system-(ls).md)
 - [Commands](commands.md)
   - CATEGORY: [set](commands/set/README.md)
     - [set](commands/set/set.md)
@@ -42,6 +43,7 @@
   - CATEGORY: [fun](commands/fun/README.md)
     - [ask](commands/fun/ask.md)
     - [insult](commands/fun/insult.md)
+    - [quiz](commands/fun/quiz.md)
     - [say](commands/fun/say.md)
   - CATEGORY: [util](commands/util/README.md)
     - [memberinfo](commands/util/memberinfo.md)

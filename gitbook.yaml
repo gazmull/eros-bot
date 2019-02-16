@@ -1,4 +1,9 @@
 root: ./
 structure:
   readme: README.md
+  changelog: CHANGELOG.md
   summary: SUMMARY.md
+
+redirects:
+  news: CHANGELOG.md
+  whatsnew: CHANGELOG.md
