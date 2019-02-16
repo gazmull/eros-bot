@@ -26,6 +26,8 @@ export default class extends ErosComamnd {
   }
 
   public async exec (message: Message, { words }: { words: string }) {
+    if (message.deletable) await message.delete();
+
     return message.util.send(words);
   }
 }

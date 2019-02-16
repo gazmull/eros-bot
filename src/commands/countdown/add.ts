@@ -12,7 +12,6 @@ export default class extends ErosCommand {
         examples: [ '2018-04-23T00:00 A User\'s Birthday' ]
       },
       ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'date',

@@ -71,7 +71,7 @@ export default class extends ErosComamnd {
       aliases: [ 'insult' ],
       description: {
         content: 'Lets you insult someone in my stead.',
-        usage: '<mention member>',
+        usage: '<member>',
         examples: [ 'euni', 'slick', '@Paulo' ]
       },
       channel: 'guild',

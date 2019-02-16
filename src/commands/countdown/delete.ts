@@ -11,7 +11,6 @@ export default class extends ErosCommand {
         examples: [ 'A User\'s Birthday' ]
       },
       ratelimit: 2,
-      lock: 'user',
       args: [
         {
           id: 'countdown',

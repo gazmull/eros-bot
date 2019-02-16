@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
-import { url } from '../../../auth.js';
+// @ts-ignore
+import { url } from '../../../auth';
 import ErosComamnd from '../../struct/command';
 
 const END_POINT = 'https://8ball.delegator.com/magic/JSON/';
@@ -18,7 +19,6 @@ export default class extends ErosComamnd {
         usage: '<question>?',
         examples: [ 'Am I a rawricon?', 'Will I pull hecatonchires again (oh gods please no)?' ]
       },
-      lock: 'user',
       args: [
         {
           id: 'question',
@@ -46,7 +46,7 @@ export default class extends ErosComamnd {
 
     if (!response.ok) return message.util.edit('There was a problem: ' + response.statusText);
 
-    const { id, name, avatar } = await cherryResponse.json();
+    const { id, name, avatar } = (await cherryResponse.json() as IKamihimeDB[]).shift();
     const embed = this.util.embed()
       .setAuthor(name, null, url.root + `info/${id}`)
       .setThumbnail(url.root + encodeURIComponent(`img/wiki/${avatar}`))

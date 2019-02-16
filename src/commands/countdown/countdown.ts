@@ -73,7 +73,7 @@ export default class extends ErosCommand {
     };
     const command = commands[method];
 
-    return this.handler.handleDirectCommand(message, details, command, true);
+    return this.handler.handleDirectCommand(message, details, command);
   }
 
   public async defaultCommand (message: Message) {

@@ -1,5 +1,5 @@
 // @ts-ignore
-import { url } from '../../../../../../../auth.js';
+import { url } from '../../../../../../../auth';
 
 export default {
   contributors: [ 'Euni' ],
