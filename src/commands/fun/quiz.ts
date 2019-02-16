@@ -27,8 +27,7 @@ export default class extends ErosComamnd {
       lock: 'channel',
       channel: 'guild',
       noTrash: true,
-      ratelimit: 1,
-      cooldown: 30e3
+      ratelimit: 1
     });
   }
 
