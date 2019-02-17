@@ -3,7 +3,7 @@
 export default {
   contributors: [ 'Euni' ],
   command: 'quiz',
-  description: 'The deployed questionnaire can be answered by everyone in the channel.',
+  description: [ 'The deployed questionnaire can be answered by everyone in the channel.' ],
   fields: [
     {
       name: 'This command is featured by Leveling System',
