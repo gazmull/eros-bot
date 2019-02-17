@@ -31,9 +31,18 @@ export default class extends ErosCommand {
         }`
       );
 
-    if (message.member.roles.has(cdRole)) await message.member.roles.remove(cdRole);
-    else await message.member.roles.add(cdRole);
+    let result: string;
 
-    await message.react('✅');
+    if (message.member.roles.has(cdRole)) {
+      await message.member.roles.remove(cdRole);
+
+      result = 'unsubscribed';
+    } else {
+      await message.member.roles.add(cdRole);
+
+      result = 'subscribed';
+    }
+
+    return message.util.reply(`successfully ${result} from countdown notifications.`);
   }
 }
