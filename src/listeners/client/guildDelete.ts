@@ -23,6 +23,8 @@ export default class extends Listener {
           `${guildSize} total guilds.`,
         ].join(' '));
 
+      await client.db.Level.destroy({ where: { guild: guild.id } });
+
       status(`${guild.name} (ID: ${guild.id}) destroyed. ${guildSize} total guilds.`);
     } catch (err) { error(err); }
   }
