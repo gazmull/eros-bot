@@ -1,4 +1,3 @@
-# Changelog
 # 3.0.0
 
 Please make sure you read the documentation [**here**](https://docs.thegzm.space/eros-bot) to fill you up without reading everything here.
@@ -31,6 +30,7 @@ With this section, it is a signal for `kamihime-bot` to completely shutdown. Tha
 Any changes mentioned above won't be re-listed here below, so please visit the links attached beside them, there is a chance you missed something.
 
 ## Additions
+- Commands: Added `Cooldown`— not *countdown* Notification.
 - Commands: Added `Leveling System Stats` on `memberinfo` command (now aliased with `level`)
 - Commands: Added `stats` command
 - Documentation: Added `CONTRIBUTING.md`
