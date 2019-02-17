@@ -321,8 +321,7 @@ export default class extends ErosCommand {
       await fs.outputFile(`${__dirname}/../../../../eros-docs/README.md`, readme);
       status('-- Successfully copied README');
 
-      let changelog = (await fs.readFile(`${__dirname}/../../../CHANGELOG.md`)).toString();
-      changelog = '# Changelog\n' + changelog;
+      const changelog = (await fs.readFile(`${__dirname}/../../../CHANGELOG.md`)).toString();
 
       await fs.outputFile(`${__dirname}/../../../../eros-docs/CHANGELOG.md`, changelog);
       status('-- Successfully copied CHANGELOG');

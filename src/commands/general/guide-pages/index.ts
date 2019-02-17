@@ -89,7 +89,22 @@ export default [
       {
         name: 'Current LS-featured Commands',
         value: [
-          `quiz`,
+          '`quiz`',
+        ]
+      },
+      {
+        name: 'How It Works',
+        value: [
+          'Commenting in a server channel will grant you up to 10 EXP while using LS-featured commands will grant you up to 1000 EXP.',
+          'If an LS-featured command is triggered by a user with __Manage Server__ permission, the EXP reward will increase by 500 points.',
+          'If you want to know your current level, see `@Eros level` ',
+        ]
+      },
+      {
+        name: 'What are Those Unique Titles?',
+        value: [
+          'They are sort of achievements on how long you have stayed in that server.',
+          'The highest title can be achieved at 1.000.000 EXP. Later versions may include titles with more than a million EXP requirment.',
         ]
       },
     ]
