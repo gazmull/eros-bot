@@ -9,7 +9,7 @@
 - Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     - Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
 - Version: **3** ([**What's new in v3?**](CHANGELOG.md#3-0-0))
-- [**Discord Server**](http://thegzm.space)
+- [**Discord Server**](http://erosdev.thegzm.space)
 - [**Bot Guide**](https://docs.thegzm.space/eros-bot)
 
 # Features

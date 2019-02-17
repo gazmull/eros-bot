@@ -76,7 +76,7 @@ export default [
       },
       {
         name: 'Getting Familiar With the Commands',
-        value: 'Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot) or to `guide` command\'s pages 4 and above.'
+        value: 'Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot) or to `guide` command\'s pages 5 and above.'
       },
     ]
   },
