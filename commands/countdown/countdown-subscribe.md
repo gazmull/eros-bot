@@ -22,9 +22,9 @@ Embed Links
 ## Using This Command Normally
 
 
-`@Eros cdchannel` must be set or I will decline your request.
+`@Eros set cdchannel` must be set or I will decline your request.
 
-`@Eros cdrole` must be set if you would like me to ping the role once a countdown ends.
+`@Eros set cdrole` must be set if you would like me to ping the role once a countdown ends.
 
 
 ---

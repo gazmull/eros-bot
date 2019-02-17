@@ -1,7 +1,7 @@
 # Leveling System
 
 
-Enjoy your stay in the server for gaining EXPs and titles by participating in LS-featured commands, and communicating with fellow server members!
+With Leveling System (or LS in short), enjoy your stay in the server for gaining EXPs and titles by participating in LS-featured commands, and communicating with fellow server members!
 
 ## Current LS-featured Commands
 
@@ -20,9 +20,11 @@ If you want to know your current level, see `@Eros level`
 ## What are Those Unique Titles?
 
 
-They are sort of achievements on how long you have stayed in that server.
+They are sort of achievements on how active you are in that server.
 
 The highest title can be achieved at 1.000.000 EXP. Later versions may include titles with more than a million EXP requirment.
+
+Your title may vary in each server.
 
 
 ---
@@ -30,4 +32,4 @@ The highest title can be achieved at 1.000.000 EXP. Later versions may include t
 ##### Contributors
 
 
-Euni
+Euni, xkpaulo

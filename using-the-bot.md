@@ -45,7 +45,7 @@ To view your server's current settings: `@Eros settings`
 ## Getting Familiar With the Commands
 
 
-Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot) or to `guide` command's pages 4 and above.
+Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot) or to `guide` command's pages 5 and above.
 
 
 ---

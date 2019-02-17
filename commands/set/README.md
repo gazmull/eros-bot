@@ -15,6 +15,6 @@ Commands within this category:
 
 [**`set prefix`**](/commands/set/set-prefix.md) - Changes this server's prefix.
 
-[**`set`**](/commands/set/set.md) - Parent command of server settings.
+[**`set`**](/commands/set/set.md) - Lets you configure your server's settings for the bot.
 
 [**`set twitterchannel`**](/commands/set/set-twitterchannel.md) - Changes this server's Twitter Channel.

@@ -1,13 +1,13 @@
 # Command: set
 
 
-**Usage**: `@Eros set <settings name> [value]`
+**Usage**: `@Eros set <settings> [value]`
 
 **Aliases**: `set`
 
-**Brief Description**: Parent command of server settings.
+**Brief Description**: Lets you configure your server's settings for the bot.
 
-Available Methods:
+Available Settings:
 
 	- `cdchannel`
 

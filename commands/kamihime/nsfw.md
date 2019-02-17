@@ -22,7 +22,7 @@ Embed Links
 ## To Work Normally
 
 
-The following commands must be properly configured before using this command:
+The following settings must be properly configured before using this command:
 
 - `nsfwrole`
 
