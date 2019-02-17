@@ -7,8 +7,8 @@ export default class extends ErosCommand {
       aliases: [ 'set' ],
       description: {
         content: [
-          'Parent command of server settings.',
-          'Available Methods:',
+          'Lets you configure your server\'s settings for the bot.',
+          'Available Settings:',
           '\t- `cdchannel`',
           '\t- `countdownchannel`',
           '\t- `cdrole`',
@@ -20,7 +20,7 @@ export default class extends ErosCommand {
           '\t- `twitter`',
           '\t- `twitterchannel`',
         ],
-        usage: '<settings name> [value]',
+        usage: '<settings> [value]',
         examples: [
           'cdchannel #re-countdown',
           'countdownchannel re-countdown',

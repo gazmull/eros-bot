@@ -33,8 +33,8 @@ export default class extends ErosCommand {
 
     const clientPermissions = command.clientPermissions as string[];
     const userPermissions = command.userPermissions as string[];
-    const flags: Array<{ names: string[], value: string }> = command.description.flags;
     const examples: string[] = command.description.examples;
+    const guidePage = command.guidePage;
 
     const embed = this.util.embed(message)
       .setTitle(`${prefix}${command} ${command.description.usage ? command.description.usage : ''}`)
@@ -46,10 +46,10 @@ export default class extends ErosCommand {
       embed.addField('Required User Permissions:', userPermissions.map(p => `\`${toTitleCase(p)}\``).join(', '));
     if (command.aliases.length > 1)
       embed.addField('Aliases', command.aliases.slice(1).map(a => `\`${a}\``).join(', '));
-    if (flags)
-      embed.addField('Flags', flags.map(f => `**${f.names.join(' ')}**\n\t${f.value}`));
     if (examples)
       embed.addField('Examples', examples.map(e => `${prefix}${command} ${e}`).join('\n'));
+    if (guidePage)
+      embed.addField('Guide Page', `To see more description of this command: \`${prefix}guide ${guidePage}\``);
 
     return message.util.send(embed);
   }

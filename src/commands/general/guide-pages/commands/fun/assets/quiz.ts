@@ -3,6 +3,7 @@
 export default {
   contributors: [ 'Euni' ],
   command: 'quiz',
+  description: 'The deployed questionnaire can be answered by everyone in the channel.',
   fields: [
     {
       name: 'This command is featured by Leveling System',
@@ -10,7 +11,7 @@ export default {
     },
     {
       name: 'Warning',
-      value: 'This command will be locked to a server member until he/she finally responds to this command.'
+      value: 'This command will be locked to the server channel until someone gets the correct answer.'
     },
   ]
 } as IDialog;

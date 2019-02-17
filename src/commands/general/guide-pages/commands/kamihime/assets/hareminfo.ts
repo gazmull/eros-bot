@@ -11,9 +11,9 @@ export default {
     {
       name: 'Using This Command Normally (Server Manager only)',
       value: [
-        '`@Eros nsfwchannel` must be set or I will decline your request.',
-        '`@Eros nsfwrole` must be set if you would like me to assign NSFW role to gain access to the NSFW channel.',
-        '`@Eros loli` is optional if you hate embedding loli contents from the game. Toggle-able command.',
+        '`@Eros set nsfwchannel` must be set or I will decline your request.',
+        '`@Eros set nsfwrole` must be set if you would like me to assign NSFW role to gain access to the NSFW channel.',
+        '`@Eros set loli` is optional if you hate embedding loli contents from the game. Toggle-able command.',
       ]
     },
     {

@@ -1,6 +1,7 @@
 import { Command, CommandOptions } from 'discord-akairo';
 import { Embeds, FieldsEmbed } from 'discord-paginationembed';
 import { MessageEmbed } from 'discord.js';
+import GuideCommand from '../../commands/general/guide';
 
 export default class ErosCommand extends Command {
   constructor (id: string, options: ICommandOptions) {
@@ -61,6 +62,13 @@ export default class ErosCommand extends Command {
 
   public fail (message: Message) {
     return message.react('❌');
+  }
+
+  get guidePage () {
+    const page = (this.handler.modules.get('guide') as GuideCommand).dialogs
+      .findIndex(c => c.command && c.command === this.id);
+
+    return page !== -1 ? page + 2 : null;
   }
 }
 

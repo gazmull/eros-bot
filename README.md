@@ -37,7 +37,7 @@
 - *More to come�*
 
 # Commands
-> For more information, see [**Bot Guide**](https://docs.thegzm.space/eros-bot) or say **`@Eros guide 4`** when using the bot.
+> For more information, see [**Bot Guide**](https://docs.thegzm.space/eros-bot) or say **`@Eros guide 5`** when using the bot.
 
 - **Server Settings**
     - Main: `set`, `settings`
@@ -127,6 +127,7 @@ If one cannot afford to do a pull request, submitting documentation contribution
 > This is used to automatically hot-reload when there are source code changes.
 
 1. Run task `tsc: watch`. Default shortcut keys: `ctrl + shift + b + b`
+    - Or run `$ yarn run dev:watch` instead
 2. Run `$ yarn run dev:start`
 
 # License

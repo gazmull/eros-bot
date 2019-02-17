@@ -7,7 +7,7 @@ export default {
     {
       name: 'To Work Normally',
       value: [
-        'The following commands must be properly configured before using this command:',
+        'The following settings must be properly configured before using this command:',
         '- `nsfwrole`',
         '- `nsfwchannel`',
       ]

@@ -82,9 +82,9 @@ export default [
   },
   // Page 4
   {
-    contributors: [ 'Euni' ],
+    contributors: [ 'Euni', 'xkpaulo' ],
     title: 'Leveling System',
-    description: 'Enjoy your stay in the server for gaining EXPs and titles by participating in LS-featured commands, and communicating with fellow server members!',
+    description: 'With Leveling System (or LS in short), enjoy your stay in the server for gaining EXPs and titles by participating in LS-featured commands, and communicating with fellow server members!',
     fields: [
       {
         name: 'Current LS-featured Commands',
@@ -103,8 +103,9 @@ export default [
       {
         name: 'What are Those Unique Titles?',
         value: [
-          'They are sort of achievements on how long you have stayed in that server.',
+          'They are sort of achievements on how active you are in that server.',
           'The highest title can be achieved at 1.000.000 EXP. Later versions may include titles with more than a million EXP requirment.',
+          'Your title may vary in each server.',
         ]
       },
     ]
