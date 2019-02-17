@@ -1,11 +1,11 @@
-import { MessageAttachment } from 'discord.js';
 import fetch from 'node-fetch';
 // @ts-ignore
 import { emojis, url } from '../../../auth';
 import ErosComamnd from '../../struct/command';
 import ErosClient from '../../struct/ErosClient';
+import shuffle from '../../util/shuffle';
 
-type PromptType = 'name' | 'element' | 'rarity' | 'tier' | 'loli';
+type PromptType = 'name' | 'element' | 'rarity' | 'tier' | 'loli' | 'type';
 
 const QUESTIONS: Array<{ text: string, type: PromptType, choices: string[] }> = [
   { text: 'Is this character a big sister?', type: 'loli', choices: [ 'Yes', 'No' ] },
@@ -17,6 +17,11 @@ const QUESTIONS: Array<{ text: string, type: PromptType, choices: string[] }> = 
   },
   { text: 'What is this character\'s rarity?', type: 'rarity', choices: [ 'SSR+', 'SSR', 'SR', 'R' ] },
   { text: 'What is this character\'s tier?', type: 'tier', choices: [ 'Legendary', 'Elite', 'Standard' ] },
+  {
+    text: 'What is this character\'s type?',
+    type: 'type',
+    choices: [ 'Offense', 'Defense', 'Balance', 'Tricky', 'Healer' ]
+  },
 ];
 
 export default class extends ErosComamnd {
@@ -41,16 +46,7 @@ export default class extends ErosComamnd {
     const characters: IKamihimeDB[] = await response.json();
     const seed = Math.floor(Math.random() * characters.length);
     const selected = characters[seed];
-
-    const avatarResponse = await fetch(
-      url.root + encodeURIComponent(`img/wiki/${selected.avatar}`),
-      { headers: { Accept: 'application/json' } }
-    );
-
-    if (!avatarResponse.ok) return message.util.edit('There was a problem: ' + avatarResponse.statusText);
-
-    const avatar = await avatarResponse.buffer();
-    const name = `shady_pic_${Date.now()}.png`;
+    const name = `shady_pic_${Date.now()}.webp`;
     const filteredQuestions = QUESTIONS.filter(q => selected[q.type] !== null);
     const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
     const _answer = selected[question.type];
@@ -59,6 +55,8 @@ export default class extends ErosComamnd {
 
     if (message.member.hasPermission('MANAGE_GUILD')) exp += 500;
     if (question.type === 'name') question.choices = characters.map(c => c.name);
+
+    shuffle(question.choices);
 
     const embed = this.util.embed()
       .setImage(`attachment://${name}`)
@@ -69,7 +67,7 @@ export default class extends ErosComamnd {
       .setTitle(question.text)
       .setDescription(question.choices.map((v, i) => `**${i + 1}** - \`${v}\`\n`))
       .setFooter(`For ${exp} EXP • Ends within 30 seconds`);
-    const attachment = new MessageAttachment(avatar, name);
+    const attachment = this.client.util.attachment(url.root + encodeURIComponent(`img/wiki/${selected.avatar}`), name);
 
     await message.util.lastResponse.delete();
     await message.util.send(null, {  embed, files: [ attachment ] });
