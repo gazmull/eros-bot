@@ -12,9 +12,6 @@ import KamihimeInfo from '../../struct/info/sub/KamihimeInfo';
 import SoulInfo from '../../struct/info/sub/SoulInfo';
 import WeaponInfo from '../../struct/info/sub/WeaponInfo';
 
-const flag = [ '-r', '--release', '--releases', '--releaseweapon' ];
-
-// ! - Rework the flag prefixes; unite them
 export default class extends ErosCommand {
   constructor () {
     super('info', {
@@ -29,20 +26,6 @@ export default class extends ErosCommand {
           'ea -tw',
           'hell staff -tw -r',
           'ea -tk -r',
-        ],
-        flags: [
-          {
-            names: [ '-ts', '--type=soul', '-te', '--type=eidolon', '-tk', '--type=kamihime', '-tw', '--type=weapon' ],
-            value: 'Narrow down search results respectively by: *Soul* / *Eidolon* / *Kamihime* / *Weapon*'
-          },
-          {
-            names: [ '-p', '--preview' ],
-            value: 'Request item\'s image.'
-          },
-          {
-            names: flag,
-            value: 'Request item\'s release weapon/character info instead.'
-          },
         ]
       },
       cooldown: 5000,
@@ -71,7 +54,7 @@ export default class extends ErosCommand {
         {
           id: 'release',
           match: 'flag',
-          flag
+          flag: [ '-r', '--release', '--releases', '--releaseweapon' ]
         },
         {
           id: 'type',
