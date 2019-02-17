@@ -8,7 +8,7 @@ import ErosClient from '../../struct/ErosClient';
 type PromptType = 'name' | 'element' | 'rarity' | 'tier' | 'loli';
 
 const QUESTIONS: Array<{ text: string, type: PromptType, choices: string[] }> = [
-  { text: 'Is this character a rori?', type: 'loli', choices: [ 'Yes', 'No' ] },
+  { text: 'Is this character a big sister?', type: 'loli', choices: [ 'Yes', 'No' ] },
   { text: 'Who is this character?', type: 'name', choices: null },
   {
     text: 'What is this character\'s element?',
@@ -54,7 +54,7 @@ export default class extends ErosComamnd {
     const filteredQuestions = QUESTIONS.filter(q => selected[q.type] !== null);
     const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
     const _answer = selected[question.type];
-    const answer = question.type === 'loli' ? (Number(_answer) ? 'Yes' : 'No') : _answer;
+    const answer = question.type === 'loli' ? (Number(_answer) ? 'No' : 'Yes') : _answer;
     let exp = Math.abs(Math.floor(Math.random() * 1000));
 
     if (message.member.hasPermission('MANAGE_GUILD')) exp += 500;
@@ -87,7 +87,13 @@ export default class extends ErosComamnd {
 
       const userResponse = questionResponses.first();
       const client = this.client as ErosClient;
-      const member = await client.db.Level.findOne({ where: { user: userResponse.author.id } });
+      const member = await client.db.Level.findOne({
+        where: {
+          user: userResponse.author.id,
+          guild: message.guild.id
+        },
+        attributes: [ 'id' ]
+      });
 
       await member.increment('exp', { by: exp });
 
