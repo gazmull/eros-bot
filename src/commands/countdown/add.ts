@@ -1,6 +1,5 @@
 import * as moment from 'moment';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 import CountdownCommand from './countdown';
 
 export default class extends ErosCommand {
@@ -42,7 +41,7 @@ export default class extends ErosCommand {
     parent.checkDuplicate(parent.userCountdowns, { name, date: parsedDate });
     await parent.save();
 
-    (this.client as ErosClient).scheduler.emit('add', parsedDate, name);
+    this.client.scheduler.emit('add', parsedDate, name);
 
     return message.util.reply(`\`${name}\` countdown added! Expires within ${parent.getCountdown(parsedDate)}`);
   }

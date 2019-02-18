@@ -1,9 +1,6 @@
-import { PrefixSupplier } from 'discord-akairo';
 import { StringResolvable, Util } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as json2md from 'json2md';
-// @ts-ignore
-import { docs, emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
 import { error, status } from '../../util/console';
 import toTitleCase from '../../util/toTitleCase';
@@ -38,6 +35,7 @@ export default class extends ErosCommand {
 
   public async exec (message: Message, { page }: { page: number }) {
     try {
+      const { docs, emojis } = this.client.config;
       const embeds = this.dialogs.map((v, i) => {
         if (!v)
           throw new Error(
@@ -140,7 +138,7 @@ export default class extends ErosCommand {
         .addField('Navigation Tip', [
           'React with the emoji below to navigate. ↗ to skip a page.',
           `You may also do \`${
-            (this.handler.prefix as PrefixSupplier)(message)}guide <page number>\` to jump to a page immediately.`,
+            this.handler.prefix(message)}guide <page number>\` to jump to a page immediately.`,
         ])
         .addField('Documentation', 'Visiting the web documentation may be better to see what is new: ' + docs);
 

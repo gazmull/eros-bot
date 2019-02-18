@@ -1,8 +1,6 @@
-import { Listener } from 'discord-akairo';
-import { Op } from 'sequelize';
-import ErosClient from '../../struct/ErosClient';
+import ErosListener from '../../struct/listener';
 
-export default class extends Listener {
+export default class extends ErosListener {
   constructor () {
     super('messageInvalid', {
       emitter: 'commandHandler',
@@ -12,14 +10,13 @@ export default class extends Listener {
 
   public async exec (message: Message) {
     const parsed = message.util.parsed;
-    const client = this.client as ErosClient;
 
     if (!message.guild) return;
     if (!parsed) return;
     if (!parsed.prefix || !parsed.afterPrefix || !parsed.alias) {
       if (message.content.length <= 3) return;
 
-      const res = await client.db.Level.findOrCreate({
+      const res = await this.client.db.Level.findOrCreate({
         where: {
           user: message.author.id,
           guild: message.guild.id
@@ -36,8 +33,8 @@ export default class extends Listener {
       if (eligible) {
         await member.increment('exp', { by: exp });
 
-        const newTitle = await client.db.Title.findOne({
-          where: { threshold: { [ Op.lte ]: member.exp } },
+        const newTitle = await this.client.db.Title.findOne({
+          where: { threshold: { [ this.client.db.Sequelize.Op.lte ]: member.exp } },
           order: [ [ 'threshold', 'DESC' ] ],
           attributes: [ 'id' ]
         });
@@ -48,7 +45,7 @@ export default class extends Listener {
       return;
     }
 
-    const commandHandler = client.commandHandler;
+    const commandHandler = this.client.commandHandler;
     const command = commandHandler.modules.get('tag-show');
     const args = await command.parse(message, message.util.parsed.afterPrefix);
 

@@ -1,6 +1,5 @@
 import { Role } from 'discord.js';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -25,10 +24,9 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { role }: { role: Role }) {
-    const client = this.client as ErosClient;
-    const oldRole = client.guildSettings.get(message.guild.id, 'nsfwRole', null);
+    const oldRole = this.client.guildSettings.get(message.guild.id, 'nsfwRole', null);
     const resolvedRole = message.guild.roles.get(oldRole);
-    await client.guildSettings.set(message.guild.id, 'nsfwRole', role.id);
+    await this.client.guildSettings.set(message.guild.id, 'nsfwRole', role.id);
 
     return message.util.reply(
       `I have changed the NSFW Role ${

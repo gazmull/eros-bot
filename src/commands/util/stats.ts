@@ -2,8 +2,6 @@ import { version as akairoVersion } from 'discord-akairo';
 import { version as discordVersion } from 'discord.js';
 import fetch from 'node-fetch';
 // @ts-ignore
-import { docs, url } from '../../../auth';
-// @ts-ignore
 import { description, homepage, version as erosVersion } from '../../../package.json';
 import ErosCommand from '../../struct/command';
 import prettifyMs from '../../util/prettifyMs';
@@ -18,6 +16,7 @@ export default class extends ErosCommand {
 
   public async exec (message: Message) {
     let kamihimedbVersion: string;
+    const { docs, url } = this.client.config;
     const response = await fetch(url.api + 'version', { headers: { Accept: 'application/json' } });
 
     if (!response.ok) kamihimedbVersion = '2.what.ever';
@@ -35,7 +34,7 @@ export default class extends ErosCommand {
         .setTitle('Eros')
         .setDescription(_description)
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))
-        .addField('Author', this.client.users.get(this.client.ownerID as string), true)
+        .addField('Author', this.client.users.get(this.client.ownerID), true)
         .addField('Libraries and Applications', [
           '**Discord.JS**: v' + discordVersion,
           '**Akairo**: v' + akairoVersion,

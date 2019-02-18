@@ -1,5 +1,4 @@
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -9,9 +8,8 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message) {
-    const client = this.client as ErosClient;
-    const loli = client.guildSettings.get(message.guild.id, 'loli', false);
-    await client.guildSettings.set(message.guild.id, 'loli', !loli);
+    const loli = this.client.guildSettings.get(message.guild.id, 'loli', false);
+    await this.client.guildSettings.set(message.guild.id, 'loli', !loli);
 
     return message.util.reply(
       loli

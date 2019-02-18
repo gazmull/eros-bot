@@ -1,9 +1,6 @@
-import { ArgumentOptions, Control, PrefixSupplier } from 'discord-akairo';
+import { ArgumentOptions, Control } from 'discord-akairo';
 import { GuildMember } from 'discord.js';
-// @ts-ignore
-import { emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 import { ITagInstance } from '../../struct/models/factories/tag';
 
 const pageArg: ArgumentOptions = {
@@ -36,8 +33,8 @@ export default class extends ErosCommand {
 
   public async exec (message: Message, { member, page }: { member: GuildMember, page: number }) {
     try {
-      const client = this.client as ErosClient;
-      const factory = client.db.Tag;
+      const factory = this.client.db.Tag;
+      const { emojis } = this.client.config;
 
       if (member) {
         const memberTags = await factory.findAll({
@@ -67,7 +64,7 @@ export default class extends ErosCommand {
           .setPage(page)
           .addField('Help', [
             'React with the emoji below to navigate. ↗ to skip a page.',
-            `See a tag's information with \`${(this.handler.prefix as PrefixSupplier)(message)}\``,
+            `See a tag's information with \`${this.handler.prefix(message)}\``,
           ])
           .formatField('Name', (el: ITagInstance) => el.name)
           .formatField('Times Used', (el: ITagInstance) => el.uses);
@@ -91,7 +88,7 @@ export default class extends ErosCommand {
         .setPage(page)
         .addField('Help', [
           'React with the emoji below to navigate. ↗ to skip a page.',
-          `See a tag's information with \`${(this.handler.prefix as PrefixSupplier)(message)}tag info <tag name>\``,
+          `See a tag's information with \`${this.handler.prefix(message)}tag info <tag name>\``,
         ])
         .formatField('Name', (el: ITagInstance) => el.name)
         .formatField('Times Used', (el: ITagInstance) => el.uses);

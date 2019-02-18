@@ -1,8 +1,6 @@
-import { Inhibitor } from 'discord-akairo';
-// @ts-ignore
-import { blacklist } from '../../../auth';
+import ErosInhibitor from '../../struct/inhibitor';
 
-export default class extends Inhibitor {
+export default class extends ErosInhibitor {
   constructor () {
     super('guildInhibit', {
       reason: 'blacklisted server',
@@ -11,6 +9,6 @@ export default class extends Inhibitor {
   }
 
   public exec (message: Message) {
-    return message.guild && blacklist.includes(message.guild.id);
+    return message.guild && this.client.config.blacklist.includes(message.guild.id);
   }
 }

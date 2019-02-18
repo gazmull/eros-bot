@@ -1,6 +1,4 @@
 import fetch from 'node-fetch';
-// @ts-ignore
-import { url } from '../../../auth';
 import ErosComamnd from '../../struct/command';
 
 const END_POINT = 'https://8ball.delegator.com/magic/JSON/';
@@ -42,6 +40,7 @@ export default class extends ErosComamnd {
     if (!response.ok) return message.util.edit('There was a problem: ' + response.statusText);
 
     const { magic: { answer, type } }: IMagic8 = await response.json();
+    const url = this.client.config.url;
     const cherryResponse = await fetch(url.api + 'random', { headers: { Accept: 'application/json' } });
 
     if (!response.ok) return message.util.edit('There was a problem: ' + response.statusText);

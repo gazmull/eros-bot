@@ -1,6 +1,4 @@
-import { PrefixSupplier } from 'discord-akairo';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -13,7 +11,6 @@ export default class extends ErosCommand {
   }
 
   public exec (message: Message) {
-    const client = this.client as ErosClient;
     const memberCount = message.guild.memberCount;
     const presenceCount = message.guild.presences.filter(m => m.status !== 'offline').size;
     const factoryChannels = [ 'nsfwChannel', 'twitterChannel', 'cdChannel' ];
@@ -21,23 +18,23 @@ export default class extends ErosCommand {
     const filterChannels = (channelType: string) => message.guild.channels.filter(c => c.type === channelType).size;
     const getRecord = (guildID: string, column: string) => {
       if (factoryRoles.includes(column)) {
-        const guild = client.guilds.get(guildID);
-        const role = client.guildSettings.get(guildID, column, null);
+        const guild = this.client.guilds.get(guildID);
+        const role = this.client.guildSettings.get(guildID, column, null);
 
         return role ? guild.roles.get(role) : 'Not Configured';
       } else if (factoryChannels.includes(column)) {
-        const channel = client.guildSettings.get(guildID, column, null);
+        const channel = this.client.guildSettings.get(guildID, column, null);
 
-        return channel ? client.channels.get(channel) : 'Not Configured';
+        return channel ? this.client.channels.get(channel) : 'Not Configured';
       }
 
-      return client.guildSettings.get(guildID, column, null);
+      return this.client.guildSettings.get(guildID, column, null);
     };
 
     const embed = this.util.embed(message)
       .setTitle(message.guild.name)
       .setDescription(`Created at ${message.guild.createdAt.toUTCString()}`)
-      .setThumbnail(message.guild.iconURL() ? message.guild.iconURL() : client.user.displayAvatarURL())
+      .setThumbnail(message.guild.iconURL() ? message.guild.iconURL() : this.client.user.displayAvatarURL())
       .setTimestamp(new Date())
       .addField('Online Members', `${presenceCount} / ${memberCount}`, true)
       .addField('Channels',
@@ -45,7 +42,7 @@ export default class extends ErosCommand {
         true
       )
       .addField('Roles Count', message.guild.roles.size, true)
-      .addField('Prefix', `\`${(this.handler.prefix as PrefixSupplier)(message)}\``, true)
+      .addField('Prefix', `\`${this.handler.prefix(message)}\``, true)
       .addField('Twitter Channel', getRecord(message.guild.id, 'twitterChannel'))
       .addField('Countdown Channel', getRecord(message.guild.id, 'cdChannel'), true)
       .addField('Countdown Subscriber Role', getRecord(message.guild.id, 'cdRole'), true)

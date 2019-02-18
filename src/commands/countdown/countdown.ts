@@ -1,12 +1,7 @@
-import { Command, PrefixSupplier } from 'discord-akairo';
 import { Collection, User } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as moment from 'moment-timezone';
-// @ts-ignore
-import { countdownAuthorized, emojis } from '../../../auth';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
-// import ErosClient from '../../struct/ErosClient';
 import prettifyMs from '../../util/prettifyMs';
 
 export default class extends ErosCommand {
@@ -52,7 +47,7 @@ export default class extends ErosCommand {
   public userCountdowns: Collection<number, string[]> = new Collection();
 
   public authorized (user: User) {
-    return countdownAuthorized.includes(user.id);
+    return this.client.config.countdownAuthorized.includes(user.id);
   }
 
   public async exec (message: Message, { method, details }: { method: string, details: string }) {
@@ -62,7 +57,7 @@ export default class extends ErosCommand {
     if (method === 'current') return message.util.reply(`Current time is: ${moment.tz(this.timezone)}`);
     if (method === 'help') return this.authorisedHelp(message);
 
-    const commands: { [key: string]: Command } = {
+    const commands: { [key: string]: ErosCommand } = {
       add: this.handler.modules.get('countdown-add'),
       del: this.handler.modules.get('countdown-delete'),
       delete: this.handler.modules.get('countdown-delete'),
@@ -88,7 +83,7 @@ export default class extends ErosCommand {
   }
 
   public authorisedHelp (message: Message) {
-    const prefix = (this.handler.prefix as PrefixSupplier)(message);
+    const prefix = this.handler.prefix(message);
     const embed = this.util.embed(message)
       .setColor(0xFF00AE)
       .addField('Adding a Countdown', [
@@ -160,9 +155,8 @@ export default class extends ErosCommand {
         const parsedDate = date.valueOf();
 
         this.checkDuplicate(this.countdowns, { name, date: parsedDate });
-        const client = this.client as ErosClient;
 
-        if (client.scheduler) client.scheduler.add(parsedDate, name);
+        if (this.client.scheduler) this.client.scheduler.add(parsedDate, name);
       }
     }
 

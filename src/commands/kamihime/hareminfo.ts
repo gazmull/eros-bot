@@ -1,10 +1,6 @@
-import { PrefixSupplier } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
-// @ts-ignore
-import { emojis, url } from '../../../auth';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -44,6 +40,8 @@ export default class extends ErosCommand {
 
   public async exec (message: Message, { character }: { character: string }) {
     try {
+      const { emojis, url } = this.client.config;
+
       await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
 
       const request = await fetch(`${url.api}search?name=${encodeURI(character)}`, {
@@ -71,12 +69,14 @@ export default class extends ErosCommand {
   }
 
   public async awaitSelection (message: Message, rows: IKamihimeDB[]) {
-    const client = this.client as ErosClient;
-    const character = await client.util.selection.exec(message, rows);
+    const character = await this.client.util.selection.exec(message, rows);
 
     if (!character) return;
 
-    const data = await fetch(`${url.api}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const data = await fetch(
+      `${this.client.config.url.api}id/${character.id}`,
+      { headers: { Accept: 'application/json' } }
+    );
     const _character = await data.json();
 
     if (_character.error) throw _character.error.message;
@@ -85,12 +85,11 @@ export default class extends ErosCommand {
   }
 
   public async triggerDialog (message: Message, result: IKamihimeDB) {
-    const client = this.client as ErosClient;
-
     try {
-      const prefix = (this.handler.prefix as PrefixSupplier)(message);
+      const { url, emojis } = this.client.config;
+      const prefix = this.handler.prefix(message);
       const guild = message.guild;
-      const restricted = guild ? client.guildSettings.get(guild.id, 'loli', null) : null;
+      const restricted = guild ? this.client.guildSettings.get(guild.id, 'loli', null) : null;
 
       if (result.loli && restricted)
         throw new Error(`This character has loli contents, but loli contents are restricted within this server.${
@@ -143,7 +142,7 @@ export default class extends ErosCommand {
         .setAuthor(result.name, null, `${url.fandom}${encodeURI(result.name)}`)
         .setDescription(
           `${result.loli ? '**Flagged as Loli**' : ''}${
-            new RegExp(result.name.replace(/[()]/g, '\\$&')).test(client.user.username)
+            new RegExp(result.name.replace(/[()]/g, '\\$&')).test(this.client.user.username)
               ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${emojis.embarassed}`
               : ''}`
         )
@@ -175,7 +174,7 @@ export default class extends ErosCommand {
       if (!channel.guild)
         return message.util.edit(embed);
 
-      const nsfwChannelID = client.guildSettings.get(guild.id, 'nsfwChannel', null);
+      const nsfwChannelID = this.client.guildSettings.get(guild.id, 'nsfwChannel', null);
       const nsfwChannel = guild.channels.get(nsfwChannelID) as TextChannel;
 
       if (!nsfwChannel)

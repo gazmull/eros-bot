@@ -1,6 +1,5 @@
 import { GuildMember } from 'discord.js';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -33,8 +32,7 @@ export default class extends ErosCommand {
 
       if (!fetchedMember) throw new Error('Member cache missing');
 
-      const client = this.client as ErosClient;
-      const res = await client.db.Level.findOrCreate({
+      const res = await this.client.db.Level.findOrCreate({
         where: { user: fetchedMember.id, guild: message.guild.id },
         attributes: [ 'title', 'exp' ]
       });
@@ -42,13 +40,13 @@ export default class extends ErosCommand {
       if (!res[0]) throw new Error('Cannot resolve the member.');
 
       const [ levelMember ] = res;
-      const ranking = await client.db.Level.findAll({
+      const ranking = await this.client.db.Level.findAll({
         where: { guild: message.guild.id },
         order: [ [ 'exp', 'DESC' ] ],
         attributes: [ 'user' ]
       });
-      const titlesMember = await client.db.Title.findAll({
-        where: { [client.db.Sequelize.Op.or]: [ { id: levelMember.title }, { id: levelMember.title + 1 } ] },
+      const titlesMember = await this.client.db.Title.findAll({
+        where: { [this.client.db.Sequelize.Op.or]: [ { id: levelMember.title }, { id: levelMember.title + 1 } ] },
         order: [ [ 'id', 'ASC' ] ],
         attributes: [ 'id', 'name', 'threshold' ]
       });

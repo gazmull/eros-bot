@@ -1,6 +1,4 @@
-import { PrefixSupplier } from 'discord-akairo';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -16,11 +14,10 @@ export default class extends ErosCommand {
 
   public async exec (message: Message) {
     const guild = message.guild;
-    const client = this.client as ErosClient;
-    const cdRole = client.guildSettings.get(guild.id, 'cdRole', null);
-    const cdChannel = client.guildSettings.get(guild.id, 'cdChannel', null);
+    const cdRole = this.client.guildSettings.get(guild.id, 'cdRole', null);
+    const cdChannel = this.client.guildSettings.get(guild.id, 'cdChannel', null);
     const resolvedChannel = guild.channels.get(cdChannel);
-    const prefix = (this.handler.prefix as PrefixSupplier)(message);
+    const prefix = this.handler.prefix(message);
 
     if (!cdRole || !resolvedChannel)
       return message.util.reply(

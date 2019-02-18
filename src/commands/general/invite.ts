@@ -1,5 +1,3 @@
-// @ts-ignore
-import { docs, inviteLink } from '../../../auth';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {
@@ -11,10 +9,10 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message) {
-    const client = this.client;
-    const owner = await client.users.fetch(client.ownerID as string);
+    const { docs, inviteLink } = this.client.config;
+    const owner = await this.client.users.fetch(this.client.ownerID);
     const embed = this.util.embed(message)
-      .setThumbnail(client.user.displayAvatarURL())
+      .setThumbnail(this.client.user.displayAvatarURL())
       .setDescription([
         `Documentation: <${docs}>`,
         `Invite link: <${inviteLink}>`,

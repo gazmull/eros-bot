@@ -1,17 +1,17 @@
 // tslint:disable-next-line:max-line-length
 import IErosClientOptions from 'auth';
-import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, SequelizeProvider } from 'discord-akairo';
+import { AkairoClient, InhibitorHandler, ListenerHandler, SequelizeProvider } from 'discord-akairo';
 import * as Fandom from 'nodemw';
 import { promisify } from 'util';
-// @ts-ignore
-import { defaultPrefix } from '../../auth';
 import GuideCommand from '../commands/general/guide';
 import CountdownScheduler from '../functions/CountdownScheduler';
 import ErosError from '../struct/ErosError';
 import { create } from '../struct/models';
 import { status } from '../util/console';
 import Command from './command';
+import ErosCommandHandler from './command/commandHandler';
 import CommandHandlerResolverTypes from './command/resolverTypes';
+import ErosListener from './listener';
 import Selection from './util/Selection';
 
 const db = create();
@@ -30,7 +30,7 @@ export default class ErosClient extends AkairoClient {
     this.commandHandler.resolver.addTypes(new CommandHandlerResolverTypes(this).distribute());
   }
 
-  public commandHandler = new CommandHandler(this, {
+  public commandHandler = new ErosCommandHandler(this, {
     allowMention: true,
     automateCategories: true,
     // @ts-ignore and file an issue for this: it should infer Function? instead of string?
@@ -51,7 +51,7 @@ export default class ErosClient extends AkairoClient {
     prefix: message => {
       if (!message.guild) return '';
 
-      return this.guildSettings.get(message.guild.id, 'prefix', defaultPrefix);
+      return this.guildSettings.get(message.guild.id, 'prefix', this.config.defaultPrefix);
     }
   });
 
@@ -62,10 +62,14 @@ export default class ErosClient extends AkairoClient {
 
   public listenerHandler = new ListenerHandler(this, {
     automateCategories: true,
+    // @ts-ignore and file an issue for this: it should infer Function? instead of string?
+    classToHandle: ErosListener,
     directory: `${__dirname}/../listeners`
   });
 
   public config: IErosClientOptions;
+
+  public ownerID: string;
 
   public guildSettings = new SequelizeProvider(db.Guild, { idColumn: 'id' });
 

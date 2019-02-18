@@ -1,7 +1,4 @@
-import { PrefixSupplier } from 'discord-akairo';
 import fetch from 'node-fetch';
-// @ts-ignore
-import { emojis, url } from '../../../auth';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {
@@ -39,6 +36,8 @@ export default class extends ErosCommand {
   public async exec (message: Message, { filter, advanced }: { filter: string, advanced: boolean }) {
     try {
       if (filter.toLowerCase() === 'variables') return this.helpDialog(message);
+
+      const { emojis, url } = this.client.config;
       const lastResponse = await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
       const args = filter.toLowerCase().trim().split(/ +/g);
@@ -71,7 +70,7 @@ export default class extends ErosCommand {
   }
 
   public helpDialog (message: Message) {
-    const prefix = (this.handler.prefix as PrefixSupplier)(message);
+    const prefix = this.handler.prefix(message);
     const embed = this.util.embed(message)
       .setTitle('Filter Variables')
       .setDescription(

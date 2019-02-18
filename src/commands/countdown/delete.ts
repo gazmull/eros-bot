@@ -1,5 +1,4 @@
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 import CountdownCommand from './countdown';
 
 export default class extends ErosCommand {
@@ -35,7 +34,7 @@ export default class extends ErosCommand {
     parent.countdowns.delete(found);
     await parent.save();
 
-    (this.client as ErosClient).scheduler.emit('delete', date, name);
+    this.client.scheduler.emit('delete', date, name);
 
     return message.util.reply(`\`${name}\` countdown removed!`);
   }

@@ -2,6 +2,8 @@ import { Command, CommandOptions } from 'discord-akairo';
 import { Embeds, FieldsEmbed } from 'discord-paginationembed';
 import { MessageEmbed } from 'discord.js';
 import GuideCommand from '../../commands/general/guide';
+import ErosClient from '../ErosClient';
+import ErosCommandHandler from './commandHandler';
 
 export default class ErosCommand extends Command {
   constructor (id: string, options: ICommandOptions) {
@@ -9,6 +11,10 @@ export default class ErosCommand extends Command {
 
     this.noTrash = options.noTrash || false;
   }
+
+  public client: ErosClient;
+
+  public handler: ErosCommandHandler;
 
   public noTrash: boolean;
 

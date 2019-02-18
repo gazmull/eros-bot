@@ -1,7 +1,4 @@
-import IErosClientOptions from 'auth';
 import { MessageEmbed } from 'discord.js';
-// @ts-ignore
-import { url } from '../../../../auth';
 import ErosClient from '../../ErosClient';
 
 export default class Info {
@@ -26,11 +23,13 @@ export default class Info {
     Standard: 0xb4632c
   };
 
-  public apiURI: IErosClientOptions['url']['api'] = url.api;
-
-  public fandomURI: IErosClientOptions['url']['fandom'] = url.fandom;
-
   public client: ErosClient;
+
+  public apiURI = this.client.config.url.api;
+
+  public fandomURI = this.client.config.url.fandom;
+
+  public rootURI = this.client.config.url.root;
 
   public prefix: string;
 
@@ -125,14 +124,14 @@ export default class Info {
   get itemPortrait () {
     const res = this.res;
 
-    return encodeURI(`${url.root}img/wiki/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
+    return encodeURI(`${this.rootURI}img/wiki/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
   }
 
   get itemPreview () {
     const res = this.res;
     const isWeap = res.id.startsWith('w');
     const result = encodeURI(
-      `${url.root}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`
+      `${this.rootURI}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`
     );
 
     this.character.preview = result;
@@ -141,6 +140,6 @@ export default class Info {
   }
 
   get itemLink () {
-    return `${url.fandom}${encodeURI(this.character.name)}`;
+    return `${this.fandomURI}${encodeURI(this.character.name)}`;
   }
 }

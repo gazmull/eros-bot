@@ -1,11 +1,7 @@
-import { PrefixSupplier } from 'discord-akairo';
 import { MessageEmbed } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
 import fetch from 'node-fetch';
-// @ts-ignore
-import { emojis, url } from '../../../auth';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 import { Eidolon, Kamihime, Soul, Weapon } from '../../struct/Info';
 import EidolonInfo from '../../struct/info/sub/EidolonInfo';
 import KamihimeInfo from '../../struct/info/sub/KamihimeInfo';
@@ -84,7 +80,7 @@ export default class extends ErosCommand {
         if (type) type = `&class=${type}`;
       }
 
-      await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
+      await message.util.send(`${this.client.config.emojis.loading} Awaiting KamihimeDB's response...`);
 
       const data = await this.acquire(item, false, type);
 
@@ -98,6 +94,7 @@ export default class extends ErosCommand {
 
   public async acquire (item: string, accurate = false, type: string = null) {
     const typeQ = type || '';
+    const { url } = this.client.config;
     const request = await fetch(`${url.api}search?name=${encodeURI(item)}${typeQ}`, {
       headers: { Accept: 'application/json' }
     });
@@ -138,8 +135,7 @@ export default class extends ErosCommand {
   }
 
   public async parseArticle (item: string) {
-    const client = this.client as ErosClient;
-    const rawData = await client.util.getArticle(item);
+    const rawData = await this.client.util.getArticle(item);
     const sanitisedData = (data: string) => {
       if (!data) throw new Error(`API returned no item named ${item} found.`);
       const slicedData = data.indexOf('==') === -1
@@ -168,8 +164,8 @@ export default class extends ErosCommand {
     const infoSub = await this.parseArticle(template.character.releases);
 
     return new Kamihime(
-      this.client as ErosClient,
-      (this.handler.prefix as PrefixSupplier)(message) as string,
+      this.client,
+      this.handler.prefix(message) as string,
       db.info,
       infoSub
     );
@@ -179,16 +175,18 @@ export default class extends ErosCommand {
     const db = await this.acquire(template.character.releaseWeapon, true);
     const infoSub = await this.parseArticle(template.character.releaseWeapon);
 
-    return new Weapon(this.client as ErosClient, null, db.info, infoSub);
+    return new Weapon(this.client, null, db.info, infoSub);
   }
 
   public async awaitSelection (message: Message, rows: IKamihimeDB[]) {
-    const client = this.client as ErosClient;
-    const character = await client.util.selection.exec(message, rows);
+    const character = await this.client.util.selection.exec(message, rows);
 
     if (!character) return;
 
-    const data = await fetch(`${url.api}id/${character.id}`, { headers: { Accept: 'application/json' } });
+    const data = await fetch(
+      `${this.client.config.url.api}id/${character.id}`,
+      { headers: { Accept: 'application/json' } }
+    );
     const _character = await data.json();
 
     if (_character.error) throw _character.error.message;
@@ -197,12 +195,10 @@ export default class extends ErosCommand {
   }
 
   public async triggerDialog (message: IMessage, item: string, dbRes: IKamihimeDB) {
-    const client = this.client as ErosClient;
-
     try {
-      await message.util.edit(`${emojis.loading} Awaiting Fandom's response...`, { embed: null });
-      const prefix = (this.handler.prefix as PrefixSupplier)(message) as string;
-      const [ category ] = await client.util.getArticleCategories(item);
+      await message.util.edit(`${this.client.config.emojis.loading} Awaiting Fandom's response...`, { embed: null });
+      const prefix = this.handler.prefix(message) as string;
+      const [ category ] = await this.client.util.getArticleCategories(item);
       const info = await this.parseArticle(item);
       let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo;
       let template2: KamihimeInfo | WeaponInfo;
@@ -210,16 +206,16 @@ export default class extends ErosCommand {
 
       switch (category) {
         case 'Category:Kamihime':
-          template = new Kamihime(client, prefix, dbRes, info);
+          template = new Kamihime(this.client, prefix, dbRes, info);
           break;
         case 'Category:Eidolons':
-          template = new Eidolon(client, prefix, dbRes, info);
+          template = new Eidolon(this.client, prefix, dbRes, info);
           break;
         case 'Category:Souls':
-          template = new Soul(client, prefix, dbRes, info);
+          template = new Soul(this.client, prefix, dbRes, info);
           break;
         case 'Category:Weapons':
-          template = new Weapon(client, prefix, dbRes, info);
+          template = new Weapon(this.client, prefix, dbRes, info);
           break;
         default: return message.util.edit(':x: Invalid article.');
       }

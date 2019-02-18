@@ -1,6 +1,4 @@
 import fetch from 'node-fetch';
-// @ts-ignore
-import { emojis, url } from '../../../auth';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {
@@ -47,6 +45,8 @@ export default class extends ErosCommand {
     { character, advanced, isID }: { character: string, advanced: boolean, isID: boolean }
   ) {
     try {
+      const { emojis, url } = this.client.config;
+
       await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
 
       if (isID) return this.searchID(message, character);
@@ -77,7 +77,10 @@ export default class extends ErosCommand {
 
   public async searchID (message: Message, character: string) {
     try {
-      const data = await fetch(`${url.api}id/${character}`, { headers: { Accept: 'application/json' } });
+      const data = await fetch(
+        `${this.client.config.url.api}id/${character}`,
+        { headers: { Accept: 'application/json' } }
+      );
       const _character = await data.json();
 
       if (_character.error) throw new Error(`ID ${character} does not exist.`);

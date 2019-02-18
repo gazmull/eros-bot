@@ -1,5 +1,4 @@
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -26,8 +25,7 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { name }: { name: string }) {
-    const client = this.client as ErosClient;
-    const tag = await client.db.Tag.findOne({
+    const tag = await this.client.db.Tag.findOne({
       where: {
         name,
         guild: message.guild.id

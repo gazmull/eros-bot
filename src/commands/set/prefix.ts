@@ -1,7 +1,6 @@
 // @ts-ignore
 import { defaultPrefix } from '../../../auth';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -31,9 +30,8 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { prefix }: { prefix: string }) {
-    const client = this.client as ErosClient;
-    const oldPrefix = client.guildSettings.get(message.guild.id, 'prefix', defaultPrefix);
-    await client.guildSettings.set(message.guild.id, 'prefix', prefix);
+    const oldPrefix = this.client.guildSettings.get(message.guild.id, 'prefix', defaultPrefix);
+    await this.client.guildSettings.set(message.guild.id, 'prefix', prefix);
 
     return message.util.reply(`I have changed the server prefix from \`${oldPrefix}\` to \`${prefix}\`.`);
   }

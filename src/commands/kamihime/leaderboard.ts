@@ -1,6 +1,4 @@
 import fetch from 'node-fetch';
-// @ts-ignore
-import { emojis, url } from '../../../auth';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {
@@ -30,6 +28,8 @@ export default class extends ErosCommand {
 
   public async exec (message: Message, { page, advanced }: { page: number, advanced: boolean }) {
     try {
+      const { emojis, url } = this.client.config;
+
       await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
       const data = await fetch(`${url.api}list/approved`, { headers: { Accept: 'application/json' } });

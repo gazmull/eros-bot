@@ -1,6 +1,5 @@
 import { TextChannel } from 'discord.js';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -25,10 +24,9 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { channel }: { channel: TextChannel }) {
-    const client = this.client as ErosClient;
-    const oldChannel = client.guildSettings.get(message.guild.id, 'twitterChannel', null);
-    const resolvedChannel = client.channels.get(oldChannel);
-    await client.guildSettings.set(message.guild.id, 'twitterChannel', channel.id);
+    const oldChannel = this.client.guildSettings.get(message.guild.id, 'twitterChannel', null);
+    const resolvedChannel = this.client.channels.get(oldChannel);
+    await this.client.guildSettings.set(message.guild.id, 'twitterChannel', channel.id);
 
     return message.util.reply(
       `I have changed the Twitter Channel ${

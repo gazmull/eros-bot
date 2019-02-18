@@ -1,5 +1,4 @@
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -52,10 +51,9 @@ export default class extends ErosCommand {
       return this.fail(message);
     }
 
-    const client = this.client as ErosClient;
     const isManager = message.member.hasPermission('MANAGE_GUILD');
 
-    await client.db.Tag.create({
+    await this.client.db.Tag.create({
       author: message.author.id,
       content,
       guild: message.guild.id,

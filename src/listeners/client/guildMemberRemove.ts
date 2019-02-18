@@ -1,8 +1,7 @@
-import { Listener } from 'discord-akairo';
 import { GuildMember } from 'discord.js';
-import ErosClient from '../../struct/ErosClient';
+import ErosListener from '../../struct/listener';
 
-export default class extends Listener {
+export default class extends ErosListener {
   constructor () {
     super('guildMemberRemove', {
       event: 'guildMemberRemove',
@@ -11,9 +10,7 @@ export default class extends Listener {
   }
 
   public async exec (member: GuildMember) {
-    const client = this.client as ErosClient;
-
-    return client.db.Level.destroy({ where: {
+    return this.client.db.Level.destroy({ where: {
         user: member.id,
         guild: member.guild.id
       }

@@ -1,11 +1,8 @@
-import { Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
-// @ts-ignore
-import { defaultPrefix, docs } from '../../../auth';
-import ErosClient from '../../struct/ErosClient';
+import ErosListener from '../../struct/listener';
 import { error, status } from '../../util/console';
 
-export default class extends Listener {
+export default class extends ErosListener {
   constructor () {
     super('guildCreate', {
       emitter: 'client',
@@ -15,6 +12,7 @@ export default class extends Listener {
 
   /* tslint:disable:max-line-length */
   public async exec (guild: Guild) {
+    const { defaultPrefix, docs } = this.client.config;
     const guildSize = guild.client.guilds.size;
 
     try {
@@ -24,9 +22,8 @@ export default class extends Listener {
       const nsfwChannel = guild.channels.find(c => /nsfw/ig.test(c.name));
       const nsfwRole = guild.roles.find(r => /nsfw/ig.test(r.name));
       const existing = [ cdChannel, cdRole, twitterChannel, nsfwChannel, nsfwRole ].filter(el => el);
-      const client = this.client as ErosClient;
 
-      await client.db.Guild.create({
+      await this.client.db.Guild.create({
         id: guild.id,
         loli: false,
         cdChannel: cdChannel ? cdChannel.id : null,
@@ -64,12 +61,9 @@ export default class extends Listener {
       if (err.name === 'SequelizeUniqueConstraintError')
         return status(`${guild.name} (ID: ${guild.id}) already exists, joined anyway. ${guildSize} total guilds.`);
 
-      const client = guild.client as ErosClient;
-      const ownerID = client.ownerID as string;
-
       await guild.owner.send([
         'I left your guild because there was a problem initiating your guild.',
-        `If the issue persists, please contact ${guild.client.users.get(ownerID)}`,
+        `If the issue persists, please contact ${guild.client.users.get(this.client.ownerID)}`,
         `Error: ${err}`,
       ]);
       guild.leave();

@@ -1,6 +1,5 @@
 import { GuildMember } from 'discord.js';
 import ErosCommand from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 
 export default class extends ErosCommand {
   constructor () {
@@ -22,8 +21,7 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { member }: { member: GuildMember }) {
-    const client = this.client as ErosClient;
-    const factory = client.db.Tag;
+    const factory = this.client.db.Tag;
 
     if (member) {
       const memberTags = await factory.findAll({
