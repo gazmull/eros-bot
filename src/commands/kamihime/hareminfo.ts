@@ -44,14 +44,14 @@ export default class extends ErosCommand {
 
       await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
 
-      const request = await fetch(`${url.api}search?name=${encodeURI(character)}`, {
+      const request = await fetch(`${url.api}search?name=${encodeURI(character)}&approved=1`, {
         headers: { Accept: 'application/json' }
       });
       const data = await request.json();
+      const error = (data as IKamihimeDB).error;
+      const rows: IKamihimeDB[] = data;
 
-      if (data.error) throw data.error.message;
-
-      const rows = (data as IKamihimeDB[]).filter(c => ![ 'x', 'w' ].includes(c.id.charAt(0)));
+      if (error) throw error.message;
 
       if (!rows.length) return message.util.edit(`No character named ${character} found.`);
       else if (rows.length === 1) {
