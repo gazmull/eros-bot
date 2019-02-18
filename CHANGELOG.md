@@ -49,6 +49,7 @@ Any changes mentioned above won't be re-listed here below, so please visit the l
 - Namings: Column names from the database's tables had their `ID` suffix removed
 
 ## Fixes
+- Commands: Fixed harem episodes check not showing on Souls
 - Commands: "Required Permissions" fields are now prettier and according to Discord Client UI
 - Commands: Usage notations are now appropriate according to the documentation
-- Twitter: Duplicate posts are no longer a threat. So please don't pressure me on chopping more of my fingers off anymore! :blobsob:
+- Functions: Twitter duplicate posts are no longer a threat. So please don't pressure me on chopping more of my fingers off anymore! :blobsob:
