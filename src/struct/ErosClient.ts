@@ -125,7 +125,6 @@ export default class ErosClient extends AkairoClient {
       server: 'kamihime-project.fandom.com'
     });
     this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this._fandomApi));
-    this.util.getArticleCategories = promisify(this.fandomApi.getArticleCategories.bind(this._fandomApi));
     status(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
 
     return this.login(this.config.token);

@@ -9,7 +9,6 @@ declare global {
   interface IClientUtil extends ClientUtil {
     selection: Selection;
     getArticle: (title: string) => Promise<string>;
-    getArticleCategories: (title: string) => Promise<string>;
   }
 
   interface IDialog {
@@ -181,6 +180,11 @@ declare global {
   }
 
   interface IKamihimeDB extends IKamihimeFandom {
+    error?: {
+      code: number;
+      message?: string|string[];
+      stack?: string;
+    };
     _rowId: number;
     approved: number;
     harem1Resource1?: string;

@@ -194,27 +194,40 @@ export default class extends ErosCommand {
     await this.triggerDialog(message, character.name, _character);
   }
 
+  public getCategory (id: string) {
+    const discriminator = id.charAt(0);
+
+    switch (discriminator) {
+      default: return null;
+      case 's': return 'soul';
+      case 'e':
+      case 'x': return 'eidolon';
+      case 'k': return 'kamihime';
+      case 'w': return 'weapon';
+    }
+  }
+
   public async triggerDialog (message: IMessage, item: string, dbRes: IKamihimeDB) {
     try {
       await message.util.edit(`${this.client.config.emojis.loading} Awaiting Fandom's response...`, { embed: null });
       const prefix = this.handler.prefix(message) as string;
-      const [ category ] = await this.client.util.getArticleCategories(item);
+      const category = this.getCategory(dbRes.id);
       const info = await this.parseArticle(item);
       let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo;
       let template2: KamihimeInfo | WeaponInfo;
       let format2: MessageEmbed;
 
       switch (category) {
-        case 'Category:Kamihime':
+        case 'kamihime':
           template = new Kamihime(this.client, prefix, dbRes, info);
           break;
-        case 'Category:Eidolons':
+        case 'eidolon':
           template = new Eidolon(this.client, prefix, dbRes, info);
           break;
-        case 'Category:Souls':
+        case 'soul':
           template = new Soul(this.client, prefix, dbRes, info);
           break;
-        case 'Category:Weapons':
+        case 'weapon':
           template = new Weapon(this.client, prefix, dbRes, info);
           break;
         default: return message.util.edit(':x: Invalid article.');

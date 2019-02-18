@@ -5,6 +5,12 @@ export default class Info {
   constructor (client: ErosClient, prefix: string, res: IKamihimeDB, character: IKamihimeFandom) {
     this.client = client;
 
+    this.apiURI  = this.client.config.url.api;
+
+    this.fandomURI = this.client.config.url.fandom;
+
+    this.rootURI = this.client.config.url.root;
+
     this.prefix = prefix;
 
     this.res = res;
@@ -25,11 +31,11 @@ export default class Info {
 
   public client: ErosClient;
 
-  public apiURI = this.client.config.url.api;
+  public apiURI: string;
 
-  public fandomURI = this.client.config.url.fandom;
+  public fandomURI: string;
 
-  public rootURI = this.client.config.url.root;
+  public rootURI: string;
 
   public prefix: string;
 
