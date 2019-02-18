@@ -45,7 +45,7 @@
     "discord.js": "github:discordjs/discord.js",
     "erlpack": "github:discordapp/erlpack",
     "fs-extra": "^7.0.1",
-    "infobox-parser": "^3.1.1",
+    "infobox-parser": "^3.2.0",
     "moment-timezone": "^0.5.23",
     "mysql2": "^1.6.5",
     "node-fetch": "^2.3.0",
