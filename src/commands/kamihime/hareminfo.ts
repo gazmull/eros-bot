@@ -69,7 +69,7 @@ export default class extends ErosCommand {
   }
 
   public async awaitSelection (message: Message, rows: IKamihimeDB[]) {
-    const character = await this.client.util.selection.exec(message, rows);
+    const character = await this.client.util.selection.exec(message, this, rows);
 
     if (!character) return;
 

@@ -1,12 +1,14 @@
 // @ts-ignore
 import { supportLink } from '../../auth';
 import { error as err } from '../util/console';
+import ErosCommand from './command';
 
 export default class ErosError {
 
   /**
    * Constructor for ErosError.
    * @param message - The Message object of the client.
+   * @param command - The command that was used.
    * @param error - The Error object, if there is one.
    * @param code - Available Codes
    *     - `0`: Client Error (default)
@@ -14,8 +16,10 @@ export default class ErosError {
    *     - `2`: Kamihime Fandom Request
    *     - `3`: Menu Selection
    */
-  constructor (message: Message, error: Error = null, code = 0) {
+  constructor (message: Message, command: ErosCommand, error: Error = null, code = 0) {
     this.message = message;
+
+    this.command = command;
 
     this.err = error;
 
@@ -26,6 +30,8 @@ export default class ErosError {
 
   protected message: Message;
 
+  protected command: ErosCommand;
+
   protected err: Error;
 
   protected code: number;
@@ -34,6 +40,7 @@ export default class ErosError {
     if (this.err) err(this.err);
 
     let step: string;
+    let title = 'An error occured';
 
     switch (this.code) {
      case 0: step = 'Client Error'; break;
@@ -42,8 +49,10 @@ export default class ErosError {
      case 3: step = 'Menu Selection'; break;
     }
 
+    if (this.command) title = `Command **\`${this.command.id}\`** failed`;
+
     const message = [
-      'I cannot complete the command because:',
+      `${title}:`,
       '\`\`\`x1',
       `${this.err}\`\`\`${this.code >= 0 && this.code <= 3 ? `Step: ${step}` : step}`,
       `\nIs it a consistent error? Submit an issue here: ${supportLink}`,

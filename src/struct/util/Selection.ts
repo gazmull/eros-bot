@@ -1,4 +1,5 @@
 import { TextChannel } from 'discord.js';
+import ErosCommand from '../command';
 import ErosClient from '../ErosClient';
 
 export default class {
@@ -8,7 +9,7 @@ export default class {
 
   protected client: ErosClient;
 
-  public async exec (message: Message, rows: IKamihimeDB[]) {
+  public async exec (message: Message, command: ErosCommand, rows: IKamihimeDB[]) {
     const client = this.client;
     const embed = client.util.embed()
       .setColor(0xFF00AE)
@@ -50,7 +51,8 @@ export default class {
       if (message.guild && channel.permissionsFor(message.guild.me).has('MANAGE_MESSAGES'))
         response.delete();
     } catch (err) {
-      if (err instanceof Error) new client.ErosError(message, err, 3); // tslint:disable-line:no-unused-expression
+      // tslint:disable-next-line:no-unused-expression
+      if (err instanceof Error) new client.ErosError(message, command, err, 3);
       else message.util.edit('Selection expired.', { embed: null });
     }
 

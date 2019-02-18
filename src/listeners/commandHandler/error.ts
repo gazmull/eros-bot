@@ -11,7 +11,7 @@ export default class extends ErosListener {
   }
 
   public exec (err: IError, message: Message, command: ErosCommand) {
-    if (command && message) return new ErosError(message, err, err.step);
+    if (command && message) return new ErosError(message, command, err, err.step);
   }
 }
 
