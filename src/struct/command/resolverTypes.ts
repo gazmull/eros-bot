@@ -18,6 +18,19 @@ export default class CommandHandlerResolverTypes {
 
         return phrase.endsWith('?') ? phrase : null;
       },
+      interval: phrase => {
+        if (!phrase) return phrase;
+
+        let minutes = Math.abs(parseInt(phrase));
+
+        if (isNaN(minutes)) return null;
+
+        minutes *= 60e3;
+
+        const trueMinutes = minutes / 1000 / 60;
+
+        return trueMinutes > 30 ? null : minutes;
+      },
       existingCountdown: phrase => {
         if (!phrase) return null;
 

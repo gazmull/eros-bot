@@ -3,7 +3,10 @@
 export default {
   contributors: [ 'Euni' ],
   command: 'quiz',
-  description: [ 'The deployed questionnaire can be answered by everyone in the channel.' ],
+  description: [
+    'The deployed questionnaire can be answered by everyone in the channel.',
+    'Maximum questions in one trigger: **3** for **normal user** | **5** for **user with `Manage Server` permission**',
+  ],
   fields: [
     {
       name: 'This command is featured by Leveling System',
@@ -11,7 +14,7 @@ export default {
     },
     {
       name: 'Warning',
-      value: 'This command will be locked to the server channel until someone gets the correct answer.'
+      value: 'This command will be locked to the server channel until someone gets the correct answer or when the current queue of questions are done.'
     },
   ]
 } as IDialog;
