@@ -1,8 +1,8 @@
-import { Listener } from 'discord-akairo';
 import ErosCommand from '../../struct/command';
 import ErosError from '../../struct/ErosError';
+import ErosListener from '../../struct/listener';
 
-export default class extends Listener {
+export default class extends ErosListener {
   constructor () {
     super('error', {
       emitter: 'commandHandler',

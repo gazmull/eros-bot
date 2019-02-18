@@ -1,9 +1,9 @@
-import { Listener } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
 import ErosCommand from '../../struct/command';
+import ErosListener from '../../struct/listener';
 import { error } from '../../util/console';
 
-export default class extends Listener {
+export default class extends ErosListener {
   constructor () {
     super('commandFinished', {
       emitter: 'commandHandler',
