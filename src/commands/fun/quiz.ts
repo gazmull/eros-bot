@@ -1,14 +1,10 @@
 import fetch from 'node-fetch';
-// @ts-ignore
-import { emojis, url } from '../../../auth';
 import ErosComamnd from '../../struct/command';
-import ErosClient from '../../struct/ErosClient';
 import shuffle from '../../util/shuffle';
 
 type PromptType = 'name' | 'element' | 'rarity' | 'tier' | 'loli' | 'type';
 
 const QUESTIONS: Array<{ text: string, type: PromptType, choices: string[] }> = [
-  { text: 'Is this character a big sister?', type: 'loli', choices: [ 'Yes', 'No' ] },
   { text: 'Who is this character?', type: 'name', choices: null },
   {
     text: 'What is this character\'s element?',
@@ -37,6 +33,7 @@ export default class extends ErosComamnd {
   }
 
   public async exec (message: Message) {
+    const { emojis, url } = this.client.config;
     await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
 
     const response = await fetch(url.api + 'random/4', { headers: { Accept: 'application/json' } });
@@ -46,11 +43,11 @@ export default class extends ErosComamnd {
     const characters: IKamihimeDB[] = await response.json();
     const seed = Math.floor(Math.random() * characters.length);
     const selected = characters[seed];
+    const avatar = url.root + encodeURIComponent(`img/wiki/${selected.avatar}`);
     const name = `shady_pic_${Date.now()}.webp`;
     const filteredQuestions = QUESTIONS.filter(q => selected[q.type] !== null);
     const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
-    const _answer = selected[question.type];
-    const answer = question.type === 'loli' ? (Number(_answer) ? 'No' : 'Yes') : _answer;
+    const answer = selected[question.type];
     let exp = Math.abs(Math.floor(Math.random() * 1000));
 
     if (message.member.hasPermission('MANAGE_GUILD')) exp += 500;
@@ -67,7 +64,7 @@ export default class extends ErosComamnd {
       .setTitle(question.text)
       .setDescription(question.choices.map((v, i) => `**${i + 1}** - \`${v}\`\n`))
       .setFooter(`For ${exp} EXP • Ends within 30 seconds`);
-    const attachment = this.client.util.attachment(url.root + encodeURIComponent(`img/wiki/${selected.avatar}`), name);
+    const attachment = this.client.util.attachment(avatar, name);
 
     await message.util.lastResponse.delete();
     await message.util.send(null, {  embed, files: [ attachment ] });
@@ -84,8 +81,7 @@ export default class extends ErosComamnd {
       }, { max: 1, time: 30 * 1000, errors: [ 'time' ] });
 
       const userResponse = questionResponses.first();
-      const client = this.client as ErosClient;
-      const member = await client.db.Level.findOne({
+      const [ member ] = await this.client.db.Level.findOrCreate({
         where: {
           user: userResponse.author.id,
           guild: message.guild.id
