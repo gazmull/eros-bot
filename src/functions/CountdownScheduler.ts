@@ -35,7 +35,10 @@ export default class extends EventEmitter {
     try {
       this.destroy(date);
 
-      const guilds = await this.client.db.Guild.findAll({ where: { cdChannel: { [Op.ne]: null } } });
+      const guilds = await this.client.db.Guild.findAll({
+        where: { cdChannel: { [Op.ne]: null } },
+        attributes: [ 'cdChannel', 'cdRole' ]
+      });
       const tick = this.client.setInterval(async () => {
         if (!guilds.length) {
           status('CountdownScheduler Module: Distributed ' + names.join(', '));

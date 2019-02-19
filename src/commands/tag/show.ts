@@ -29,7 +29,8 @@ export default class extends ErosCommand {
       where: {
         name,
         guild: message.guild.id
-      }
+      },
+      attributes: [ 'id', 'uses' ]
     });
 
     if (!tag) return;

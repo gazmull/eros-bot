@@ -28,7 +28,8 @@ export default class extends ErosCommand {
         where: {
           author: member.id,
           guild: message.guild.id
-        }
+        },
+        attributes: [ 'id', 'name', 'hoisted' ]
       });
 
       if (!memberTags.length) {
@@ -64,7 +65,10 @@ export default class extends ErosCommand {
       return message.util.send(memberEmbed);
     }
 
-    const tags = await factory.findAll({ where: { guild: message.guild.id } });
+    const tags = await factory.findAll({
+      where: { guild: message.guild.id },
+      attributes: [ 'id',  'name', 'hoisted' ]
+    });
 
     if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
 
