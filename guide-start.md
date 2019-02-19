@@ -6,7 +6,7 @@ Are you familiar with the game? No? These links may help you... but maybe for th
 ## Kamihime Project Wiki
 
 
-[DMM Wiki](https://goo.gl/xPVW9t) | [Nutaku Fandom](https://kamihime-project.fandom.com) ([Discord](https://discord.gg/jFzQsEs))
+[DMM Wiki](https://goo.gl/xPVW9t) | [Nutaku Version Fandom](https://kamihime-project.fandom.com) ([Discord](https://discord.gg/jFzQsEs))
 
 ## Kamihime Project Forums
 
@@ -15,6 +15,8 @@ Are you familiar with the game? No? These links may help you... but maybe for th
 
 ## [Beginner] Guides
 
+
+Nutaku Version Fandom: [Various Game Guide Articles](https://kamihime-project.fandom.com/wiki/Category:Mechanics)
 
 Sanahtlig: [Toolbox](https://goo.gl/bP43qi) | [Game Guide](https://goo.gl/YMcg1h) | [Re-rolling: How to get FREE SSR Kamihime](https://goo.gl/eJffLx)
 

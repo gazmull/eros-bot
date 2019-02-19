@@ -15,7 +15,7 @@ Commenting in a server channel will grant you up to 10 EXP while using LS-featur
 
 If an LS-featured command is triggered by a user with __Manage Server__ permission, the EXP reward will increase by 500 points.
 
-If you want to know your current level, see `@Eros level` 
+If you want to know your current level, see `@Eros level info` 
 
 ## What are Those Unique Titles?
 
