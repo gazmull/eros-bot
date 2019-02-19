@@ -20,7 +20,7 @@ export default [
     fields: [
       {
         name: 'Kamihime Project Wiki',
-        value: `[DMM Wiki](https://goo.gl/xPVW9t) | [Nutaku Fandom](https://kamihime-project.fandom.com) ([Discord](${wikiDiscord}))`,
+        value: `[DMM Wiki](https://goo.gl/xPVW9t) | [Nutaku Version Fandom](https://kamihime-project.fandom.com) ([Discord](${wikiDiscord}))`,
         inline: true
       },
       {
@@ -31,6 +31,7 @@ export default [
       {
         name: '[Beginner] Guides',
         value: [
+          'Nutaku Version Fandom: [Various Game Guide Articles](https://kamihime-project.fandom.com/wiki/Category:Mechanics)',
           'Sanahtlig: [Toolbox](https://goo.gl/bP43qi) | [Game Guide](https://goo.gl/YMcg1h) | [Re-rolling: How to get FREE SSR Kamihime](https://goo.gl/eJffLx)',
           'J-Star: [Weapon Guide](https://goo.gl/gGwvUX) | [Weapon Grids Template](https://goo.gl/dhrwgk)',
         ],
@@ -97,7 +98,7 @@ export default [
         value: [
           'Commenting in a server channel will grant you up to 10 EXP while using LS-featured commands will grant you up to 1000 EXP.',
           'If an LS-featured command is triggered by a user with __Manage Server__ permission, the EXP reward will increase by 500 points.',
-          'If you want to know your current level, see `@Eros level` ',
+          'If you want to know your current level, see `@Eros level info` ',
         ]
       },
       {
