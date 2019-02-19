@@ -23,7 +23,8 @@ export default class extends ErosCommand {
       return message.util.reply(
         'Countdown Role/Channel is not properly configured.' +
         `${message.author.id === message.guild.ownerID
-          ? ` Please configure your Countdown Role/Channel via \`${prefix}cdchannel\` and/or \`${prefix}cdrole\``
+          // tslint:disable-next-line:max-line-length
+          ? ` Please configure your Countdown Role/Channel via \`${prefix}set cdchannel\` and/or \`${prefix}set cdrole\``
           : ' Please contact the server owner.'
         }`
       );

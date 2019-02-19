@@ -14,7 +14,7 @@ export default class extends ErosCommand {
     super('tag-leaderboard', {
       description: {
         content: 'Displays a leaderboard of tags from the current server or the specified member.',
-        usage: '<tag name> [page number]'
+        usage: '<member> [page number]'
       },
       noTrash: true,
       args: [
@@ -42,7 +42,8 @@ export default class extends ErosCommand {
             author: member.id,
             guild: message.guild.id
           },
-          order: [ [ 'uses', 'DESC' ] ]
+          order: [ [ 'uses', 'DESC' ] ],
+          attributes: [ 'name', 'uses' ]
         });
 
         if (!memberTags.length) {
@@ -66,13 +67,17 @@ export default class extends ErosCommand {
             'React with the emoji below to navigate. ↗ to skip a page.',
             `See a tag's information with \`${this.handler.prefix(message)}\``,
           ])
-          .formatField('Name', (el: ITagInstance) => el.name)
+          .formatField('#) Name', (el: ITagInstance) => `${tags.findIndex(t => t.name === el.name) + 1} ${el.name}`)
           .formatField('Times Used', (el: ITagInstance) => el.uses);
 
         return memberEmbed.build();
       }
 
-      const tags = await factory.findAll({ where: { guild: message.guild.id }, order: [ [ 'uses', 'DESC' ] ] });
+      const tags = await factory.findAll({
+        where: { guild: message.guild.id },
+        order: [ [ 'uses', 'DESC' ] ],
+        attributes: [ 'name', 'uses' ]
+      });
 
       if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
 
@@ -90,7 +95,7 @@ export default class extends ErosCommand {
           'React with the emoji below to navigate. ↗ to skip a page.',
           `See a tag's information with \`${this.handler.prefix(message)}tag info <tag name>\``,
         ])
-        .formatField('Name', (el: ITagInstance) => el.name)
+        .formatField('#) Name', (el: ITagInstance) => `${tags.findIndex(t => t.name === el.name) + 1}) ${el.name}`)
         .formatField('Times Used', (el: ITagInstance) => el.uses);
 
       return embed.build();

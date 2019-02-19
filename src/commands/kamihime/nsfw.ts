@@ -22,7 +22,7 @@ export default class extends ErosCommand {
       return message.reply(
         'NSFW Role/Channel is not properly configured.' +
         `${message.author.id === message.guild.ownerID
-          ? ` Please configure your NSFW Role/Channel via \`${prefix}nsfwchannel\` and/or \`${prefix}nsfwrole\``
+          ? ` Please configure your NSFW Role/Channel via \`${prefix}set nsfwchannel\` and/or \`${prefix}set nsfwrole\``
           : ' Please contact the server owner.'
         }`
       );
