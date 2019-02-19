@@ -21,15 +21,15 @@ export default class CommandHandlerResolverTypes {
       interval: phrase => {
         if (!phrase) return phrase;
 
-        let minutes = Math.abs(parseInt(phrase));
+        let seconds = Math.abs(parseInt(phrase));
 
-        if (isNaN(minutes)) return null;
+        if (isNaN(seconds)) return null;
 
-        minutes *= 60e3;
+        seconds *= 1e3;
 
-        const trueMinutes = minutes / 1000 / 60;
+        const trueSeconds = seconds / 1000;
 
-        return trueMinutes > 30 ? null : minutes;
+        return trueSeconds > 120 ? null : seconds;
       },
       existingCountdown: phrase => {
         if (!phrase) return null;

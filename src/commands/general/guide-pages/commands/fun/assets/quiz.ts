@@ -6,6 +6,7 @@ export default {
   description: [
     'The deployed questionnaire can be answered by everyone in the channel.',
     'Maximum questions in one trigger: **3** for **normal user** | **5** for **user with `Manage Server` permission**',
+    'Maximum interval: 120 seconds',
   ],
   fields: [
     {
@@ -14,7 +15,7 @@ export default {
     },
     {
       name: 'Warning',
-      value: 'This command will be locked to the server channel until someone gets the correct answer or when the current queue of questions are done.'
+      value: 'This command will be locked to the server channel until someone gets the correct answer or when the current queue of questions is done.'
     },
   ]
 } as IDialog;

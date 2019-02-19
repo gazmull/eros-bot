@@ -27,8 +27,8 @@ export default class extends ErosComamnd {
       aliases: [ 'quiz', 'trivia' ],
       description: {
         content: 'Deploys a questionnaire(s) related to Kamhime Project.',
-        usage: '[number of questions] [interval in minutes]',
-        examples: [ '', '2', '2 1' ]
+        usage: '[number of questions] [interval in seconds]',
+        examples: [ '', '2', '2 30' ]
       },
       lock: 'channel',
       channel: 'guild',
@@ -45,7 +45,7 @@ export default class extends ErosComamnd {
             id: 'interval',
             type: 'interval',
             prompt: {
-              retry: 'interval can only be **up to 30 minutes**. Try again!'
+              retry: 'interval can only be **up to 120 seconds**. Try again!'
             }
           },
         ], []),
@@ -59,18 +59,15 @@ export default class extends ErosComamnd {
     else if (message.member.hasPermission('MANAGE_GUILD') && rotation > 5)
       rotation = 5;
 
-    for (let i = 0; i < rotation; i++) {
-      const isLast = i === rotation - 1 ? null : interval / 1000 / 60;
+    try {
+      for (let i = 0; i < rotation; i++) {
+        const isNotLast = i !== rotation - 1 ? interval / 1000 : null;
 
-      try {
-        await this.createQuestionnare(message, { isLast, rotation, current: i + 1 });
-        if (interval) await this.sleep(interval);
+        await this.createQuestionnare(message, { isNotLast, rotation, current: i + 1 });
+        if (interval && isNotLast) await this.sleep(interval);
       }
-      catch (err) {
-        this.emitError(err, message, this);
-
-        break;
-      }
+    } catch (err) {
+      this.emitError(err, message, this);
     }
 
     return true;
@@ -82,11 +79,14 @@ export default class extends ErosComamnd {
     });
   }
 
-  // isLast - If a true number is passed, it'll append a notification to members that there will be another question
-  // with the value of isLast (interval)
-  protected async createQuestionnare (message: Message, config: { isLast: number, rotation: number, current: number }) {
+  // isNotLast - If a true number is passed, it'll append a notification to members that there will be another question
+  // with the value of isNotLast (interval)
+  protected async createQuestionnare (
+    message: Message,
+    config: { isNotLast: number, rotation: number, current: number }
+  ) {
     const { emojis, url } = this.client.config;
-    const { isLast, rotation, current } = config;
+    const { isNotLast, rotation, current } = config;
     message.util.setLastResponse(await message.channel.send(`${emojis.loading} Awaiting KamihimeDB's response...`));
 
     const response = await fetch(url.api + 'random/4', { headers: { Accept: 'application/json' } });
@@ -118,9 +118,9 @@ export default class extends ErosComamnd {
       .setDescription(question.choices.map((v, i) => `**${i + 1}** - \`${v}\`\n`))
       .setFooter(`For ${exp} EXP • Ends within 30 seconds`);
     const attachment = this.client.util.attachment(avatar, name);
-    const nextQuestionMsg = isLast
-    ? `\n***Another question will be sent here within ${isLast} minute${isLast <= 1 ? '' : 's'}. Stay tuned!***`
-    : '';
+    const nextQuestionMsg = isNotLast
+      ? `\n***Another question will be sent here within ${isNotLast} second${isNotLast <= 1 ? '' : 's'}. Stay tuned!***`
+      : '';
 
     await message.util.lastResponse.delete();
     await message.util.send(null, {  embed, files: [ attachment ] });
