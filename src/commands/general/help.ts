@@ -72,6 +72,7 @@ export default class extends ErosCommand {
         countdown: 'Kamihime - Countdown',
         tag: 'Tag System',
         fun: 'For teh Lulz',
+        level: 'Leveling System',
         util: 'Utilities'
       }[category];
 

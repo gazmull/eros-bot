@@ -51,6 +51,8 @@
     - Main: `tag`, `tags`
 - **Fun**
     - Main: `ask`, `insult`, `say`, `quiz`
+- **Leveling System**
+    - Main: `level`
 - **Utility**
     - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
     - Bot Owner: `eval`, `clear`

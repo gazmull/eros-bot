@@ -4,6 +4,7 @@ import countdown from './countdown';
 import fun from './fun';
 import general from './general';
 import kamihime from './kamihime';
+import level from './level';
 import set from './set';
 import tag from './tag';
 import util from './util';
@@ -36,5 +37,6 @@ export default [
   ...countdown,
   ...tag,
   ...fun,
+  ...level,
   ...util,
 ] as IDialog[];
