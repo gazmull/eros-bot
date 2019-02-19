@@ -1,13 +1,12 @@
-// tslint:disable-next-line:max-line-length
 import IErosClientOptions from 'auth';
-import { AkairoClient, InhibitorHandler, ListenerHandler, SequelizeProvider } from 'discord-akairo';
+import { AkairoClient, InhibitorHandler, ListenerHandler, SequelizeProvider } from 'discord-akairo'; // tslint:disable-line:max-line-length
 import * as Fandom from 'nodemw';
 import { promisify } from 'util';
 import GuideCommand from '../commands/general/guide';
 import CountdownScheduler from '../functions/CountdownScheduler';
 import ErosError from '../struct/ErosError';
 import { create } from '../struct/models';
-import { status } from '../util/console';
+import Logger from '../util/console';
 import Command from './command';
 import ErosCommandHandler from './command/commandHandler';
 import CommandHandlerResolverTypes from './command/resolverTypes';
@@ -19,8 +18,20 @@ const db = create();
 export default class ErosClient extends AkairoClient {
   constructor (config: IErosClientOptions) {
     super({ ownerID: config.ownerID }, {
-      disabledEvents: [ 'TYPING_START' ],
-      disableEveryone: true
+      disabledEvents: [
+        'TYPING_START',
+        'CHANNEL_PINS_UPDATE',
+        'GUILD_BAN_ADD',
+        'GUILD_BAN_REMOVE',
+        'MESSAGE_DELETE',
+        'RESUMED',
+        'VOICE_SERVER_UPDATE',
+        'VOICE_STATE_UPDATE',
+        'WEBHOOKS_UPDATE',
+      ],
+      disableEveryone: true,
+      messageCacheLifetime: 300,
+      messageCacheMaxSize: 50
     });
 
     this.config = config;
@@ -75,6 +86,8 @@ export default class ErosClient extends AkairoClient {
 
   public fandomApi: Fandom = this._fandomApi;
 
+  public logger = new Logger();
+
   public scheduler: CountdownScheduler;
 
   public ErosError = ErosError;
@@ -101,7 +114,7 @@ export default class ErosClient extends AkairoClient {
 
   public async init () {
     if (this.parseMode) {
-      status('Docs Parsing Mode Engaged');
+      this.logger.status('Docs Parsing Mode Engaged');
 
       const docs = this.commandHandler.modules.get('guide') as GuideCommand;
 
@@ -110,13 +123,13 @@ export default class ErosClient extends AkairoClient {
 
     const force = [ '-f', '--force' ].some(f => process.argv.includes(f));
 
-    if (force) status('Forced sync detected.');
+    if (force) this.logger.status('Forced sync detected.');
 
     await db.sequelize.sync({ force });
-    status('Database synchronised!');
+    this.logger.status('Database synchronised!');
 
     await this.guildSettings.init();
-    status('Provider set!');
+    this.logger.status('Provider set!');
 
     this.fandomApi = new Fandom({
       debug: false,
@@ -125,7 +138,7 @@ export default class ErosClient extends AkairoClient {
       server: 'kamihime-project.fandom.com'
     });
     this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this._fandomApi));
-    status(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
+    this.logger.status(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
 
     return this.login(this.config.token);
   }
