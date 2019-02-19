@@ -53,7 +53,10 @@ export default class extends ErosCommand {
   public async exec (message: Message, { method, details }: { method: string, details: string }) {
     const authorized = this.authorized(message.author);
 
-    if (!method || (!authorized && ![ 'test', 'check' ].includes(method))) return this.defaultCommand(message);
+    if (
+      !method ||
+      (!authorized && ![ 'test', 'check', 'subscribe' ].includes(method))
+    ) return this.defaultCommand(message);
     if (method === 'current') return message.util.reply(`Current time is: ${moment.tz(this.timezone)}`);
     if (method === 'help') return this.authorisedHelp(message);
 
