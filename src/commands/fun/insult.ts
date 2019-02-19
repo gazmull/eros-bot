@@ -88,11 +88,12 @@ export default class extends ErosComamnd {
   }
 
   public async exec (message: Message, { member }: { member: GuildMember }) {
+    if (member.user.bot) return message.util.reply('Come on, don\'t be anti-social with just insulting us bots!');
     if (message.member.id === member.id) {
       const desperate = 'I get that it is indeed healthy to talk to yourself sometimes... but are you that desperate?';
 
-      try { return message.author.send(desperate); }
-      catch { return message.util.reply(desperate); }
+      return message.author.send(desperate)
+        .catch(() =>  message.util.reply(desperate));
     }
 
     return message.util.send(`${member}: ${insults[Math.floor(Math.random() * insults.length)]}`);
