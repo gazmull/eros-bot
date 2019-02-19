@@ -25,6 +25,10 @@ Embed Links
 ## Flags: Options For Narrowing Down Your Search
 
 
+`-a`, `--accurate` tells the bot that the name is accurate to immediately acquire the character you desire
+
+​
+
 __Each flag is not compatible with *any other flag within this flag type*.__
 
 `-ts`, `--type=soul` souls pool only
@@ -33,7 +37,7 @@ __Each flag is not compatible with *any other flag within this flag type*.__
 
 `-tk`, `--type=kamihime` kamihime pool only
 
-`-tw`, `--type-weapon` weapons pool only
+`-tw`, `--type=weapon` weapons pool only
 
 ## Flags: Options For Requesting Other Info
 

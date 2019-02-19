@@ -1,7 +1,7 @@
 # Command: hareminfo
 
 
-**Usage**: `@Eros hareminfo <character name>`
+**Usage**: `@Eros hareminfo <character name> [--accurate]`
 
 **Aliases**: `hareminfo`, `hinfo`, `hi`, `peek`, `p`
 
@@ -42,6 +42,11 @@ If you want to use this without setting up the nsfwchannel, either DM the bot (e
 
 
 `@Eros nsfw` to request access to NSFW Channel and I will assign a role to you. This is only available if the `nsfwrole` is set.
+
+## Flags: Options For Narrowing Down Your Search
+
+
+`-a`, `--accurate` tells the bot that the name is accurate to immediately acquire the character you desire
 
 ## Examples
 

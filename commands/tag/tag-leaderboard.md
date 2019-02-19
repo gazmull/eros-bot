@@ -1,7 +1,7 @@
 # Command: tag leaderboard
 
 
-**Usage**: `@Eros tag leaderboard <tag name> [page number]`
+**Usage**: `@Eros tag leaderboard <member> [page number]`
 
 **Aliases**: None
 
