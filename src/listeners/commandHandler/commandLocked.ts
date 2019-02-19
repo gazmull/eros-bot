@@ -15,7 +15,7 @@ export default class extends ErosListener {
       'If you wish to continue with a new command, please say `cancel` first.',
     ];
     const defaultBased = [
-      `looks like this command is currently being used by **${message.author.tag}** (${message.author.id}).`,
+      `looks like this command is currently being used in this channel.`,
       'Please try again later.',
     ];
 
