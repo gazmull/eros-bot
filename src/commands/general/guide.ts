@@ -301,7 +301,7 @@ export default class extends ErosCommand {
         try {
           await fs.outputFile(`${__dirname}/../../../../eros-docs/${dialog[0]}`, json2md(dialog[1]));
 
-          this.client.logger.status(`-- Successfully parsed ${dialog[0]}`);
+          this.client.logger.info(`-- Successfully parsed ${dialog[0]}`);
         } catch (err) { throw new Error(`Failed to write ${dialog[0]}: ${err}`); }
 
       let readme = (await fs.readFile(`${__dirname}/../../../README.md`)).toString();
@@ -316,14 +316,14 @@ export default class extends ErosCommand {
       .concat('\n' + readme);
 
       await fs.outputFile(`${__dirname}/../../../../eros-docs/README.md`, readme);
-      this.client.logger.status('-- Successfully copied README');
+      this.client.logger.info('-- Successfully copied README');
 
       const changelog = (await fs.readFile(`${__dirname}/../../../CHANGELOG.md`)).toString();
 
       await fs.outputFile(`${__dirname}/../../../../eros-docs/CHANGELOG.md`, changelog);
-      this.client.logger.status('-- Successfully copied CHANGELOG');
+      this.client.logger.info('-- Successfully copied CHANGELOG');
 
-      this.client.logger.status('Done parsing docs.');
+      this.client.logger.info('Done parsing docs.');
       process.exit(0);
     } catch (err) {
       this.client.logger.error(err);

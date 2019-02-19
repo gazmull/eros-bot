@@ -24,7 +24,7 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { code }: { code: string }) {
-    this.client.logger.evalStatus(`${message.author.tag} (${message.author.id}) Triggered eval. Did you do this?`);
+    this.client.logger.debug(`${message.author.tag} (${message.author.id}) Triggered eval. Did you do this?`);
     try {
       let evaled = eval(code); // tslint:disable-line:no-eval
 

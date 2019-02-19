@@ -61,7 +61,7 @@ export default class {
 
         owner.send(msg);
 
-        this.client.logger.status(msg);
+        this.client.logger.info(msg);
       })
       .on('start', async () => {
         const msg = 'Twitter Module: Connected';
@@ -69,14 +69,14 @@ export default class {
 
         owner.send(msg);
 
-        this.client.logger.status(msg);
+        this.client.logger.info(msg);
       })
       .on('end', async () => {
         const msg = 'Twitter Module: Disconnected';
         const owner = await this.client.users.fetch(ownerID);
 
         owner.send(msg);
-        this.client.logger.status(msg);
+        this.client.logger.info(msg);
         this.client.clearInterval(this.tick);
         this.client.clearInterval(this.recon);
         stream.destroy();
@@ -87,7 +87,7 @@ export default class {
         const msg = `Twitter Module: Error ${err}`;
         const owner = await this.client.users.fetch(ownerID);
         owner.send(msg);
-        this.client.logger.status(msg);
+        this.client.logger.info(msg);
 
         stream.emit('end');
       });

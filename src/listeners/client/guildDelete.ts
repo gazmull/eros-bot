@@ -23,7 +23,7 @@ export default class extends ErosListener {
       await this.client.db.Level.destroy({ where: { guild: guild.id } });
       await this.client.db.Tag.destroy({ where: { guild: guild.id } });
 
-      this.client.logger.status(`${guild.name} (ID: ${guild.id}) destroyed. ${guildSize} total guilds.`);
+      this.client.logger.info(`${guild.name} (ID: ${guild.id}) destroyed. ${guildSize} total guilds.`);
     } catch (err) { this.client.logger.error(err); }
   }
 }

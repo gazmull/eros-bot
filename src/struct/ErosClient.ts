@@ -6,7 +6,7 @@ import GuideCommand from '../commands/general/guide';
 import CountdownScheduler from '../functions/CountdownScheduler';
 import ErosError from '../struct/ErosError';
 import { create } from '../struct/models';
-import Logger from '../util/console';
+import Winston from '../util/console';
 import Command from './command';
 import ErosCommandHandler from './command/commandHandler';
 import CommandHandlerResolverTypes from './command/resolverTypes';
@@ -86,7 +86,7 @@ export default class ErosClient extends AkairoClient {
 
   public fandomApi: Fandom = this._fandomApi;
 
-  public logger = new Logger();
+  public logger = new Winston().logger;
 
   public scheduler: CountdownScheduler;
 
@@ -114,7 +114,7 @@ export default class ErosClient extends AkairoClient {
 
   public async init () {
     if (this.parseMode) {
-      this.logger.status('Docs Parsing Mode Engaged');
+      this.logger.info('Docs Parsing Mode Engaged');
 
       const docs = this.commandHandler.modules.get('guide') as GuideCommand;
 
@@ -123,13 +123,13 @@ export default class ErosClient extends AkairoClient {
 
     const force = [ '-f', '--force' ].some(f => process.argv.includes(f));
 
-    if (force) this.logger.status('Forced sync detected.');
+    if (force) this.logger.info('Forced sync detected.');
 
     await db.sequelize.sync({ force });
-    this.logger.status('Database synchronised!');
+    this.logger.info('Database synchronised!');
 
     await this.guildSettings.init();
-    this.logger.status('Provider set!');
+    this.logger.info('Provider set!');
 
     this.fandomApi = new Fandom({
       debug: false,
@@ -138,7 +138,7 @@ export default class ErosClient extends AkairoClient {
       server: 'kamihime-project.fandom.com'
     });
     this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this._fandomApi));
-    this.logger.status(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
+    this.logger.info(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
 
     return this.login(this.config.token);
   }

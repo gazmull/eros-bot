@@ -26,7 +26,7 @@ export default class extends EventEmitter {
         for (const name of names)
           this.add(date, name);
 
-      this.client.logger.status('CountdownScheduler Module: Initialised.');
+      this.client.logger.info('CountdownScheduler Module: Initialised.');
     });
   }
 
@@ -40,7 +40,7 @@ export default class extends EventEmitter {
       });
       const tick = this.client.setInterval(async () => {
         if (!guilds.length) {
-          this.client.logger.status('CountdownScheduler Module: Distributed ' + names.join(', '));
+          this.client.logger.info('CountdownScheduler Module: Distributed ' + names.join(', '));
 
           return this.client.clearInterval(tick);
         }
@@ -95,7 +95,7 @@ export default class extends EventEmitter {
 
     this.schedules.set(date, { names, fn });
 
-    this.client.logger.status('CountdownScheduler Module: Added ' + name);
+    this.client.logger.info('CountdownScheduler Module: Added ' + name);
 
     return this;
   }
@@ -117,7 +117,7 @@ export default class extends EventEmitter {
 
     this.schedules.set(date, { names, fn });
 
-    this.client.logger.status('CountdownScheduler Module: Deleted ' + name);
+    this.client.logger.info('CountdownScheduler Module: Deleted ' + name);
 
     return this;
   }
@@ -126,7 +126,7 @@ export default class extends EventEmitter {
     const job = this.schedules.get(date);
 
     if (job) this.schedules.delete(date);
-    this.client.logger.status('CountdownScheduler Module: Destroyed ' + date);
+    this.client.logger.info('CountdownScheduler Module: Destroyed ' + date);
 
     return this;
   }

@@ -15,14 +15,14 @@ export default class extends ErosListener {
       const me = this.client.user;
       const guildSize = this.client.guilds.size;
 
-      this.client.logger.status(`Logged in as ${me.tag} (ID: ${me.id})`);
+      this.client.logger.info(`Logged in as ${me.tag} (ID: ${me.id})`);
       me.setActivity(`@${me.username} help`, { type: 'LISTENING' });
 
       if (guildSize)
-        this.client.logger.status(`Listening to ${guildSize === 1
+        this.client.logger.info(`Listening to ${guildSize === 1
           ? this.client.guilds.first()
           : `${guildSize} Guilds`}`);
-      else this.client.logger.status('Standby Mode');
+      else this.client.logger.info('Standby Mode');
 
       this.client.scheduler = new CountdownScheduler(this.client);
 

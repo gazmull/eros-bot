@@ -55,10 +55,10 @@ export default class extends ErosListener {
 
       guild.owner.send(welcomeMessage.join('\n'));
 
-      this.client.logger.status(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
+      this.client.logger.info(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
     } catch (err) {
       if (err.name === 'SequelizeUniqueConstraintError')
-        return this.client.logger.status(`${guild.name} (ID: ${guild.id}) already exists, joined anyway. ${guildSize} total guilds.`);
+        return this.client.logger.info(`${guild.name} (ID: ${guild.id}) already exists, joined anyway. ${guildSize} total guilds.`);
 
       await guild.owner.send([
         'I left your guild because there was a problem initiating your guild.',
