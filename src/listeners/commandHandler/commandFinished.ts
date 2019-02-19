@@ -1,7 +1,6 @@
 import { TextChannel } from 'discord.js';
 import ErosCommand from '../../struct/command';
 import ErosListener from '../../struct/listener';
-import { error } from '../../util/console';
 
 export default class extends ErosListener {
   constructor () {
@@ -31,7 +30,7 @@ export default class extends ErosListener {
 
       if (toDelete.first()) await dialog.delete();
     } catch (c) {
-      if (c instanceof Error) error(c);
+      if (c instanceof Error) this.client.logger.error(c);
 
       dialog.reactions.removeAll().catch();
     }

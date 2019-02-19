@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { Op } from 'sequelize';
 import CountdownCommand from '../commands/countdown/countdown';
 import ErosClient from '../struct/ErosClient';
-import { status, warn } from '../util/console';
 
 export default class extends EventEmitter {
   constructor (client: ErosClient) {
@@ -27,7 +26,7 @@ export default class extends EventEmitter {
         for (const name of names)
           this.add(date, name);
 
-      status('CountdownScheduler Module: Initialised.');
+      this.client.logger.status('CountdownScheduler Module: Initialised.');
     });
   }
 
@@ -41,7 +40,7 @@ export default class extends EventEmitter {
       });
       const tick = this.client.setInterval(async () => {
         if (!guilds.length) {
-          status('CountdownScheduler Module: Distributed ' + names.join(', '));
+          this.client.logger.status('CountdownScheduler Module: Distributed ' + names.join(', '));
 
           return this.client.clearInterval(tick);
         }
@@ -78,7 +77,7 @@ export default class extends EventEmitter {
           await channel.send(`${roleText}${prettyNames.join(', ')} ${isPlural} ${action}!`);
         }
       }, 3000);
-    } catch (err) { warn('Error Sending Notification: ' + err); }
+    } catch (err) { this.client.logger.warn('Error Sending Notification: ' + err); }
 
     await this.provider.prepareCountdowns();
   }
@@ -96,7 +95,7 @@ export default class extends EventEmitter {
 
     this.schedules.set(date, { names, fn });
 
-    status('CountdownScheduler Module: Added ' + name);
+    this.client.logger.status('CountdownScheduler Module: Added ' + name);
 
     return this;
   }
@@ -118,7 +117,7 @@ export default class extends EventEmitter {
 
     this.schedules.set(date, { names, fn });
 
-    status('CountdownScheduler Module: Deleted ' + name);
+    this.client.logger.status('CountdownScheduler Module: Deleted ' + name);
 
     return this;
   }
@@ -127,7 +126,7 @@ export default class extends EventEmitter {
     const job = this.schedules.get(date);
 
     if (job) this.schedules.delete(date);
-    status('CountdownScheduler Module: Destroyed ' + date);
+    this.client.logger.status('CountdownScheduler Module: Destroyed ' + date);
 
     return this;
   }

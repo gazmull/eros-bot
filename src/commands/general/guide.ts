@@ -2,7 +2,6 @@ import { StringResolvable, Util } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as json2md from 'json2md';
 import ErosCommand from '../../struct/command';
-import { error, status } from '../../util/console';
 import toTitleCase from '../../util/toTitleCase';
 
 export default class extends ErosCommand {
@@ -302,7 +301,7 @@ export default class extends ErosCommand {
         try {
           await fs.outputFile(`${__dirname}/../../../../eros-docs/${dialog[0]}`, json2md(dialog[1]));
 
-          status(`-- Successfully parsed ${dialog[0]}`);
+          this.client.logger.status(`-- Successfully parsed ${dialog[0]}`);
         } catch (err) { throw new Error(`Failed to write ${dialog[0]}: ${err}`); }
 
       let readme = (await fs.readFile(`${__dirname}/../../../README.md`)).toString();
@@ -317,17 +316,17 @@ export default class extends ErosCommand {
       .concat('\n' + readme);
 
       await fs.outputFile(`${__dirname}/../../../../eros-docs/README.md`, readme);
-      status('-- Successfully copied README');
+      this.client.logger.status('-- Successfully copied README');
 
       const changelog = (await fs.readFile(`${__dirname}/../../../CHANGELOG.md`)).toString();
 
       await fs.outputFile(`${__dirname}/../../../../eros-docs/CHANGELOG.md`, changelog);
-      status('-- Successfully copied CHANGELOG');
+      this.client.logger.status('-- Successfully copied CHANGELOG');
 
-      status('Done parsing docs.');
+      this.client.logger.status('Done parsing docs.');
       process.exit(0);
     } catch (err) {
-      error(err);
+      this.client.logger.error(err);
       process.exit(1);
     }
   }

@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "bufferutil": "^4.0.1",
-    "discord-akairo": "1Computer1/discord-akairo#e393dfe",
+    "chalk": "^2.4.2",
+    "discord-akairo": "github:1computer1/discord-akairo",
     "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "github:discordjs/discord.js",
     "erlpack": "github:discordapp/erlpack",
@@ -52,6 +53,7 @@
     "nodemw": "^0.12.2",
     "sequelize": "^4.42.0",
     "twitter-lite": "^0.9.1",
+    "winston": "^3.2.1",
     "zlib-sync": "^0.1.4"
   },
   "devDependencies": {

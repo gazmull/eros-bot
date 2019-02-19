@@ -1,7 +1,6 @@
 import CountdownScheduler from '../../functions/CountdownScheduler';
 import Twitter from '../../functions/Twitter';
 import ErosListener from '../../struct/listener';
-import { error, status } from '../../util/console';
 
 export default class extends ErosListener {
   constructor () {
@@ -16,14 +15,14 @@ export default class extends ErosListener {
       const me = this.client.user;
       const guildSize = this.client.guilds.size;
 
-      status(`Logged in as ${me.tag} (ID: ${me.id})`);
+      this.client.logger.status(`Logged in as ${me.tag} (ID: ${me.id})`);
       me.setActivity(`@${me.username} help`, { type: 'LISTENING' });
 
       if (guildSize)
-        status(`Listening to ${guildSize === 1
+        this.client.logger.status(`Listening to ${guildSize === 1
           ? this.client.guilds.first()
           : `${guildSize} Guilds`}`);
-      else status('Standby Mode');
+      else this.client.logger.status('Standby Mode');
 
       this.client.scheduler = new CountdownScheduler(this.client);
 
@@ -33,7 +32,7 @@ export default class extends ErosListener {
 
       return new Twitter(this.client).init();
     } catch (err) {
-      error(err);
+      this.client.logger.error(err);
     }
   }
 }

@@ -1,5 +1,4 @@
 import ErosCommand from '../../struct/command';
-import { error } from '../../util/console';
 
 export default class extends ErosCommand {
   constructor () {
@@ -20,6 +19,6 @@ export default class extends ErosCommand {
         `\n:arrows_counterclockwise: ${estimatedPing}ms`,
         `:heart: ${Math.round(this.client.ws.ping)}ms`,
       ]);
-    } catch (err) { error(err); }
+    } catch (err) { this.client.logger.error(err); }
   }
 }

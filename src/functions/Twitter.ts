@@ -2,7 +2,6 @@ import { TextChannel } from 'discord.js';
 import { Op } from 'sequelize';
 import * as TwitterClient from 'twitter-lite';
 import ErosClient from '../struct/ErosClient';
-import { status, warn } from '../util/console';
 
 export default class {
   constructor (client: ErosClient) {
@@ -20,7 +19,7 @@ export default class {
   public init () {
     const { twitter: config } = this.client.config;
 
-    if (!config) return warn('Twitter Module: Config is not set; skipped.');
+    if (!config) return this.client.logger.warn('Twitter Module: Config is not set; skipped.');
 
     const ownerID = this.client.ownerID;
     const twitter = new TwitterClient(config);
@@ -62,7 +61,7 @@ export default class {
 
         owner.send(msg);
 
-        status(msg);
+        this.client.logger.status(msg);
       })
       .on('start', async () => {
         const msg = 'Twitter Module: Connected';
@@ -70,14 +69,14 @@ export default class {
 
         owner.send(msg);
 
-        status(msg);
+        this.client.logger.status(msg);
       })
       .on('end', async () => {
         const msg = 'Twitter Module: Disconnected';
         const owner = await this.client.users.fetch(ownerID);
 
         owner.send(msg);
-        status(msg);
+        this.client.logger.status(msg);
         this.client.clearInterval(this.tick);
         this.client.clearInterval(this.recon);
         stream.destroy();
@@ -88,7 +87,7 @@ export default class {
         const msg = `Twitter Module: Error ${err}`;
         const owner = await this.client.users.fetch(ownerID);
         owner.send(msg);
-        status(msg);
+        this.client.logger.status(msg);
 
         stream.emit('end');
       });

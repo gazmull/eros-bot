@@ -1,31 +1,48 @@
-const myTime = () => {
-  return new Date().toLocaleString();
-};
+import chalk from 'chalk';
+import * as moment from 'moment-timezone';
+import { createLogger, format, transports } from 'winston';
 
-/* tslint:disable:no-console */
+export default class Logger {
+  protected logger = createLogger({
+    transports: [ new transports.Console() ],
+    format: format.printf(
+      log => `${chalk.bgMagenta.whiteBright(this.time)}: [${this.setColour(log.level)}] ${log.message}`
+    )
+  });
 
-export const status = (message: string) => {
-  const FgGreen = '\x1b[32m%s\x1b[0m';
+  protected log (type: string, message: any) {
+    this.logger.log(type, message);
+  }
 
-  return console.info(FgGreen, `${myTime()}: ${message}`);
-};
+  protected setColour (type: string) {
+    type = type.toUpperCase();
 
-export const evalStatus = (message: string) => {
-  const FgMagenta = '\x1b[35m%s\x1b[0m';
+    switch (type.toLowerCase()) {
+      default: return chalk.cyan(type);
+      case 'info': return chalk.greenBright(type);
+      case 'debug': return chalk.magentaBright(type);
+      case 'warn': return chalk.yellowBright(type);
+      case 'error': return chalk.redBright(type);
+    }
+  }
 
-  return console.warn(FgMagenta, `${myTime()}: ${message}`);
-};
+  public status (message: any) {
+    this.log('info', message);
+  }
 
-export const error = (err: Error) => {
-  const FgRed = '\x1b[31m%s\x1b[0m';
+  public evalStatus (message: any) {
+    this.log('debug', message);
+  }
 
-  return console.error(FgRed, `${myTime()}: ${err.stack}`);
-};
+  public warn (message: any) {
+    this.log('warn', message);
+  }
 
-export const warn = (message: string) => {
-  const FgYellow = '\x1b[33m%s\x1b[0m';
+  public error (message: any) {
+    this.log('error', message);
+  }
 
-  return console.warn(FgYellow, `${myTime()}: ${message}`);
-};
-
-/* tslint:enable:no-console */
+  get time () {
+    return moment().format('DD/MM, HH:mm:ss');
+  }
+}

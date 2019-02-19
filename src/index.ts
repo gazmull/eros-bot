@@ -1,18 +1,17 @@
 // @ts-ignore
 import * as config from '../auth';
 import ErosClient from './struct/ErosClient';
-import { error, warn } from './util/console';
 
 const client = new ErosClient(config);
 
 client
   .build()
   .init()
-  .catch(error);
+  .catch(client.logger.error);
 
 client
   .on('disconnect', () => process.exit(0))
-  .on('error', error)
-  .on('warn', warn);
+  .on('error', client.logger.error)
+  .on('warn', client.logger.warn);
 
-process.on('unhandledRejection', error);
+process.on('unhandledRejection', client.logger.error);

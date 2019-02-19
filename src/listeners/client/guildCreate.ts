@@ -1,6 +1,5 @@
 import { Guild } from 'discord.js';
 import ErosListener from '../../struct/listener';
-import { error, status } from '../../util/console';
 
 export default class extends ErosListener {
   constructor () {
@@ -56,10 +55,10 @@ export default class extends ErosListener {
 
       guild.owner.send(welcomeMessage.join('\n'));
 
-      status(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
+      this.client.logger.status(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
     } catch (err) {
       if (err.name === 'SequelizeUniqueConstraintError')
-        return status(`${guild.name} (ID: ${guild.id}) already exists, joined anyway. ${guildSize} total guilds.`);
+        return this.client.logger.status(`${guild.name} (ID: ${guild.id}) already exists, joined anyway. ${guildSize} total guilds.`);
 
       await guild.owner.send([
         'I left your guild because there was a problem initiating your guild.',
@@ -68,7 +67,7 @@ export default class extends ErosListener {
       ]);
       guild.leave();
 
-      error(err);
+      this.client.logger.error(err);
     }
   }
 }

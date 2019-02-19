@@ -1,6 +1,5 @@
 // @ts-ignore
 import { supportLink } from '../../auth';
-import { error as err } from '../util/console';
 import ErosCommand from './command';
 
 export default class ErosError {
@@ -37,7 +36,7 @@ export default class ErosError {
   protected code: number;
 
   protected exec () {
-    if (this.err) err(this.err);
+    if (this.err) this.command.client.logger.error(this.err);
 
     let step: string;
     let title = 'An error occured';
