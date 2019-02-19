@@ -13,6 +13,7 @@ export default class extends ErosCommand {
       args: [
         {
           id: 'tag',
+          match: 'content',
           type: 'tag',
           prompt: {
             start: 'what is the name of the tag?',
