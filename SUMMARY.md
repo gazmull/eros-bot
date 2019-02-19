@@ -48,7 +48,6 @@
     - [say](commands/fun/say.md)
   - CATEGORY: [level](commands/level/README.md)
     - [level](commands/level/level.md)
-    - [memberinfo](commands/util/memberinfo.md)
     - [level-leaderboard](commands/level/level-leaderboard.md)
   - CATEGORY: [util](commands/util/README.md)
     - [memberinfo](commands/util/memberinfo.md)

@@ -19,6 +19,11 @@ Add Reactions
 Embed Links
 ```
 
+## Shared Command
+
+
+This command is being shared with Leveling System's `info` command.
+
 ## Examples
 
 ```
