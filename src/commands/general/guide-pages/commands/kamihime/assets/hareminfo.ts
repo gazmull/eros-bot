@@ -29,5 +29,11 @@ export default {
         '`@Eros nsfw` to request access to NSFW Channel and I will assign a role to you. This is only available if the `nsfwrole` is set.',
       ]
     },
+    {
+      name: 'Flags: Options For Narrowing Down Your Search',
+      value: [
+        '`-a`, `--accurate` tells the bot that the name is accurate to immediately acquire the character you desire',
+      ]
+    },
   ]
 } as IDialog;

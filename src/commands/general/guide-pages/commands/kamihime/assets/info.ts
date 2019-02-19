@@ -11,11 +11,13 @@ export default {
     {
       name: 'Flags: Options For Narrowing Down Your Search',
       value: [
+        '`-a`, `--accurate` tells the bot that the name is accurate to immediately acquire the character you desire',
+        '\u200b',
         '__Each flag is not compatible with *any other flag within this flag type*.__',
         '`-ts`, `--type=soul` souls pool only',
         '`-te`, `--type=eidolon` eidolons pool only',
         '`-tk`, `--type=kamihime` kamihime pool only',
-        '`-tw`, `--type-weapon` weapons pool only',
+        '`-tw`, `--type=weapon` weapons pool only',
       ]
     },
     {

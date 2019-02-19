@@ -78,7 +78,7 @@ export default class ErosCommand extends Command {
   }
 }
 
-interface ICommandOptions extends CommandOptions {
+export interface ICommandOptions extends CommandOptions {
   description: {
     content: string | string[];
     usage?: string;

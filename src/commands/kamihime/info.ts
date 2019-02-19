@@ -1,14 +1,13 @@
-import { MessageEmbed } from 'discord.js';
+import { Message as MSG, MessageEmbed } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
-import fetch from 'node-fetch';
-import ErosCommand from '../../struct/command';
+import ErosInfoCommand from '../../struct/command/ErosInfoCommand';
 import { Eidolon, Kamihime, Soul, Weapon } from '../../struct/Info';
 import EidolonInfo from '../../struct/info/sub/EidolonInfo';
 import KamihimeInfo from '../../struct/info/sub/KamihimeInfo';
 import SoulInfo from '../../struct/info/sub/SoulInfo';
 import WeaponInfo from '../../struct/info/sub/WeaponInfo';
 
-export default class extends ErosCommand {
+export default class extends ErosInfoCommand {
   constructor () {
     super('info', {
       aliases: [ 'info', 'i', 'khinfo', 'khi', 'kh' ],
@@ -53,6 +52,11 @@ export default class extends ErosCommand {
           flag: [ '-r', '--release', '--releases', '--releaseweapon' ]
         },
         {
+          id: 'accurate',
+          match: 'flag',
+          flag: [ '-a', '--accurate' ]
+        },
+        {
           id: 'type',
           match: 'option',
           flag: [ '-t', '--type=' ],
@@ -64,7 +68,13 @@ export default class extends ErosCommand {
 
   public async exec (
     message: IMessage,
-    { item, preview, release, type }: { item: string, preview: boolean, release: boolean, type: string }
+    { item, preview, release, accurate, type }: {
+      item: string,
+      preview: boolean,
+      release: boolean,
+      accurate: boolean,
+      type: string
+    }
   ) {
     try {
       if (preview) message.needsPreview = true;
@@ -80,155 +90,36 @@ export default class extends ErosCommand {
         if (type) type = `&class=${type}`;
       }
 
-      await message.util.send(`${this.client.config.emojis.loading} Awaiting KamihimeDB's response...`);
+      const character: IKamihimeDB | Message = await super.exec(message, { item, approved: false, accurate, type });
 
-      const data = await this.acquire(item, false, type);
+      if (!character || character instanceof MSG) return;
 
-      if (!data) return message.util.edit(`No item named ${item} found.`);
-      else if (data.info)
-        return await this.triggerDialog(message, data.info.name, data.info);
-
-      await this.awaitSelection(message, data.rows);
+      return this.triggerDialog(message, character);
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 
-  public async acquire (item: string, accurate = false, type: string = null) {
-    const typeQ = type || '';
-    const { url } = this.client.config;
-    const request = await fetch(`${url.api}search?name=${encodeURI(item)}${typeQ}`, {
-      headers: { Accept: 'application/json' }
-    });
-    const rows = await request.json();
-
-    if (rows.error) throw rows.error.message;
-
-    if (!rows.length) return null;
-    else if (rows.length === 1) {
-      const row = rows.shift();
-      const data = await fetch(`${url.api}id/${row.id}`, { headers: { Accept: 'application/json' } });
-      const info = await data.json();
-
-      if (info.error) throw info.error.message;
-
-      return { info };
-    } else if (accurate) {
-      let character = null;
-
-      for (const row of rows)
-        if (row.name === item) {
-          character = row;
-
-          break;
-        }
-
-      if (!character) throw new Error('Item is unavailable.');
-
-      const data = await fetch(`${url.api}id/${character.id}`, { headers: { Accept: 'application/json' } });
-      const info = await data.json();
-
-      if (info.error) throw info.error.message;
-
-      return { info };
-    }
-
-    return { rows };
-  }
-
-  public async parseArticle (item: string) {
-    const rawData = await this.client.util.getArticle(item);
-    const sanitisedData = (data: string) => {
-      if (!data) throw new Error(`API returned no item named ${item} found.`);
-      const slicedData = data.indexOf('==') === -1
-        ? data
-        : data.slice(data.indexOf('{{'), data.indexOf('=='));
-
-      return slicedData
-        .replace(/<br(?:| )(?:|\/)>/g, '\n') // HTML Linebreaks
-        .replace(/<sup>(?:.+)<\/sup>/g, '') // Citations
-        .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '') // Icons
-        .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Summon
-        .replace(/(?:\[{2})(?:[\w\s]+\(\w+\)\|)?([^:]*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Abilities|Summon
-        .replace(/(?:\[{2}).*?(?:\]{2})/g, '') // [[Category]] => ''
-        .replace(/ {2}/g, ' ') // Double-spaces left by stripped of icons/links
-        .replace(/\|([^|])/g, '\n| $1'); // Fix ugly Infobox format
-    };
-
-    const { general: info }: { general: IKamihimeFandom } = parseInfo(sanitisedData(rawData));
-    info.name = info.name.replace(/(?:\[)(.+)(?:\])/g, '($1)');
-
-    return info;
-  }
-
-  public async parseKamihime (template: WeaponInfo, message: Message) {
-    const db = await this.acquire(template.character.releases, true);
-    const infoSub = await this.parseArticle(template.character.releases);
-
-    return new Kamihime(
-      this.client,
-      this.handler.prefix(message) as string,
-      db.info,
-      infoSub
-    );
-  }
-
-  public async parseWeapon (template: KamihimeInfo) {
-    const db = await this.acquire(template.character.releaseWeapon, true);
-    const infoSub = await this.parseArticle(template.character.releaseWeapon);
-
-    return new Weapon(this.client, null, db.info, infoSub);
-  }
-
-  public async awaitSelection (message: Message, rows: IKamihimeDB[]) {
-    const character = await this.client.util.selection.exec(message, this, rows);
-
-    if (!character) return;
-
-    const data = await fetch(
-      `${this.client.config.url.api}id/${character.id}`,
-      { headers: { Accept: 'application/json' } }
-    );
-    const _character = await data.json();
-
-    if (_character.error) throw _character.error.message;
-
-    await this.triggerDialog(message, character.name, _character);
-  }
-
-  public getCategory (id: string) {
-    const discriminator = id.charAt(0);
-
-    switch (discriminator) {
-      default: return null;
-      case 's': return 'soul';
-      case 'e':
-      case 'x': return 'eidolon';
-      case 'k': return 'kamihime';
-      case 'w': return 'weapon';
-    }
-  }
-
-  public async triggerDialog (message: IMessage, item: string, dbRes: IKamihimeDB) {
+  public async triggerDialog (message: IMessage, result: IKamihimeDB) {
     try {
       await message.util.edit(`${this.client.config.emojis.loading} Awaiting Fandom's response...`, { embed: null });
       const prefix = this.handler.prefix(message) as string;
-      const category = this.getCategory(dbRes.id);
-      const info = await this.parseArticle(item);
+      const category = this.getCategory(result.id);
+      const info = await this.parseArticle(result.name);
       let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo;
       let template2: KamihimeInfo | WeaponInfo;
       let format2: MessageEmbed;
 
       switch (category) {
         case 'kamihime':
-          template = new Kamihime(this.client, prefix, dbRes, info);
+          template = new Kamihime(this.client, prefix, result, info);
           break;
         case 'eidolon':
-          template = new Eidolon(this.client, prefix, dbRes, info);
+          template = new Eidolon(this.client, prefix, result, info);
           break;
         case 'soul':
-          template = new Soul(this.client, prefix, dbRes, info);
+          template = new Soul(this.client, prefix, result, info);
           break;
         case 'weapon':
-          template = new Weapon(this.client, prefix, dbRes, info);
+          template = new Weapon(this.client, prefix, result, info);
           break;
         default: return message.util.edit(':x: Invalid article.');
       }
@@ -306,6 +197,63 @@ export default class extends ErosCommand {
 
       return embed.build();
     } catch (err) { this.emitError(err, message, this, 2); }
+  }
+
+  public async parseArticle (item: string) {
+    const rawData = await this.client.util.getArticle(item);
+    const sanitisedData = (data: string) => {
+      if (!data) throw new Error(`API returned no item named ${item} found.`);
+      const slicedData = data.indexOf('==') === -1
+        ? data
+        : data.slice(data.indexOf('{{'), data.indexOf('=='));
+
+      return slicedData
+        .replace(/<br(?:| )(?:|\/)>/g, '\n') // HTML Linebreaks
+        .replace(/<sup>(?:.+)<\/sup>/g, '') // Citations
+        .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '') // Icons
+        .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Summon
+        .replace(/(?:\[{2})(?:[\w\s]+\(\w+\)\|)?([^:]*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Abilities|Summon
+        .replace(/(?:\[{2}).*?(?:\]{2})/g, '') // [[Category]] => ''
+        .replace(/ {2}/g, ' ') // Double-spaces left by stripped of icons/links
+        .replace(/\|([^|])/g, '\n| $1'); // Fix ugly Infobox format
+    };
+
+    const { general: info }: { general: IKamihimeFandom } = parseInfo(sanitisedData(rawData));
+    info.name = info.name.replace(/(?:\[)(.+)(?:\])/g, '($1)');
+
+    return info;
+  }
+
+  public async parseKamihime (template: WeaponInfo, message: Message) {
+    const db = await this.acquire(template.character.releases, true, true);
+    const infoSub = await this.parseArticle(template.character.releases);
+
+    return new Kamihime(
+      this.client,
+      this.handler.prefix(message) as string,
+      db.info,
+      infoSub
+    );
+  }
+
+  public async parseWeapon (template: KamihimeInfo) {
+    const db = await super.acquire(template.character.releaseWeapon, false, true);
+    const infoSub = await this.parseArticle(template.character.releaseWeapon);
+
+    return new Weapon(this.client, null, db.info, infoSub);
+  }
+
+  public getCategory (id: string) {
+    const discriminator = id.charAt(0);
+
+    switch (discriminator) {
+      default: return null;
+      case 's': return 'soul';
+      case 'e':
+      case 'x': return 'eidolon';
+      case 'k': return 'kamihime';
+      case 'w': return 'weapon';
+    }
   }
 }
 

@@ -1,20 +1,19 @@
-import { TextChannel } from 'discord.js';
-import fetch from 'node-fetch';
-import ErosCommand from '../../struct/command';
+import { Message as MSG, TextChannel } from 'discord.js';
+import ErosInfoCommand from '../../struct/command/ErosInfoCommand';
 
-export default class extends ErosCommand {
+export default class extends ErosInfoCommand {
   constructor () {
     super('hareminfo', {
       aliases: [ 'hareminfo', 'hinfo', 'hi', 'peek', 'p' ],
       description: {
         content: 'Sends a list of Harem Episodes of a character from Kamihime Database.',
-        usage: '<character name>',
+        usage: '<character name> [--accurate]',
         examples: [ 'eros', 'mars' ]
       },
       lock: 'user',
       args: [
         {
-          id: 'character',
+          id: 'item',
           match: 'text',
           type: name => {
             if (!name || name.length < 2) return null;
@@ -25,6 +24,11 @@ export default class extends ErosCommand {
             start: 'whose episodes information would you like to obtain?',
             retry: 'please provide an input with 2 characters and above.'
           }
+        },
+        {
+          id: 'accurate',
+          match: 'flag',
+          flag: [ '-a', '--accurate' ]
         },
       ]
     });
@@ -38,50 +42,14 @@ export default class extends ErosCommand {
     'we already did this before... s-secretly... didn\'t we?',
   ];
 
-  public async exec (message: Message, { character }: { character: string }) {
+  public async exec (message: Message, { item, accurate }: { item: string, accurate: boolean }) {
     try {
-      const { emojis, url } = this.client.config;
+      const character: IKamihimeDB | Message = await super.exec(message, { item, approved: false, accurate });
 
-      await message.util.send(`${emojis.loading} Awaiting KamihimeDB's response...`);
+      if (!character || character instanceof MSG) return;
 
-      const request = await fetch(`${url.api}search?name=${encodeURI(character)}&approved=1`, {
-        headers: { Accept: 'application/json' }
-      });
-      const data = await request.json();
-      const error = (data as IKamihimeDB).error;
-      const rows: IKamihimeDB[] = data;
-
-      if (error) throw error.message;
-
-      if (!rows.length) return message.util.edit(`No character named ${character} found.`);
-      else if (rows.length === 1) {
-        const result = rows.shift();
-        const _request = await fetch(`${url.api}id/${result.id}`, { headers: { Accept: 'application/json' } });
-        const _data = await _request.json();
-
-        if (_data.error) throw _data.error.message;
-
-        return await this.triggerDialog(message, _data);
-      }
-
-      await this.awaitSelection(message, rows);
+      return this.triggerDialog(message, character);
     } catch (err) { this.emitError(err, message, this, 1); }
-  }
-
-  public async awaitSelection (message: Message, rows: IKamihimeDB[]) {
-    const character = await this.client.util.selection.exec(message, this, rows);
-
-    if (!character) return;
-
-    const data = await fetch(
-      `${this.client.config.url.api}id/${character.id}`,
-      { headers: { Accept: 'application/json' } }
-    );
-    const _character = await data.json();
-
-    if (_character.error) throw _character.error.message;
-
-    await this.triggerDialog(message, _character);
   }
 
   public async triggerDialog (message: Message, result: IKamihimeDB) {
@@ -94,7 +62,7 @@ export default class extends ErosCommand {
       if (result.loli && restricted)
         throw new Error(`This character has loli contents, but loli contents are restricted within this server.${
           message.author.id === message.guild.ownerID
-            ? ` Please configure your Loli Contents Restriction via ${prefix}loli`
+            ? ` Please configure your Loli Contents Restriction via ${prefix}set loli`
             : ' Please contact the server owner.'
         }`);
 
@@ -180,7 +148,7 @@ export default class extends ErosCommand {
       if (!nsfwChannel)
         throw new Error(`NSFW Channel is not configured.${
           message.author.id === guild.ownerID
-            ? ` Please configure your NSFW Channel via ${prefix}nsfwchannel`
+            ? ` Please configure your NSFW Channel via ${prefix}set nsfwchannel`
             : ' Please contact the server owner.'
         }`);
 
