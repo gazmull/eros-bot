@@ -1,11 +1,13 @@
 language: node_js
 node_js:
+  - 11
   - 10
-install: npm install
+install: yarn
+sudo: false
 jobs:
   include:
-    - stage: test
-      script: npm test
+    - stage: docs-build
+      script: cp auth.example.js auth.js && yarn run test && yarn run docs:parse
 cache:
   directories:
     - node_modules

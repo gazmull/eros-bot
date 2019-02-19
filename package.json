@@ -1,37 +1,21 @@
 {
   "name": "eros-bot",
-  "version": "2.0.1",
-  "description": "Eros Bot Public",
-  "main": "index.js",
-  "dependencies": {
-    "bufferutil": "^4.0.1",
-    "discord-akairo": "1Computer1/discord-akairo#f06972b",
-    "discord-paginationembed": "github:gazmull/discord-paginationembed",
-    "discord.js": "github:discordjs/discord.js",
-    "erlpack": "discordapp/erlpack",
-    "infobox-parser": "^3.0.3",
-    "moment-timezone": "^0.5.23",
-    "node-fetch": "^2.3.0",
-    "node-schedule": "^1.3.1",
-    "nodemw": "^0.12.2",
-    "sequelize": "^4.42.0",
-    "sqlite": "^3.0.0",
-    "twitter-lite": "^0.9.0",
-    "zlib-sync": "^0.1.4"
-  },
-  "devDependencies": {
-    "eslint": "^5.12.0"
-  },
+  "version": "3.0.0",
+  "description": "[R18] A simple Kamihime Project (Nutaku) bot for pulling character information and harem episodes from Kamihime DB.",
+  "main": "build/index.js",
+  "typings": "typings",
   "engines": {
     "node": ">=10"
-  },
-  "scripts": {
-    "test": "eslint --ignore-path .gitignore .",
-    "lint": "eslint --ignore-path .gitignore . --fix"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gazmull/eros-bot.git"
+  },
+  "author": "gazmull <vescalaw@gmail.com> (thegzm.space)",
+  "license": "MIT",
+  "homepage": "https://github.com/gazmull/eros-bot#readme",
+  "bugs": {
+    "url": "https://github.com/gazmull/eros-bot/issues"
   },
   "keywords": [
     "kamihime",
@@ -44,7 +28,44 @@
     "kamihime",
     "database"
   ],
-  "author": "gazmull (thegzm.space)",
-  "license": "MIT",
-  "homepage": "https://github.com/gazmull/eros-bot#readme"
+  "scripts": {
+    "test": "yarn run lint && yarn run compile",
+    "compile": "tsc -p .",
+    "lint": "tslint -c .tslint.js -p .",
+    "lint-fix": "yarn run lint --fix",
+    "pm2": "pm2 start .pm2.yml --env production",
+    "dev:watch": "tsc -p . --watch",
+    "dev:start": "nodemon . --config .nodemon.json",
+    "docs:parse": "node . --parseDocs"
+  },
+  "dependencies": {
+    "bufferutil": "^4.0.1",
+    "chalk": "^2.4.2",
+    "discord-akairo": "github:1computer1/discord-akairo",
+    "discord-paginationembed": "github:gazmull/discord-paginationembed",
+    "discord.js": "github:discordjs/discord.js",
+    "erlpack": "github:discordapp/erlpack",
+    "fs-extra": "^7.0.1",
+    "infobox-parser": "^3.2.0",
+    "moment-timezone": "^0.5.23",
+    "mysql2": "^1.6.5",
+    "node-fetch": "^2.3.0",
+    "nodemw": "^0.12.2",
+    "sequelize": "^4.42.0",
+    "twitter-lite": "^0.9.1",
+    "winston": "^3.2.1",
+    "zlib-sync": "^0.1.4"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^5.0.5",
+    "@types/json2md": "^1.5.0",
+    "@types/moment-timezone": "^0.5.10",
+    "@types/node": "^11.9.4",
+    "@types/node-fetch": "^2.1.6",
+    "@types/sequelize": "^4.27.36",
+    "json2md": "^1.6.3",
+    "tslint": "^5.12.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.3.3"
+  }
 }

@@ -1,0 +1,7 @@
+# Global
+* text=auto eol=lf
+
+# Graphics
+*.gif binary
+*.png binary
+*.webp binary
