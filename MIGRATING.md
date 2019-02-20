@@ -1,6 +1,6 @@
 # Migrating From Kamihime Bot
 
-By reading this, you are aware that [**Kamihime Bot**](https://github.com/gazmull/kamihime-bot) does not exist anymore. Well don't worry, if you're looking for incompatibilities while trying to migrate to [**Eros**](https://github.com/gazmull/eros-bot), here's a list of changes from `Kamihime Bot` to `Eros`.
+By the time you're reading this, [**Kamihime Bot**](https://github.com/gazmull/kamihime-bot) does not exist anymore. Well don't worry, if you're looking for incompatibilities while trying to migrate to [**Eros**](https://github.com/gazmull/eros-bot), here's a list of changes from `Kamihime Bot` to `Eros`.
 
 > Note: **Their namings are based on their documentation**. If they're found lacking, there will be substitutions or conclusions.
 
