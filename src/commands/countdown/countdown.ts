@@ -41,7 +41,7 @@ export default class extends ErosCommand {
 
   public timezone = 'America/Los_Angeles';
 
-  private filename = `${__dirname}/../../../provider/countdown.json`;
+  protected filename = `${__dirname}/../../../provider/countdown.json`;
 
   public countdowns: Collection<number, string[]> = new Collection();
 

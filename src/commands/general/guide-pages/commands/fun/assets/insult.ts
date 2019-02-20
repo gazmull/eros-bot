@@ -5,8 +5,8 @@ export default {
   command: 'insult',
   fields: [
     {
-      name: 'Warning',
-      value: 'This command will be locked to a server member until he/she finally responds to this command.'
+      name: 'Flags: For Authorized Insult Managers Only',
+      value: 'Normal users or server managers cannot use flags `--stalk` and `--unstalk`.'
     },
   ]
 } as IDialog;
