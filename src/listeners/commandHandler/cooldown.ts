@@ -11,6 +11,6 @@ export default class extends ErosListener {
   public exec (message: Message, _, ms: number) {
     const seconds = (ms / 1000).toFixed(1);
 
-    return message.reply(message.reply(`you are still on cooldown. Check back within ${seconds} seconds.`));
+    return message.reply(`you are still on cooldown. Check back within ${seconds} seconds.`);
   }
 }

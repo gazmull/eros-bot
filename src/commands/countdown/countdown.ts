@@ -20,6 +20,7 @@ export default class extends ErosCommand {
           '- `delete`',
           '- `test`',
           '- `check`',
+          '- `subscribe`',
         ],
         usage: '[method] [arguments]',
         examples: [

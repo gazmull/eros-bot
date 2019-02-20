@@ -79,6 +79,6 @@ export default class extends ErosCommand {
         : 'unhoisted'
       : 'updated';
 
-    return message.util.reply(`Done! tag **${tag.name}** has been updated ${hoistStatus}.`);
+    return message.util.reply(`Done! tag **${tag.name}** has been ${hoistStatus}.`);
   }
 }
