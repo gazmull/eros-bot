@@ -17,17 +17,17 @@ Eros: [**Click Me!**](https://docs.thegzm.space/eros-bot)
 - `?` means it's from `Eros`
 
 
-| Difference                          | Kamihime Bot                     | Eros                            |
-| ----------------------------------- | -------------------------------- | ------------------------------- |
-| [/help vs ?help](#help)             | /help [command]                  | ?help [command]                 |
-| [/kh vs ?i](#kh)                    | /kh \<name> [parameter]          | ?info \<item name> [flags]      |
-| [/kp vs ?mi](#kp)                   | /kp [@username]                  | ?memberinfo [member name]       |
-| N/A                                 | /latest                          | N/A                             |
-| None                                | /invitebot                       | ?invite                         |
-| [/countdown vs ?cd](#countdown)     | /countdown [command] [arguments] | ?countdown [method] [arguments] |
-| [/kbaka vs ?insult](#kbaka)         | /kbaka \<@username>              | ?insult \<member> [--(un)stalk] |
-| [/kudos vs Leveling System](#kudos) | /kudos \<@username>              | Automated System; ?level        |
-|                                     |                                  |                                 |
+| Difference                             | Kamihime Bot                       | Eros                              |
+| -------------------------------------- | ---------------------------------- | --------------------------------- |
+| [/help vs ?help](#help)                | `/help [command]`                  | `?help [command]`                 |
+| [/kh vs ?i](#kh)                       | `/kh <name> [parameter]`           | `?info <item name> [flags]`       |
+| [/kp vs ?mi](#kp)                      | `/kp [@username]`                  | `?memberinfo [member name]`       |
+| N/A                                    | `/latest `                         | N/A                               |
+| None                                   | `/invitebot`                       | `?invite`                         |
+| [/countdown vs ?countdown](#countdown) | `/countdown [command] [arguments]` | `?countdown [method] [arguments]` |
+| [/kbaka vs ?insult](#kbaka)            | `/kbaka <@username>`               | `?insult <member> [--(un)stalk]`  |
+| [/kudos vs Leveling System](#kudos)    | `/kudos <@username>`               | Automated System; `?level`        |
+|                                        |                                    |                                   |
 
 ---
 
@@ -40,13 +40,13 @@ While there are no changes in the command usage, the details differs:
 
 ## kh
 Nothing much changed, however `flags` (or `parameter` from `Kamihime Bot`) is different to make way for the new `flags`:
-- Kamihme Bot: /kh Amaterasu --kamihime -k
-- Eros: ?kh Eros --type=kamihime -tk
+- Kamihme Bot: `/kh Amaterasu --kamihime -k`
+- Eros: `?i Eros --type=kamihime -tk`
 
 ### New Flags From Eros
 - `--preview` / `-p` Show image
 - `--release` / `--releases` / `--releaseweapon` / `-r` **Exclusive for Kamihime/Weapon** — Show the release weapon / kamihime release instead
-- `--accurate` / `-a` Tells the bot the given name immediately resolves to a character/weapon name (e.g: `?kh Eros -a`).
+- `--accurate` / `-a` Tells the bot that the given name immediately resolves to a character/weapon name (e.g: `?i Eros -a`).
 
 ---
 
@@ -59,8 +59,8 @@ While there are no changes in the command usage, the details differs:
 
 ## countdown
 Most sub commands did not change, however there is a usage change to `countdown add`, and `/countdown format` has been renamed to `?countdown help`:
-- Kamihime Bot: /countdown add An Event 1970-01-01T00:00
-- Eros: ?countdown add 1970-01-01T00:00 An Event
+- Kamihime Bot: `/countdown add An Event 1970-01-01T00:00`
+- Eros: `?countdown add 1970-01-01T00:00 An Event`
 
 ### New Countdown Features From Eros
 - Countdown notifications system added. See how to set this up [**here**](https://thegzm.gitbook.io/eros/commands/countdown/countdown-subscribe).
@@ -73,14 +73,14 @@ Most sub commands did not change, however there is a usage change to `countdown 
 While there are no changes in its function, the command usage differs:
 - Kamihime Bot
   - Can only be used by authorised personnel.
-  - /kbaka \<@username>
+  - `/kbaka <@username>`
 - Eros
   - Can be used by everyone, however `--stalk` flag (the behaviour of `/kbaka`) can only be used by authorised personnel.
-  - ?insult \<member> [--(un)stalk]
+  - `?insult <member> [--(un)stalk]`
 
 ---
 
 ## kudos
 While not really inherited, `Leveling System` has similar traits to `/kudos`: building up your reputation.
-- Kamihime Bot: /kudos \<@username>
+- Kamihime Bot: `/kudos <@username>`
 - Eros: Automated by the bot; core command is `?level`. Check your progress with `?level info`. [**More info about Leveling System**](https://thegzm.gitbook.io/eros/leveling-system)
