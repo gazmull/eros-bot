@@ -109,6 +109,13 @@ export default [
           'Your title may vary in each server.',
         ]
       },
+      {
+        name: 'When Does Level Up Occur?',
+        value: [
+          'Level Up occurs when you communicate with humans, the bot will check if you are eligible for the next level.',
+          'If you are wondering why you have not leveled up yet after surpassing the cap, that means you have been communicating with the bot which is not eligible for next level check.',
+        ]
+      },
     ]
   },
   // Page 5+

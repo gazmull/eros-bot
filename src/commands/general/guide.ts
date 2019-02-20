@@ -279,6 +279,7 @@ export default class extends ErosCommand {
         'SUMMARY.md',
         [ { h1: 'Table of Contents' },
           '- [CHANGELOG](CHANGELOG.md)',
+          '- [Migrating From Kamihime Bot](MIGRATING.md)',
           ...this.dialogs.map(v => {
             let title = null;
 
@@ -307,7 +308,8 @@ export default class extends ErosCommand {
       let readme = (await fs.readFile(`${__dirname}/../../../README.md`)).toString();
       readme = readme.slice(readme.indexOf('# Eros'));
       readme = [
-        '![Click the image to proceed to the invite URL](.gitbook/assets/ersu.webp)',
+        '[![Click the image to proceed to the invite URL](.gitbook/assets/ersu.webp)]' +
+        '(http://addbot.thegzm.space)',
         '',
         '[![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)]' +
         '(https://travis-ci.org/gazmull/eros-bot)',
@@ -318,10 +320,14 @@ export default class extends ErosCommand {
       await fs.outputFile(`${__dirname}/../../../../eros-docs/README.md`, readme);
       this.client.logger.info('-- Successfully copied README');
 
-      const changelog = (await fs.readFile(`${__dirname}/../../../CHANGELOG.md`)).toString();
+      await Promise.all(
+        [ 'CHANGELOG', 'MIGRATING' ].map(async f => {
+          const buffer = (await fs.readFile(`${__dirname}/../../../${f}.md`)).toString();
 
-      await fs.outputFile(`${__dirname}/../../../../eros-docs/CHANGELOG.md`, changelog);
-      this.client.logger.info('-- Successfully copied CHANGELOG');
+          await fs.outputFile(`${__dirname}/../../../../eros-docs/${f}.md`, buffer);
+          this.client.logger.info(`-- Successfully copied ${f}`);
+        })
+      );
 
       this.client.logger.info('Done parsing docs.');
       process.exit(0);
