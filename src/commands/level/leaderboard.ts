@@ -48,8 +48,12 @@ export default class extends ErosCommand {
         ])
         .formatField(
           '#) Name',
-          (el: ILevelInstance) =>
-            `${levels.findIndex(l => l.user === el.user) + 1}) ${this.client.users.get(el.user).tag}`
+          (el: ILevelInstance) => {
+            const user = this.client.users.get(el.user);
+            const tag = user ? user.tag : 'UNKNOWN_USER';
+
+            return `${levels.findIndex(l => l.user === el.user) + 1}) ${tag}`;
+          }
         )
         .formatField('EXP', (el: ILevelInstance) => el.exp);
 
