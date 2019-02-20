@@ -7,11 +7,11 @@ const client = new ErosClient(config);
 client
   .build()
   .init()
-  .catch(client.logger.error);
+  .catch(err => client.logger.error(err));
 
 client
   .on('disconnect', () => process.exit(0))
-  .on('error', client.logger.error)
-  .on('warn', client.logger.warn);
+  .on('error', err => client.logger.error(err))
+  .on('warn', inf => client.logger.warn(inf));
 
-process.on('unhandledRejection', client.logger.error);
+process.on('unhandledRejection', err => client.logger.error(err));

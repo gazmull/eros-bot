@@ -14,6 +14,7 @@ import ErosListener from './listener';
 import Selection from './util/Selection';
 
 const db = create();
+const productionMode = process.env.NODE_ENV === 'production';
 
 export default class ErosClient extends AkairoClient {
   constructor (config: IErosClientOptions) {
@@ -31,7 +32,8 @@ export default class ErosClient extends AkairoClient {
       ],
       disableEveryone: true,
       messageCacheLifetime: 300,
-      messageCacheMaxSize: 50
+      messageCacheMaxSize: 50,
+      restTimeOffset: productionMode ? 500 : 1000
     });
 
     this.config = config;
