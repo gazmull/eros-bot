@@ -67,7 +67,7 @@ export default class extends ErosCommand {
 
     const tags = await factory.findAll({
       where: { guild: message.guild.id },
-      attributes: [ 'id',  'name', 'hoisted' ]
+      attributes: [ 'id', 'name', 'hoisted' ]
     });
 
     if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
@@ -79,17 +79,16 @@ export default class extends ErosCommand {
     const serverHoisted = tags.filter(el => el.hoisted);
     const serverNotHoisted = tags.filter(el => !el.hoisted);
 
-    if (serverHoisted.length)
-      embed.addField(
-        'Server Tags', [
-          ...serverHoisted
-            .map(el => `**\`${el.name}\`**`)
-            .sort(),
-          ...serverNotHoisted
-            .map(el => `**\`${el.name}\`**`)
-            .sort(),
-        ].join(', ')
-      );
+    embed.addField(
+      'Server Tags', [
+        ...serverHoisted
+          .map(el => `**\`${el.name}\`**`)
+          .sort(),
+        ...serverNotHoisted
+          .map(el => `**\`${el.name}\`**`)
+          .sort(),
+      ].join(', ')
+    );
 
     const myTags = tags.filter(el => el.author === message.author.id);
 
