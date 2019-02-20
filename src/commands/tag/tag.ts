@@ -13,9 +13,11 @@ export default class extends ErosCommand {
           '\t- `del`',
           '\t- `delete`',
           '\t- `edit`',
+          '\t- `find`',
           '\t- `info`',
           '\t- `leaderboard`',
           '\t- `list`',
+          '\t- `search`',
           '\t- `show`',
           '\t- `source`',
         ],
@@ -26,11 +28,13 @@ export default class extends ErosCommand {
           'delete SoS',
           'edit Jump In the caAc --hoist',
           'edit SoS caAc',
+          'find big smoke',
           'info Leon',
           'leaderboard 5',
+          'list @Eros',
+          'search memes',
           'show Leon',
           'source xd',
-          'list @Eros',
         ]
       },
       channel: 'guild',
@@ -48,6 +52,8 @@ export default class extends ErosCommand {
             'list',
             'show',
             'source',
+            'search',
+            'find',
           ]
         },
         {
@@ -72,7 +78,9 @@ export default class extends ErosCommand {
       leaderboard: this.handler.modules.get('tag-leaderboard'),
       list: this.handler.modules.get('tag-list'),
       show: this.handler.modules.get('tag-show'),
-      source: this.handler.modules.get('tag-source')
+      source: this.handler.modules.get('tag-source'),
+      search: this.handler.modules.get('tag-search'),
+      find: this.handler.modules.get('tag-search')
     };
     const command = commands[method];
 
