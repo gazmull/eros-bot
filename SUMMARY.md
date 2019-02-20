@@ -38,6 +38,7 @@
     - [tag-edit](commands/tag/tag-edit.md)
     - [tag-info](commands/tag/tag-info.md)
     - [tag-leaderboard](commands/tag/tag-leaderboard.md)
+    - [tag-search](commands/tag/tag-search.md)
     - [tag-show](commands/tag/tag-show.md)
     - [tag-source](commands/tag/tag-source.md)
     - [tag-list](commands/tag/tag-list.md)

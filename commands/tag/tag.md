@@ -17,11 +17,15 @@ Available Methods:
 
 	- `edit`
 
+	- `find`
+
 	- `info`
 
 	- `leaderboard`
 
 	- `list`
+
+	- `search`
 
 	- `show`
 
@@ -60,11 +64,13 @@ When trying to recall a tag with a name that is the same with an existing comman
 @Eros tag delete SoS
 @Eros tag edit Jump In the caAc --hoist
 @Eros tag edit SoS caAc
+@Eros tag find big smoke
 @Eros tag info Leon
 @Eros tag leaderboard 5
+@Eros tag list @Eros
+@Eros tag search memes
 @Eros tag show Leon
 @Eros tag source xd
-@Eros tag list @Eros
 ```
 
 

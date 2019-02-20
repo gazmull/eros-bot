@@ -13,6 +13,8 @@ Commands within this category:
 
 [**`tag leaderboard`**](/commands/tag/tag-leaderboard.md) - Displays a leaderboard of tags from the current server or the specified member.
 
+[**`tag search`**](/commands/tag/tag-search.md) - Searches for tags available in the server.
+
 [**`tag show`**](/commands/tag/tag-show.md) - Displays a tag.
 
 [**`tag source`**](/commands/tag/tag-source.md) - Displays a tag's source.

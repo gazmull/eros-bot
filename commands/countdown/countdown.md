@@ -25,6 +25,8 @@ Available Methods:
 
 - `check`
 
+- `subscribe`
+
 
 
 ## Required Bot Permissions

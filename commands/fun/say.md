@@ -18,11 +18,6 @@ Add Reactions
 Embed Links
 ```
 
-## Warning
-
-
-This command will be locked to a server member until he/she finally responds to this command.
-
 ## Examples
 
 ```

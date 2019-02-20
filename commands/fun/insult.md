@@ -18,10 +18,10 @@ Add Reactions
 Embed Links
 ```
 
-## Warning
+## Flags: For Authorized Insult Managers Only
 
 
-This command will be locked to a server member until he/she finally responds to this command.
+Normal users or server managers cannot use flags `--stalk` and `--unstalk`.
 
 ## Examples
 
