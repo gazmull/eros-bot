@@ -52,7 +52,8 @@ export default class {
 
             if (!channel) continue;
 
-            channel.send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
+            channel.send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
+              .catch();
           }
         }, 3000);
 
