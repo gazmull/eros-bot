@@ -1,6 +1,7 @@
 # Table of Contents
 
 - [CHANGELOG](CHANGELOG.md)
+- [Migrating From Kamihime Bot](MIGRATING.md)
 - [Guide Start](guide-start.md)
 - [Using the Bot](using-the-bot.md)
 - [Leveling System](leveling-system.md)

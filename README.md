@@ -1,4 +1,4 @@
-![Click the image to proceed to the invite URL](.gitbook/assets/ersu.webp)
+[![Click the image to proceed to the invite URL](.gitbook/assets/ersu.webp)](http://addbot.thegzm.space)
 
 [![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)](https://travis-ci.org/gazmull/eros-bot)
 # Eros Bot

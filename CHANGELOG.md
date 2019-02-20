@@ -1,8 +1,12 @@
+This log starts from `3.0.0`.
+
+---
+
 # 3.0.0
 
 Please make sure you read the documentation [**here**](https://docs.thegzm.space/eros-bot) to fill you up without reading everything here.
 
-***somewhat***-tl;dr: [**Using the Bot**](https://thegzm.gitbook.io/eros/using-the-bot)
+***somewhat***-tl;dr: [**Using the Bot**](https://thegzm.gitbook.io/eros/using-the-bot) | [**Migrating from Kamihime bot to Eros**](https://thegzm.gitbook.io/eros/migrating)
 
 ## Noticeable Changes
 - Moved all `server settings` commands under one command: `set` (e.g. `@Eros set prefix ?`) ([**Link**](https://thegzm.gitbook.io/eros/commands/set/set))
