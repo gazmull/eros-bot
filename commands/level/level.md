@@ -29,8 +29,8 @@ Embed Links
 ## Examples
 
 ```
-@Eros level level info @Euni
-@Eros level level i @Euni
+@Eros level info @Euni
+@Eros level i @Euni
 @Eros level leaderboard 5
 ```
 
