@@ -17,12 +17,12 @@
 - Kamihime Database (Harem Scenes)
     - Only Nutaku version is available.
     - Uses REST API (JSON) from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
-- Enjoy staying in your server by gaining a grand title and EXPs with Basic Level System
-    - This is an experimental feature.
 - Tweets updates from [**@Kamihime_Nutaku**](https://twitter.com/kamihime_nutaku)
     - Customise the `Twitter Channel` with `?set twitterchannel <channel>`
 - Get notified with in-game events via Countdown notification system
     - Customise the `Countdown Channel` with `?set cdchannel <channel>`
+- Enjoy staying in your server by gaining a grand title and EXPs with Leveling System
+    - See `level` command for more info
 - Customise your server settings
     - See `set` command for more info
 - Save memos or notes with Tag system
@@ -62,13 +62,24 @@
 
 - Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
 - Eros requires at least [**Node 10**](https://nodejs.org) for runtime and [**MariaDB 10.1**](https://mariadb.org) for data persistence
-    - Clone this repository [via command shell] after installing the requirements above: `$ git clone https://github.com/gazmull/eros-bot.git`
+    - Clone this repository [via command shell] after installing the requirements above
+      - `$ git clone https://github.com/gazmull/eros-bot.git`
+      - `$ cd eros-bot`
     - Run `$ yarn` (Before this, make sure [**Yarn**](https://yarnpkg.com/en/docs/getting-started) and [**Build Tools** (**Windows**)](https://github.com/felixrieseberg/windows-build-tools) | [**Build Tools** (**Linux**)](https://superuser.com/questions/352000/whats-a-good-way-to-install-build-essentials-all-common-useful-commands-on) are installed)
     - `src` must also be built
         - `$ yarn --production=false`
         - `$ yarn run compile`
 - Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `// comments` to help set up the file
-- Create a database [with `utf8_unicode_ci` collation] named with the name provided in `auth.js` (default: `eros`). Please make sure MariaDB is installed in the machine beforehand.
+- Create a database. If the following defaults from `auth.js` (`database` and `usename`), everything below can be copied and pasted  without an issue— make sure to replace texts with `[]`
+    - Before doing the steps below, please make sure `db`'s properties has been **properly** configured for security purposes
+    - `$ mysql -u root`, assuming the MariaDB setup has no password on root. If it has password, append `-p`
+    - Execute every line once inside MariaDB CLI:
+```sql
+CREATE DATABASE `eros` COLLATE = 'utf8_unicode_ci';
+CREATE USER `eros`@`localhost` IDENTIFIED BY '[password in auth.js]';
+GRANT ALL PRIVILEGES ON `eros`.* TO `eros`@`localhost`;
+exit;
+```
 - Run the bot!
     - Node: `node .`
     - Process Managers
