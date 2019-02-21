@@ -15,8 +15,8 @@ export default class extends ErosCommand {
         ],
         usage: '<method> [arguments]',
         examples: [
-          'level info @Euni',
-          'level i @Euni',
+          'info @Euni',
+          'i @Euni',
           'leaderboard 5',
         ]
       },

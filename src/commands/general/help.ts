@@ -60,8 +60,13 @@ export default class extends ErosCommand {
       .setTitle('Commands')
       .setDescription([
         message.guild ? `This server's prefix is \`${prefix}\`` : '',
-        'For more info about a command, see: `help [command name]`',
+        `For more info about a command, see: \`${prefix}help [command name]\``,
         `For an in-depth guide on how to use this bot, see: \`${prefix}guide\``,
+        !message.guild
+          // tslint:disable-next-line:prefer-template
+          ? '\nThere are commands that are only usable in servers.' +
+            ' If you would like to see them, please trigger this command in a server.'
+          : '',
       ]);
 
     for (const [ category, commands ] of this.handler.categories) {
@@ -86,9 +91,11 @@ export default class extends ErosCommand {
       const publicCommands = message.author.id === this.client.ownerID && !pub
         ? commands
         : commands.filter(c => !c.ownerOnly);
-      const parentCommands = publicCommands.filter(c => Boolean(c.aliases && c.aliases.length));
+      let parentCommands = publicCommands.filter(c => Boolean(c.aliases && c.aliases.length));
 
-      if (title) embed.addField(title, parentCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
+      if (!message.guild) parentCommands = parentCommands.filter(c => c.channel !== 'guild');
+      if (title && parentCommands.size)
+        embed.addField(title, parentCommands.map(c => `\`${c.aliases[0]}\``).join(', '));
     }
 
     embed.fields = embed.fields.sort((a, b) => a.name > b.name ? 1 : (a.name < b.name ? -1 : 0));
