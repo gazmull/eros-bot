@@ -3,7 +3,7 @@
 
 **Usage**: `@Eros insult <member>`
 
-**Aliases**: `insult`
+**Aliases**: `insult`, `kbaka`
 
 **Brief Description**: Lets you insult someone in my stead.
 

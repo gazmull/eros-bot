@@ -4,7 +4,7 @@
 # Eros Bot
 - Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     - Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-- Version: **3** ([**What's new in v3?**](CHANGELOG.md#3-0-0))
+- Version: **3.1.0** ([**What's new in v3?**](CHANGELOG.md#3-0-0))
 - [**Discord Server**](http://erosdev.thegzm.space)
 - [**Bot Guide**](https://docs.thegzm.space/eros-bot)
 
@@ -66,12 +66,12 @@
         - `$ yarn --production=false`
         - `$ yarn run compile`
 - Create an `auth.js` file and obtain the template from `auth.example.js`. They are documented by `// comments` to help set up the file
-- Create a database. If the following defaults from `auth.js` (`database` and `usename`), everything below can be copied and pasted  without an issue— make sure to replace texts with `[]`
+- Create a database. If the following defaults from `auth.js` (`database` and `usename`) were not changed, everything below can be copied and pasted without an issue— make sure to replace texts with `[]`
     - Before doing the steps below, please make sure `db`'s properties has been **properly** configured for security purposes
     - `$ mysql -u root`, assuming the MariaDB setup has no password on root. If it has password, append `-p`
     - Execute every line once inside MariaDB CLI:
 ```sql
-CREATE DATABASE `eros` COLLATE = 'utf8_unicode_ci';
+CREATE DATABASE `eros` CHARACTER SET = 'utf8mb4' COLLATE = 'utf8mb4_unicode_ci';
 CREATE USER `eros`@`localhost` IDENTIFIED BY '[password in auth.js]';
 GRANT ALL PRIVILEGES ON `eros`.* TO `eros`@`localhost`;
 exit;
