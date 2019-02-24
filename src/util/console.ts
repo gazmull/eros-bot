@@ -6,11 +6,11 @@ export default class Logger {
   public logger = createLogger({
     transports: [ new transports.Console() ],
     format: format.printf(
-      log => `${chalk.bgMagenta.whiteBright(this.time)}: [${this.setColour(log.level)}] ${log.message}`
+      log => `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}`
     )
   });
 
-  protected setColour (type: string) {
+  protected setColour (type: string, content?: string) {
     type = type.toUpperCase();
 
     switch (type.toLowerCase()) {
@@ -19,6 +19,7 @@ export default class Logger {
       case 'debug': return chalk.magentaBright(type);
       case 'warn': return chalk.yellowBright(type);
       case 'error': return chalk.redBright(type);
+      case 'timestamp': return chalk.bgMagenta.whiteBright(content);
     }
   }
 
