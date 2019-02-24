@@ -6,7 +6,7 @@ import ErosComamnd from '../../struct/command';
 export default class extends ErosComamnd {
   constructor () {
     super('insult', {
-      aliases: [ 'insult' ],
+      aliases: [ 'insult', 'kbaka' ],
       description: {
         content: 'Lets you insult someone in my stead.',
         usage: '<member>',
