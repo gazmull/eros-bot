@@ -1,6 +1,7 @@
 import { version as akairoVersion } from 'discord-akairo';
 import { version as discordVersion } from 'discord.js';
 import fetch from 'node-fetch';
+import * as os from 'os';
 // @ts-ignore
 import { description, homepage, version as erosVersion } from '../../../package.json';
 import ErosCommand from '../../struct/command';
@@ -26,7 +27,7 @@ export default class extends ErosCommand {
     const _description = [
       description,
       '',
-      `[**Github**](${homepage}) | [**Bot Documentation & Guide**](${docs})`,
+      `[**Source Code**](${homepage}) | [**Bot Documentation & Guide**](${docs})`,
     ];
 
     return message.util.send(
@@ -36,19 +37,21 @@ export default class extends ErosCommand {
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))
         .addField('Author', this.client.users.get(this.client.ownerID), true)
         .addField('Libraries and Applications', [
-          '**Discord.JS**: v' + discordVersion,
-          '**Akairo**: v' + akairoVersion,
-          '**KamihimeDB**: v' + kamihimedbVersion,
-          '**Eros**: v' + erosVersion,
+          `**Discord.JS**: v${discordVersion}`,
+          `**Akairo**: v${akairoVersion}`,
+          `**KamihimeDB**: v${kamihimedbVersion}`,
+          `**Eros**: v${erosVersion}`,
         ], true)
         .addField('Discord', [
-          '**Servers**: ' + this.client.guilds.size,
-          '**Channels**: ' + this.client.channels.size,
-          '**Users**: ' + this.client.users.size,
+          `**Servers**: ${this.client.guilds.size}`,
+          `**Channels**: ${this.client.channels.size}`,
+          `**Users**: ${this.client.users.size}`,
         ], true)
         .addField('System', [
-          '**Uptime**: ' + prettifyMs(this.client.uptime),
+          `**Uptime**: ${prettifyMs(this.client.uptime)}`,
           `**Memory**: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`,
+          `**NodeJS**: ${process.version}`,
+          `**OS**: ${os.type()} ${os.arch()}`,
         ], true)
     );
   }
