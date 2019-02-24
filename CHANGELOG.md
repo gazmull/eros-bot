@@ -2,6 +2,28 @@ This log starts from `3.0.0`.
 
 ---
 
+# 3.1.0
+
+## Additions
+- `command`(`stats`): Added NodeJS and OS info
+- `commands`: Actually add Kamihime Bot aliases to comply with migration documentation
+- `readme`(`database`): Added proper character set and collate. For existing database, please do the following on MariaDB CLI (assuming that you're already logged in and uses `eros` database):
+```sql
+ALTER DATABASE `eros` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+ALTER TABLE `guilds` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+ALTER TABLE `levels` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+ALTER TABLE `storage` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+ALTER TABLE `tags` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+ALTER TABLE `titles` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+```
+
+## Changes
+- `client`: Removed SequelizeProvider reliance to reduce memory usage
+
+## Fixes
+- `command`(`hareminfo`): No longer says `?nsfw` notice when nsfwRole is not configured.
+- `command`(`nsfw`): Fixed message object being null error.
+
 # 3.0.0
 
 Please make sure you read the documentation [**here**](https://docs.thegzm.space/eros-bot) to fill you up without reading everything here.
