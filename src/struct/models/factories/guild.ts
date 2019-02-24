@@ -7,7 +7,7 @@ export interface IGuildAttributes {
   cdChannel?: string;
   cdRole?: string;
   id: string;
-  loli: boolean;
+  loli?: boolean;
   nsfwChannel?: string;
   nsfwRole?: string;
   owner: string;

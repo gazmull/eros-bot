@@ -55,16 +55,22 @@ export default class extends ErosInfoCommand {
   public async triggerDialog (message: Message, result: IKamihimeDB) {
     try {
       const { url, emojis } = this.client.config;
-      const prefix = this.handler.prefix(message);
-      const guild = message.guild;
-      const restricted = guild ? this.client.guildSettings.get(guild.id, 'loli', null) : null;
+      const prefix = await this.handler.prefix(message);
+      const guild = message.guild
+        ? await this.client.db.Guild.findOne({
+          where: { id: message.guild.id },
+          attributes: [ 'loli', 'nsfwChannel', 'nsfwRole' ]
+        })
+        : null;
 
-      if (result.loli && restricted)
-        throw new Error(`This character has loli contents, but loli contents are restricted within this server.${
-          message.author.id === message.guild.ownerID
-            ? ` Please configure your Loli Contents Restriction via ${prefix}set loli`
-            : ' Please contact the server owner.'
-        }`);
+      if (result.loli && guild && guild.loli)
+        return message.util.edit(
+          `${message.author}, this character has loli contents, but loli contents are restricted within this server.${
+            message.author.id === message.guild.ownerID
+              ? ` Please configure your Loli Contents Restriction via \`${prefix}set loli\``
+              : ' Please contact the server owner.'
+          }`
+        );
 
       const harems = [
         {
@@ -142,24 +148,24 @@ export default class extends ErosInfoCommand {
       if (!channel.guild)
         return message.util.edit(embed);
 
-      const nsfwChannelID = this.client.guildSettings.get(guild.id, 'nsfwChannel', null);
-      const nsfwChannel = guild.channels.get(nsfwChannelID) as TextChannel;
+      const nsfwChannel = message.guild.channels.get(guild!.nsfwChannel) as TextChannel;
 
       if (!nsfwChannel)
-        throw new Error(`NSFW Channel is not configured.${
-          message.author.id === guild.ownerID
-            ? ` Please configure your NSFW Channel via ${prefix}set nsfwchannel`
+        return message.util.edit(`${message.author}, NSFW Channel is not configured.${
+          message.author.id === message.guild.ownerID
+            ? ` Please configure your NSFW Channel via \`${prefix}set nsfwchannel\``
             : ' Please contact the server owner.'
         }`);
 
-      if (channel.id === nsfwChannelID)
+      if (channel.id === guild.nsfwChannel)
         return message.util.edit(embed);
 
       await nsfwChannel.send(embed);
 
-      return message.util.edit(
-        `I have sent my response at ${nsfwChannel}. If you have no access to that channel, say \`${prefix}nsfw\`.`
-      );
+      return message.util.edit([
+        `${message.author}, I have sent my response at ${nsfwChannel}.`,
+        guild.nsfwRole ? ` If you have no access to that channel, say \`${prefix}nsfw\`.` : '',
+      ]);
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 }

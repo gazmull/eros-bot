@@ -30,9 +30,11 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { prefix }: { prefix: string }) {
-    const oldPrefix = this.client.guildSettings.get(message.guild.id, 'prefix', defaultPrefix);
-    await this.client.guildSettings.set(message.guild.id, 'prefix', prefix);
+    await this.client.db.Guild.update(
+      { prefix },
+      { where: { id: message.guild.id } }
+    );
 
-    return message.util.reply(`I have changed the server prefix from \`${oldPrefix}\` to \`${prefix}\`.`);
+    return message.util.reply(`I have changed the server prefix to \`${prefix}\`.`);
   }
 }

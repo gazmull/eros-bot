@@ -19,6 +19,6 @@ export default class extends ErosListener {
       'Please try again later.',
     ];
 
-    return message.reply(command.lock(message, null) === message.author.id ? userBased : defaultBased);
+    return message.util.reply(command.lock(message, null) === message.author.id ? userBased : defaultBased);
   }
 }

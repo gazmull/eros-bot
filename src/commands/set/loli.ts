@@ -8,11 +8,15 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message) {
-    const loli = this.client.guildSettings.get(message.guild.id, 'loli', false);
-    await this.client.guildSettings.set(message.guild.id, 'loli', !loli);
+    const guild = await this.client.db.Guild.findOne({
+      where: { id: message.guild.id },
+      attributes: [ 'id', 'loli' ]
+    });
+
+    await guild.update({ loli: !guild.loli });
 
     return message.util.reply(
-      loli
+      !guild.loli
         ? 'I have disabled Loli contents restriction in this server.'
         : 'I have enabled Loli contents restriction in this server.'
     );

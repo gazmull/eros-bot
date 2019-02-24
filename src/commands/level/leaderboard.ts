@@ -44,7 +44,7 @@ export default class extends ErosCommand {
         .setPage(page)
         .addField('Help', [
           'React with the emoji below to navigate. ↗ to skip a page.',
-          `See a members's information with \`${this.handler.prefix(message)}level info <member>\``,
+          `See a members's information with \`${await this.handler.prefix(message)}level info <member>\``,
         ])
         .formatField(
           '#) Name',

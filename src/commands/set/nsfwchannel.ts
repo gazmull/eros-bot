@@ -24,12 +24,11 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { channel }: { channel: TextChannel }) {
-    const oldChannel = this.client.guildSettings.get(message.guild.id, 'nsfwChannel', null);
-    const resolvedChannel = this.client.channels.get(oldChannel);
-    await this.client.guildSettings.set(message.guild.id, 'nsfwChannel', channel.id);
+    await this.client.db.Guild.update(
+      { nsfwChannel: channel.id },
+      { where: { id: message.guild.id } }
+    );
 
-    return message.util.reply(
-      `I have changed the NSFW Channel ${
-        oldChannel && resolvedChannel ? `from ${resolvedChannel} ` : ''}to ${channel}.`);
+    return message.util.reply(`I have changed the NSFW Channel to ${channel}.`);
   }
 }

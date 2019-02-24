@@ -35,6 +35,7 @@ export default class extends ErosCommand {
     try {
       const factory = this.client.db.Tag;
       const { emojis } = this.client.config;
+      const prefix = await this.handler.prefix(message);
 
       if (member) {
         const memberTags = await factory.findAll({
@@ -65,7 +66,7 @@ export default class extends ErosCommand {
           .setPage(page)
           .addField('Help', [
             'React with the emoji below to navigate. ↗ to skip a page.',
-            `See a tag's information with \`${this.handler.prefix(message)}\``,
+            `See a tag's information with \`${prefix}\``,
           ])
           .formatField('#) Name', (el: ITagInstance) => `${tags.findIndex(t => t.name === el.name) + 1} ${el.name}`)
           .formatField('Times Used', (el: ITagInstance) => el.uses);
@@ -93,7 +94,7 @@ export default class extends ErosCommand {
         .setPage(page)
         .addField('Help', [
           'React with the emoji below to navigate. ↗ to skip a page.',
-          `See a tag's information with \`${this.handler.prefix(message)}tag info <tag name>\``,
+          `See a tag's information with \`${prefix}tag info <tag name>\``,
         ])
         .formatField('#) Name', (el: ITagInstance) => `${tags.findIndex(t => t.name === el.name) + 1}) ${el.name}`)
         .formatField('Times Used', (el: ITagInstance) => el.uses);

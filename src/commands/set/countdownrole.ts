@@ -24,12 +24,11 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message, { role }: { role: Role }) {
-    const oldRole = this.client.guildSettings.get(message.guild.id, 'cdRole', null);
-    const resolvedRole = message.guild.roles.get(oldRole);
-    await this.client.guildSettings.set(message.guild.id, 'cdRole', role.id);
+    await this.client.db.Guild.update(
+      { cdRole: role.id },
+      { where: { id: message.guild.id } }
+    );
 
-    return message.util.reply(
-      `I have changed the Countdown Subscriber Role ${
-        oldRole && resolvedRole ? `from \`${resolvedRole.name}\` ` : ''}to \`${role.name}\`.`);
+    return message.util.reply(`I have changed the Countdown Subscriber Role to \`${role.name}\`.`);
   }
 }

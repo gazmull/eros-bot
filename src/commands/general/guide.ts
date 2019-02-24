@@ -137,7 +137,7 @@ export default class extends ErosCommand {
         .addField('Navigation Tip', [
           'React with the emoji below to navigate. ↗ to skip a page.',
           `You may also do \`${
-            this.handler.prefix(message)}guide <page number>\` to jump to a page immediately.`,
+            await this.handler.prefix(message)}guide <page number>\` to jump to a page immediately.`,
         ])
         .addField('Documentation', 'Visiting the web documentation may be better to see what is new: ' + docs);
 

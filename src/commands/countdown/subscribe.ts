@@ -13,13 +13,15 @@ export default class extends ErosCommand {
   }
 
   public async exec (message: Message) {
-    const guild = message.guild;
-    const cdRole = this.client.guildSettings.get(guild.id, 'cdRole', null);
-    const cdChannel = this.client.guildSettings.get(guild.id, 'cdChannel', null);
-    const resolvedChannel = guild.channels.get(cdChannel);
-    const prefix = this.handler.prefix(message);
+    const guild = await this.client.db.Guild.findOne({
+      where: { id: message.guild.id },
+      attributes: [ 'cdRole', 'cdChannel' ]
+    });
+    const resolvedChannel = message.guild.channels.get(guild!.cdChannel);
+    const roleId = guild!.cdRole;
+    const prefix = await this.handler.prefix(message);
 
-    if (!cdRole || !resolvedChannel)
+    if (!guild || !roleId || !resolvedChannel)
       return message.util.reply(
         'Countdown Role/Channel is not properly configured.' +
         `${message.author.id === message.guild.ownerID
@@ -31,16 +33,16 @@ export default class extends ErosCommand {
 
     let result: string;
 
-    if (message.member.roles.has(cdRole)) {
-      await message.member.roles.remove(cdRole);
+    if (message.member.roles.has(roleId)) {
+      await message.member.roles.remove(roleId);
 
       result = 'unsubscribed';
     } else {
-      await message.member.roles.add(cdRole);
+      await message.member.roles.add(roleId);
 
       result = 'subscribed';
     }
 
-    return message.util.reply(`successfully ${result} from countdown notifications.`);
+    return message.util.reply(`successfully ${result} to countdown notifications.`);
   }
 }

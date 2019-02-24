@@ -69,8 +69,8 @@ export default class extends ErosCommand {
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 
-  public helpDialog (message: Message) {
-    const prefix = this.handler.prefix(message);
+  public async helpDialog (message: Message) {
+    const prefix = await this.handler.prefix(message);
     const embed = this.util.embed(message)
       .setTitle('Filter Variables')
       .setDescription(

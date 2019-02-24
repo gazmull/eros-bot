@@ -26,8 +26,8 @@ export default class extends ErosCommand {
     });
   }
 
-  public exec (message: Message, { command, pub }: { command: ErosCommand, pub: boolean }) {
-    const prefix = this.handler.prefix(message);
+  public async exec (message: Message, { command, pub }: { command: ErosCommand, pub: boolean }) {
+    const prefix = await this.handler.prefix(message);
     if (!command) return this.defaultHelp(message, pub);
 
     const clientPermissions = command.clientPermissions as string[];
@@ -53,8 +53,8 @@ export default class extends ErosCommand {
     return message.util.send(embed);
   }
 
-  public defaultHelp (message: Message, pub = false) {
-    const prefix = this.handler.prefix(message);
+  public async defaultHelp (message: Message, pub = false) {
+    const prefix = await this.handler.prefix(message);
     const embed = this.util.embed(message)
       .setColor(0xFF00AE)
       .setTitle('Commands')

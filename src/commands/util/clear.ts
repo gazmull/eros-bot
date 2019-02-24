@@ -31,7 +31,7 @@ export default class extends ErosCommand {
     try {
       const channel = message.channel as TextChannel;
       if (channel.topic && channel.topic.match(/<clear:no>/gi))
-        return message.reply('clear command for this channel is restricted.');
+        return message.util.reply('clear command for this channel is restricted.');
 
       const messages = await channel.messages.fetch({ limit: amount });
 

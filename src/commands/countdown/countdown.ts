@@ -86,8 +86,8 @@ export default class extends ErosCommand {
     return message.util.send(embed);
   }
 
-  public authorisedHelp (message: Message) {
-    const prefix = this.handler.prefix(message);
+  public async authorisedHelp (message: Message) {
+    const prefix = await this.handler.prefix(message);
     const embed = this.util.embed(message)
       .setColor(0xFF00AE)
       .addField('Adding a Countdown', [

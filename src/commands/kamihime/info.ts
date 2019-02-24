@@ -101,7 +101,7 @@ export default class extends ErosInfoCommand {
   public async triggerDialog (message: IMessage, result: IKamihimeDB) {
     try {
       await message.util.edit(`${this.client.config.emojis.loading} Awaiting Fandom's response...`, { embed: null });
-      const prefix = this.handler.prefix(message) as string;
+      const prefix = await this.handler.prefix(message) as string;
       const category = this.getCategory(result.id);
       const info = await this.parseArticle(result.name);
       let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo;
@@ -230,7 +230,7 @@ export default class extends ErosInfoCommand {
 
     return new Kamihime(
       this.client,
-      this.handler.prefix(message) as string,
+      await this.handler.prefix(message) as string,
       db.info,
       infoSub
     );

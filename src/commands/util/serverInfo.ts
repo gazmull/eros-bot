@@ -10,25 +10,22 @@ export default class extends ErosCommand {
     });
   }
 
-  public exec (message: Message) {
+  public async exec (message: Message) {
     const memberCount = message.guild.memberCount;
     const presenceCount = message.guild.presences.filter(m => m.status !== 'offline').size;
     const factoryChannels = [ 'nsfwChannel', 'twitterChannel', 'cdChannel' ];
     const factoryRoles = [ 'nsfwRole', 'cdRole' ];
     const filterChannels = (channelType: string) => message.guild.channels.filter(c => c.type === channelType).size;
-    const getRecord = (guildID: string, column: string) => {
-      if (factoryRoles.includes(column)) {
-        const guild = this.client.guilds.get(guildID);
-        const role = this.client.guildSettings.get(guildID, column, null);
+    const guild = await this.client.db.Guild.findOne({ where: { id: message.guild.id } });
+    const getRecord = (column: string) => {
+      const value = guild[column];
 
-        return role ? guild.roles.get(role) : 'Not Configured';
-      } else if (factoryChannels.includes(column)) {
-        const channel = this.client.guildSettings.get(guildID, column, null);
+      if (factoryRoles.includes(column))
+        return value ? message.guild.roles.get(value) : 'Not Configured';
+      else if (factoryChannels.includes(column))
+        return value ? this.client.channels.get(value) : 'Not Configured';
 
-        return channel ? this.client.channels.get(channel) : 'Not Configured';
-      }
-
-      return this.client.guildSettings.get(guildID, column, null);
+      return value;
     };
 
     const embed = this.util.embed(message)
@@ -42,13 +39,13 @@ export default class extends ErosCommand {
         true
       )
       .addField('Roles Count', message.guild.roles.size, true)
-      .addField('Prefix', `\`${this.handler.prefix(message)}\``, true)
-      .addField('Twitter Channel', getRecord(message.guild.id, 'twitterChannel'))
-      .addField('Countdown Channel', getRecord(message.guild.id, 'cdChannel'), true)
-      .addField('Countdown Subscriber Role', getRecord(message.guild.id, 'cdRole'), true)
-      .addField('NSFW Channel', getRecord(message.guild.id, 'nsfwChannel'), true)
-      .addField('NSFW Role', getRecord(message.guild.id, 'nsfwRole'), true)
-      .addField('Loli Restricted?', getRecord(message.guild.id, 'loli') ? 'Yes. :triumph:' : 'No. :sweat_smile:');
+      .addField('Prefix', `\`${await this.handler.prefix(message)}\``, true)
+      .addField('Twitter Channel', getRecord('twitterChannel'))
+      .addField('Countdown Channel', getRecord('cdChannel'), true)
+      .addField('Countdown Subscriber Role', getRecord('cdRole'), true)
+      .addField('NSFW Channel', getRecord('nsfwChannel'), true)
+      .addField('NSFW Role', getRecord('nsfwRole'), true)
+      .addField('Loli Restricted?', getRecord('loli') ? 'Yes. :triumph:' : 'No. :sweat_smile:');
 
     return message.util.send(embed);
   }

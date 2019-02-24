@@ -1,5 +1,5 @@
 import IErosClientOptions from 'auth';
-import { AkairoClient, InhibitorHandler, ListenerHandler, SequelizeProvider } from 'discord-akairo'; // tslint:disable-line:max-line-length
+import { AkairoClient, InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import * as Fandom from 'nodemw';
 import { promisify } from 'util';
 import GuideCommand from '../commands/general/guide';
@@ -61,10 +61,20 @@ export default class ErosClient extends AkairoClient {
       timeout: (msg: Message) => `${msg.author}, command expired.`
     },
     directory: `${__dirname}/../commands`,
-    prefix: message => {
+    prefix: async message => {
       if (!message.guild) return '';
 
-      return this.guildSettings.get(message.guild.id, 'prefix', this.config.defaultPrefix);
+      const [ guild ] = await this.db.Guild.findOrCreate({
+        where: { id: message.guild.id },
+        attributes: [ 'prefix' ],
+        defaults: {
+          prefix: this.config.defaultPrefix,
+          id: message.guild.id,
+          owner: message.guild.ownerID
+        }
+      });
+
+      return guild.prefix;
     }
   });
 
@@ -84,9 +94,7 @@ export default class ErosClient extends AkairoClient {
 
   public ownerID: string;
 
-  public guildSettings = new SequelizeProvider(db.Guild, { idColumn: 'id' });
-
-  public fandomApi: Fandom = this._fandomApi;
+  public fandomApi: Fandom = null;
 
   public logger = new Winston().logger;
 
@@ -115,7 +123,7 @@ export default class ErosClient extends AkairoClient {
   }
 
   public async init () {
-    if (this.parseMode) {
+    if (process.argv.includes('--parseDocs')) {
       this.logger.info('Docs Parsing Mode Engaged');
 
       const docs = this.commandHandler.modules.get('guide') as GuideCommand;
@@ -130,30 +138,19 @@ export default class ErosClient extends AkairoClient {
     await db.sequelize.sync({ force });
     this.logger.info('Database synchronised!');
 
-    await this.guildSettings.init();
-    this.logger.info('Provider set!');
-
     this.fandomApi = new Fandom({
       debug: false,
       path: '',
       protocol: 'https',
       server: 'kamihime-project.fandom.com'
     });
-    this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this._fandomApi));
+    this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this.fandomApi));
     this.logger.info(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
 
     return this.login(this.config.token);
   }
 
-  get _fandomApi () {
-    return this.fandomApi;
-  }
-
   get db () {
     return db;
-  }
-
-  get parseMode () {
-    return process.argv.includes('--parseDocs');
   }
 }
