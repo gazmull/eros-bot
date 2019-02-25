@@ -387,7 +387,7 @@ diff@^3.2.0, diff@^3.5.0:
 
 "discord-akairo@github:1computer1/discord-akairo":
   version "8.0.0-dev"
-  resolved "https://codeload.github.com/1computer1/discord-akairo/tar.gz/e393dfea8c429db9352d889732a3faa02aa2b724"
+  resolved "https://codeload.github.com/1computer1/discord-akairo/tar.gz/bbfad38c21bc2761df5b4647ed687615be4de91b"
 
 "discord-paginationembed@github:gazmull/discord-paginationembed":
   version "0.7.9"

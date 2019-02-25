@@ -46,7 +46,6 @@ export default class ErosClient extends AkairoClient {
   public commandHandler = new ErosCommandHandler(this, {
     allowMention: true,
     automateCategories: true,
-    // @ts-ignore and file an issue for this: it should infer Function? instead of string?
     classToHandle: Command,
     commandUtil: true,
     commandUtilLifetime: 1000 * 60 * 3,
@@ -85,7 +84,6 @@ export default class ErosClient extends AkairoClient {
 
   public listenerHandler = new ListenerHandler(this, {
     automateCategories: true,
-    // @ts-ignore and file an issue for this: it should infer Function? instead of string?
     classToHandle: ErosListener,
     directory: `${__dirname}/../listeners`
   });
