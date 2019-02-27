@@ -5,7 +5,7 @@ export default {
   command: 'quiz',
   description: [
     'The deployed questionnaire can be answered by everyone in the channel.',
-    'Maximum questions in one trigger: **3** for **normal user** | **5** for **user with `Manage Server` permission**',
+    'Maximum questions in one trigger: **5** for **normal user** | **10** for **user with `Manage Server` permission**',
     'Maximum interval: 120 seconds',
   ],
   fields: [

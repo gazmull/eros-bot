@@ -54,10 +54,10 @@ export default class extends ErosComamnd {
   }
 
   public async exec (message: Message, { rotation, interval }: { rotation: number, interval: number }) {
-    if (!message.member.hasPermission('MANAGE_GUILD') && rotation > 3)
-      rotation = 3;
-    else if (message.member.hasPermission('MANAGE_GUILD') && rotation > 5)
+    if (!message.member.hasPermission('MANAGE_GUILD') && rotation > 5)
       rotation = 5;
+    else if (message.member.hasPermission('MANAGE_GUILD') && rotation > 10)
+      rotation = 10;
 
     try {
       for (let i = 0; i < rotation; i++) {
