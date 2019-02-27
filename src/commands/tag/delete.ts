@@ -1,5 +1,5 @@
 import ErosCommand from '../../struct/command';
-import { ITagInstance } from '../../struct/models/factories/tag';
+import { Tag } from '../../struct/models/factories/Tag';
 
 export default class extends ErosCommand {
   constructor () {
@@ -23,7 +23,7 @@ export default class extends ErosCommand {
     });
   }
 
-  public async exec (message: Message, { tag }: { tag: ITagInstance }) {
+  public async exec (message: Message, { tag }: { tag: Tag }) {
     const isManager = message.member.hasPermission('MANAGE_GUILD');
 
     if (tag.author !== message.author.id && !isManager) {

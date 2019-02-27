@@ -1,5 +1,5 @@
 import ErosCommand from '../../struct/command';
-import { ITagInstance } from '../../struct/models/factories/tag';
+import { Tag } from '../../struct/models/factories/Tag';
 
 export default class extends ErosCommand {
   constructor () {
@@ -23,7 +23,7 @@ export default class extends ErosCommand {
     });
   }
 
-  public exec (message: Message, { tag }: { tag: ITagInstance }) {
+  public exec (message: Message, { tag }: { tag: Tag }) {
     return message.util.reply(tag.content, { code: 'md' });
   }
 }

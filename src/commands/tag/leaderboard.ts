@@ -1,7 +1,7 @@
 import { ArgumentOptions, Control } from 'discord-akairo';
 import { GuildMember } from 'discord.js';
 import ErosCommand from '../../struct/command';
-import { ITagInstance } from '../../struct/models/factories/tag';
+import { Tag } from '../../struct/models/factories/Tag';
 
 const pageArg: ArgumentOptions = {
   id: 'page',
@@ -68,8 +68,8 @@ export default class extends ErosCommand {
             'React with the emoji below to navigate. ↗ to skip a page.',
             `See a tag's information with \`${prefix}\``,
           ])
-          .formatField('#) Name', (el: ITagInstance) => `${tags.findIndex(t => t.name === el.name) + 1} ${el.name}`)
-          .formatField('Times Used', (el: ITagInstance) => el.uses);
+          .formatField('#) Name', (el: Tag) => `${tags.findIndex(t => t.name === el.name) + 1} ${el.name}`)
+          .formatField('Times Used', (el: Tag) => el.uses);
 
         return memberEmbed.build();
       }
@@ -96,8 +96,8 @@ export default class extends ErosCommand {
           'React with the emoji below to navigate. ↗ to skip a page.',
           `See a tag's information with \`${prefix}tag info <tag name>\``,
         ])
-        .formatField('#) Name', (el: ITagInstance) => `${tags.findIndex(t => t.name === el.name) + 1}) ${el.name}`)
-        .formatField('Times Used', (el: ITagInstance) => el.uses);
+        .formatField('#) Name', (el: Tag) => `${tags.findIndex(t => t.name === el.name) + 1}) ${el.name}`)
+        .formatField('Times Used', (el: Tag) => el.uses);
 
       return embed.build();
     } catch (err) { this.emitError(err, message, this); }

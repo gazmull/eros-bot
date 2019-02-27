@@ -1,6 +1,6 @@
 import { Control } from 'discord-akairo';
 import ErosCommand from '../../struct/command';
-import { ITagAttributes, ITagInstance } from '../../struct/models/factories/tag';
+import { Tag } from '../../struct/models/factories/Tag';
 
 export default class extends ErosCommand {
   constructor () {
@@ -47,7 +47,7 @@ export default class extends ErosCommand {
 
   public async exec (
     message: Message,
-    { tag, content, hoisted, unhoisted }: { tag: ITagInstance, content: string, hoisted: boolean, unhoisted: boolean }
+    { tag, content, hoisted, unhoisted }: { tag: Tag, content: string, hoisted: boolean, unhoisted: boolean }
   ) {
     const isManager = message.member.hasPermission('MANAGE_GUILD');
 
@@ -62,7 +62,7 @@ export default class extends ErosCommand {
       return this.fail(message);
     }
 
-    const updateValues: Partial<ITagAttributes> = { modifiedBy: message.author.id };
+    const updateValues: Partial<Tag> = { modifiedBy: message.author.id };
     let hoist;
 
     if (hoisted) hoist = true;

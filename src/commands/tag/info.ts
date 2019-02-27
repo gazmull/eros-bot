@@ -1,7 +1,7 @@
 import { User } from 'discord.js';
 import * as moment from 'moment-timezone';
 import ErosCommand from '../../struct/command';
-import { ITagInstance } from '../../struct/models/factories/tag';
+import { Tag } from '../../struct/models/factories/Tag';
 
 export default class extends ErosCommand {
   constructor () {
@@ -25,7 +25,7 @@ export default class extends ErosCommand {
     });
   }
 
-  public async exec (message: Message, { tag }: { tag: ITagInstance }) {
+  public async exec (message: Message, { tag }: { tag: Tag }) {
     const user = await this.client.users.fetch(tag.author);
     let modifiedBy: User;
 

@@ -1,5 +1,5 @@
 import ErosCommand from '../../struct/command';
-import { ILevelInstance } from '../../struct/models/factories/level';
+import { Level } from '../../struct/models/factories/Level';
 
 export default class extends ErosCommand {
   constructor () {
@@ -48,14 +48,14 @@ export default class extends ErosCommand {
         ])
         .formatField(
           '#) Name',
-          (el: ILevelInstance) => {
+          (el: Level) => {
             const user = this.client.users.get(el.user);
             const tag = user ? user.tag : 'UNKNOWN_USER';
 
             return `${levels.findIndex(l => l.user === el.user) + 1}) ${tag}`;
           }
         )
-        .formatField('EXP', (el: ILevelInstance) => el.exp);
+        .formatField('EXP', (el: Level) => el.exp);
 
       return embed.build();
     } catch (err) { this.emitError(err, message, this); }
