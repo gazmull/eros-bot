@@ -5,10 +5,19 @@ import { createLogger, format, transports } from 'winston';
 export default class Logger {
   public logger = createLogger({
     transports: [ new transports.Console() ],
-    format: format.printf(
-      log => `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}`
-    )
+    exitOnError: false,
+    format: this.baseFormat()
   });
+
+  protected baseFormat () {
+    const formatMessage = log =>
+      `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}`;
+    const formatError = log =>
+      `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}\n ${log.stack}\n`;
+    const _format = log => log instanceof Error ? formatError(log) : formatMessage(log);
+
+    return format.combine(format.printf(_format));
+  }
 
   protected setColour (type: string, content?: string) {
     type = type.toUpperCase();
