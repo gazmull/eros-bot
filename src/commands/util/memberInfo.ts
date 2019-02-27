@@ -32,21 +32,18 @@ export default class extends ErosCommand {
 
       if (!fetchedMember) throw new Error('Member cache missing');
 
-      const res = await this.client.db.Level.findOrCreate({
+      const [ levelMember ] = await this.client.db.Level.findOrCreate({
         where: { user: fetchedMember.id, guild: message.guild.id },
         attributes: [ 'title', 'exp' ]
       });
 
-      if (!res[0]) throw new Error('Cannot resolve the member.');
-
-      const [ levelMember ] = res;
       const ranking = await this.client.db.Level.findAll({
         where: { guild: message.guild.id },
         order: [ [ 'exp', 'DESC' ] ],
         attributes: [ 'user' ]
       });
       const titlesMember = await this.client.db.Title.findAll({
-        where: { [this.client.db.Sequelize.Op.or]: [ { id: levelMember.title }, { id: levelMember.title + 1 } ] },
+        where: { [this.client.db.Op.or]: [ { id: levelMember.title }, { id: levelMember.title + 1 } ] },
         order: [ [ 'id', 'ASC' ] ],
         attributes: [ 'id', 'name', 'threshold' ]
       });

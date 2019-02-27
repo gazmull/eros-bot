@@ -1,5 +1,4 @@
 import { TextChannel } from 'discord.js';
-import { Op } from 'sequelize';
 import * as TwitterClient from 'twitter-lite';
 import ErosClient from '../struct/ErosClient';
 
@@ -38,7 +37,7 @@ export default class {
 
         this.lastTweetId = tweet.id_str;
         const guilds = await this.client.db.Guild.findAll({
-          where: { twitterChannel: { [Op.ne]: null } },
+          where: { twitterChannel: { [this.client.db.Op.ne]: null } },
           attributes: [ 'twitterChannel' ]
         });
 

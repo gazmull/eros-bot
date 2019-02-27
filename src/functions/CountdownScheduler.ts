@@ -1,7 +1,6 @@
 import { Collection, TextChannel } from 'discord.js';
 import { EventEmitter } from 'events';
 import * as moment from 'moment';
-import { Op } from 'sequelize';
 import CountdownCommand from '../commands/countdown/countdown';
 import ErosClient from '../struct/ErosClient';
 
@@ -35,7 +34,7 @@ export default class extends EventEmitter {
       this.destroy(date);
 
       const guilds = await this.client.db.Guild.findAll({
-        where: { cdChannel: { [Op.ne]: null } },
+        where: { cdChannel: { [this.client.db.Op.ne]: null } },
         attributes: [ 'cdChannel', 'cdRole' ]
       });
       const tick = this.client.setInterval(async () => {

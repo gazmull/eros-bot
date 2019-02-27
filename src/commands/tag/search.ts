@@ -24,7 +24,7 @@ export default class extends ErosCommand {
       attributes: [ 'name' ],
       where: {
         name: {
-          [this.client.db.Sequelize.Op.like]: `%${name}%`
+          [this.client.db.Op.like]: `%${name}%`
         }
       }
     });

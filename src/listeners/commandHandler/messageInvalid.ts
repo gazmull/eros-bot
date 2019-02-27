@@ -32,7 +32,7 @@ export default class extends ErosListener {
   protected async validateExp (message: Message) {
     if (message.content.length <= 3) return;
 
-    const res = await this.client.db.Level.findOrCreate({
+    const [ member ] = await this.client.db.Level.findOrCreate({
       where: {
         user: message.author.id,
         guild: message.guild.id
@@ -40,9 +40,6 @@ export default class extends ErosListener {
       attributes: [ 'id', 'exp', 'title', 'updatedAt' ]
     });
 
-    if (!res[0]) return;
-
-    const [ member ] = res;
     const eligible = Date.now() > (new Date(member.updatedAt).getTime() + 10e3);
     const exp = Math.floor(Math.random() * 10);
 
@@ -50,7 +47,7 @@ export default class extends ErosListener {
       await member.increment('exp', { by: exp });
 
       const newTitle = await this.client.db.Title.findOne({
-        where: { threshold: { [ this.client.db.Sequelize.Op.lte ]: member.exp } },
+        where: { threshold: { [ this.client.db.Op.lte ]: member.exp } },
         order: [ [ 'threshold', 'DESC' ] ],
         attributes: [ 'id' ]
       });
