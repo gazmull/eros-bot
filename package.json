@@ -1,6 +1,6 @@
 {
   "name": "eros-bot",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "A simple bot for pulling character information and harem episodes from Kamihime Project Fandom and Kamihime Database.",
   "main": "build/index.js",
   "typings": "typings",
