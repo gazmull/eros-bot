@@ -71,7 +71,7 @@
     - `$ mysql -u root`, assuming the MariaDB setup has no password on root. If it has password, append `-p`
     - Execute every line once inside MariaDB CLI:
 ```sql
-CREATE DATABASE `eros` CHARACTER SET = 'utf8mb4' COLLATE = 'utf8mb4_unicode_ci';
+CREATE DATABASE `eros` CHARACTER SET = 'utf8' COLLATE = 'utf8_unicode_ci';
 CREATE USER `eros`@`localhost` IDENTIFIED BY '[password in auth.js]';
 GRANT ALL PRIVILEGES ON `eros`.* TO `eros`@`localhost`;
 exit;

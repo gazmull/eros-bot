@@ -48,12 +48,18 @@ __Each flag is compatible with *any other flag*.__
 
 `-p`, `--preview` requests to show the item's image
 
+​
+
+__Each flag is only compatible with Souls__
+
+`-m`, `--mex` requests character's Master Extra Abilities
+
 ## Emoji Reacts To Interact
 
 
 🖼 — Toggle image
 
-🔄 — **only for kamihime/weapon**— See Kamihime / Weapon
+🔄 — **only for kamihime/weapon/soul**— See Kamihime / Weapon / Soul's Master Extra Abilities
 
 ## Examples
 
@@ -64,6 +70,7 @@ __Each flag is compatible with *any other flag*.__
 @Eros info ea -tw
 @Eros info hell staff -tw -r
 @Eros info ea -tk -r
+@Eros info arthur -ts -m
 ```
 
 

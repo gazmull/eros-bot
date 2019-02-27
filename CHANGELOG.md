@@ -2,6 +2,30 @@ This log starts from `3.0.0`.
 
 ---
 
+# 3.2.0
+
+## Critical
+- `readme`(`database`): Converting to utf8mb4 character set has been changed again to make sure to avoid key length errors. For existing database, please do the following on MariaDB CLI (assuming that you're already logged in and uses `eros` database):
+```sql
+ALTER DATABASE `eros` CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
+ALTER TABLE `guilds` CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
+ALTER TABLE `levels` CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
+ALTER TABLE `storage` CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
+ALTER TABLE `tags` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+ALTER TABLE `titles` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+```
+
+## Additions
+- `command`(`info`): Added MEX toggle for Souls (see `@Eros guide 21` or [here](https://thegzm.gitbook.io/eros/commands/kamihime/info))
+
+## Changes
+- `models`: Models has been refactored for concise structuring. Also changed from `sequelize v4` and `mysql2` to `sequelize v5-beta.15` with `sequelize-typescript v0.6.8-beta.0` and `mariadb`
+- `functions/commands`: Changed Operator imports to `<client>.db` from `sequelize / <client>.sequelize`
+- `util`(`console`): Refactored format
+
+## Fixes
+- `Info`: Removed unnecessary async / await keywords
+
 # 3.1.0
 
 ## Additions
