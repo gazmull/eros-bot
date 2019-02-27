@@ -90,6 +90,13 @@ declare global {
       description: string;
       upgradeDescription?: string;
     }[];
+
+    mex?: {
+      name: string;
+      description: string;
+      cooldown: string;
+      duration?: string;
+    }[],
     summon?: {
       name: string;
       cooldown: string;
@@ -151,6 +158,14 @@ declare global {
     assist1Desc: string;
     assist2Name?: string;
     assist2Desc?: string;
+    mex1Name?: string;
+    mex1Desc?: string;
+    mex1Cd?: string;
+    mex1Dur?: string;
+    mex2Name?: string;
+    mex2Desc?: string;
+    mex2Cd?: string;
+    mex2Dur?: string;
   }
 
   interface IKamihimeFandomWeapon extends IKamihimeFandomKamihime {

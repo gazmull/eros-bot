@@ -4,9 +4,9 @@ import Info from '../base/Info';
 export default class SoulInfo extends Info {
   public character: IKamihimeFandomSoul;
 
-  public async format () {
+  public format () {
     const { fandomURI, colors } = this;
-    const soul = await this.template();
+    const soul = this.template();
     const embed = new MessageEmbed()
       .setDescription(
         [
@@ -27,6 +27,29 @@ export default class SoulInfo extends Info {
       embed.setFooter(`Soul Points to unlock: ${soul.soulPoints}`);
 
     return super.format(embed, soul);
+  }
+
+  public formatMex () {
+    const { colors } = this;
+    const soul = this.template();
+    const embed = new MessageEmbed()
+      .setColor(colors[soul.tier]);
+
+    for (const m of soul.mex)
+      if (m)
+        embed.addField(
+          [
+            `:regional_indicator_m:: ${m.name}`,
+            `| __CD__: ${m.cooldown}`,
+            m.duration ? `| __D__: ${m.duration}` : '',
+          ].join(' '),
+          m.description
+        );
+
+    if (soul.soulPoints)
+      embed.setFooter(`Soul Points to unlock: ${soul.soulPoints}`);
+
+    return super.format(embed, soul, false);
   }
 
   public template () {
@@ -103,6 +126,25 @@ export default class SoulInfo extends Info {
           ? {
             name: character.assist2Name,
             description: character.assist2Desc
+          }
+          : null,
+      ],
+
+      mex: [
+        character.mex1Name
+          ? {
+            name: character.mex1Name,
+            description: character.mex1Desc,
+            cooldown: character.mex1Cd,
+            duration: character.mex1Dur || null
+          }
+          : null,
+        character.mex2Name
+          ? {
+            name: character.mex2Name,
+            description: character.mex2Desc,
+            cooldown: character.mex2Cd,
+            duration: character.mex2Dur || null
           }
           : null,
       ],

@@ -21,6 +21,7 @@ export default class extends ErosInfoCommand {
           'ea -tw',
           'hell staff -tw -r',
           'ea -tk -r',
+          'arthur -ts -m',
         ]
       },
       cooldown: 5000,
@@ -57,6 +58,11 @@ export default class extends ErosInfoCommand {
           flag: [ '-a', '--accurate' ]
         },
         {
+          id: 'mex',
+          match: 'flag',
+          flag: [ '-m', '--mex' ]
+        },
+        {
           id: 'type',
           match: 'option',
           flag: [ '-t', '--type=' ],
@@ -68,17 +74,19 @@ export default class extends ErosInfoCommand {
 
   public async exec (
     message: IMessage,
-    { item, preview, release, accurate, type }: {
+    { item, preview, release, accurate, mex, type }: {
       item: string,
       preview: boolean,
       release: boolean,
       accurate: boolean,
+      mex: boolean,
       type: string
     }
   ) {
     try {
       if (preview) message.needsPreview = true;
       if (release) message.needsRelease = true;
+      if (mex) message.needsMex = true;
       if (type !== null) {
         type = {
           s: 'soul',
@@ -104,8 +112,8 @@ export default class extends ErosInfoCommand {
       const prefix = await this.handler.prefix(message) as string;
       const category = this.getCategory(result.id);
       const info = await this.parseArticle(result.name);
-      let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo;
-      let template2: KamihimeInfo | WeaponInfo;
+      let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo | true;
+      let template2: KamihimeInfo | WeaponInfo | SoulInfo | true;
       let format2: MessageEmbed;
 
       switch (category) {
@@ -126,30 +134,38 @@ export default class extends ErosInfoCommand {
 
       const releases = (template.character as IKamihimeFandomWeapon).releases;
       const releaseWeapon = (template.character as IKamihimeFandomKamihime).releaseWeapon;
+      const mex = (template.character as IKamihimeFandomSoul).mex1Name;
 
       if (releases)
         template2 = await this.parseKamihime(template as WeaponInfo, message).catch(() => null);
       else if (releaseWeapon)
         template2 = await this.parseWeapon(template as KamihimeInfo).catch(() => null);
+      else if (mex)
+        template2 = true;
 
       if (
-        message.needsRelease &&
+        (
           (
-            (template instanceof Kamihime && template.character.releaseWeapon) ||
-            (template instanceof Weapon && template.character.releases)
-          ) && template2
+            message.needsRelease &&
+            (
+              (template instanceof Kamihime && releaseWeapon) ||
+              (template instanceof Weapon && releases)
+            )
+          ) ||
+          (message.needsMex && template instanceof Soul && mex)
+        ) && template2
       ) {
         const tmp = template2;
         template2 = template;
-        template = tmp;
+        template = tmp as KamihimeInfo | WeaponInfo | SoulInfo;
       }
 
-      const format = await template.format();
+      const format = typeof template === 'boolean' ? (template2 as SoulInfo).formatMex() : template.format();
       const assets = { [template.constructor.name]: template };
       const array = [ format ];
 
       if (template2) {
-        format2 = await template2.format();
+        format2 = typeof template2 === 'boolean' ? (template as SoulInfo).formatMex() : template2.format();
 
         array.push(format2);
         Object.assign(assets, { [template2.constructor.name]: template2 });
@@ -177,17 +193,19 @@ export default class extends ErosInfoCommand {
       Object.assign(embed, {
         assets,
         needsPreview: message.needsPreview,
-        preview: template.character.preview,
-        currentClass: template.constructor.name,
+        preview: template.character ? template.character.preview : (template2 as SoulInfo).character.preview,
+        currentClass: typeof template !== 'boolean' ? template.constructor.name : null,
         oldClass: template2 ? template2.constructor.name : null
       });
 
-      if ((releaseWeapon || releases) && template && template2)
+      if ((releaseWeapon || releases || mex) && template && template2)
         embed.addFunctionEmoji('🔄', (_, instance) => {
           const tmp = instance.currentClass;
           instance.currentClass = instance.oldClass;
           instance.oldClass = tmp;
-          instance.preview = instance.assets[instance.currentClass].character.preview;
+
+          if (instance.currentClass)
+            instance.preview = instance.assets[instance.currentClass].character.preview;
 
           instance.setPage(instance.page === 1 ? 2 : 1);
 
@@ -260,4 +278,5 @@ export default class extends ErosInfoCommand {
 interface IMessage extends Message {
   needsPreview?: boolean;
   needsRelease?: boolean;
+  needsMex?: boolean;
 }

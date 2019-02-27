@@ -43,9 +43,10 @@ export default class Info {
 
   public character: IKamihimeFandom;
 
-  public async format (
+  public format (
     embed: MessageEmbed,
-    template: IKamihimeFandomFormatted
+    template: IKamihimeFandomFormatted,
+    includePreset = true
   ) {
     const { prefix } = this;
     const character = template;
@@ -54,75 +55,77 @@ export default class Info {
       .setThumbnail(character.thumbnail)
       .setAuthor(character.name, null, character.link);
 
-    if (character.atk && character.hp) {
-      const stats = {
-        name: 'Maximum Basic Stats',
-        value: `**HP: ${character.hp}** | **ATK: ${character.atk}**`
-      };
+    if (includePreset) {
+      if (character.atk && character.hp) {
+        const stats = {
+          name: 'Maximum Basic Stats',
+          value: `**HP: ${character.hp}** | **ATK: ${character.atk}**`
+        };
 
-      if (character.atkFBL && character.hpFBL)
-        stats.value += `\n★ [Final Break Limit]: **${character.hpFBL}** | **${character.atkFBL}**`;
+        if (character.atkFBL && character.hpFBL)
+          stats.value += `\n★ [Final Break Limit]: **${character.hpFBL}** | **${character.atkFBL}**`;
 
-      if (embed.fields.length) {
-        const oldFields = embed.fields;
-        embed.fields = [];
+        if (embed.fields.length) {
+          const oldFields = embed.fields;
+          embed.fields = [];
 
-        embed.fields.push(stats);
+          embed.fields.push(stats);
 
-        for (const field of oldFields)
-          embed.fields.push(field);
-      } else embed.fields.push(stats);
-    }
+          for (const field of oldFields)
+            embed.fields.push(field);
+        } else embed.fields.push(stats);
+      }
 
-    if (character.burst)
-      embed.addField(
-        `:b:: ${character.burst.name}`,
-        [
-          character.burst.description || 'Description not specified.',
-          ` ★ ${character.burst.upgradeDescription || 'Upgrade description not specified.'}`,
-        ]
-      );
-
-    if (character.abilities)
-      for (const ability of character.abilities) {
-        if (!ability) continue;
-
+      if (character.burst)
         embed.addField(
+          `:b:: ${character.burst.name}`,
           [
-            `:regional_indicator_a:: ${ability.name}`,
-            `| __CD__: ${ability.cooldown}`,
-            ability.duration ? `| __D__: ${ability.duration}` : '',
-          ].join(' '),
-          [ ability.description, ability.upgradeDescription ]
+            character.burst.description || 'Description not specified.',
+            ` ★ ${character.burst.upgradeDescription || 'Upgrade description not specified.'}`,
+          ]
         );
+
+      if (character.abilities)
+        for (const ability of character.abilities) {
+          if (!ability) continue;
+
+          embed.addField(
+            [
+              `:regional_indicator_a:: ${ability.name}`,
+              `| __CD__: ${ability.cooldown}`,
+              ability.duration ? `| __D__: ${ability.duration}` : '',
+            ].join(' '),
+            [ ability.description, ability.upgradeDescription ]
+          );
+        }
+
+      if (character.assistAbilities)
+        for (const assistAbility of character.assistAbilities) {
+          if (!assistAbility) continue;
+
+          embed.addField(`:sparkle:: ${assistAbility.name}`,
+            [ assistAbility.description, assistAbility.upgradeDescription ],
+            true
+          );
+        }
+
+      if (character.harem) {
+        embed.addBlankField();
+        embed.addField('Harem Episodes Available', `To access: \`${prefix}p ${character.name}\``);
       }
 
-    if (character.assistAbilities)
-      for (const assistAbility of character.assistAbilities) {
-        if (!assistAbility) continue;
-
-        embed.addField(`:sparkle:: ${assistAbility.name}`,
-          [ assistAbility.description, assistAbility.upgradeDescription ],
-          true
-        );
-      }
-
-    if (character.harem) {
-      embed.addBlankField();
-      embed.addField('Harem Episodes Available', `To access: \`${prefix}p ${character.name}\``);
-    }
-
-    if (character.obtainedFrom)
-      embed.setFooter(
-        `can be obtained from ${character.obtainedFrom.replace(/(gacha(?=[.\s]+))/i, '$1 |')}${
-          character.obtainedFrom.includes('Gacha')
-            ? ''
-            : [ 'Awaken', 'Main Quest', 'Tutorial', 'Shop', 'Quests', 'Events' ]
-              .some(e => character.obtainedFrom.includes(e))
+      if (character.obtainedFrom)
+        embed.setFooter(
+          `can be obtained from ${character.obtainedFrom.replace(/(gacha(?=[.\s]+))/i, '$1 |')}${
+            character.obtainedFrom.includes('Gacha')
               ? ''
-              : ' Event'
-        }`
-      );
+              : [ 'Awaken', 'Main Quest', 'Tutorial', 'Shop', 'Quests', 'Events' ]
+                .some(e => character.obtainedFrom.includes(e))
+                ? ''
+                : ' Event'
+          }`
+        );
+    }
 
     return embed;
   }

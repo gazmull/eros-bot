@@ -26,13 +26,16 @@ export default {
         '__Each flag is compatible with *any other flag*.__',
         '`-r`, `--release`, `--releases`, `--releaseweapon` **only for kamihime/weapon**— requests Kamihime\'s weapon / Kamihime Release instead',
         '`-p`, `--preview` requests to show the item\'s image',
+        '\u200b',
+        '__Each flag is only compatible with Souls__',
+        '`-m`, `--mex` requests character\'s Master Extra Abilities',
       ]
     },
     {
       name: 'Emoji Reacts To Interact',
       value: [
         '🖼 — Toggle image',
-        '🔄 — **only for kamihime/weapon**— See Kamihime / Weapon',
+        '🔄 — **only for kamihime/weapon/soul**— See Kamihime / Weapon / Soul\'s Master Extra Abilities',
       ]
     },
   ]
