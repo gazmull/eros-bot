@@ -4,9 +4,9 @@ import Info from '../base/Info';
 export default class EidolonInfo extends Info {
   public character: IKamihimeFandomEidolon;
 
-  public async format () {
+  public format () {
     const { colors } = this;
-    const eidolon = await this.template();
+    const eidolon = this.template();
     const embed = new MessageEmbed()
       .setDescription(`__**Eidolon**__ | __**${eidolon.element}**__\n${eidolon.description}`)
       .setColor(colors[eidolon.rarity])

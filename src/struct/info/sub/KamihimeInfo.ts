@@ -4,7 +4,7 @@ import Info from '../base/Info';
 export default class KamihimeInfo extends Info {
   public character: IKamihimeFandomKamihime;
 
-  public async format () {
+  public format () {
     const { fandomURI, colors } = this;
     const hime = this.template();
     const embed = new MessageEmbed()

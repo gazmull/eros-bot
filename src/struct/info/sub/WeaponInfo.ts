@@ -4,9 +4,9 @@ import Info from '../base/Info';
 export default class WeaponInfo extends Info {
   public character: IKamihimeFandomWeapon;
 
-  public async format () {
+  public format () {
     const { fandomURI, colors } = this;
-    const weapon = await this.template();
+    const weapon = this.template();
     const list = [];
     const discriminator = {
       SSR: {
