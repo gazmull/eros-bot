@@ -16,12 +16,14 @@ ALTER TABLE `titles` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 ```
 
 ## Additions
-- `command`(`info`): Added MEX toggle for Souls (see `@Eros guide 21` or [here](https://thegzm.gitbook.io/eros/commands/kamihime/info))
+- `command`(`info`): Added MEX display toggle for Souls (see `@Eros guide 21` or [here](https://thegzm.gitbook.io/eros/commands/kamihime/info))
+- `commands`(`tags`): Added length restriction to prevent embed length error
 
 ## Changes
 - `models`: Models has been refactored for concise structuring. Also changed from `sequelize v4` and `mysql2` to `sequelize v5-beta.15` with `sequelize-typescript v0.6.8-beta.0` and `mariadb`
 - `functions/commands`: Changed Operator imports to `<client>.db` from `sequelize / <client>.sequelize`
 - `util`(`console`): Refactored format
+- `command`(`quiz`): Increased quiz limit to 5 / 10 for normal users and server managers respectively.
 
 ## Fixes
 - `Info`: Removed unnecessary async / await keywords
