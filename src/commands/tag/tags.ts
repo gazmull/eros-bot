@@ -22,6 +22,8 @@ export default class extends ErosCommand {
 
   public async exec (message: Message, { member }: { member: GuildMember }) {
     const factory = this.client.db.Tag;
+    const replyFail = () =>
+      message.util.reply(`list is too long... please do use \`${this.handler.prefix(message)}tag search\` instead.`);
 
     if (member) {
       const memberTags = await factory.findAll({
@@ -37,7 +39,8 @@ export default class extends ErosCommand {
           return message.util.reply(`**${member.displayName}** has no tags here.`);
 
         return message.util.reply('... uh... yeah, no... you do not have one.');
-      }
+      } else if (memberTags.length > 35)
+        return replyFail();
 
       const memberEmbed = this.util.embed(message)
         .setAuthor(`${member.user.tag} (${member.id})`)
@@ -71,6 +74,8 @@ export default class extends ErosCommand {
     });
 
     if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
+    else if (tags.length > 35)
+        return replyFail();
 
     const embed = this.util.embed(message)
       .setAuthor(`${message.guild} (${message.guild.id})`)
