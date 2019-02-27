@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": { "*": ["typings/*"] },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "outDir": "build",
-    "rootDir": "src",
+    "paths": { "*": ["typings/*"] },
     "removeComments": true,
-    "target": "es2018",
+    "rootDir": "src",
+    "target": "es2018"
   }
 }
