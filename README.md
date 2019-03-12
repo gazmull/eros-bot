@@ -1,6 +1,7 @@
-![what are you doing to my cake](.gitbook/assets/ersu.webp)
+[![eros banner](https://github.com/gazmull/eros-bot/blob/master/エロース.webp?raw=true)](http://addbot.thegzm.space)
 
 [![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)](https://travis-ci.org/gazmull/eros-bot)
+
 # Eros Bot
 - Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     - Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
