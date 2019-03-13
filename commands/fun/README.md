@@ -10,3 +10,5 @@ Commands within this category:
 [**`quiz`**](/commands/fun/quiz.md) - Deploys a questionnaire(s) related to Kamhime Project.
 
 [**`say`**](/commands/fun/say.md) - Lets you say something in the chat in my stead.
+
+[**`test`**](/commands/fun/test.md) - A test

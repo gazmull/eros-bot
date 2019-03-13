@@ -1,4 +1,4 @@
-[![eros banner](https://github.com/gazmull/eros-bot/blob/master/エロース.webp?raw=true)](http://addbot.thegzm.space)
+![eros banner](https://github.com/gazmull/eros-bot/blob/master/エロース.webp?raw=true)
 
 [![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)](https://travis-ci.org/gazmull/eros-bot)
 
