@@ -23,7 +23,7 @@ export default class extends EventEmitter {
 
       for (const [ date, names ] of countdowns)
         for (const name of names)
-          if (!name.endsWith(' - End'))
+          if (!/Quest \d - End$/.test(name))
             this.add(date, name);
 
       this.client.logger.info('CountdownScheduler Module: Initialised.');
