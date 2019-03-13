@@ -9,6 +9,11 @@ export default interface IErosClientOptions extends AkairoOptions {
   emojis: {
     embarassed: string;
     loading: string;
+    'SSR+': string;
+    SSR: string;
+    SR: string;
+    R: string;
+    N: string;
   };
   url: {
     api: string;

@@ -1,6 +1,10 @@
 import { MessageEmbed } from 'discord.js';
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomFormatted } from '../../../../typings';
+import IErosClientOptions from '../../../../typings/auth';
 import ErosClient from '../../ErosClient';
+
+// tslint:disable-next-line:no-var-requires
+const { emojis }: { emojis: IErosClientOptions['emojis'] } = require('../../../../auth');
 
 export default class Info {
   constructor (client: ErosClient, prefix: string, res: IKamihimeDB, character: IKamihimeFandom) {
@@ -55,6 +59,9 @@ export default class Info {
     embed
       .setThumbnail(character.thumbnail)
       .setAuthor(character.name, null, character.link);
+
+    if (character.rarity)
+      embed.description = `${emojis[character.rarity]} ${embed.description}`;
 
     if (includePreset) {
       if (character.atk && character.hp) {

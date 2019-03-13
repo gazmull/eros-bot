@@ -30,7 +30,13 @@ module.exports = {
     // hmmm... no comment
     embarassed: '<:rassed:405542775619190786>',
     // the emoji used for "Awaiting {{text}}..." prompts by the bot
-    loading: '<a:aloading:410783790382841857>'
+    loading: '<a:aloading:410783790382841857>',
+    // emojis for info command
+    'SSR+': '<:SSRA:555467947947196417>',
+    SSR: '<:SSR:555467948681068581>',
+    SR: '<:SR:555467948668747806>',
+    R: '<:R_:555467948211437598>',
+    N: '<:N_:555468472134664195>'
   },
 
   // do not touch this unless you know what you're doing
