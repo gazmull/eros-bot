@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js';
+import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomFormatted } from '../../../../typings';
 import ErosClient from '../../ErosClient';
 
 export default class Info {

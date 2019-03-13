@@ -1,8 +1,8 @@
-import { TextChannel } from 'discord.js';
+import { Listener } from 'discord-akairo';
+import { Message, TextChannel } from 'discord.js';
 import InsultCommand from '../../commands/fun/insult';
-import ErosListener from '../../struct/listener';
 
-export default class extends ErosListener {
+export default class extends Listener {
   constructor () {
     super('messageInvalid', {
       emitter: 'commandHandler',

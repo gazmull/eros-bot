@@ -1,3 +1,4 @@
+import { Message } from 'discord.js';
 import ErosComamnd from '../../struct/command';
 
 export default class extends ErosComamnd {

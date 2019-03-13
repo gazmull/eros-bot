@@ -1,4 +1,5 @@
-import { Message as MSG, TextChannel } from 'discord.js';
+import { Message, Message as MSG, TextChannel } from 'discord.js';
+import { IKamihimeDB } from '../../../typings';
 import ErosInfoCommand from '../../struct/command/ErosInfoCommand';
 
 export default class extends ErosInfoCommand {

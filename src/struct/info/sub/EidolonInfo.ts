@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js';
+import { IKamihimeFandomEidolon, IKamihimeFandomFormatted } from '../../../../typings';
 import Info from '../base/Info';
 
 export default class EidolonInfo extends Info {

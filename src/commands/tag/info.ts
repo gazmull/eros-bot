@@ -1,4 +1,4 @@
-import { User } from 'discord.js';
+import { Message, User } from 'discord.js';
 import * as moment from 'moment-timezone';
 import ErosCommand from '../../struct/command';
 import { Tag } from '../../struct/models/factories/Tag';

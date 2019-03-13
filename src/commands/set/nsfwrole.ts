@@ -1,4 +1,4 @@
-import { Role } from 'discord.js';
+import { Message, Role } from 'discord.js';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {

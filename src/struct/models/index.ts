@@ -1,18 +1,19 @@
-import { Sequelize } from 'sequelize-typescript';
-// @ts-ignore
-import { db as cred } from '../../../auth';
+import { ISequelizeConfig, Sequelize } from 'sequelize-typescript';
+import IErosClientOptions from '../../../typings/auth';
 import { Guild } from './factories/Guild';
 import { Level } from './factories/Level';
 import { Storage } from './factories/Storage';
 import { Tag } from './factories/Tag';
 import { Title } from './factories/Title';
 
-// @ts-ignore
+// tslint:disable-next-line:no-var-requires
+const { db }: { db: IErosClientOptions['db'] } = require('../../../auth');
+
 export const sequelize = new Sequelize({
-  database: cred.database,
-  host: cred.host,
-  username: cred.username,
-  password: cred.password,
+  database: db.database,
+  host: db.host,
+  username: db.username,
+  password: db.password,
   dialect: 'mariadb',
   define: {
     freezeTableName: true,
@@ -28,7 +29,7 @@ export const sequelize = new Sequelize({
     max: 10,
     min: 0
   }
-});
+} as ISequelizeConfig);
 
 export const create = () => {
   return {

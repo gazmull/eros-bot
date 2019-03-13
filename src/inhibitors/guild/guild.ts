@@ -1,6 +1,7 @@
-import ErosInhibitor from '../../struct/inhibitor';
+import { Inhibitor } from 'discord-akairo';
+import { Message } from 'discord.js';
 
-export default class extends ErosInhibitor {
+export default class extends Inhibitor {
   constructor () {
     super('guildInhibit', {
       reason: 'blacklisted server',

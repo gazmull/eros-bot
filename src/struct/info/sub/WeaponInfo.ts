@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js';
+import { IKamihimeFandomFormatted, IKamihimeFandomWeapon } from '../../../../typings';
 import Info from '../base/Info';
 
 export default class WeaponInfo extends Info {

@@ -1,3 +1,4 @@
+import { Message } from 'discord.js';
 import fetch from 'node-fetch';
 import ErosCommand from '../../struct/command';
 
@@ -49,7 +50,7 @@ export default class extends ErosCommand {
       const embed = this.util.fields(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel)
-        .setClientMessage(lastResponse, `${emojis.loading} Preparing...`)
+        .setClientMessage(lastResponse as Message, `${emojis.loading} Preparing...`)
         .setArray(result)
         .setTitle(`${filter.toUpperCase()} | Found: ${result.length}`)
         .setDescription([

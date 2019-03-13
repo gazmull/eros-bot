@@ -1,6 +1,7 @@
-import ErosListener from '../../struct/listener';
+import { Listener } from 'discord-akairo';
+import { Message } from 'discord.js';
 
-export default class extends ErosListener {
+export default class extends Listener {
   constructor () {
     super('cooldown', {
       emitter: 'commandHandler',

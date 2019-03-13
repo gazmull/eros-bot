@@ -1,7 +1,7 @@
+import { Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
-import ErosListener from '../../struct/listener';
 
-export default class extends ErosListener {
+export default class extends Listener {
   constructor () {
     super('guildDelete', {
       emitter: 'client',

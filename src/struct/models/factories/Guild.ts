@@ -1,6 +1,8 @@
 import { Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
-// @ts-ignore
-import { defaultPrefix } from '../../../../auth';
+import IErosClientOptions from '../../../../typings/auth';
+
+// tslint:disable-next-line:no-var-requires
+const { defaultPrefix }: { defaultPrefix: IErosClientOptions['defaultPrefix'] } = require('../../../../auth');
 
 @Table({ tableName: 'guilds' })
 export class Guild extends Model<Guild> {

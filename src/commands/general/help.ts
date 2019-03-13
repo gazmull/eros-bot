@@ -1,4 +1,4 @@
-import { TextChannel } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import ErosCommand from '../../struct/command';
 import toTitleCase from '../../util/toTitleCase';
 

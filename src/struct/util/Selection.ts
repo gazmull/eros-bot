@@ -1,4 +1,5 @@
-import { TextChannel } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
+import { IKamihimeDB } from '../../../typings';
 import ErosCommand from '../command';
 import ErosClient from '../ErosClient';
 

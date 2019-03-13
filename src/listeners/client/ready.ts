@@ -1,8 +1,8 @@
+import { Listener } from 'discord-akairo';
 import CountdownScheduler from '../../functions/CountdownScheduler';
 import Twitter from '../../functions/Twitter';
-import ErosListener from '../../struct/listener';
 
-export default class extends ErosListener {
+export default class extends Listener {
   constructor () {
     super('ready', {
       emitter: 'client',

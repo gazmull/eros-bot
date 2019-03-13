@@ -1,6 +1,7 @@
-import { Collection, User } from 'discord.js';
+import { Collection, Message, User } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as moment from 'moment-timezone';
+import { ICountdown } from '../../../typings';
 import ErosCommand from '../../struct/command';
 import prettifyMs from '../../util/prettifyMs';
 
@@ -160,7 +161,8 @@ export default class extends ErosCommand {
 
         this.checkDuplicate(this.countdowns, { name, date: parsedDate });
 
-        if (this.client.scheduler) this.client.scheduler.add(parsedDate, name);
+        if (this.client.scheduler && !name.endsWith(toAppend))
+          this.client.scheduler.add(parsedDate, name);
       }
     }
 

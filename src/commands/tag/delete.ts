@@ -1,3 +1,4 @@
+import { Message } from 'discord.js';
 import ErosCommand from '../../struct/command';
 import { Tag } from '../../struct/models/factories/Tag';
 

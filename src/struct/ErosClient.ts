@@ -1,16 +1,15 @@
 import IErosClientOptions from 'auth';
 import { AkairoClient, InhibitorHandler, ListenerHandler } from 'discord-akairo';
+import { Message } from 'discord.js';
 import * as Fandom from 'nodemw';
 import { promisify } from 'util';
 import GuideCommand from '../commands/general/guide';
-import CountdownScheduler from '../functions/CountdownScheduler';
 import ErosError from '../struct/ErosError';
 import { create } from '../struct/models';
 import Winston from '../util/console';
 import Command from './command';
 import ErosCommandHandler from './command/commandHandler';
 import CommandHandlerResolverTypes from './command/resolverTypes';
-import ErosListener from './listener';
 import Selection from './util/Selection';
 
 const db = create();
@@ -84,23 +83,12 @@ export default class ErosClient extends AkairoClient {
 
   public listenerHandler = new ListenerHandler(this, {
     automateCategories: true,
-    classToHandle: ErosListener,
     directory: `${__dirname}/../listeners`
   });
 
-  public config: IErosClientOptions;
-
-  public ownerID: string;
-
-  public fandomApi: Fandom = null;
-
   public logger = new Winston().logger;
 
-  public scheduler: CountdownScheduler;
-
   public ErosError = ErosError;
-
-  public util: IClientUtil;
 
   public build () {
     this.commandHandler

@@ -1,9 +1,11 @@
 import { Control } from 'discord-akairo';
+import { Message } from 'discord.js';
 import fetch from 'node-fetch';
+import { IKamihimeDB } from '../../../typings';
 import ErosComamnd from '../../struct/command';
 import shuffle from '../../util/shuffle';
 
-type PromptType = 'name' | 'element' | 'rarity' | 'tier' | 'loli' | 'type';
+type PromptType = 'name' | 'element' | 'rarity' | 'tier' | 'type';
 
 const QUESTIONS: Array<{ text: string, type: PromptType, choices: string[] }> = [
   { text: 'Who is this character?', type: 'name', choices: null },

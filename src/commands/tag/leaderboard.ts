@@ -1,5 +1,5 @@
 import { ArgumentOptions, Control } from 'discord-akairo';
-import { GuildMember } from 'discord.js';
+import { GuildMember, Message } from 'discord.js';
 import ErosCommand from '../../struct/command';
 import { Tag } from '../../struct/models/factories/Tag';
 

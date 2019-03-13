@@ -1,4 +1,6 @@
+import { Message } from 'discord.js';
 import fetch from 'node-fetch';
+import { IKamihimeDB } from '../../../typings';
 import ErosComamnd from '../../struct/command';
 
 const END_POINT = 'https://8ball.delegator.com/magic/JSON/';

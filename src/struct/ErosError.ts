@@ -1,4 +1,4 @@
-// @ts-ignore
+import { Message } from 'discord.js';
 import { supportLink } from '../../auth';
 import ErosCommand from './command';
 

@@ -1,5 +1,7 @@
+import { Message } from 'discord.js';
 import fetch from 'node-fetch';
 import ErosCommand, { ICommandOptions } from '.';
+import { IKamihimeDB } from '../../../typings';
 
 export default abstract class ErosInfoCommand extends ErosCommand {
   constructor (id: string, options: ICommandOptions) {

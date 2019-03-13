@@ -1,7 +1,7 @@
+import { Listener } from 'discord-akairo';
 import { Guild } from 'discord.js';
-import ErosListener from '../../struct/listener';
 
-export default class extends ErosListener {
+export default class extends Listener {
   constructor () {
     super('guildCreate', {
       emitter: 'client',
@@ -62,7 +62,7 @@ export default class extends ErosListener {
 
       await guild.owner.send([
         'I left your guild because there was a problem initiating your guild.',
-        `If the issue persists, please contact ${guild.client.users.get(this.client.ownerID)}`,
+        `If the issue persists, please contact ${guild.client.users.get(this.client.ownerID as string)}`,
         `Error: ${err}`,
       ]);
       guild.leave();

@@ -17,6 +17,12 @@ export default interface IErosClientOptions extends AkairoOptions {
     fandom: string;
   };
   countdownAuthorized: string[];
+  db: {
+    username: string;
+    password?: string;
+    database: string;
+    host: string;
+  },
   twitter?: {
     access_token_key: string;
     access_token_secret: string;

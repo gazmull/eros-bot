@@ -1,3 +1,4 @@
+import { Message } from 'discord.js';
 import fetch from 'node-fetch';
 import ErosCommand from '../../struct/command';
 

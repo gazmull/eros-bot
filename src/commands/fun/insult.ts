@@ -1,5 +1,4 @@
-import { GuildMember } from 'discord.js';
-import { User } from 'discord.js';
+import { GuildMember, Message, User } from 'discord.js';
 import * as fs from 'fs-extra';
 import ErosComamnd from '../../struct/command';
 

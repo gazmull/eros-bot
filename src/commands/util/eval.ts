@@ -1,3 +1,4 @@
+import { Message } from 'discord.js';
 import * as util from 'util';
 import ErosCommand from '../../struct/command';
 

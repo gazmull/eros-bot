@@ -1,3 +1,4 @@
+import { Message } from 'discord.js';
 import * as moment from 'moment';
 import ErosCommand from '../../struct/command';
 import CountdownCommand from './countdown';

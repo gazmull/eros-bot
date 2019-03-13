@@ -1,5 +1,7 @@
-// @ts-ignore
-import { url } from '../../../../../../../auth';
+import IErosClientOptions from '../../../../../../../typings/auth';
+
+// tslint:disable-next-line:no-var-requires
+const { url }: { url: IErosClientOptions['url'] } = require('../../../../../../../auth');
 
 export default {
   contributors: [ 'Euni' ],

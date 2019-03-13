@@ -1,13 +1,13 @@
+import { AkairoClient } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
 import * as TwitterClient from 'twitter-lite';
-import ErosClient from '../struct/ErosClient';
 
 export default class {
-  constructor (client: ErosClient) {
+  constructor (client: AkairoClient) {
     this.client = client;
   }
 
-  public client: ErosClient;
+  public client: AkairoClient;
 
   protected tick: NodeJS.Timer = null;
 
@@ -20,7 +20,7 @@ export default class {
 
     if (!config) return this.client.logger.warn('Twitter Module: Config is not set; skipped.');
 
-    const ownerID = this.client.ownerID;
+    const ownerID = this.client.ownerID as string;
     const twitter = new TwitterClient(config);
     const stream = twitter.stream('statuses/filter', { follow: config.user });
 

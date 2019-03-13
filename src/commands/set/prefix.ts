@@ -1,6 +1,8 @@
-// @ts-ignore
-import { defaultPrefix } from '../../../auth';
+import { Message } from 'discord.js';
 import ErosCommand from '../../struct/command';
+
+// tslint:disable-next-line:no-var-requires
+const { defaultPrefix }: { defaultPrefix: string } = require('../../../auth');
 
 export default class extends ErosCommand {
   constructor () {
