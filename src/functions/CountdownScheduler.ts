@@ -1,11 +1,11 @@
+import { AkairoClient } from 'discord-akairo';
 import { Collection, TextChannel } from 'discord.js';
 import { EventEmitter } from 'events';
 import * as moment from 'moment';
 import CountdownCommand from '../commands/countdown/countdown';
-import ErosClient from '../struct/ErosClient';
 
 export default class extends EventEmitter {
-  constructor (client: ErosClient) {
+  constructor (client: AkairoClient) {
     super();
 
     this.client = client;
@@ -13,7 +13,7 @@ export default class extends EventEmitter {
     this.init();
   }
 
-  protected client: ErosClient;
+  protected client: AkairoClient;
 
   public schedules: Collection<number, { names: string[], fn: NodeJS.Timer }> = new Collection();
 
@@ -23,7 +23,8 @@ export default class extends EventEmitter {
 
       for (const [ date, names ] of countdowns)
         for (const name of names)
-          this.add(date, name);
+          if (!name.endsWith(' - End'))
+            this.add(date, name);
 
       this.client.logger.info('CountdownScheduler Module: Initialised.');
     });
