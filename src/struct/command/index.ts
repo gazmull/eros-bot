@@ -1,6 +1,6 @@
 import { Command, CommandOptions } from 'discord-akairo';
 import { Embeds, FieldsEmbed } from 'discord-paginationembed';
-import { MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import GuideCommand from '../../commands/general/guide';
 import ErosClient from '../ErosClient';
 import ErosCommandHandler from './commandHandler';
@@ -43,7 +43,7 @@ export default class ErosCommand extends Command {
     if (message)
       instance
         .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
-        .setTimestamp(new Date());
+        .setTimestamp();
 
     return instance;
   }

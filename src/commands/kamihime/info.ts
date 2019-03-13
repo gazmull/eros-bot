@@ -1,5 +1,8 @@
-import { Message as MSG, MessageEmbed } from 'discord.js';
+import { Embeds } from 'discord-paginationembed';
+import { Message, Message as MSG, MessageEmbed } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
+// tslint:disable-next-line:max-line-length
+import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomKamihime, IKamihimeFandomSoul, IKamihimeFandomWeapon } from '../../../typings';
 import ErosInfoCommand from '../../struct/command/ErosInfoCommand';
 import { Eidolon, Kamihime, Soul, Weapon } from '../../struct/Info';
 import EidolonInfo from '../../struct/info/sub/EidolonInfo';
@@ -174,7 +177,7 @@ export default class extends ErosInfoCommand {
       if (message.needsPreview)
         format.setImage(template.character.preview);
 
-      const embed = this.util.embeds()
+      const embed: IEmbedsEx = this.util.embeds()
         .setArray(array)
         .setChannel(message.channel)
         .setClientMessage(message.util.lastResponse, '\u200B')
@@ -183,8 +186,8 @@ export default class extends ErosInfoCommand {
         .setDisabledNavigationEmojis([ 'BACK', 'JUMP', 'FORWARD' ])
         .setTimeout(1000 * 60 * 1)
         .setFunctionEmojis({
-          '🖼': (_, instance) => {
-            instance.needsPreview = instance.needsPreview ? false : true; // eslint-disable-line no-unneeded-ternary
+          '🖼': (_, instance: IEmbedsEx) => {
+            instance.needsPreview = instance.needsPreview ? false : true;
 
             instance.currentEmbed.setImage(instance.needsPreview ? instance.preview : null);
           }
@@ -199,7 +202,7 @@ export default class extends ErosInfoCommand {
       });
 
       if ((releaseWeapon || releases || mex) && template && template2)
-        embed.addFunctionEmoji('🔄', (_, instance) => {
+        embed.addFunctionEmoji('🔄', (_, instance: IEmbedsEx) => {
           const tmp = instance.currentClass;
           instance.currentClass = instance.oldClass;
           instance.oldClass = tmp;
@@ -279,4 +282,14 @@ interface IMessage extends Message {
   needsPreview?: boolean;
   needsRelease?: boolean;
   needsMex?: boolean;
+}
+
+interface IEmbedsEx extends Embeds {
+  needsPreview?: boolean;
+  preview?: string;
+  currentClass?: string;
+  oldClass?: string;
+  assets?: {
+    [name: string]: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo
+  };
 }

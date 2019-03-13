@@ -393,8 +393,8 @@ diff@^3.2.0, diff@^3.5.0:
   resolved "https://codeload.github.com/1computer1/discord-akairo/tar.gz/bbfad38c21bc2761df5b4647ed687615be4de91b"
 
 "discord-paginationembed@github:gazmull/discord-paginationembed":
-  version "0.7.9"
-  resolved "https://codeload.github.com/gazmull/discord-paginationembed/tar.gz/682c4350ba6d4f19eb6be8480454cf92a95a68a6"
+  version "0.8.0"
+  resolved "https://codeload.github.com/gazmull/discord-paginationembed/tar.gz/1e5d3fb8694a5af59463f5c46a0b9a6bfab19ade"
 
 "discord.js@github:discordjs/discord.js":
   version "12.0.0-dev"
