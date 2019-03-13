@@ -1,5 +1,9 @@
+import { Message } from 'discord.js';
 import ErosCommand from '../../struct/command';
 
+// [DEPRECATED]
+// `hareminfo` command on a character with loli contents will be restricted ALWAYS.
+// This is to completely follow Discord Guidelines, due to increase of server count.
 export default class extends ErosCommand {
   constructor () {
     super('set-loli', {
