@@ -35,7 +35,7 @@ export default class extends ErosCommand {
         .setTitle('Eros')
         .setDescription(_description)
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))
-        .setImage(`${homepage.split('#').shift()}/blob/master/エロース.webp?raw=true`)
+        .setImage(`${homepage.split('#').shift()}/blob/master/${encodeURI('エロース')}.webp?raw=true`)
         .addField('Author', this.client.users.get(this.client.ownerID as string), true)
         .addField('Libraries and Applications', [
           `**Discord.JS**: v${discordVersion}`,
