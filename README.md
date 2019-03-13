@@ -1,9 +1,6 @@
-<div align="center">
-  <br />
-    <a href="http://addbot.thegzm.space"><img src="エロース.webp" width="940px" alt="eros banner" /></a>
-  <br />
-    <a href="https://travis-ci.org/gazmull/eros-bot"><img src="https://travis-ci.org/gazmull/eros-bot.svg?branch=master" alt="Build Status" /></a>
-</div>
+[![eros banner](https://github.com/gazmull/eros-bot/blob/master/エロース.webp?raw=true)](http://addbot.thegzm.space)
+
+[![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)](https://travis-ci.org/gazmull/eros-bot)
 
 # Eros Bot
 - Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)

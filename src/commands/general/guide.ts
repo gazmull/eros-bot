@@ -1,4 +1,4 @@
-import { StringResolvable, Util } from 'discord.js';
+import { Message, StringResolvable, Util } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as json2md from 'json2md';
 import ErosCommand from '../../struct/command';
@@ -305,25 +305,12 @@ export default class extends ErosCommand {
           this.client.logger.info(`-- Successfully parsed ${dialog[0]}`);
         } catch (err) { throw new Error(`Failed to write ${dialog[0]}: ${err}`); }
 
-      let readme = (await fs.readFile(`${__dirname}/../../../README.md`)).toString();
-      readme = readme.slice(readme.indexOf('# Eros'));
-      readme = [
-        '![what are you doing to my cake](.gitbook/assets/ersu.webp)',
-        '',
-        '[![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)]' +
-        '(https://travis-ci.org/gazmull/eros-bot)',
-      ]
-      .join('\n')
-      .concat('\n' + readme);
-
-      await fs.outputFile(`${__dirname}/../../../../eros-docs/README.md`, readme);
-      this.client.logger.info('-- Successfully copied README');
-
       await Promise.all(
-        [ 'CHANGELOG', 'MIGRATING' ].map(async f => {
-          const buffer = (await fs.readFile(`${__dirname}/../../../${f}.md`)).toString();
+        [ 'CHANGELOG', 'MIGRATING', 'README' ].map(async f => {
+          const src = `${__dirname}/../../../${f}.md`;
+          const dest = `${__dirname}/../../../../eros-docs/${f}.md`;
 
-          await fs.outputFile(`${__dirname}/../../../../eros-docs/${f}.md`, buffer);
+          await fs.copyFile(src, dest);
           this.client.logger.info(`-- Successfully copied ${f}`);
         })
       );
