@@ -1,5 +1,5 @@
 import { ArgumentOptions, Control } from 'discord-akairo';
-import { GuildMember, Message } from 'discord.js';
+import { GuildMember, Message, TextChannel } from 'discord.js';
 import ErosCommand from '../../struct/command';
 import { Tag } from '../../struct/models/factories/Tag';
 
@@ -59,7 +59,7 @@ export default class extends ErosCommand {
           .setAuthor(`${member.user.tag} (${member.id})`)
           .setThumbnail(member.user.displayAvatarURL({ format: 'webp' }))
           .setAuthorizedUsers([ message.author.id ])
-          .setChannel(message.channel)
+          .setChannel(message.channel as TextChannel)
           .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
           .setArray(memberTags)
           .setTimeout(240 * 1000)
@@ -87,7 +87,7 @@ export default class extends ErosCommand {
         .setAuthor(`${message.guild.name} (${message.guild.id})`)
         .setThumbnail(message.guild.iconURL({ format: 'webp' }))
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
         .setArray(tags)
         .setTimeout(240 * 1000)

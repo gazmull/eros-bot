@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import ErosCommand from '../../struct/command';
 import { Level } from '../../struct/models/factories/Level';
 
@@ -38,7 +38,7 @@ export default class extends ErosCommand {
         .setAuthor(`${message.guild.name} (${message.guild.id})`)
         .setThumbnail(message.guild.iconURL({ format: 'webp' }))
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
         .setArray(levels)
         .setTimeout(240 * 1000)

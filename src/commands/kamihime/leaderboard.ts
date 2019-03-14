@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 import ErosCommand from '../../struct/command';
 
@@ -43,7 +43,7 @@ export default class extends ErosCommand {
 
       const embed = this.util.fields(message)
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
         .setArray(list)
         .setPage(page)

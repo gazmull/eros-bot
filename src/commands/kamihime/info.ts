@@ -1,5 +1,5 @@
 import { Embeds } from 'discord-paginationembed';
-import { Message, Message as MSG, MessageEmbed } from 'discord.js';
+import { Message, Message as MSG, MessageEmbed, TextChannel } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
 // tslint:disable-next-line:max-line-length
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomKamihime, IKamihimeFandomSoul, IKamihimeFandomWeapon } from '../../../typings';
@@ -179,7 +179,7 @@ export default class extends ErosInfoCommand {
 
       const embed: IEmbedsEx = this.util.embeds()
         .setArray(array)
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientMessage(message.util.lastResponse, '\u200B')
         .setAuthorizedUsers([ message.author.id ])
         .showPageIndicator(false)

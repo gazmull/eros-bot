@@ -1,4 +1,4 @@
-import { Message, StringResolvable, Util } from 'discord.js';
+import { Message, StringResolvable, TextChannel, Util } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as json2md from 'json2md';
 import ErosCommand from '../../struct/command';
@@ -145,7 +145,7 @@ export default class extends ErosCommand {
 
       return this.util.embeds(message)
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientMessage(null, `${emojis.loading} Preparing...`)
         .setArray(embeds)
         .setPage(page)
