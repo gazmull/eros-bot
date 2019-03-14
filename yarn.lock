@@ -388,9 +388,10 @@ diff@^3.2.0, diff@^3.5.0:
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
   integrity sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
 
-"discord-akairo@github:1computer1/discord-akairo":
+discord-akairo@8.0.0-beta.1:
   version "8.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/discord-akairo/-/discord-akairo-8.0.0-beta.1.tgz#cc366373271e76cb68e624e8c17f793731da167e"
+  resolved "https://registry.yarnpkg.com/discord-akairo/-/discord-akairo-8.0.0-beta.1.tgz#ccd2e1e2dd26aca3d307c300eead4c4cbd6ba2d0"
+  integrity sha512-ChjKxdzjHr8DD3cchfCyydQbiOsLyud2PVLK+/jdu+1lPBOL31YajmcVn7UYjt59kHpAXFEGUB9qzeTKijkcKA==
 
 "discord-paginationembed@github:gazmull/discord-paginationembed":
   version "0.8.0"
@@ -400,13 +401,13 @@ diff@^3.2.0, diff@^3.5.0:
   version "12.0.0-dev"
   resolved "https://codeload.github.com/discordjs/discord.js/tar.gz/fe5563e15857efa79d25a8bd0f5c4878b0b64c1b"
   dependencies:
-    form-data "^2.3.3"
-    node-fetch "^2.3.0"
-    pako "^1.0.8"
-    prism-media "^1.0.0"
+    form-data "^2.3.2"
+    node-fetch "^2.1.2"
+    pako "^1.0.0"
+    prism-media amishshah/prism-media
     setimmediate "^1.0.5"
-    tweetnacl "^1.0.1"
-    ws "^6.1.3"
+    tweetnacl "^1.0.0"
+    ws "^6.0.0"
 
 doctrine@0.7.2:
   version "0.7.2"
