@@ -2,6 +2,22 @@ This log starts from `3.0.0`.
 
 ---
 
+# 3.3.0
+
+## Deprecations
+- `command`(`set-loli`): Added notice for deprecation to strictly follow Discord Guidelines. Characters with loli contents will be restricted on later releases. If you insist on seeing them, please do visit [**Kamihime Database**](https://kamihimedb.thegzm.space) instead.
+
+## Additions
+- `command`(`info`): Added item rarity emojis
+- `command`(`stats`): Added bot banner for teh lulz
+
+## Changes
+- `function`(`CountdownScheduler`): Removed ended notification on normal events.
+
+## Fixes
+- `typescript`: Removed `@ts-ignore` comment where it is unnecessary
+- `command`(`guide`): Optimised parser
+
 # 3.2.0
 
 ## Critical
