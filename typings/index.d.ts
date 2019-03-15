@@ -4,6 +4,7 @@ import * as Fandom from 'nodemw';
 import { Sequelize } from 'sequelize-typescript';
 import { Logger } from 'winston';
 import CountdownScheduler from '../src/functions/CountdownScheduler';
+import Twitter from '../src/functions/Twitter';
 import ErosCommandHandler from '../src/struct/command/commandHandler';
 import ErosError from '../src/struct/ErosError';
 import { Guild } from '../src/struct/models/factories/Guild';
@@ -15,7 +16,6 @@ import Selection from '../src/struct/util/Selection';
 import IErosClientOptions from './auth';
 
 declare module 'discord-akairo' {
-  export interface AkairoClient extends ErosClient { }
   export interface ClientUtil {
     selection: Selection;
     getArticle: (title: string) => Promise<string>;
@@ -50,6 +50,7 @@ interface ErosClient {
   fandomApi: Fandom;
   logger: Logger;
   scheduler: CountdownScheduler;
+  twitter: Twitter;
   ErosError: typeof ErosError;
   db: {
     sequelize: Sequelize;

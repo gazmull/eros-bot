@@ -9,6 +9,8 @@ export default class {
 
   public client: AkairoClient;
 
+  protected stream = null;
+
   protected tick: NodeJS.Timer = null;
 
   protected recon: NodeJS.Timer = null;
@@ -22,9 +24,9 @@ export default class {
 
     const ownerID = this.client.ownerID as string;
     const twitter = new TwitterClient(config);
-    const stream = twitter.stream('statuses/filter', { follow: config.user });
+    this.stream = twitter.stream('statuses/filter', { follow: config.user });
 
-    stream
+    this.stream
       .on('data', async (tweet: ITweet) => {
         if (
           !tweet ||
@@ -79,7 +81,7 @@ export default class {
         this.client.logger.info(msg);
         this.client.clearInterval(this.tick);
         this.client.clearInterval(this.recon);
-        stream.destroy();
+        this.stream.destroy();
 
         this.recon = this.client.setTimeout(() => this.init(), 3e5);
       })
@@ -89,10 +91,16 @@ export default class {
         owner.send(msg);
         this.client.logger.info(msg);
 
-        stream.emit('end');
+        this.stream.emit('end');
       });
 
     return 1;
+  }
+
+  public destroy () {
+    if (this.stream) this.stream.destroy();
+
+    return this.client.logger.warn('Twitter Module: Self Destructed');
   }
 }
 

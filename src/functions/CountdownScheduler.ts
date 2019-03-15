@@ -122,10 +122,16 @@ export default class extends EventEmitter {
     return this;
   }
 
-  public destroy (date: number) {
-    const job = this.schedules.get(date);
+  public destroy (date: number | 'this') {
+    if (date === 'this') {
+      this.client.destroy();
 
-    if (job) this.schedules.delete(date);
+      return this.client.logger.warn('CountdownScheduler Module: Self Destructed');
+    }
+
+    const job = this.schedules.get(date as number);
+
+    if (job) this.schedules.delete(date as number);
     this.client.logger.info('CountdownScheduler Module: Destroyed ' + date);
 
     return this;

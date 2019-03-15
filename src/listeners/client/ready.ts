@@ -24,13 +24,17 @@ export default class extends Listener {
           : `${guildSize} Guilds`}`);
       else this.client.logger.info('Standby Mode');
 
+      if (this.client.scheduler) this.client.scheduler.destroy('this');
+      if (this.client.twitter) this.client.twitter.destroy();
+
       this.client.scheduler = new CountdownScheduler(this.client);
+      this.client.twitter = new Twitter(this.client);
 
       this.client.scheduler
         .on('add', (date, name) => this.client.scheduler.add(date, name))
         .on('delete', (date, name) => this.client.scheduler.delete(date, name));
 
-      return new Twitter(this.client).init();
+      return this.client.twitter.init();
     } catch (err) {
       this.client.logger.error(err);
     }
