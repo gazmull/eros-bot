@@ -2,6 +2,11 @@ This log starts from `3.0.0`.
 
 ---
 
+# 3.3.1
+
+## Fixes
+- `functions`: Added self destruct methods lest of re-emission of `ready` DiscordClient event.
+
 # 3.3.0
 
 ## Deprecations
