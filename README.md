@@ -1,11 +1,12 @@
 ![eros banner](https://github.com/gazmull/eros-bot/blob/master/エロース.webp?raw=true)
 
-[![Build Status](https://travis-ci.org/gazmull/eros-bot.svg?branch=master)](https://travis-ci.org/gazmull/eros-bot)
+[![Travis (.org) branch](https://img.shields.io/travis/gazmull/eros-bot/master.svg?logo=travis&style=for-the-badge)](https://travis-ci.org/gazmull/eros-bot)
+[![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/gazmull/eros-bot/master.svg?color=black&label=version&logo=github&style=for-the-badge)](https://github.com/gazmull/eros-bot)
 
 # Eros Bot
 - Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     - Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-- Version: **3.2.0** ([**What's new in v3?**](CHANGELOG.md#3-0-0))
+- [**What's new?**](CHANGELOG.md#3-0-0)
 - [**Discord Server**](http://erosdev.thegzm.space)
 - [**Bot Guide**](https://docs.thegzm.space/eros-bot)
 
