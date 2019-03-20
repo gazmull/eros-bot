@@ -5,6 +5,7 @@ yarn-error.log
 
 #Build
 build
+logs
 
 #Private Source
 auth.js

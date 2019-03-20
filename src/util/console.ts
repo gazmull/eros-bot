@@ -1,12 +1,21 @@
 import chalk from 'chalk';
 import * as moment from 'moment-timezone';
+import { inspect } from 'util';
 import { createLogger, format, transports } from 'winston';
+import * as RotateFile from 'winston-daily-rotate-file';
 
-export default class Logger {
+export default class Winston {
   public logger = createLogger({
-    transports: [ new transports.Console() ],
     exitOnError: false,
-    format: this.baseFormat()
+    format: this.baseFormat(),
+    transports: [
+      new transports.Console(), new RotateFile({
+        dirname: process.cwd() + '/logs',
+        filename: 'eros.%DATE%.log',
+        maxFiles: '15d',
+        maxSize: '256m'
+      }),
+    ]
   });
 
   protected baseFormat () {
@@ -14,7 +23,14 @@ export default class Logger {
       `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}`;
     const formatError = log =>
       `${this.setColour('timestamp', this.time)}: [${this.setColour(log.level)}] ${log.message}\n ${log.stack}\n`;
-    const _format = log => log instanceof Error ? formatError(log) : formatMessage(log);
+    const _format = log =>
+      log instanceof Error
+        ? formatError(log)
+        : formatMessage(
+            typeof log.message === 'string'
+            ? log
+            : Object.create({ level: log.level, message: inspect(log.message, { showHidden: true, depth: 1 }) })
+          );
 
     return format.combine(format.printf(_format));
   }
