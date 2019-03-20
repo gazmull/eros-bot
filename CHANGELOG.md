@@ -2,10 +2,14 @@ This log starts from `3.0.0`.
 
 ---
 
-# 3.3.1
+# 3.4.0
+
+## Additions
+- `util`(`Logger`): Added object inspection, and added log rotation module.
 
 ## Fixes
 - `functions`: Added self destruct methods lest of re-emission of `ready` DiscordClient event.
+- `function`(`CountdownScheduler`): Added stricter guild channel check.
 
 # 3.3.0
 
