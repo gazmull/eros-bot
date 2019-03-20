@@ -50,7 +50,20 @@ export default class extends EventEmitter {
         for (const guild of spliced) {
           const channel = this.client.channels.get(guild.cdChannel) as TextChannel;
 
-          if (!channel) continue;
+          if (!channel || (channel && channel.type !== 'text')) {
+            this.client.logger.warn(
+              `CountdownScheduler Module: Cannot distribute to ${guild.id}'s CD channel (not a valid text channel)`
+            );
+
+            continue;
+          }
+          if (!channel.permissionsFor(this.client.user.id).has([ 'VIEW_CHANNEL', 'SEND_MESSAGES' ])) {
+            this.client.logger.warn(
+              `CountdownScheduler Module: Cannot distribute to ${guild.id}'s CD channel (missing permissions)`
+            );
+
+            continue;
+          }
 
           let action = 'started/ended';
           const nameEnds =  names.filter(n => n.endsWith('End')).sort();
@@ -77,7 +90,7 @@ export default class extends EventEmitter {
           await channel.send(`${roleText}${prettyNames.join(', ')} ${isPlural} ${action}!`);
         }
       }, 3000);
-    } catch (err) { this.client.logger.warn('Error Sending Notification: ' + err); }
+    } catch (err) { this.client.logger.warn('CountdownScheduler Module: Error Sending Notification: ' + err); }
 
     await this.provider.prepareCountdowns();
   }
