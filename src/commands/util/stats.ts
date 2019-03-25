@@ -1,4 +1,5 @@
 import { version as akairoVersion } from 'discord-akairo';
+import { version as paginationVersion } from 'discord-paginationembed';
 import { Message, version as discordVersion } from 'discord.js';
 import fetch from 'node-fetch';
 import * as os from 'os';
@@ -40,6 +41,7 @@ export default class extends ErosCommand {
         .addField('Libraries and Applications', [
           `**Discord.JS**: v${discordVersion}`,
           `**Akairo**: v${akairoVersion}`,
+          `**PaginationEmbed**: v${paginationVersion}`,
           `**KamihimeDB**: v${kamihimedbVersion}`,
           `**Eros**: v${erosVersion}`,
         ], true)

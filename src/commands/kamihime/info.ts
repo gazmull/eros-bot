@@ -1,4 +1,4 @@
-import Embeds from 'discord-paginationembed/bin/struct/Embeds';
+import Embeds from 'discord-paginationembed/typings/Embeds';
 import { Message, Message as MSG, MessageEmbed, TextChannel } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
 // tslint:disable-next-line:max-line-length
