@@ -393,9 +393,10 @@ discord-akairo@8.0.0-beta.1:
   resolved "https://registry.yarnpkg.com/discord-akairo/-/discord-akairo-8.0.0-beta.1.tgz#ccd2e1e2dd26aca3d307c300eead4c4cbd6ba2d0"
   integrity sha512-ChjKxdzjHr8DD3cchfCyydQbiOsLyud2PVLK+/jdu+1lPBOL31YajmcVn7UYjt59kHpAXFEGUB9qzeTKijkcKA==
 
-"discord-paginationembed@github:gazmull/discord-paginationembed":
-  version "0.8.0"
-  resolved "https://codeload.github.com/gazmull/discord-paginationembed/tar.gz/1e5d3fb8694a5af59463f5c46a0b9a6bfab19ade"
+discord-paginationembed@^1.0.0-beta.0:
+  version "1.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/discord-paginationembed/-/discord-paginationembed-1.0.0-beta.0.tgz#0f81282b8ddf7bb7a94e3e997c5a8b82e793f12f"
+  integrity sha512-K/BKiYvMAzIooIrh8Wb+QK9bVOzGc/ODUiKGxMrbcNi+r6hu0zM55UG1PKASHSr1J0z24rmFBhoDEQeRT4W/vA==
 
 "discord.js@github:discordjs/discord.js":
   version "12.0.0-dev"

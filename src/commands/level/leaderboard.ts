@@ -33,32 +33,36 @@ export default class extends ErosCommand {
 
       if (!levels.length) return message.util.send('Looks like this is a ghost guild...');
 
-      const embed = this.util.fields(message)
+      const Pagination = this.util.fields<Level>(message)
+        .setAuthorizedUsers([ message.author.id ])
+        .setChannel(message.channel as TextChannel)
+        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
+        .setArray(levels)
+        .setTimeout(240 * 1000)
+        .setPage(page);
+
+      Pagination.embed
         .setTitle('Highest Level Members')
         .setAuthor(`${message.guild.name} (${message.guild.id})`)
         .setThumbnail(message.guild.iconURL({ format: 'webp' }))
-        .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel as TextChannel)
-        .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
-        .setArray(levels)
-        .setTimeout(240 * 1000)
-        .setPage(page)
         .addField('Help', [
           'React with the emoji below to navigate. ↗ to skip a page.',
           `See a members's information with \`${await this.handler.prefix(message)}level info <member>\``,
-        ])
+        ]);
+
+      Pagination
         .formatField(
           '#) Name',
-          (el: Level) => {
+          el => {
             const user = this.client.users.get(el.user);
             const tag = user ? user.tag : 'UNKNOWN_USER';
 
             return `${levels.findIndex(l => l.user === el.user) + 1}) ${tag}`;
           }
         )
-        .formatField('EXP', (el: Level) => el.exp);
+        .formatField('EXP', el => el.exp);
 
-      return embed.build();
+      return Pagination.build();
     } catch (err) { this.emitError(err, message, this); }
   }
 }

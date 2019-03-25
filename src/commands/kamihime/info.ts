@@ -1,4 +1,4 @@
-import { Embeds } from 'discord-paginationembed';
+import Embeds from 'discord-paginationembed/bin/struct/Embeds';
 import { Message, Message as MSG, MessageEmbed, TextChannel } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
 // tslint:disable-next-line:max-line-length
@@ -180,7 +180,7 @@ export default class extends ErosInfoCommand {
       const embed: IEmbedsEx = this.util.embeds()
         .setArray(array)
         .setChannel(message.channel as TextChannel)
-        .setClientMessage(message.util.lastResponse, '\u200B')
+        .setClientAssets({ message: message.util.lastResponse, prepare: '\u200B' })
         .setAuthorizedUsers([ message.author.id ])
         .showPageIndicator(false)
         .setDisabledNavigationEmojis([ 'BACK', 'JUMP', 'FORWARD' ])

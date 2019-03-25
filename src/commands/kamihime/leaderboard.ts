@@ -1,5 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
+import { IKamihimeDB } from '../../../typings';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {
@@ -38,21 +39,24 @@ export default class extends ErosCommand {
 
       if (characters.error) throw characters.error.message;
 
-      let list = characters.filter(c => c.peeks !== 0);
+      let list: IKamihimeDB[] = characters.filter(c => c.peeks !== 0);
       list = list.sort((a, b) => b.peeks - a.peeks);
 
-      const embed = this.util.fields(message)
+      const Pagination = this.util.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel as TextChannel)
-        .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
+        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
         .setArray(list)
         .setPage(page)
+        .setTimeout(240 * 1000);
+
+      Pagination.embed
         .setTitle('Most Views Leaderboard (Harem Scenes)')
-        .setTimeout(240 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
-      if (advanced) embed.formatField('#) ID', i => `${list.indexOf(i) + 1}) ${i.id}`);
-      embed
+      if (advanced) Pagination.formatField('#) ID', i => `${list.indexOf(i) + 1}) ${i.id}`);
+
+      Pagination
         .formatField(
           advanced
             ? 'Name'
@@ -63,7 +67,7 @@ export default class extends ErosCommand {
         )
         .formatField('Views', i => i.peeks);
 
-      return embed.build();
+      return Pagination.build();
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 }

@@ -146,7 +146,7 @@ export default class extends ErosCommand {
       return this.util.embeds(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel as TextChannel)
-        .setClientMessage(null, `${emojis.loading} Preparing...`)
+        .setClientAssets({ prepare: `${emojis.loading} Preparing...` })
         .setArray(embeds)
         .setPage(page)
         .setTimeout(240 * 1000)

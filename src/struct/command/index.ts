@@ -18,7 +18,7 @@ export default class ErosCommand extends Command {
 
   public noTrash: boolean;
 
-  public util: IUtil = {
+  public util = {
     embed: this.embed,
     embeds: this.embeds,
     fields: this.fields
@@ -48,12 +48,15 @@ export default class ErosCommand extends Command {
     return instance;
   }
 
-  public fields (message: Message = null) {
-    const instance = new FieldsEmbed()
+  public fields<T> (message: Message = null) {
+    const instance = new FieldsEmbed<T>();
+
+    instance.embed
       .setColor(0xFF00AE);
 
     if (message)
       instance
+        .embed
         .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
         .setTimestamp(new Date());
 
@@ -87,10 +90,4 @@ export interface ICommandOptions extends CommandOptions {
   };
   noTrash?: boolean;
   shouldAwait?: boolean;
-}
-
-interface IUtil {
-  embed: (message?: Message) => MessageEmbed;
-  embeds: (message?: Message) => Embeds;
-  fields: (message?: Message) => FieldsEmbed;
 }

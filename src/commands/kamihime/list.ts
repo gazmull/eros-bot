@@ -1,5 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
+import { IKamihimeDB } from '../../../typings';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {
@@ -39,25 +40,27 @@ export default class extends ErosCommand {
       if (filter.toLowerCase() === 'variables') return this.helpDialog(message);
 
       const { emojis, url } = this.client.config;
-      const lastResponse = await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
+      message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
       const args = filter.toLowerCase().trim().split(/ +/g);
       const rawData = await fetch(`${url.api}list/${args.join('/')}`, { headers: { Accept: 'application/json' } });
-      const result = await rawData.json();
+      const result: IKamihimeDB[] = await rawData.json();
 
-      if (result.error) throw result.error.message;
+      if ((result as any).error) throw (result as any).error.message;
 
-      const embed = this.util.fields(message)
+      const embed = this.util.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel as TextChannel)
-        .setClientMessage(lastResponse as Message, `${emojis.loading} Preparing...`)
+        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
         .setArray(result)
+        .setTimeout(240 * 1000);
+
+      embed.embed
         .setTitle(`${filter.toUpperCase()} | Found: ${result.length}`)
         .setDescription([
           '**NOTE**: This is a list of characters registered in',
           `[**Kamihime Database**](${url.root}) only.`,
         ].join(' '))
-        .setTimeout(240 * 1000)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
       if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`, true);

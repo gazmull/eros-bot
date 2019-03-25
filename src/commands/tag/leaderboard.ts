@@ -54,22 +54,21 @@ export default class extends ErosCommand {
           return message.util.reply('... uh... yeah, no... you do not have one.');
         }
 
-        const memberEmbed = this.util.fields(message)
-          .setTitle('Most Used Tags')
-          .setAuthor(`${member.user.tag} (${member.id})`)
-          .setThumbnail(member.user.displayAvatarURL({ format: 'webp' }))
+        const memberEmbed = this.util.fields<Tag>(message)
           .setAuthorizedUsers([ message.author.id ])
           .setChannel(message.channel as TextChannel)
-          .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
+          .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
           .setArray(memberTags)
           .setTimeout(240 * 1000)
-          .setPage(page)
-          .addField('Help', [
-            'React with the emoji below to navigate. ↗ to skip a page.',
-            `See a tag's information with \`${prefix}\``,
-          ])
-          .formatField('#) Name', (el: Tag) => `${tags.findIndex(t => t.name === el.name) + 1} ${el.name}`)
-          .formatField('Times Used', (el: Tag) => el.uses);
+          .setPage(page);
+
+        memberEmbed.embed.addField('Help', [
+          'React with the emoji below to navigate. ↗ to skip a page.',
+          `See a tag's information with \`${prefix}\``,
+        ]);
+        memberEmbed
+          .formatField('#) Name', el => `${tags.findIndex(t => t.name === el.name) + 1} ${el.name}`)
+          .formatField('Times Used', el => el.uses);
 
         return memberEmbed.build();
       }
@@ -82,24 +81,27 @@ export default class extends ErosCommand {
 
       if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
 
-      const embed = this.util.fields(message)
+      const serverEmbed = this.util.fields<Tag>(message)
+        .setAuthorizedUsers([ message.author.id ])
+        .setChannel(message.channel as TextChannel)
+        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
+        .setArray(tags)
+        .setTimeout(240 * 1000)
+        .setPage(page);
+
+      serverEmbed.embed
         .setTitle('Most Used Tags')
         .setAuthor(`${message.guild.name} (${message.guild.id})`)
         .setThumbnail(message.guild.iconURL({ format: 'webp' }))
-        .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel as TextChannel)
-        .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
-        .setArray(tags)
-        .setTimeout(240 * 1000)
-        .setPage(page)
         .addField('Help', [
           'React with the emoji below to navigate. ↗ to skip a page.',
           `See a tag's information with \`${prefix}tag info <tag name>\``,
-        ])
-        .formatField('#) Name', (el: Tag) => `${tags.findIndex(t => t.name === el.name) + 1}) ${el.name}`)
-        .formatField('Times Used', (el: Tag) => el.uses);
+        ]);
+      serverEmbed
+        .formatField('#) Name', el => `${tags.findIndex(t => t.name === el.name) + 1}) ${el.name}`)
+        .formatField('Times Used', el => el.uses);
 
-      return embed.build();
+      return serverEmbed.build();
     } catch (err) { this.emitError(err, message, this); }
   }
 }

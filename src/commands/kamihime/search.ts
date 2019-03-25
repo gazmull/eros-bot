@@ -1,5 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
+import { IKamihimeDB } from '../../../typings';
 import ErosCommand from '../../struct/command';
 
 export default class extends ErosCommand {
@@ -59,20 +60,23 @@ export default class extends ErosCommand {
 
       if (result.error) throw result.error.message;
 
-      const embed = this.util.fields(message)
+      const Pagination = this.util.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel as TextChannel)
-        .setClientMessage(message.util.lastResponse, `${emojis.loading} Preparing...`)
+        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
         .setArray(result)
-        .setTitle(`${character.toUpperCase()} | Found: ${result.length}`)
         .showPageIndicator(false)
-        .setTimeout(60 * 1000)
+        .setTimeout(60 * 1000);
+
+      Pagination.embed
+        .setTitle(`${character.toUpperCase()} | Found: ${result.length}`)
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
-      if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`);
-      embed.formatField('Name', i => i.name);
+      if (advanced) Pagination.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`);
 
-      return embed.build();
+      Pagination.formatField('Name', i => i.name);
+
+      return Pagination.build();
     } catch (err) { this.emitError(err, message, this, 1); }
   }
 
