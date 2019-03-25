@@ -49,9 +49,24 @@ export default class {
           const spliced = guilds.splice(0, 5);
 
           for (const guild of spliced) {
+            if (!guild.id) continue;
+
             const channel = this.client.channels.get(guild.twitterChannel) as TextChannel;
 
-            if (!channel) continue;
+            if (!channel || (channel && channel.type !== 'text')) {
+              this.client.logger.warn(
+                `Twitter Module: Cannot distribute to ${guild.id}'s Twitter channel (not a valid text channel)`
+              );
+
+              continue;
+            }
+            if (!channel.permissionsFor(this.client.user.id).has([ 'VIEW_CHANNEL', 'SEND_MESSAGES' ])) {
+              this.client.logger.warn(
+                `Twitter Module: Cannot distribute to ${guild.id}'s Twitter channel (missing permissions)`
+              );
+
+              continue;
+            }
 
             channel.send(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`)
               .catch();

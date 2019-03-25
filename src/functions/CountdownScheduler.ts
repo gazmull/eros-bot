@@ -48,6 +48,8 @@ export default class extends EventEmitter {
         const spliced = guilds.splice(0, 5);
 
         for (const guild of spliced) {
+          if (!guild.id) continue;
+
           const channel = this.client.channels.get(guild.cdChannel) as TextChannel;
 
           if (!channel || (channel && channel.type !== 'text')) {
