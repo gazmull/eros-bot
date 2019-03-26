@@ -36,9 +36,12 @@ export default class ErosCommand extends Command {
     return instance;
   }
 
-  public embeds (message: Message = null) {
-    const instance = new Embeds()
-      .setColor(0xFF00AE);
+  public embeds (message: Message = null, array: MessageEmbed[] = null) {
+    const instance = new Embeds();
+
+    if (array) instance.setArray(array);
+
+    instance.setColor(0xFF00AE);
 
     if (message)
       instance

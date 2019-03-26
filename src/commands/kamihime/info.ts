@@ -177,8 +177,7 @@ export default class extends ErosInfoCommand {
       if (message.needsPreview)
         format.setImage(template.character.preview);
 
-      const embed: IEmbedsEx = this.util.embeds()
-        .setArray(array)
+      const embed: IEmbedsEx = this.util.embeds(null, array)
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse, prepare: '\u200B' })
         .setAuthorizedUsers([ message.author.id ])
