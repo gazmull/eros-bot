@@ -36,7 +36,7 @@ export default class extends EventEmitter {
 
       const guilds = await this.client.db.Guild.findAll({
         where: { cdChannel: { [this.client.db.Op.ne]: null } },
-        attributes: [ 'cdChannel', 'cdRole' ]
+        attributes: [ 'id', 'cdChannel', 'cdRole' ]
       });
       const tick = this.client.setInterval(async () => {
         if (!guilds.length) {
@@ -48,8 +48,6 @@ export default class extends EventEmitter {
         const spliced = guilds.splice(0, 5);
 
         for (const guild of spliced) {
-          if (!guild.id) continue;
-
           const channel = this.client.channels.get(guild.cdChannel) as TextChannel;
 
           if (!channel || (channel && channel.type !== 'text')) {

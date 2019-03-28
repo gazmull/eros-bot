@@ -40,7 +40,7 @@ export default class {
         this.lastTweetId = tweet.id_str;
         const guilds = await this.client.db.Guild.findAll({
           where: { twitterChannel: { [this.client.db.Op.ne]: null } },
-          attributes: [ 'twitterChannel' ]
+          attributes: [ 'id', 'twitterChannel' ]
         });
 
         this.tick = this.client.setInterval(() => {
@@ -49,8 +49,6 @@ export default class {
           const spliced = guilds.splice(0, 5);
 
           for (const guild of spliced) {
-            if (!guild.id) continue;
-
             const channel = this.client.channels.get(guild.twitterChannel) as TextChannel;
 
             if (!channel || (channel && channel.type !== 'text')) {
