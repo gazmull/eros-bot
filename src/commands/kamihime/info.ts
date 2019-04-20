@@ -1,21 +1,21 @@
-import Embeds from 'discord-paginationembed/typings/Embeds';
+import { Embeds } from 'discord-paginationembed';
 import { Message, Message as MSG, MessageEmbed, TextChannel } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
 // tslint:disable-next-line:max-line-length
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomKamihime, IKamihimeFandomSoul, IKamihimeFandomWeapon } from '../../../typings';
-import ErosInfoCommand from '../../struct/command/ErosInfoCommand';
+import InfoCommand from '../../struct/command/InfoCommand';
 import { Eidolon, Kamihime, Soul, Weapon } from '../../struct/Info';
 import EidolonInfo from '../../struct/info/sub/EidolonInfo';
 import KamihimeInfo from '../../struct/info/sub/KamihimeInfo';
 import SoulInfo from '../../struct/info/sub/SoulInfo';
 import WeaponInfo from '../../struct/info/sub/WeaponInfo';
 
-export default class extends ErosInfoCommand {
+export default class extends InfoCommand {
   constructor () {
     super('info', {
       aliases: [ 'info', 'i', 'khinfo', 'khi', 'kh' ],
       description: {
-        content: 'Looks up for a Kamihime Project Character/Weapon at Kamihime Project Nutaku Fandom.',
+        content: 'Looks up for a Kamihime PROJECT Character/Weapon at Kamihime PROJECT EN Fandom.',
         usage: '<item name> [flags]',
         examples: [
           'eros',
@@ -35,7 +35,7 @@ export default class extends ErosInfoCommand {
         {
           id: 'item',
           match: 'text',
-          type: name => {
+          type: (_, name) => {
             if (!name || name.length < 2) return null;
 
             return name;
@@ -106,7 +106,7 @@ export default class extends ErosInfoCommand {
       if (!character || character instanceof MSG) return;
 
       return this.triggerDialog(message, character);
-    } catch (err) { this.emitError(err, message, this, 1); }
+    } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 
   public async triggerDialog (message: IMessage, result: IKamihimeDB) {
@@ -114,7 +114,7 @@ export default class extends ErosInfoCommand {
       await message.util.edit(`${this.client.config.emojis.loading} Awaiting Fandom's response...`, { embed: null });
       const prefix = await this.handler.prefix(message) as string;
       const category = this.getCategory(result.id);
-      const info = await this.parseArticle(result.name);
+      const info = await this.parseArticle(result.name) as IKamihimeFandom;
       let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo | true;
       let template2: KamihimeInfo | WeaponInfo | SoulInfo | true;
       let format2: MessageEmbed;
@@ -177,13 +177,13 @@ export default class extends ErosInfoCommand {
       if (message.needsPreview)
         format.setImage(template.character.preview);
 
-      const embed: IEmbedsEx = this.util.embeds(null, array)
+      const embed: IEmbedsEx = this.client.embeds(null, array)
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse, prepare: '\u200B' })
         .setAuthorizedUsers([ message.author.id ])
-        .showPageIndicator(false)
+        .setPageIndicator(false)
         .setDisabledNavigationEmojis([ 'BACK', 'JUMP', 'FORWARD' ])
-        .setTimeout(1000 * 60 * 1)
+        .setTimeout(10e3)
         .setFunctionEmojis({
           '🖼': (_, instance: IEmbedsEx) => {
             instance.needsPreview = instance.needsPreview ? false : true;
@@ -215,15 +215,17 @@ export default class extends ErosInfoCommand {
             instance.currentEmbed.setImage(instance.preview);
         });
 
-      return embed.build();
-    } catch (err) { this.emitError(err, message, this, 2); }
+      embed.build();
+
+      return true;
+    } catch (err) { this.handler.emitError(err, message, this, 2); }
   }
 
-  public async parseArticle (item: string) {
+  public async parseArticle (item: string, infobox = true) {
     const rawData = await this.client.util.getArticle(item);
     const sanitisedData = (data: string) => {
-      if (!data) throw new Error(`API returned no item named ${item} found.`);
-      const slicedData = data.indexOf('==') === -1
+      if (!data) throw new Error(`Wiki returned no item named ${item} found.`);
+      const slicedData = !infobox || data.indexOf('==') === -1
         ? data
         : data.slice(data.indexOf('{{'), data.indexOf('=='));
 
@@ -238,6 +240,8 @@ export default class extends ErosInfoCommand {
         .replace(/\|([^|])/g, '\n| $1'); // Fix ugly Infobox format
     };
 
+    if (!infobox) return sanitisedData(rawData);
+
     const { general: info }: { general: IKamihimeFandom } = parseInfo(sanitisedData(rawData));
     info.name = info.name.replace(/(?:\[)(.+)(?:\])/g, '($1)');
 
@@ -246,7 +250,7 @@ export default class extends ErosInfoCommand {
 
   public async parseKamihime (template: WeaponInfo, message: Message) {
     const db = await this.acquire(template.character.releases, true, true);
-    const infoSub = await this.parseArticle(template.character.releases);
+    const infoSub = await this.parseArticle(template.character.releases)  as IKamihimeFandom;
 
     return new Kamihime(
       this.client,
@@ -258,7 +262,7 @@ export default class extends ErosInfoCommand {
 
   public async parseWeapon (template: KamihimeInfo) {
     const db = await super.acquire(template.character.releaseWeapon, false, true);
-    const infoSub = await this.parseArticle(template.character.releaseWeapon);
+    const infoSub = await this.parseArticle(template.character.releaseWeapon) as IKamihimeFandom;
 
     return new Weapon(this.client, null, db.info, infoSub);
   }
