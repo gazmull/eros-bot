@@ -1,16 +1,16 @@
 import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 import { IKamihimeDB } from '../../../typings';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('list', {
       aliases: [ 'list', 'l' ],
       description: {
         content: 'Displays character/weapon names based on your arguments.',
-        usage: '<filter variables>',
-        examples: [ 'kamihime', 'eidolon', 'eidolon dark' ]
+        usage: '<filter variables> [--sort=<by>-[asc/desc]]',
+        examples: [ 'kamihime', 'eidolon', 'eidolon dark', 'kamihime ssr --sort=ttl', 'kamihime ssr --sort=ttl-desc' ]
       },
       cooldown: 5 * 1000,
       lock: 'user',
@@ -18,6 +18,7 @@ export default class extends ErosCommand {
       args: [
         {
           id: 'filter',
+          type: 'lowercase',
           match: 'text',
           prompt: {
             start: [
@@ -31,31 +32,40 @@ export default class extends ErosCommand {
           match: 'flag',
           flag: [ '-d', '--dev', '--advanced' ]
         },
+        {
+          id: 'sort',
+          match: 'option',
+          flag: [ '-s', '--sort=' ]
+        },
       ]
     });
   }
 
-  public async exec (message: Message, { filter, advanced }: { filter: string, advanced: boolean }) {
+  public async exec (
+    message: Message,
+    { filter, advanced, sort }: { filter: string, advanced: boolean, sort: string }
+  ) {
     try {
-      if (filter.toLowerCase() === 'variables') return this.helpDialog(message);
+      if (filter === 'variables') return this.helpDialog(message);
 
       const { emojis, url } = this.client.config;
-      message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
+      await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
-      const args = filter.toLowerCase().trim().split(/ +/g);
-      const rawData = await fetch(`${url.api}list/${args.join('/')}`, { headers: { Accept: 'application/json' } });
+      const args = filter.trim().split(/ +/g).join('/');
+      const query = sort ? `?sort=${sort}` : '';
+      const rawData = await fetch(`${url.api}list/${args}${query}`, { headers: { Accept: 'application/json' } });
       const result: IKamihimeDB[] = await rawData.json();
 
       if ((result as any).error) throw (result as any).error.message;
+      if (!result.length) throw RangeError(`There are no matching items found with ${filter.toUpperCase()}`);
 
-      const embed = this.util.fields<IKamihimeDB>(message)
+      const Pagination = this.client.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
-        .setArray(result)
-        .setTimeout(240 * 1000);
+        .setArray(result);
 
-      embed.embed
+      Pagination.embed
         .setTitle(`${filter.toUpperCase()} | Found: ${result.length}`)
         .setDescription([
           '**NOTE**: This is a list of characters registered in',
@@ -63,19 +73,19 @@ export default class extends ErosCommand {
         ].join(' '))
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
-      if (advanced) embed.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`, true);
-      embed.formatField(
+      if (advanced) Pagination.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`, true);
+      Pagination.formatField(
         `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${result.indexOf(i) + 1} - `}${i.name}`,
         true
       );
 
-      return embed.build();
-    } catch (err) { this.emitError(err, message, this, 1); }
+      return Pagination.build();
+    } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 
   public async helpDialog (message: Message) {
     const prefix = await this.handler.prefix(message);
-    const embed = this.util.embed(message)
+    const embed = this.client.embed(message)
       .setTitle('Filter Variables')
       .setDescription(
         [
@@ -95,6 +105,16 @@ export default class extends ErosCommand {
         '**Souls**\n\tlegendary, elite, standard',
         '**Eidolons/Kamihime**\n\tfire, water, wind, thunder, dark, light, phantom\n\tr, sr, ssr, ssr+',
         '**Souls/Kamihime**\n\toffense, defense, balance, tricky, healer',
+      ])
+      .addBlankField()
+      .addField('Options for --sort= Flag', [
+        [
+          'Default is by name. Other options are:',
+          [ 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]
+            .map(el => `\`${el}\``)
+            .join(', '),
+          'Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively.',
+        ],
       ]);
 
     return message.util.send(embed);
