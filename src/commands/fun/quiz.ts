@@ -1,4 +1,3 @@
-import { Control } from 'discord-akairo';
 import { Message } from 'discord.js';
 import fetch from 'node-fetch';
 import { IKamihimeDB } from '../../../typings';
@@ -6,20 +5,30 @@ import ErosComamnd from '../../struct/command';
 import shuffle from '../../util/shuffle';
 
 type PromptType = 'name' | 'element' | 'rarity' | 'tier' | 'type';
+type ChoicesSupplier = (isWeapon?: boolean) => string[];
+interface IQuestionnaireSupplier {
+  text: string;
+  type: PromptType;
+  choices: ChoicesSupplier;
+}
 
-const QUESTIONS: Array<{ text: string, type: PromptType, choices: string[] }> = [
-  { text: 'Who is this character?', type: 'name', choices: null },
+const QUESTIONS: IQuestionnaireSupplier[] = [
+  { text: 'What is the name of this {{type}}?', type: 'name', choices: null },
   {
-    text: 'What is this character\'s element?',
+    text: 'What is this {{type}}\'s element?',
     type: 'element',
-    choices: [ 'Fire', 'Water', 'Wind', 'Thunder', 'Light', 'Dark', 'Phantom', 'Weapon Dependent' ]
+    choices: () => [ 'Fire', 'Water', 'Wind', 'Thunder', 'Light', 'Dark', 'Phantom', 'Weapon Dependent' ]
   },
-  { text: 'What is this character\'s rarity?', type: 'rarity', choices: [ 'SSR+', 'SSR', 'SR', 'R' ] },
-  { text: 'What is this character\'s tier?', type: 'tier', choices: [ 'Legendary', 'Elite', 'Standard' ] },
+  { text: 'What is this {{type}}\'s rarity?', type: 'rarity', choices: () => [ 'SSR+', 'SSR', 'SR', 'R' ] },
+  { text: 'What is this {{type}}\'s tier?', type: 'tier', choices: () => [ 'Legendary', 'Elite', 'Standard' ] },
   {
-    text: 'What is this character\'s type?',
+    text: 'What is this {{type}}\'s type?',
     type: 'type',
-    choices: [ 'Offense', 'Defense', 'Balance', 'Tricky', 'Healer' ]
+    choices (isWeapon) {
+      return isWeapon
+        ? [ 'Hammer', 'Lance', 'Glaive', 'Arcane', 'Staff', 'Axe', 'Gun', 'Bow', 'Sword' ]
+        : [ 'Offense', 'Defense', 'Balance', 'Tricky', 'Healer' ];
+    }
   },
 ];
 
@@ -35,24 +44,26 @@ export default class extends ErosComamnd {
       lock: 'channel',
       channel: 'guild',
       noTrash: true,
-      ratelimit: 1,
-      args: [
-        {
-          id: 'rotation',
-          type: 'integer',
-          default: 1
-        },
-        Control.if((_, { rotation }) => rotation >= 2, [
-          {
-            id: 'interval',
-            type: 'interval',
-            prompt: {
-              retry: 'interval can only be **up to 120 seconds**. Try again!'
-            }
-          },
-        ], []),
-      ]
+      ratelimit: 1
     });
+  }
+
+  public * args () {
+    const rotation = yield {
+      type: 'integer',
+      default: 1
+    };
+
+    const interval = rotation >= 2
+      ? yield {
+        type: 'interval',
+        prompt: {
+          retry: 'interval can only be **up to 120 seconds**. Try again!'
+        }
+      }
+      : null;
+
+    return { rotation, interval };
   }
 
   public async exec (message: Message, { rotation, interval }: { rotation: number, interval: number }) {
@@ -61,24 +72,14 @@ export default class extends ErosComamnd {
     else if (message.member.hasPermission('MANAGE_GUILD') && rotation > 10)
       rotation = 10;
 
-    try {
-      for (let i = 0; i < rotation; i++) {
-        const isNotLast = i !== rotation - 1 ? interval / 1000 : null;
+    for (let i = 0; i < rotation; i++) {
+      const isNotLast = i !== rotation - 1 ? interval / 1000 : null;
 
-        await this.createQuestionnare(message, { isNotLast, rotation, current: i + 1 });
-        if (interval && isNotLast) await this.sleep(interval);
-      }
-    } catch (err) {
-      this.emitError(err, message, this);
+      await this.createQuestionnare(message, { isNotLast, rotation, current: i + 1 });
+      if (interval && isNotLast) await this.client.util.sleep(interval);
     }
 
     return true;
-  }
-
-  protected sleep (interval: number) {
-    return new Promise(resolve => {
-      this.client.setTimeout(resolve, interval);
-    });
   }
 
   // isNotLast - If a true number is passed, it'll append a notification to members that there will be another question
@@ -102,22 +103,31 @@ export default class extends ErosComamnd {
     const name = `shady_pic_${Date.now()}.webp`;
     const filteredQuestions = QUESTIONS.filter(q => selected[q.type] !== null);
     const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
+    const isWeapon = selected.id.charAt(0) === 'w';
+    const parsed = {
+      text: question.text
+        .replace(/\{\{type\}\}/, isWeapon ? 'weapon' : 'character'),
+      choices: isWeapon
+        ? question.choices(true)
+        : (typeof question.choices === 'function' ? question.choices() : question.choices)
+    };
+
     const answer = selected[question.type];
     let exp = Math.abs(Math.floor(Math.random() * 1000));
 
     if (message.member.hasPermission('MANAGE_GUILD')) exp += 500;
-    if (question.type === 'name') question.choices = characters.map(c => c.name);
+    if (question.type === 'name') parsed.choices = characters.map(c => c.name);
 
-    shuffle(question.choices);
+    shuffle(parsed.choices);
 
-    const embed = this.util.embed()
+    const embed = this.client.embed()
       .setImage(`attachment://${name}`)
       .setAuthor(
         `Questionnaire (${current} of ${rotation}) triggered by ${message.author.tag}`,
         message.author.displayAvatarURL({ format: 'webp' })
       )
-      .setTitle(question.text)
-      .setDescription(question.choices.map((v, i) => `**${i + 1}** - \`${v}\`\n`))
+      .setTitle(parsed.text)
+      .setDescription(parsed.choices.map((v, i) => `**${i + 1}** - \`${v}\`\n`))
       .setFooter(`For ${exp} EXP • Ends within 30 seconds`);
     const attachment = this.client.util.attachment(avatar, name);
     const nextQuestionMsg = isNotLast
@@ -133,7 +143,7 @@ export default class extends ErosComamnd {
 
         if (isNaN(content)) return false;
 
-        const isAnswer = question.choices[content - 1] === answer;
+        const isAnswer = parsed.choices[content - 1] === answer;
 
         return isAnswer;
       }, { max: 1, time: 30 * 1000, errors: [ 'time' ] });
@@ -143,8 +153,7 @@ export default class extends ErosComamnd {
         where: {
           user: userResponse.author.id,
           guild: message.guild.id
-        },
-        attributes: [ 'id' ]
+        }
       });
 
       await member.increment('exp', { by: exp });
