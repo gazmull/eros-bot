@@ -123,6 +123,16 @@ export default class KamihimeInfo extends Info {
             duration: character.ability3Dur || null
           }
           : null,
+
+        character.ability4Name
+          ? {
+            name: character.ability4Name,
+            description: character.ability4Desc,
+            upgradeDescription: abilityDescParse(character.ability4PowerupDesc, 3),
+            cooldown: character.ability4Cd,
+            duration: character.ability4Dur || null
+          }
+          : null,
       ],
 
       assistAbilities: [
@@ -130,9 +140,14 @@ export default class KamihimeInfo extends Info {
           ? {
             name: character.assistName,
             description: character.assistDesc,
-            upgradeDescription: character.assistPowerupDesc
-              ? abilityDescParse(character.assistPowerupDesc, 4)
-              : null
+            upgrades: [
+              character.assistPowerupDesc
+                ? abilityDescParse(character.assistPowerupDesc, 4)
+                : null,
+              character.assistPowerup2Desc
+                ? abilityDescParse(character.assistPowerup2Desc, 2)
+                : null,
+            ]
           }
           : null,
       ],

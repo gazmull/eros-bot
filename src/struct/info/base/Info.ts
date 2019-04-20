@@ -112,7 +112,7 @@ export default class Info {
           if (!assistAbility) continue;
 
           embed.addField(`:sparkle:: ${assistAbility.name}`,
-            [ assistAbility.description, assistAbility.upgradeDescription ],
+            [ assistAbility.description, assistAbility.upgrades.join('\n') ],
             true
           );
         }
