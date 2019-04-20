@@ -8,7 +8,7 @@ sudo: false
 jobs:
   include:
     - stage: docs-build
-      script: yarn run test && yarn run docs:parse
+      script: bash ./deploy/travis.sh
 cache:
   directories:
     - node_modules

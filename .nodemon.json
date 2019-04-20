@@ -1,7 +1,6 @@
 {
   "verbose": true,
   "watch": [ "build" ],
-  "ignore": [ "provider", ".vscode", "typings" ],
   "env": { "NODE_ENV": "development" },
   "ext": "js"
 }

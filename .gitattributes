@@ -5,3 +5,6 @@
 *.gif binary
 *.png binary
 *.webp binary
+
+# 4 teh 100%
+*.js linguist-vendored
