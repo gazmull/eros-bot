@@ -11,11 +11,11 @@
 - [**Bot Guide**](https://docs.thegzm.space/eros-bot)
 
 # Features
-- Realtime Character/Weapon information pulls from [**Kamihime Project Nutaku Fandom**](https://kamihime-project.fandom.com)
+- Realtime Character/Weapon information pulls from [**Kamihime PROJECT EN Fandom**](https://kamihime-project.fandom.com)
 - Kamihime Database (Harem Scenes)
-    - Only Nutaku version is available.
+    - Only Kamihime EN (Nutaku) version is available.
     - Uses REST API (JSON) from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
-- Tweets updates from [**@Kamihime_Nutaku**](https://twitter.com/kamihime_nutaku)
+- Tweets updates from [**@Kamihime_EN**](https://twitter.com/kamihime_en)
     - Customise the `Twitter Channel` with `?set twitterchannel <channel>`
 - Get notified with in-game events via Countdown notification system
     - Customise the `Countdown Channel` with `?set cdchannel <channel>`
@@ -48,12 +48,12 @@
 - **Tag**
     - Main: `tag`, `tags`
 - **Fun**
-    - Main: `ask`, `insult`, `say`, `quiz`
+    - Main: `ask`, `insult`, `say`, `mock`, `owo`, `quiz`
 - **Leveling System**
     - Main: `level`
 - **Utility**
     - Main: `memberinfo`, `serverinfo`, `ping`, `stats`
-    - Bot Owner: `eval`, `clear`
+    - Bot Owner: `eval`
 
 # Self-Hosting
 > ### [**Add the bot instead? (24/7)**](http://addbot.thegzm.space)
@@ -142,4 +142,6 @@ If one cannot afford to do a pull request, submitting documentation contribution
 2. Run `$ yarn run dev:start`
 
 # License
-  MIT
+> [**MIT**](https://github.com/gazmull/discord-paginationembed/blob/master/LICENSE)
+
+© 2018-present [**Euni (gazmull)**](https://github.com/gazmull)
