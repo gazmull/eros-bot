@@ -48,26 +48,28 @@
     "fs-extra": "^7.0.1",
     "infobox-parser": "^3.2.0",
     "mariadb": "^2.0.3",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.25",
     "node-fetch": "^2.3.0",
     "nodemw": "^0.12.2",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "5.3.5",
-    "sequelize-typescript": "^1.0.0-alpha.9",
+    "sequelize": "5.7.1",
+    "sequelize-typescript": "1.0.0-beta.1",
     "twitter-lite": "^0.9.4",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.8.0",
     "zlib-sync": "^0.1.4"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.26",
     "@types/fs-extra": "^5.0.5",
     "@types/json2md": "^1.5.0",
     "@types/moment-timezone": "^0.5.12",
-    "@types/node": "^11.13.4",
+    "@types/node": "^11.13.6",
     "@types/node-fetch": "^2.3.2",
+    "@types/validator": "^10.11.0",
     "json2md": "^1.6.3",
-    "tslint": "^5.15.0",
+    "tslint": "^5.16.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.4"
   }
 }
