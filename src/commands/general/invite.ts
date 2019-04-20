@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('invite', {
       aliases: [ 'invite', 'addbot', 'inviteme' ],
@@ -12,7 +12,7 @@ export default class extends ErosCommand {
   public async exec (message: Message) {
     const { docs, inviteLink } = this.client.config;
     const owner = await this.client.users.fetch(this.client.ownerID as string);
-    const embed = this.util.embed(message)
+    const embed = this.client.embed(message)
       .setThumbnail(this.client.user.displayAvatarURL())
       .setDescription([
         `Documentation: <${docs}>`,

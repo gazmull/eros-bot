@@ -15,7 +15,7 @@ export default class extends ErosComamnd {
     super('ask', {
       aliases: [ 'ask', '8ball' ],
       description: {
-        content: 'Ask a question to a random Kamihime Project Character.',
+        content: 'Ask a question to a random Kamihime PROJECT Character.',
         usage: '<question>?',
         examples: [ 'Am I a rawricon?', 'Will I pull hecatonchires again (oh gods please no)?' ]
       },
@@ -48,12 +48,12 @@ export default class extends ErosComamnd {
     if (!response.ok) return message.util.edit('There was a problem: ' + response.statusText);
 
     const { id, name, avatar } = (await cherryResponse.json() as IKamihimeDB[]).shift();
-    const embed = this.util.embed()
+    const embed = this.client.embed()
       .setAuthor(name, null, url.root + `info/${id}`)
       .setThumbnail(url.root + encodeURIComponent(`img/wiki/${avatar}`))
       .setDescription(punctations(type, answer));
 
-    return message.util.edit(embed);
+    return message.util.edit(null, embed);
   }
 }
 

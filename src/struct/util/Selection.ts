@@ -1,6 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
 import { IKamihimeDB } from '../../../typings';
-import ErosCommand from '../command';
+import Command from '../command';
 import ErosClient from '../ErosClient';
 
 export default class {
@@ -10,7 +10,7 @@ export default class {
 
   protected client: ErosClient;
 
-  public async exec (message: Message, command: ErosCommand, rows: IKamihimeDB[]) {
+  public async exec (message: Message, command: Command, rows: IKamihimeDB[]) {
     const client = this.client;
     const embed = client.util.embed()
       .setColor(0xFF00AE)
@@ -25,7 +25,7 @@ export default class {
       .addField('#', rows.map(i => rows.indexOf(i) + 1).join('\n'), true)
       .addField('Name', rows.map(i => i.name).join('\n'), true);
 
-    await message.util.edit(embed);
+    await message.util.edit(null, embed);
 
     let character: IKamihimeDB = null;
 

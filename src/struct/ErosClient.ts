@@ -1,15 +1,16 @@
 import IErosClientOptions from 'auth';
 import { AkairoClient, InhibitorHandler, ListenerHandler } from 'discord-akairo';
-import { Message } from 'discord.js';
+import { Embeds, FieldsEmbed } from 'discord-paginationembed';
+import { Message, MessageEmbed } from 'discord.js';
 import * as Fandom from 'nodemw';
 import { promisify } from 'util';
 import GuideCommand from '../commands/general/guide';
 import ErosError from '../struct/ErosError';
-import { create } from '../struct/models';
 import Winston from '../util/console';
 import Command from './command';
 import ErosCommandHandler from './command/commandHandler';
 import CommandHandlerResolverTypes from './command/resolverTypes';
+import { create } from './Database';
 import Selection from './util/Selection';
 
 const db = create();
@@ -39,6 +40,8 @@ export default class ErosClient extends AkairoClient {
 
     this.util.selection = new Selection(this);
 
+    this.util.sleep = ms => new Promise(res => this.setTimeout(res, ms));
+
     this.commandHandler.resolver.addTypes(new CommandHandlerResolverTypes(this).distribute());
   }
 
@@ -48,15 +51,18 @@ export default class ErosClient extends AkairoClient {
     classToHandle: Command,
     commandUtil: true,
     commandUtilLifetime: 1000 * 60 * 3,
+    handleEdits: true,
     defaultCooldown: 5000,
-    defaultPrompt: {
-      cancel: (msg: Message) => `${msg.author}, command cancelled.`,
-      ended: (msg: Message) => `${msg.author}, command declined.`,
-      modifyRetry: (text, msg) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
-      modifyStart: (text, msg) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
-      retries: 3,
-      time: 30000,
-      timeout: (msg: Message) => `${msg.author}, command expired.`
+    argumentDefaults: {
+      prompt: {
+        cancel: (msg: Message) => `${msg.author}, command cancelled.`,
+        ended: (msg: Message) => `${msg.author}, command declined.`,
+        modifyRetry: (msg, text) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
+        modifyStart: (msg, text) => text && `${msg.author}, ${text}\n\nType \`cancel\` to cancel this command.`,
+        retries: 3,
+        time: 30000,
+        timeout: (msg: Message) => `${msg.author}, command expired.`
+      }
     },
     directory: `${__dirname}/../commands`,
     prefix: async message => {
@@ -64,7 +70,6 @@ export default class ErosClient extends AkairoClient {
 
       const [ guild ] = await this.db.Guild.findOrCreate({
         where: { id: message.guild.id },
-        attributes: [ 'prefix' ],
         defaults: {
           prefix: this.config.defaultPrefix,
           id: message.guild.id,
@@ -114,7 +119,7 @@ export default class ErosClient extends AkairoClient {
 
       const docs = this.commandHandler.modules.get('guide') as GuideCommand;
 
-      return docs.parseDialogs();
+      return docs.renderDialogs();
     }
 
     const force = [ '-f', '--force' ].some(f => process.argv.includes(f));
@@ -134,6 +139,51 @@ export default class ErosClient extends AkairoClient {
     this.logger.info(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
 
     return this.login(this.config.token);
+  }
+
+  public embed (message: Message = null) {
+    const instance = new MessageEmbed()
+      .setColor(0xFF00ae);
+
+    if (message)
+      instance
+        .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
+        .setTimestamp(new Date());
+
+    return instance;
+  }
+
+  public embeds (message: Message = null, array: MessageEmbed[] = null) {
+    const instance = new Embeds()
+      .on('error', e => this.logger.error(e));
+
+    if (array) instance.setArray(array);
+
+    for (const embed of array)
+      if (!embed.color) embed.setColor(0xFF00AE);
+
+    if (message)
+      instance
+        .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
+        .setTimestamp();
+
+    return instance;
+  }
+
+  public fields<T> (message: Message = null) {
+    const instance = new FieldsEmbed<T>()
+      .on('error', e => this.logger.error(e));
+
+    instance.embed
+      .setColor(0xFF00AE);
+
+    if (message)
+      instance
+        .embed
+        .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
+        .setTimestamp(new Date());
+
+    return instance;
   }
 
   get db () {

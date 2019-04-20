@@ -1,11 +1,11 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('serverinfo', {
       aliases: [ 'serverinfo', 'sinfo', 'si', 'guildinfo', 'ginfo', 'gi', 'settings' ],
-      description: { content: 'Displays information and bot settings of this server.' },
+      description: { content: 'Displays information and bot settings of the server.' },
       clientPermissions: [ 'EMBED_LINKS' ],
       channel: 'guild'
     });
@@ -29,7 +29,7 @@ export default class extends ErosCommand {
       return value;
     };
 
-    const embed = this.util.embed(message)
+    const embed = this.client.embed(message)
       .setTitle(message.guild.name)
       .setDescription(`Created at ${message.guild.createdAt.toUTCString()}`)
       .setThumbnail(message.guild.iconURL() ? message.guild.iconURL() : this.client.user.displayAvatarURL())
@@ -46,7 +46,7 @@ export default class extends ErosCommand {
       .addField('Countdown Subscriber Role', getRecord('cdRole'), true)
       .addField('NSFW Channel', getRecord('nsfwChannel'), true)
       .addField('NSFW Role', getRecord('nsfwRole'), true)
-      .addField('Loli Restricted?', getRecord('loli') ? 'Yes. :triumph:' : 'No. :sweat_smile:');
+      .addField('Loli Restricted?', 'Yes. **Always** :triumph:');
 
     return message.util.send(embed);
   }

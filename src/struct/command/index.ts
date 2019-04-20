@@ -1,11 +1,9 @@
-import { Command, CommandOptions } from 'discord-akairo';
-import { Embeds, FieldsEmbed } from 'discord-paginationembed';
-import { Message, MessageEmbed } from 'discord.js';
+import { Command as AkairoCommand, CommandOptions } from 'discord-akairo';
 import GuideCommand from '../../commands/general/guide';
 import ErosClient from '../ErosClient';
 import ErosCommandHandler from './commandHandler';
 
-export default class ErosCommand extends Command {
+export default class ErosCommand extends AkairoCommand {
   constructor (id: string, options: ICommandOptions) {
     super(id, options);
 
@@ -18,69 +16,11 @@ export default class ErosCommand extends Command {
 
   public noTrash: boolean;
 
-  public util = {
-    embed: this.embed,
-    embeds: this.embeds,
-    fields: this.fields
-  };
-
-  public embed (message: Message = null) {
-    const instance = new MessageEmbed()
-      .setColor(0xFF00ae);
-
-    if (message)
-      instance
-        .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
-        .setTimestamp(new Date());
-
-    return instance;
-  }
-
-  public embeds (message: Message = null, array: MessageEmbed[] = null) {
-    const instance = new Embeds();
-
-    if (array) instance.setArray(array);
-
-    instance.setColor(0xFF00AE);
-
-    if (message)
-      instance
-        .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
-        .setTimestamp();
-
-    return instance;
-  }
-
-  public fields<T> (message: Message = null) {
-    const instance = new FieldsEmbed<T>();
-
-    instance.embed
-      .setColor(0xFF00AE);
-
-    if (message)
-      instance
-        .embed
-        .setFooter(`Executed by: ${message.author.tag} (${message.author.id})`)
-        .setTimestamp(new Date());
-
-    return instance;
-  }
-
-  public emitError (err: Error, message: Message, command?: ErosCommand, step?: number) {
-    Object.assign(err, { step });
-
-    return this.handler.emitError(err, message, command);
-  }
-
-  public fail (message: Message) {
-    return message.react('❌');
-  }
-
   get guidePage () {
-    const page = (this.handler.modules.get('guide') as GuideCommand).dialogs
-      .findIndex(c => c.command && c.command === this.id);
+    const page = (this.handler.modules.get('guide') as GuideCommand)
+      .formattedCommandDialogs[this.id];
 
-    return page !== -1 ? page + 2 : null;
+    return page;
   }
 }
 

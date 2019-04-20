@@ -1,9 +1,9 @@
 import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 import { IKamihimeDB } from '../../../typings';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('leaderboard', {
       aliases: [ 'leaderboard', 'lb', 'toppeeks', 'top' ],
@@ -42,13 +42,12 @@ export default class extends ErosCommand {
       let list: IKamihimeDB[] = characters.filter(c => c.peeks !== 0);
       list = list.sort((a, b) => b.peeks - a.peeks);
 
-      const Pagination = this.util.fields<IKamihimeDB>(message)
+      const Pagination = this.client.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
         .setArray(list)
-        .setPage(page)
-        .setTimeout(240 * 1000);
+        .setPage(page);
 
       Pagination.embed
         .setTitle('Most Views Leaderboard (Harem Scenes)')
@@ -68,6 +67,6 @@ export default class extends ErosCommand {
         .formatField('Views', i => i.peeks);
 
       return Pagination.build();
-    } catch (err) { this.emitError(err, message, this, 1); }
+    } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 }

@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-add', {
       description: {
@@ -15,7 +15,7 @@ export default class extends ErosCommand {
           type: 'existingTag',
           prompt: {
             start: 'what should the new tag be named?',
-            retry: (_, __, input: { phrase: string }) =>
+            retry: (_, input: { phrase: string }) =>
               `**${input.phrase}** already exists or it's too long. Please provide again.`
           }
         },
@@ -44,12 +44,12 @@ export default class extends ErosCommand {
     if (name.length > 256) {
       message.util.reply('why bother to name a tag too long?');
 
-      return this.fail(message);
+      return this.handler.reactFail(message);
     }
     if (content.length > 1950) {
       message.util.reply('uh oh, your content exceeds the 2000 characters limit!');
 
-      return this.fail(message);
+      return this.handler.reactFail(message);
     }
 
     const isManager = message.member.hasPermission('MANAGE_GUILD');

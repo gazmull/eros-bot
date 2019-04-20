@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-show', {
       description: {
@@ -14,8 +14,8 @@ export default class extends ErosCommand {
         {
           id: 'name',
           match: 'content',
-          type: name => {
-            if (!name || name.length < 1) return null;
+          type: (_, name) => {
+            if (!name) return null;
 
             return name;
           },

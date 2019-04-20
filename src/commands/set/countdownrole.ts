@@ -1,11 +1,11 @@
 import { Message, Role } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('set-countdownrole', {
       description: {
-        content: 'Changes this server\'s Countdown Subscriber Role.',
+        content: 'Changes the server\'s Countdown Subscriber Role.',
         usage: '<role>',
         examples: [ '@cd', '2138547751248890915', 'countdown' ]
       },

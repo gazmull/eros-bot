@@ -14,17 +14,18 @@ export default class extends Listener {
     const parsed = message.util.parsed;
 
     if (!message.guild) return;
-    if (!parsed) return;
-    if (!parsed.prefix || !parsed.afterPrefix || !parsed.alias) {
+    if (!parsed.prefix) {
       await this.validateExp(message);
       await this.validateStalk(message);
 
       return;
     }
 
+    if (!parsed.afterPrefix) return;
+
     const commandHandler = this.client.commandHandler;
     const command = commandHandler.modules.get('tag-show');
-    const args = await command.parse(message, message.util.parsed.afterPrefix);
+    const args = await command.parse(message, parsed.afterPrefix);
 
     return commandHandler.runCommand(message, command, args);
   }
@@ -36,8 +37,7 @@ export default class extends Listener {
       where: {
         user: message.author.id,
         guild: message.guild.id
-      },
-      attributes: [ 'id', 'exp', 'title', 'updatedAt' ]
+      }
     });
 
     const eligible = Date.now() > (new Date(member.updatedAt).getTime() + 10e3);

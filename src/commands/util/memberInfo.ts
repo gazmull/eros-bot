@@ -1,7 +1,7 @@
 import { GuildMember, Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('memberinfo', {
       aliases: [ 'memberinfo', 'minfo', 'mi', 'userinfo', 'uinfo', 'ui', 'profile', 'kp' ],
@@ -27,51 +27,48 @@ export default class extends ErosCommand {
   }
 
   public async displayInfo (message: Message, member: GuildMember) {
-    try {
-      const fetchedMember = member || await message.guild.members.fetch(member.id);
+    const fetchedMember = member || await message.guild.members.fetch(member.id);
 
-      if (!fetchedMember) throw new Error('Member cache missing');
+    if (!fetchedMember) throw new Error('Member cache missing');
 
-      const [ levelMember ] = await this.client.db.Level.findOrCreate({
-        where: { user: fetchedMember.id, guild: message.guild.id },
-        attributes: [ 'title', 'exp' ]
-      });
+    const [ levelMember ] = await this.client.db.Level.findOrCreate({
+      where: { user: fetchedMember.id, guild: message.guild.id }
+    });
 
-      const ranking = await this.client.db.Level.findAll({
-        where: { guild: message.guild.id },
-        order: [ [ 'exp', 'DESC' ] ],
-        attributes: [ 'user' ]
-      });
-      const titlesMember = await this.client.db.Title.findAll({
-        where: { [this.client.db.Op.or]: [ { id: levelMember.title }, { id: levelMember.title + 1 } ] },
-        order: [ [ 'id', 'ASC' ] ],
-        attributes: [ 'id', 'name', 'threshold' ]
-      });
-      const nextTitle = titlesMember[1];
+    const ranking = await this.client.db.Level.findAll({
+      where: { guild: message.guild.id },
+      order: [ [ 'exp', 'DESC' ] ],
+      attributes: [ 'user' ]
+    });
+    const titlesMember = await this.client.db.Title.findAll({
+      where: { [this.client.db.Op.or]: [ { id: levelMember.title }, { id: levelMember.title + 1 } ] },
+      order: [ [ 'id', 'ASC' ] ],
+      attributes: [ 'id', 'name', 'threshold' ]
+    });
+    const nextTitle = titlesMember[1];
 
-      const embed = this.util.embed(message)
-        .setTitle(`${fetchedMember.user.tag} | ${this.memberStatus(member)}`)
-        .setDescription(`**ID**: ${fetchedMember.id}${
-          member.nickname ? `, also known as **\`${member.nickname}\`**` : ''}`
-        )
-        .setThumbnail(member.user.displayAvatarURL())
-        .addField('Level System', [
-          `**Current Title**: ${titlesMember[0].name}`,
-          `**Next Title**: ${nextTitle ? nextTitle.name : '∞'}`,
-          `**Progress**: ${levelMember.exp} / ${nextTitle ? nextTitle.threshold : '∞'}`,
-          `**Server Ranking**: ${ranking.findIndex(v => v.user === member.id) + 1} / ${ranking.length}`,
-        ])
-        .addField('Roles',
-          member.roles.map(r => member.roles.array().indexOf(r) % 3 === 0 ? `\n${r}` : `${r}`).join(', ')
-        )
-        .addField('Creation Date', member.user.createdAt.toUTCString(), true)
-        .addField('Join Date (This server)', member.joinedAt.toUTCString(), true);
+    const embed = this.client.embed(message)
+      .setTitle(`${fetchedMember.user.tag} | ${this.memberStatus(member)}`)
+      .setDescription(`**ID**: ${fetchedMember.id}${
+        member.nickname ? `, also known as **\`${member.nickname}\`**` : ''}`
+      )
+      .setThumbnail(member.user.displayAvatarURL())
+      .addField('Level System', [
+        `**Current Title**: ${titlesMember[0].name}`,
+        `**Next Title**: ${nextTitle ? nextTitle.name : '∞'}`,
+        `**Progress**: ${levelMember.exp} / ${nextTitle ? nextTitle.threshold : '∞'}`,
+        `**Server Ranking**: ${ranking.findIndex(v => v.user === member.id) + 1} / ${ranking.length}`,
+      ])
+      .addField('Roles',
+        member.roles.map(r => member.roles.array().indexOf(r) % 3 === 0 ? `\n${r}` : `${r}`).join(', ')
+      )
+      .addField('Creation Date', member.user.createdAt.toUTCString(), true)
+      .addField('Join Date (This server)', member.joinedAt.toUTCString(), true);
 
-      if (member.user.presence.activity)
-        embed.addField('Activity', this.memberActivity(member));
+    if (member.user.presence.activity)
+      embed.addField('Activity', this.memberActivity(member));
 
-      return message.util.send(embed);
-    } catch (err) { this.emitError(err, message, this); }
+    return message.util.send(embed);
   }
 
   public memberStatus (member: GuildMember) {

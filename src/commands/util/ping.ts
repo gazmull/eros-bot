@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('ping', {
       aliases: [ 'ping', 'pong', 'trace' ],

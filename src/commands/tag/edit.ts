@@ -1,9 +1,8 @@
-import { Control } from 'discord-akairo';
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
-import { Tag } from '../../struct/models/factories/Tag';
+import Command from '../../struct/command';
+import { Tag } from '../../struct/models/Tag';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-edit', {
       description: {
@@ -11,39 +10,46 @@ export default class extends ErosCommand {
         usage: '<tag name> [tag content] [--hoist/--unhoist]',
         examples: [ 'codes ***breathes heavily*** CODES', 'thisIsHoisted hoisted, sir --hoist' ]
       },
-      args: [
-        {
-          id: 'tag',
-          type: 'tag',
-          prompt: {
-            start: 'what is the name of the tag?',
-            retry: (_, __, input: { phrase: string }) =>
-              `**${input.phrase}** does not exist. Please provide again.`
-          }
-        },
-        {
-          id: 'hoisted',
-          match: 'flag',
-          flag: [ '-h', '--hoist', '-p', '--pin' ]
-        },
-        {
-          id: 'unhoisted',
-          match: 'flag',
-          flag: [ '-u', '--unhoist', '--unpin' ]
-        },
-        Control.if((_, args) => args.hoisted || args.unhoisted, [], [
-          {
-            id: 'content',
-            match: 'rest',
-            type: 'tagContent',
-            prompt: {
-              start: 'what should the future tag contain?',
-              retry: 'content should not be empty or not be exceeding 1950 characters. Please provide again.'
-            }
-          },
-        ]),
+      flags: [
+        '-h', '--hoist', '-p', '--pin',
+        '-u', '--unhoist', '--unpin',
       ]
     });
+  }
+
+  public * args () {
+    const tag = yield {
+      type: 'tag',
+      prompt: {
+        start: 'what is the name of the tag?',
+        retry: (_, __, input: { phrase: string }) =>
+          `**${input.phrase}** does not exist. Please provide again.`
+      }
+    };
+
+    const hoisted = yield {
+      match: 'flag',
+      flag: [ '-h', '--hoist', '-p', '--pin' ]
+    };
+
+    const unhoisted = yield {
+      match: 'flag',
+      flag: [ '-u', '--unhoist', '--unpin' ]
+    };
+
+    const content = hoisted || unhoisted
+      ? null
+      : yield {
+        id: 'content',
+        match: 'rest',
+        type: 'tagContent',
+        prompt: {
+          start: 'what should the future tag contain?',
+          retry: 'content should not be empty or not be exceeding 1950 characters. Please provide again.'
+        }
+      };
+
+    return { tag, hoisted, unhoisted, content };
   }
 
   public async exec (
@@ -55,12 +61,12 @@ export default class extends ErosCommand {
     if (tag.author !== message.author.id && !isManager) {
       message.util.reply('are you trying to vandalise?');
 
-      return this.fail(message);
+      return this.handler.reactFail(message);
     }
     if (content && content.length > 1950) {
       message.util.reply('uh oh, your content exceeds the 2000 characters limit!');
 
-      return this.fail(message);
+      return this.handler.reactFail(message);
     }
 
     const updateValues: Partial<Tag> = { modifiedBy: message.author.id };

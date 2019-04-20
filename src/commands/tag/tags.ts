@@ -1,7 +1,7 @@
 import { GuildMember, Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-list', {
       aliases: [ 'tags' ],
@@ -42,7 +42,7 @@ export default class extends ErosCommand {
       } else if (memberTags.length > 35)
         return replyFail();
 
-      const memberEmbed = this.util.embed(message)
+      const memberEmbed = this.client.embed(message)
         .setAuthor(`${member.user.tag} (${member.id})`)
         .setThumbnail(member.user.displayAvatarURL({ format: 'webp' }));
 
@@ -77,7 +77,7 @@ export default class extends ErosCommand {
     else if (tags.length > 35)
         return replyFail();
 
-    const embed = this.util.embed(message)
+    const embed = this.client.embed(message)
       .setAuthor(`${message.guild} (${message.guild.id})`)
       .setThumbnail(message.guild.iconURL({ format: 'webp' }));
 

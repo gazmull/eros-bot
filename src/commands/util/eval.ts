@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 import * as util from 'util';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
 function clean (text: string) {
   if (typeof text === 'string')
@@ -9,7 +9,7 @@ function clean (text: string) {
   return text;
 }
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('eval', {
       aliases: [ 'eval', 'ev', 'e' ],

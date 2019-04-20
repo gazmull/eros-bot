@@ -1,11 +1,11 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('nsfw', {
       aliases: [ 'nsfw', 'nsfwaccess', 'access' ],
-      description: { content: 'Grants you access to marked `NSFW Channel` in this server.' },
+      description: { content: 'Grants you access to marked `NSFW Channel` in the server.' },
       clientPermissions: [ 'MANAGE_ROLES' ],
       channel: 'guild',
       ratelimit: 1
@@ -34,7 +34,7 @@ export default class extends ErosCommand {
     await message.react('✅');
 
     return message.util.reply([
-      `granted! Proceed to ${resolvedChannel} when accessing Harem Scenes.`,
+      `granted! Proceed to ${resolvedChannel} when accessing Harem Episodes.`,
       `Say \`${prefix}guide 20\` for more info.`,
     ]);
   }

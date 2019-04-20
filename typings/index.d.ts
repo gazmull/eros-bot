@@ -2,23 +2,26 @@ import { InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { StringResolvable } from 'discord.js';
 import * as Fandom from 'nodemw';
 import { Sequelize } from 'sequelize-typescript';
+import { Op } from 'sequelize';
 import { Logger } from 'winston';
 import CountdownScheduler from '../src/functions/CountdownScheduler';
 import Twitter from '../src/functions/Twitter';
 import ErosCommandHandler from '../src/struct/command/commandHandler';
 import ErosError from '../src/struct/ErosError';
-import { Guild } from '../src/struct/models/factories/Guild';
-import { Level } from '../src/struct/models/factories/Level';
-import { Storage } from '../src/struct/models/factories/Storage';
-import { Tag } from '../src/struct/models/factories/Tag';
-import { Title } from '../src/struct/models/factories/Title';
+import { Guild } from '../src/struct/models/Guild';
+import { Level } from '../src/struct/models/Level';
+import { Storage } from '../src/struct/models/Storage';
+import { Tag } from '../src/struct/models/Tag';
+import { Title } from '../src/struct/models/Title';
 import Selection from '../src/struct/util/Selection';
 import IErosClientOptions from './auth';
+import { Embeds, FieldsEmbed } from 'discord-paginationembed';
 
 declare module 'discord-akairo' {
   export interface ClientUtil {
     selection: Selection;
     getArticle: (title: string) => Promise<string>;
+    sleep: (ms: number) => Promise<void>;
   }
 }
 
@@ -54,7 +57,7 @@ interface ErosClient {
   ErosError: typeof ErosError;
   db: {
     sequelize: Sequelize;
-    Op: Sequelize["Op"];
+    Op: typeof Op;
     Guild: typeof Guild;
     Level: typeof Level;
     Storage: typeof Storage;
@@ -125,7 +128,7 @@ export interface IKamihimeFandomFormatted {
   assistAbilities?: {
     name: string;
     description: string;
-    upgradeDescription?: string;
+    upgrades?: string[];
   }[];
 
   mex?: {
@@ -177,9 +180,15 @@ export interface IKamihimeFandomKamihime extends IKamihimeFandom {
   ability3PowerupDesc?: string;
   ability3Cd?: string;
   ability3Dur?: string;
+  ability4Name?: string;
+  ability4Desc?: string;
+  ability4PowerupDesc?: string;
+  ability4Cd?: string;
+  ability4Dur?: string;
   assistName?: string;
   assistDesc?: string;
   assistPowerupDesc?: string;
+  assistPowerup2Desc?: string;
   favouriteWeapon?: string;
   releaseWeapon?: string;
 }

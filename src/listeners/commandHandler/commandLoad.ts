@@ -1,5 +1,5 @@
 import { Listener } from 'discord-akairo';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
 export default class extends Listener {
   constructor () {
@@ -9,7 +9,7 @@ export default class extends Listener {
     });
   }
 
-  public exec (command: ErosCommand) {
+  public exec (command: Command) {
     const perms = [ 'SEND_MESSAGES', 'MANAGE_MESSAGES', 'ADD_REACTIONS', 'EMBED_LINKS' ];
     const cp = command.clientPermissions as string[];
 

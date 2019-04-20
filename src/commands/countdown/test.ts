@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
 import * as moment from 'moment';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 import CountdownCommand from './countdown';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('countdown-test', {
       description: {

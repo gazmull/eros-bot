@@ -1,17 +1,18 @@
-import { Collection, Message, User } from 'discord.js';
+import { Flag } from 'discord-akairo';
+import { Collection, Message } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as moment from 'moment-timezone';
 import { ICountdown } from '../../../typings';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 import prettifyMs from '../../util/prettifyMs';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('countdown', {
       aliases: [ 'countdown', 'cd' ],
       description: {
         content: [
-          'Displays countdowns related to Kamihime Project in-game events.',
+          'Displays countdowns related to Kamihime PROJECT in-game events.',
           'It includes special and some regular events.',
           'Available Methods:',
           '- `help`',
@@ -30,11 +31,7 @@ export default class extends ErosCommand {
           'delete A User\'s Birthday',
           'test 2018-05-16T20:00',
         ]
-      },
-      args: [
-        { id: 'method', type: [ 'help', 'current', 'add', 'remove', 'delete', 'del', 'test', 'check', 'subscribe' ] },
-        { id: 'details', match: 'rest', default: '' },
-      ]
+      }
     });
 
     this.init();
@@ -48,60 +45,28 @@ export default class extends ErosCommand {
 
   public userCountdowns: Collection<number, string[]> = new Collection();
 
-  public authorized (user: User) {
-    return this.client.config.countdownAuthorized.includes(user.id);
-  }
-
-  public async exec (message: Message, { method, details }: { method: string, details: string }) {
-    const authorized = this.authorized(message.author);
-
-    if (
-      !method ||
-      (!authorized && ![ 'test', 'check', 'subscribe', 'current', 'help' ].includes(method))
-    ) return this.defaultCommand(message);
-    if (method === 'current') return message.util.reply(`Current time is: ${moment.tz(this.timezone)}`);
-    if (method === 'help') return this.authorisedHelp(message);
-
-    const commands: { [key: string]: ErosCommand } = {
-      add: this.handler.modules.get('countdown-add'),
-      del: this.handler.modules.get('countdown-delete'),
-      delete: this.handler.modules.get('countdown-delete'),
-      remove: this.handler.modules.get('countdown-delete'),
-      test: this.handler.modules.get('countdown-test'),
-      check: this.handler.modules.get('countdown-test'),
-      subscribe: this.handler.modules.get('countdown-subscribe')
+  public * args () {
+    const child = yield {
+      type: [
+        [ 'countdown-add', 'add' ],
+        [ 'countdown-delete', 'remove', 'del', 'delete' ],
+        [ 'countdown-test', 'test', 'check' ],
+        [ 'countdown-subscribe', 'subscribe', 'sub' ],
+        [ 'countdown-current', 'current', 'now' ],
+        [ 'countdown-help', 'help' ],
+      ]
     };
-    const command = commands[method];
 
-    return this.handler.handleDirectCommand(message, details, command);
+    return child ? Flag.continue(child) : { };
   }
 
-  public async defaultCommand (message: Message) {
-    const embed = this.util.embed(message);
+  public async exec (message: Message) {
+    const embed = this.client.embed(message);
 
     await this.prepareCountdowns();
 
     for (const [ key, names ] of this.countdowns)
       embed.addField(this.getCountdown(key), names.map(n => `❯ ${n}`).join('\n'));
-
-    return message.util.send(embed);
-  }
-
-  public async authorisedHelp (message: Message) {
-    const prefix = await this.handler.prefix(message);
-    const embed = this.util.embed(message)
-      .setColor(0xFF00AE)
-      .addField('Adding a Countdown', [
-        `❯ Usage: ${prefix}countdown add <date> <name>`,
-        '❯ Date Format: [YYYY]-[MM]-[DD]T[HH]:[mm]',
-        '❯ Note: Date has to be provided in PDT. https://time.is/PDT',
-        '❯ Note: Naming can also affect the countdown notifications, so be careful when to append `- End`!',
-      ])
-      .addField('Removing a Countdown', `❯ Usage: ${prefix}countdown remove <name>`)
-      .addField('Testing a Countdown', [
-        `❯ Usage: ${prefix}countdown test <date>`,
-        '❯ Same date format from adding a countdown.',
-      ]);
 
     return message.util.send(embed);
   }

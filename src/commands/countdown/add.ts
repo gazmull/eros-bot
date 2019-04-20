@@ -1,9 +1,9 @@
 import { Message } from 'discord.js';
 import * as moment from 'moment';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 import CountdownCommand from './countdown';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('countdown-add', {
       description: {
@@ -27,7 +27,7 @@ export default class extends ErosCommand {
           match: 'rest',
           prompt: {
             start: 'what should the new countdown be named?',
-            retry: (_, __, input: { phrase: string }) =>
+            retry: (_, input: { phrase: string }) =>
               `**${input.phrase}** already exists. Please provide again.`
           }
         },
