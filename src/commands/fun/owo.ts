@@ -27,7 +27,7 @@ export default class extends ErosComamnd {
   }
 
   public async * args (message: Message) {
-    if (([ 0, 1, 0, 0, 0 ][Math.floor(Math.random() * 5)]) === 0) {
+    if (([ 0, 1, 0 ][Math.floor(Math.random() * 3)]) === 0) {
       await message.channel.send(FULL_OF_DETERMINATION[Math.floor(Math.random() * FULL_OF_DETERMINATION.length)]);
 
       return Flag.cancel();
