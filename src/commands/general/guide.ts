@@ -1,4 +1,4 @@
-import { Message, StringResolvable, TextChannel, Util } from 'discord.js';
+import { Message, StringResolvable, Util } from 'discord.js';
 import { MessageEmbed } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as json2md from 'json2md';
@@ -43,8 +43,7 @@ export default class GuideCommand extends Command {
   public async exec (message: Message, { page }: { page: number }) {
     return this.client.embeds(message, this.formattedGeneralDialogs)
       .setAuthorizedUsers([ message.author.id ])
-      .setChannel(message.channel as TextChannel)
-      .setClientAssets({ prepare: `${this.client.config.emojis.loading} Preparing...` })
+      .setChannel(message.channel)
       .setPage(page)
       .setTimeout(120e3)
       .build();

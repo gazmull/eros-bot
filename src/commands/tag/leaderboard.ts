@@ -1,4 +1,4 @@
-import { GuildMember, Message, TextChannel } from 'discord.js';
+import { GuildMember, Message } from 'discord.js';
 import Command from '../../struct/command';
 import { Tag } from '../../struct/models/Tag';
 
@@ -28,7 +28,6 @@ export default class extends Command {
 
   public async exec (message: Message, { member, page }: { member: GuildMember, page: number }) {
     const factory = this.client.db.Tag;
-    const { emojis } = this.client.config;
     const prefix = await this.handler.prefix(message);
 
     if (member) {
@@ -50,8 +49,8 @@ export default class extends Command {
 
       const memberEmbed = this.client.fields<Tag>(message)
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel as TextChannel)
-        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
+        .setChannel(message.channel)
+        .setClientAssets({ message: message.util.lastResponse })
         .setArray(memberTags)
         .setPage(page);
 
@@ -76,8 +75,8 @@ export default class extends Command {
 
     const serverEmbed = this.client.fields<Tag>(message)
       .setAuthorizedUsers([ message.author.id ])
-      .setChannel(message.channel as TextChannel)
-      .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
+      .setChannel(message.channel)
+      .setClientAssets({ message: message.util.lastResponse })
       .setArray(tags)
       .setPage(page);
 

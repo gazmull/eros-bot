@@ -1,4 +1,4 @@
-import { Message, TextChannel } from 'discord.js';
+import { Message } from 'discord.js';
 import Command from '../../struct/command';
 import { Level } from '../../struct/models/Level';
 
@@ -22,7 +22,6 @@ export default class extends Command {
 
   public async exec (message: Message, { page }: { page: number }) {
     const factory = this.client.db.Level;
-    const { emojis } = this.client.config;
 
     const levels = await factory.findAll({
       where: { guild: message.guild.id },
@@ -34,8 +33,8 @@ export default class extends Command {
 
     const Pagination = this.client.fields<Level>(message)
       .setAuthorizedUsers([ message.author.id ])
-      .setChannel(message.channel as TextChannel)
-      .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
+      .setChannel(message.channel)
+      .setClientAssets({ message: message.util.lastResponse })
       .setArray(levels)
       .setPage(page);
 
