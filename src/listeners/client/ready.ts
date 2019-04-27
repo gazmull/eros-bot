@@ -42,7 +42,7 @@ export default class extends Listener {
 
       await glossaryCommnad.initGlossary();
 
-      return guideCommand.init.bind(guideCommand)();
+      return guideCommand.init.call(guideCommand);
     } catch (err) {
       return this.client.logger.error(err);
     }
