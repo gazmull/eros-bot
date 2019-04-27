@@ -260,4 +260,6 @@ export interface IKamihimeDB extends IKamihimeFandom {
   id: string;
   loli: number;
   peeks?: number;
+  atk?: number;
+  hp?: number;
 }

@@ -1,4 +1,4 @@
-import { Message, TextChannel } from 'discord.js';
+import { Message } from 'discord.js';
 import fetch from 'node-fetch';
 import { IKamihimeDB } from '../../../typings';
 import Command from '../../struct/command';
@@ -35,7 +35,14 @@ export default class extends Command {
         {
           id: 'sort',
           match: 'option',
-          flag: [ '-s', '--sort=' ]
+          flag: [ '-s', '--sort=' ],
+          type: /^(?:name|rarity|tier|element|type|atk|hp|ttl)(?:-desc)?$/,
+          prompt: {
+            retry: (message: Message) =>
+              // tslint:disable-next-line: max-line-length
+              `That is not a valid sort option! See \`${message.util.parsed.prefix}list variables\` for help. Try again!`
+          },
+          default: 'name'
         },
       ]
     });
@@ -52,18 +59,30 @@ export default class extends Command {
       await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
       const args = filter.trim().split(/ +/g).join('/');
-      const query = sort ? `?sort=${sort}` : '';
+      const isTtl = sort === 'ttl';
+      const query = sort && !isTtl ? `?sort=${sort}` : '';
       const rawData = await fetch(`${url.api}list/${args}${query}`, { headers: { Accept: 'application/json' } });
       const result: IKamihimeDB[] = await rawData.json();
 
       if ((result as any).error) throw (result as any).error.message;
       if (!result.length) throw RangeError(`There are no matching items found with ${filter.toUpperCase()}`);
 
+      const [ sortBy, sortType = 'asc' ] = query.split('-');
+      const sorted = isTtl
+        ? result
+          .sort((a, b) =>
+            sortType === 'desc'
+              ? (b.atk + b.hp) - (a.atk + a.hp)
+              : (a.atk + a.hp) - (b.atk + b.hp)
+          )
+          .map(v => ({ name: v.name, id: v.id, ttl: v.atk + v.hp })) as unknown as IKamihimeDB[]
+        : result;
+
       const Pagination = this.client.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel as TextChannel)
-        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
-        .setArray(result);
+        .setChannel(message.channel)
+        .setClientAssets({ message: message.util.lastResponse })
+        .setArray(sorted);
 
       Pagination.embed
         .setTitle(`${filter.toUpperCase()} | Found: ${result.length}`)
@@ -74,10 +93,13 @@ export default class extends Command {
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
       if (advanced) Pagination.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`, true);
-      Pagination.formatField(
-        `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${result.indexOf(i) + 1} - `}${i.name}`,
-        true
-      );
+
+      Pagination
+        .formatField(
+          `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${result.indexOf(i) + 1} - `}${i.name}`,
+          true
+        )
+        .formatField(sort.toUpperCase(), i => i[sortBy]);
 
       return Pagination.build();
     } catch (err) { this.handler.emitError(err, message, this, 1); }
@@ -110,10 +132,10 @@ export default class extends Command {
       .addField('Options for --sort= Flag', [
         [
           'Default is by name. Other options are:',
-          [ 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]
+          [ 'name', 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]
             .map(el => `\`${el}\``)
             .join(', '),
-          'Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively.',
+          'Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively. (e.g: `rarity-desc`)',
         ],
       ]);
 
