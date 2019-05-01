@@ -36,11 +36,11 @@ export default class extends Command {
           id: 'sort',
           match: 'option',
           flag: [ '-s', '--sort=' ],
-          type: /^(?:name|rarity|tier|element|type|atk|hp|ttl)(?:-desc)?$/,
+          type: /^(?:name|rarity|tier|element|type|atk|hp|ttl)(?:-desc)?$/i,
           prompt: {
             retry: (message: Message) =>
               // tslint:disable-next-line: max-line-length
-              `That is not a valid sort option! See \`${message.util.parsed.prefix}list variables\` for help. Try again!`
+              `That is not a valid sort option! Say \`variables\` for available sort options. Try again!`
           },
           default: 'name'
         },
@@ -58,8 +58,9 @@ export default class extends Command {
       const { emojis, url } = this.client.config;
       await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
+      sort = sort.toLowerCase();
       const args = filter.trim().split(/ +/g).join('/');
-      const isTtl = sort === 'ttl';
+      const isTtl = /^ttl/.test(sort);
       const query = sort && !isTtl ? `?sort=${sort}` : '';
       const rawData = await fetch(`${url.api}list/${args}${query}`, { headers: { Accept: 'application/json' } });
       const result: IKamihimeDB[] = await rawData.json();
@@ -67,7 +68,7 @@ export default class extends Command {
       if ((result as any).error) throw (result as any).error.message;
       if (!result.length) throw RangeError(`There are no matching items found with ${filter.toUpperCase()}`);
 
-      const [ sortBy, sortType = 'asc' ] = query.split('-');
+      const [ sortBy, sortType = 'asc' ] = sort.split('-');
       const sorted = isTtl
         ? result
           .sort((a, b) =>
@@ -98,8 +99,9 @@ export default class extends Command {
         .formatField(
           `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${result.indexOf(i) + 1} - `}${i.name}`,
           true
-        )
-        .formatField(sort.toUpperCase(), i => i[sortBy]);
+        );
+
+      if (!/^name/.test(sort)) Pagination.formatField(sort.toUpperCase(), i => i[sortBy]);
 
       return Pagination.build();
     } catch (err) { this.handler.emitError(err, message, this, 1); }
