@@ -88,9 +88,9 @@ export interface IKamihimeFandom {
 export interface IKamihimeFandomFormatted {
   name: string;
   atk?: number;
-  atkFBL?: number;
+  atkFLB?: number;
   hp?: number;
-  hpFBL?: number;
+  hpFLB?: number;
   obtainedFrom?: string;
   releaseWeapon?: string;
   releases?: string;
@@ -106,9 +106,14 @@ export interface IKamihimeFandomFormatted {
   preview: string;
   link?: string;
   type?: string;
-  skills?: string[];
-  skillDesc?: string[];
-  skillFBL?: string[];
+  skill?: {
+    name: string;
+    description: string;
+  }[];
+  skillFLB?: {
+    name: string;
+    description: string;
+  }[];
   element?: string;
   elements?: string[];
   burst?: {
@@ -117,7 +122,7 @@ export interface IKamihimeFandomFormatted {
     upgradeDescription?: string;
   };
   burstDesc?: string[];
-  burstFBL?: string;
+  burstFLB?: string;
   abilities?: {
     name: string;
     cooldown: string;
@@ -189,6 +194,10 @@ export interface IKamihimeFandomKamihime extends IKamihimeFandom {
   assistDesc?: string;
   assistPowerupDesc?: string;
   assistPowerup2Desc?: string;
+  assist2Name?: string;
+  assist2Desc?: string;
+  assist2PowerupDesc?: string;
+  assist2Powerup2Desc?: string;
   favouriteWeapon?: string;
   releaseWeapon?: string;
 }
@@ -221,8 +230,10 @@ export interface IKamihimeFandomWeapon extends IKamihimeFandomKamihime {
   skill1?: string;
   skillType2?: string;
   skill2?: string;
-  skill1Fbl?: string;
-  skill2Fbl?: string;
+  skillFlb?: string;
+  skillFlbDesc?: string;
+  skill2Flb?: string;
+  skill2FlbDesc?: string;
   skillDesc?: string;
   skill2Desc?: string;
   element2?: string;
@@ -230,9 +241,9 @@ export interface IKamihimeFandomWeapon extends IKamihimeFandomKamihime {
   element4?: string;
   element5: string;
   element6: string;
-  atkFbl?: number;
-  hpFbl?: number;
-  burstFbl?: string;
+  atkFlb?: number;
+  hpFlb?: number;
+  burstFlbDesc?: string;
   burstDesc0?: string;
   burstDesc1?: string;
   burstDesc2?: string;

@@ -2,7 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import { IKamihimeFandomFormatted, IKamihimeFandomKamihime } from '../../../../typings';
 import Info from '../base/Info';
 
-export default class KamihimeInfo extends Info {
+export class KamihimeInfo extends Info {
   public character: IKamihimeFandomKamihime;
 
   public format () {
@@ -150,6 +150,20 @@ export default class KamihimeInfo extends Info {
                 : null,
               character.assistPowerup2Desc
                 ? abilityDescParse(character.assistPowerup2Desc, 2)
+                : null,
+            ]
+          }
+          : null,
+        character.assist2Name
+          ? {
+            name: character.assist2Name,
+            description: character.assist2Desc,
+            upgrades: [
+              character.assist2PowerupDesc
+                ? abilityDescParse(character.assist2PowerupDesc, 4)
+                : null,
+              character.assist2Powerup2Desc
+                ? abilityDescParse(character.assist2Powerup2Desc, 2)
                 : null,
             ]
           }
