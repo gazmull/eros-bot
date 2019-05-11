@@ -21,6 +21,7 @@ export default class extends InfoCommand {
           'hell staff -tw -r',
           'ea -tk -r',
           'arthur -ts -m',
+          'holy sword ascalon -f',
         ]
       },
       cooldown: 5000,
