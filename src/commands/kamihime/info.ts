@@ -185,7 +185,7 @@ export default class extends InfoCommand {
         ) && typeof template2 !== 'undefined'
       )
         embed.setPage(2);
-      else if (message.needsFLB && hpFlb && template instanceof WeaponInfo)
+      if (message.needsFLB && hpFlb && (template instanceof WeaponInfo || template2 instanceof WeaponInfo))
         embed.setPage(template2 ? 3 : 2);
 
       if (message.needsPreview)
@@ -205,8 +205,12 @@ export default class extends InfoCommand {
         assets,
         needsPreview: message.needsPreview,
         preview: template.character ? template.character.preview : (template2 as SoulInfo).character.preview,
-        currentClass: !message.needsMex ? template.constructor.name : null,
-        oldClass: template2 && !message.needsMex ? template2.constructor.name : null
+        currentClass: !message.needsMex
+          ? (message.needsRelease ? template2.constructor.name : template.constructor.name)
+          : null,
+        oldClass: template2 && !message.needsMex
+          ? (message.needsRelease ? template.constructor.name : template2.constructor.name)
+          : null
       });
 
       if ((releaseWeapon || releases || mex) && template && typeof template2 !== 'undefined')
