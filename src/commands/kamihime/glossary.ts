@@ -66,6 +66,8 @@ export default class extends Command {
             .filter(s => s)
         });
 
+      this.client.setTimeout(this.initGlossary.bind(this), 36e5 * 12);
+
       return this.client.logger.info('Glossary Command: Initialised Glossary');
     } catch (err) { return this.client.logger.error(`Glossary Command: Error on initialising Glossary: ${err.stack}`); }
   }
