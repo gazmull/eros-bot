@@ -51,7 +51,6 @@ export default class ErosClient extends AkairoClient {
     classToHandle: Command,
     commandUtil: true,
     commandUtilLifetime: 1000 * 60 * 3,
-    handleEdits: true,
     defaultCooldown: 5000,
     argumentDefaults: {
       prompt: {
