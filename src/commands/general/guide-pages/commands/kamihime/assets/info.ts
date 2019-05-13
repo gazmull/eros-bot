@@ -30,8 +30,8 @@ export default {
         '__Each flag is only compatible with Souls__',
         '`-m`, `--mex` requests character\'s Master Extra Abilities (MEX)',
         '\u200b',
-        '__Each flag is only compatible with Weapons__',
-        '`-f`, `--flb` requests weapon\'s Final Limit Break (FLB) values',
+        '__Each flag is only compatible with Weapons and Kamihime with FLB-able Weapon__',
+        '`-f`, `--flb` requests weapon\'s Final Limit Break (FLB) values. Will work with or without `--release` flag.',
       ]
     },
     {
