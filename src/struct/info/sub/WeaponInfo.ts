@@ -73,7 +73,7 @@ export class WeaponInfo extends Info {
     if (weapon.burstFLB)
       embed.addField('Weapon Burst Effect', weapon.burstFLB);
     else
-      embed.addField('Weapon Burst Effect', `${weapon.elements[0]} DMG ${burstScaleDiscriminator[weapon.rarity]}`);
+      embed.addField('Weapon Burst Effect', `${weapon.elements[0]} DMG ${burstScaleDiscriminator['SSR+']}`);
 
     return super.format(embed, weapon);
   }
@@ -193,6 +193,7 @@ const scaleDiscriminator = {
   R: ''
 };
 const burstScaleDiscriminator = {
+  'SSR+': '(+++++)',
   SSR: '(++++)',
   SR: '(++)',
   R: '(+)'
