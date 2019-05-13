@@ -8,6 +8,6 @@ Anything missing or wrong? Submit an issue or a pull request [**here**](https://
 ## Contacts
 
 
-[**Nutaku Fandom Discord** (further gameplay questions)](https://discord.gg/jFzQsEs)
+[**Kamihime EN Version Fandom Discord** (further gameplay questions)](https://discord.gg/jFzQsEs)
 
 [**Github Issue Tracker** (bot-related only)](https://github.com/gazmull/eros-bot/issues)

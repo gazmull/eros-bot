@@ -1,9 +1,7 @@
 # Commands
 
 
-`help [command]` will display brief information and `guide` command will display newbie-friendly information of the command specified.
-
-Make sure you gather information for that command on both `help` and `guide` commands!
+`help <command name>` will display information about a command.
 
 
 
@@ -19,6 +17,14 @@ You use it as **`@Eros info eros -tw`**, not as **`@Eros info <item name> [flags
 
 
 `[]` means __optional__ | `<>` means __required__
+
+---
+
+Some commands that has multiple arguments can take an argument that has spaces, only if the argument is surrounded by double quotes.
+
+Example: **`@Eros tag edit "am i joke to you" i think so`**
+
+Where `"am i joke to you"` is the tag name while `i think so` is the tag content.
 
 
 ---

@@ -5,7 +5,7 @@
 
 **Aliases**: `ask`, `8ball`
 
-**Brief Description**: Ask a question to a random Kamihime Project Character.
+**Brief Description**: Ask a question to a random Kamihime PROJECT Character.
 
 
 

@@ -5,7 +5,7 @@
 
 **Aliases**: `info`, `i`, `khinfo`, `khi`, `kh`
 
-**Brief Description**: Looks up for a Kamihime Project Character/Weapon at Kamihime Project Nutaku Fandom.
+**Brief Description**: Looks up for a Kamihime PROJECT Character/Weapon at Kamihime PROJECT EN Fandom.
 
 
 
@@ -52,14 +52,22 @@ __Each flag is compatible with *any other flag*.__
 
 __Each flag is only compatible with Souls__
 
-`-m`, `--mex` requests character's Master Extra Abilities
+`-m`, `--mex` requests character's Master Extra Abilities (MEX)
+
+​
+
+__Each flag is only compatible with Weapons and Kamihime with FLB-able Weapon__
+
+`-f`, `--flb` requests weapon's Final Limit Break (FLB) values. Will work with or without `--release` flag.
 
 ## Emoji Reacts To Interact
 
 
 🖼 — Toggle image
 
-🔄 — **only for kamihime/weapon/soul**— See Kamihime / Weapon / Soul's Master Extra Abilities
+🔄 — **only for kamihime/weapon/soul**— See Kamihime / Weapon / Soul's MEX
+
+`SSR+ Emoji` — **only for weapons**— Toggle FLB values
 
 ## Examples
 
@@ -71,6 +79,7 @@ __Each flag is only compatible with Souls__
 @Eros info hell staff -tw -r
 @Eros info ea -tk -r
 @Eros info arthur -ts -m
+@Eros info holy sword ascalon -f
 ```
 
 

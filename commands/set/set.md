@@ -1,7 +1,7 @@
 # Command: set
 
 
-**Usage**: `@Eros set <settings> [value]`
+**Usage**: `@Eros set <settings> <value>`
 
 **Aliases**: `set`
 
@@ -16,8 +16,6 @@ Available Settings:
 	- `cdrole`
 
 	- `countdownrole`
-
-	- `loli`
 
 	- `nsfwchannel`
 
@@ -60,7 +58,6 @@ This command is exclusive to users with __**Manage Server**__ permission.
 @Eros set countdownchannel re-countdown
 @Eros set cdrole @cd subscriber
 @Eros set countdownrole cd subscriber
-@Eros set loli
 @Eros set nsfwchannel re-nsfw
 @Eros set nsfwrole pervert
 @Eros set prefix e?

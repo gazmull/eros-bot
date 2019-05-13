@@ -1,7 +1,7 @@
 # Command: list
 
 
-**Usage**: `@Eros list <filter variables>`
+**Usage**: `@Eros list <filter variables> [--sort=<by>-[asc/desc]]`
 
 **Aliases**: `list`, `l`
 
@@ -9,7 +9,7 @@
 
 
 
-__Results are only from [**Kamihime Database**](https://kamihimedb.thegzm.space/).__
+__Results are only from [**Kamihime Database**](http://kamihimedb.thegzm.space/).__
 
 Required variables can be seen via `@Eros list variables`.
 
@@ -26,12 +26,19 @@ Add Reactions
 Embed Links
 ```
 
+## Flags: Options For Sorting
+
+
+Default is by name. Other options are:,`rarity`, `tier`, `element`, `type`, `atk`, `hp`, `ttl`,Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively.
+
 ## Examples
 
 ```
 @Eros list kamihime
 @Eros list eidolon
 @Eros list eidolon dark
+@Eros list kamihime ssr --sort=ttl
+@Eros list kamihime ssr --sort=ttl-desc
 ```
 
 

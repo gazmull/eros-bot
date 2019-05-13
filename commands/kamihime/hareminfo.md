@@ -36,8 +36,6 @@ If you want to use this without setting up the nsfwchannel, either DM the bot (e
 
 `@Eros set nsfwrole` must be set if you would like me to assign NSFW role to gain access to the NSFW channel.
 
-`@Eros set loli` is optional if you hate embedding loli contents from the game. Toggle-able command.
-
 ## Using This Command Normally (everyone)
 
 

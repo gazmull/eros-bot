@@ -5,7 +5,7 @@
 
 **Aliases**: None
 
-**Brief Description**: Lets you subscribe to countdown notifications to this server. Toggle-able command.
+**Brief Description**: Lets you subscribe to countdown notifications to the server. Toggle-able command.
 
 
 

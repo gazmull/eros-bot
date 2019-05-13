@@ -5,7 +5,7 @@
 
 **Aliases**: `countdown`, `cd`
 
-**Brief Description**: Displays countdowns related to Kamihime Project in-game events.
+**Brief Description**: Displays countdowns related to Kamihime PROJECT in-game events.
 
 It includes special and some regular events.
 

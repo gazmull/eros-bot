@@ -3,24 +3,26 @@
 
 Are you familiar with the game? No? These links may help you... but maybe for the last section...
 
-## Kamihime Project Wiki
+## Kamihime PROJECT Wiki
 
 
-[DMM Wiki](https://goo.gl/xPVW9t) | [Nutaku Version Fandom](https://kamihime-project.fandom.com) ([Discord](https://discord.gg/jFzQsEs))
+[DMM JP Wiki](https://goo.gl/xPVW9t) | [DMM/Nutaku EN Fandom](https://kamihime-project.fandom.com) ([Discord](https://discord.gg/jFzQsEs))
 
-## Kamihime Project Forums
+## Kamihime PROJECT Forums
 
 
-[Kamihime Project - Harem Time Forums](http://harem-battle.club/kamihime-project/)
+[Kamihime PROJECT - Harem Time Forums](http://harem-battle.club/kamihime-project/)
 
 ## [Beginner] Guides
 
 
-Nutaku Version Fandom: [Various Game Guide Articles](https://kamihime-project.fandom.com/wiki/Category:Mechanics)
+DMM/Nutaku EN Fandom: [Various Game Guide Articles](https://kamihime-project.fandom.com/wiki/Category:Mechanics)
 
 Sanahtlig: [Toolbox](https://goo.gl/bP43qi) | [Game Guide](https://goo.gl/YMcg1h) | [Re-rolling: How to get FREE SSR Kamihime](https://goo.gl/eJffLx)
 
 J-Star: [Weapon Guide](https://goo.gl/gGwvUX) | [Weapon Grids Template](https://goo.gl/dhrwgk)
+
+Sfayne: [Accessory Calculator](https://docs.google.com/spreadsheets/d/1aTlsOgX0o7obAhpRK2GIABRMCE0A5UitAfWzze8fQjA/edit#gid=2129149280)
 
 ## Harem Episodes
 

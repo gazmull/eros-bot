@@ -5,7 +5,7 @@
 
 **Aliases**: None
 
-**Brief Description**: Changes this server's prefix.
+**Brief Description**: Changes the server's prefix.
 
 
 

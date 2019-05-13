@@ -38,14 +38,12 @@ Set hareminfo-allowed channel: `@Eros set nsfwchannel <channel>`
 
 Set NSFW role: `@Eros set nsfwrole <role>`
 
-Disable/Enable loli contents (hareminfo): `@Eros set loli`
-
 To view your server's current settings: `@Eros settings`
 
 ## Getting Familiar With the Commands
 
 
-Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot) or to `guide` command's pages 5 and above.
+Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot/commands) or do `@Eros help`.
 
 
 ---

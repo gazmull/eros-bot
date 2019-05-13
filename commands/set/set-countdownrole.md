@@ -5,7 +5,7 @@
 
 **Aliases**: None
 
-**Brief Description**: Changes this server's Countdown Subscriber Role.
+**Brief Description**: Changes the server's Countdown Subscriber Role.
 
 
 

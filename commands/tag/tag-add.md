@@ -21,7 +21,7 @@ Embed Links
 ## Warning
 
 
-Tags created in this server cannot be carried over to other servers.
+Tags created in the server cannot be carried over to other servers.
 
 ## Examples
 

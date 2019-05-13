@@ -5,7 +5,7 @@
 
 **Aliases**: `nsfw`, `nsfwaccess`, `access`
 
-**Brief Description**: Grants you access to marked `NSFW Channel` in this server.
+**Brief Description**: Grants you access to marked `NSFW Channel` in the server.
 
 
 

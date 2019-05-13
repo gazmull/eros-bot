@@ -5,7 +5,7 @@
 
 **Aliases**: `serverinfo`, `sinfo`, `si`, `guildinfo`, `ginfo`, `gi`, `settings`
 
-**Brief Description**: Displays information and bot settings of this server.
+**Brief Description**: Displays information and bot settings of the server.
 
 
 

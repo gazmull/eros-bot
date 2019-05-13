@@ -5,7 +5,7 @@
 
 **Aliases**: None
 
-**Brief Description**: Changes this server's Countdown Channel.
+**Brief Description**: Changes the server's Countdown Channel.
 
 
 

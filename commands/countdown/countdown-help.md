@@ -1,11 +1,11 @@
-# Command: set loli
+# Command: countdown help
 
 
-**Usage**: `@Eros set loli `
+**Usage**: `@Eros countdown help `
 
 **Aliases**: None
 
-**Brief Description**: Changes this server's Loli restriction condition. Toggle-able command.
+**Brief Description**: Shows countdown sub-commands's guidelines.
 
 
 

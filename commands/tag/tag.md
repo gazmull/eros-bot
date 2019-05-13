@@ -45,7 +45,7 @@ Embed Links
 ## Warning
 
 
-You can affect tags created in this server only.
+You can affect tags created in the server only.
 
 ## How It Works
 
@@ -59,18 +59,18 @@ When trying to recall a tag with a name that is the same with an existing comman
 ## Examples
 
 ```
-@Eros tag add SoS Yo --hoist
-@Eros tag add xd ROFL
-@Eros tag delete SoS
-@Eros tag edit Jump In the caAc --hoist
-@Eros tag edit SoS caAc
-@Eros tag find big smoke
-@Eros tag info Leon
+@Eros tag add myText Content --hoist
+@Eros tag add myText Content
+@Eros tag delete myText
+@Eros tag edit myText --hoist
+@Eros tag edit "With Spaces" Content
+@Eros tag find with spaces
+@Eros tag info myText
 @Eros tag leaderboard 5
-@Eros tag list @Eros
-@Eros tag search memes
-@Eros tag show Leon
-@Eros tag source xd
+@Eros tag list nutaku employee impersonator
+@Eros tag search stale kh memes
+@Eros tag show myText
+@Eros tag source burst attack
 ```
 
 
