@@ -206,10 +206,10 @@ export default class extends InfoCommand {
         needsPreview: message.needsPreview,
         preview: template.character ? template.character.preview : (template2 as SoulInfo).character.preview,
         currentClass: !message.needsMex
-          ? (message.needsRelease ? template2.constructor.name : template.constructor.name)
+          ? (message.needsRelease || message.needsFLB ? template2.constructor.name : template.constructor.name)
           : null,
         oldClass: template2 && !message.needsMex
-          ? (message.needsRelease ? template.constructor.name : template2.constructor.name)
+          ? (message.needsRelease || message.needsFLB ? template.constructor.name : template2.constructor.name)
           : null
       });
 
