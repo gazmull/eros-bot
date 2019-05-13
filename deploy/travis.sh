@@ -17,7 +17,7 @@ TARGET_BRANCH="gh-pages"
 
 git clone $REPO gh -b $TARGET_BRANCH
 
-yarn docs:build
+yarn compile && yarn docs:build
 
 rsync --delete-before --exclude='.git' --exclude='index.html' --exclude='gitbook.yaml' -avh docs/ gh/
 
