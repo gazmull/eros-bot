@@ -6,7 +6,7 @@
 # Eros Bot
 - Built with [**Discord.JS-Akairo Framework** (**Master**)](https://github.com/1computer1/discord-akairo)
     - Please read its documentation [**here**](https://1computer1.github.io/discord-akairo/master).
-- [**What's new?**](CHANGELOG.md#3-0-0)
+- [**What's new?**](CHANGELOG.md#4-0-0)
 - [**Discord Server**](http://erosdev.thegzm.space)
 - [**Bot Guide**](https://docs.thegzm.space/eros-bot)
 
