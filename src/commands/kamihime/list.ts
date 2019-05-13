@@ -37,12 +37,7 @@ export default class extends Command {
           match: 'option',
           flag: [ '-s', '--sort=' ],
           type: /^(?:name|rarity|tier|element|type|atk|hp|ttl)(?:-desc)?$/i,
-          prompt: {
-            retry: (message: Message) =>
-              // tslint:disable-next-line: max-line-length
-              `That is not a valid sort option! Say \`variables\` for available sort options. Try again!`
-          },
-          default: 'name'
+          default: [ 'name' ]
         },
       ]
     });
@@ -50,7 +45,7 @@ export default class extends Command {
 
   public async exec (
     message: Message,
-    { filter, advanced, sort }: { filter: string, advanced: boolean, sort: string }
+    { filter, advanced, sort: sortMatches }: { filter: string, advanced: boolean, sort: RegExpMatchArray }
   ) {
     try {
       if (filter === 'variables') return this.helpDialog(message);
@@ -58,7 +53,7 @@ export default class extends Command {
       const { emojis, url } = this.client.config;
       await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
-      sort = sort.toLowerCase();
+      const sort = sortMatches.shift().toLowerCase();
       const args = filter.trim().split(/ +/g).join('/');
       const isTtl = /^ttl/.test(sort);
       const query = sort && !isTtl ? `?sort=${sort}` : '';
