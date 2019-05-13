@@ -5,10 +5,10 @@ import fetch from 'node-fetch';
 import * as os from 'os';
 // @ts-ignore
 import { description, homepage, version as erosVersion } from '../../../package.json';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 import prettifyMs from '../../util/prettifyMs';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('stats', {
       aliases: [ 'stats', 'status', 'about', 'aboutme' ],
@@ -32,7 +32,7 @@ export default class extends ErosCommand {
     ];
 
     return message.util.send(
-      this.util.embed(message)
+      this.client.embed(message)
         .setTitle('Eros')
         .setDescription(_description)
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))

@@ -1,11 +1,11 @@
 import { Message, TextChannel } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('set-countdownchannel', {
       description: {
-        content: 'Changes this server\'s Countdown Channel.',
+        content: 'Changes the server\'s Countdown Channel.',
         usage: '<channel>',
         examples: [ '#newbie-lib-questions-not-other-js', '312874659902115460', 'countdown' ]
       },

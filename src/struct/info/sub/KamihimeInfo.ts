@@ -2,7 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import { IKamihimeFandomFormatted, IKamihimeFandomKamihime } from '../../../../typings';
 import Info from '../base/Info';
 
-export default class KamihimeInfo extends Info {
+export class KamihimeInfo extends Info {
   public character: IKamihimeFandomKamihime;
 
   public format () {
@@ -81,7 +81,11 @@ export default class KamihimeInfo extends Info {
 
       burst: {
         name: character.burstName,
-        description: character.burstDesc || burstDescParse(),
+        description: character.burstDesc
+          ? (character.burstDesc.startsWith(character.element)
+            ? character.burstDesc
+            : `${burstDescParse} and ${character.burstDesc}`)
+          : burstDescParse(),
         upgradeDescription: (
           character.rarity === 'SSR+'
             ? null
@@ -123,6 +127,16 @@ export default class KamihimeInfo extends Info {
             duration: character.ability3Dur || null
           }
           : null,
+
+        character.ability4Name
+          ? {
+            name: character.ability4Name,
+            description: character.ability4Desc,
+            upgradeDescription: abilityDescParse(character.ability4PowerupDesc, 3),
+            cooldown: character.ability4Cd,
+            duration: character.ability4Dur || null
+          }
+          : null,
       ],
 
       assistAbilities: [
@@ -130,9 +144,28 @@ export default class KamihimeInfo extends Info {
           ? {
             name: character.assistName,
             description: character.assistDesc,
-            upgradeDescription: character.assistPowerupDesc
-              ? abilityDescParse(character.assistPowerupDesc, 4)
-              : null
+            upgrades: [
+              character.assistPowerupDesc
+                ? abilityDescParse(character.assistPowerupDesc, 4)
+                : null,
+              character.assistPowerup2Desc
+                ? abilityDescParse(character.assistPowerup2Desc, 2)
+                : null,
+            ]
+          }
+          : null,
+        character.assist2Name
+          ? {
+            name: character.assist2Name,
+            description: character.assist2Desc,
+            upgrades: [
+              character.assist2PowerupDesc
+                ? abilityDescParse(character.assist2PowerupDesc, 4)
+                : null,
+              character.assist2Powerup2Desc
+                ? abilityDescParse(character.assist2Powerup2Desc, 2)
+                : null,
+            ]
           }
           : null,
       ],

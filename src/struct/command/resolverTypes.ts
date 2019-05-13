@@ -13,12 +13,12 @@ export default class CommandHandlerResolverTypes {
 
   public distribute (): { [name: string]: ArgumentTypeCaster } {
     return {
-      question: phrase => {
+      question: (_, phrase) => {
         if (!phrase) return null;
 
         return phrase.endsWith('?') ? phrase : null;
       },
-      interval: phrase => {
+      interval: (_, phrase) => {
         if (!phrase) return phrase;
 
         let seconds = Math.abs(parseInt(phrase));
@@ -31,7 +31,7 @@ export default class CommandHandlerResolverTypes {
 
         return trueSeconds > 120 ? null : seconds;
       },
-      existingCountdown: phrase => {
+      existingCountdown: (_, phrase) => {
         if (!phrase) return null;
 
         const parent = this.client.commandHandler.modules.get('countdown') as CountdownCommand;
@@ -39,7 +39,7 @@ export default class CommandHandlerResolverTypes {
 
         return countdown ? null : phrase;
       },
-      countdown: phrase => {
+      countdown: (_, phrase) => {
         if (!phrase) return null;
 
         const parent = this.client.commandHandler.modules.get('countdown') as CountdownCommand;
@@ -47,7 +47,7 @@ export default class CommandHandlerResolverTypes {
 
         return countdown || null;
       },
-      countdownDate: phrase => {
+      countdownDate: (_, phrase) => {
         if (!phrase) return null;
 
         const parent = this.client.commandHandler.modules.get('countdown') as CountdownCommand;
@@ -67,7 +67,7 @@ export default class CommandHandlerResolverTypes {
 
         return result;
       },
-      existingTag: async (phrase, message) => {
+      existingTag: async (message, phrase) => {
         if (!phrase) return null;
 
         phrase = Util.cleanContent(phrase.toLowerCase(), message);
@@ -82,7 +82,7 @@ export default class CommandHandlerResolverTypes {
 
         return phrase;
       },
-      tag: async (phrase, message) => {
+      tag: async (message, phrase) => {
         if (!phrase) return null;
 
         phrase = Util.cleanContent(phrase.toLowerCase(), message);
@@ -95,7 +95,7 @@ export default class CommandHandlerResolverTypes {
 
         return tag || null;
       },
-      tagContent: async (content, message) => {
+      tagContent: async (message, content) => {
         if (!content || content.length > 1950) return null;
 
         content = Util.cleanContent(content, message);

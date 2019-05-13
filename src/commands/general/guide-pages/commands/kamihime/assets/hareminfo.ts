@@ -20,7 +20,6 @@ export default {
       value: [
         '`@Eros set nsfwchannel` must be set or I will decline your request.',
         '`@Eros set nsfwrole` must be set if you would like me to assign NSFW role to gain access to the NSFW channel.',
-        '`@Eros set loli` is optional if you hate embedding loli contents from the game. Toggle-able command.',
       ]
     },
     {

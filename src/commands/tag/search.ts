@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-search', {
       description: {
@@ -43,7 +43,7 @@ export default class extends ErosCommand {
     if (pretty.length >= 1440)
       return message.util.reply('ah, the result is too long. Care to search with better specifics again?');
 
-    const embed = this.util.embed(message)
+    const embed = this.client.embed(message)
       .setAuthor(`${message.guild} (${message.guild.id})`)
       .setThumbnail(message.guild.iconURL({ format: 'webp' }))
       .setDescription(pretty);

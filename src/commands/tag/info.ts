@@ -1,9 +1,9 @@
 import { Message, User } from 'discord.js';
 import * as moment from 'moment-timezone';
-import ErosCommand from '../../struct/command';
-import { Tag } from '../../struct/models/factories/Tag';
+import Command from '../../struct/command';
+import { Tag } from '../../struct/models/Tag';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-info', {
       description: {
@@ -17,7 +17,7 @@ export default class extends ErosCommand {
           type: 'tag',
           prompt: {
             start: 'what is the name of the tag?',
-            retry: (_, __, input: { phrase: string }) =>
+            retry: (_, input: { phrase: string }) =>
               `**${input.phrase}** does not exist. Please provide again.`
           }
         },
@@ -34,7 +34,7 @@ export default class extends ErosCommand {
       try { modifiedBy = await this.client.users.fetch(tag.modifiedBy); }
       catch { modifiedBy = null; }
 
-    const embed = this.util.embed(message)
+    const embed = this.client.embed(message)
       .setTitle('Tag: ' + tag.name)
       .setThumbnail(user.displayAvatarURL({ format: 'webp' }))
       .addField('Created By', user ? `${user.tag} (${user.id})` : 'Cannot resolve user')

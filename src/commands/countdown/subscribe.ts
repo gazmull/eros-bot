@@ -1,11 +1,11 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('countdown-subscribe', {
       description: {
-        content: 'Lets you subscribe to countdown notifications to this server. Toggle-able command.'
+        content: 'Lets you subscribe to countdown notifications to the server. Toggle-able command.'
       },
       clientPermissions: [ 'MANAGE_ROLES' ],
       channel: 'guild',

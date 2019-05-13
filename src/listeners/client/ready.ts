@@ -1,4 +1,6 @@
 import { Listener } from 'discord-akairo';
+import GuideCommand from '../../commands/general/guide';
+import GlossaryCommand from '../../commands/kamihime/glossary';
 import CountdownScheduler from '../../functions/CountdownScheduler';
 import Twitter from '../../functions/Twitter';
 
@@ -10,7 +12,7 @@ export default class extends Listener {
     });
   }
 
-  public exec () {
+  public async exec () {
     try {
       const me = this.client.user;
       const guildSize = this.client.guilds.size;
@@ -33,10 +35,16 @@ export default class extends Listener {
       this.client.scheduler
         .on('add', (date, name) => this.client.scheduler.add(date, name))
         .on('delete', (date, name) => this.client.scheduler.delete(date, name));
+      this.client.twitter.init();
 
-      return this.client.twitter.init();
+      const glossaryCommnad = this.client.commandHandler.modules.get('glossary') as GlossaryCommand;
+      const guideCommand = this.client.commandHandler.modules.get('guide') as GuideCommand;
+
+      await glossaryCommnad.initGlossary();
+
+      return guideCommand.init.call(guideCommand);
     } catch (err) {
-      this.client.logger.error(err);
+      return this.client.logger.error(err);
     }
   }
 }

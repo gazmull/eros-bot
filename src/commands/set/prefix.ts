@@ -1,21 +1,21 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
 // tslint:disable-next-line:no-var-requires
 const { defaultPrefix }: { defaultPrefix: string } = require('../../../auth');
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('set-prefix', {
       description: {
-        content: 'Changes this server\'s prefix.',
+        content: 'Changes the server\'s prefix.',
         usage: '<prefix value>',
         examples: [ 'e?', 'eros' ]
       },
       args: [
         {
           id: 'prefix',
-          type: word => {
+          type: (_, word) => {
             if (!word) return null;
             if (/\s/.test(word) || word.length > 10) return null;
 

@@ -1,6 +1,6 @@
 import { Listener } from 'discord-akairo';
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 import ErosError from '../../struct/ErosError';
 
 export default class extends Listener {
@@ -11,7 +11,7 @@ export default class extends Listener {
     });
   }
 
-  public exec (err: IError, message: Message, command: ErosCommand) {
+  public exec (err: IError, message: Message, command: Command) {
     if (command && message) return new ErosError(message, command, err, err.step);
   }
 }

@@ -28,14 +28,18 @@ export default {
         '`-p`, `--preview` requests to show the item\'s image',
         '\u200b',
         '__Each flag is only compatible with Souls__',
-        '`-m`, `--mex` requests character\'s Master Extra Abilities',
+        '`-m`, `--mex` requests character\'s Master Extra Abilities (MEX)',
+        '\u200b',
+        '__Each flag is only compatible with Weapons and Kamihime with FLB-able Weapon__',
+        '`-f`, `--flb` requests weapon\'s Final Limit Break (FLB) values. Will work with or without `--release` flag.',
       ]
     },
     {
       name: 'Emoji Reacts To Interact',
       value: [
         '🖼 — Toggle image',
-        '🔄 — **only for kamihime/weapon/soul**— See Kamihime / Weapon / Soul\'s Master Extra Abilities',
+        '🔄 — **only for kamihime/weapon/soul**— See Kamihime / Weapon / Soul\'s MEX',
+        '`SSR+ Emoji` — **only for weapons**— Toggle FLB values',
       ]
     },
   ]

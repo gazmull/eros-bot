@@ -1,40 +1,71 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
-import { Tag } from '../../struct/models/factories/Tag';
+import Command from '../../struct/command';
+import { Tag } from '../../struct/models/Tag';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-delete', {
       description: {
-        content: 'Deletes a tag.',
-        usage: '<tag name>'
+        content: [
+          'Deletes a tag.',
+          'Append `--purge` to delete all tags based on the REGEX provided (<tag name> as REGEX).',
+          'The provided REGEX must be on [PCRE](https://mariadb.com/kb/en/library/pcre) flavour.',
+        ],
+        usage: '<tag name> [--purge]',
+        examples: [
+          'myText',
+          '^my(?!Text) --purge',
+        ]
       },
-      args: [
-        {
-          id: 'tag',
-          type: 'tag',
-          match: 'content',
-          prompt: {
-            start: 'what is the name of the tag?',
-            retry: (_, __, input: { phrase: string }) =>
-              `**${input.phrase}** does not exist. Please provide again.`
-          }
-        },
-      ]
+      flags: [ '-p', '--purge' ]
     });
   }
 
-  public async exec (message: Message, { tag }: { tag: Tag }) {
-    const isManager = message.member.hasPermission('MANAGE_GUILD');
+  public * args () {
+    const purge = yield {
+      match: 'flag',
+      flag: [ '-p', '--purge' ]
+    };
 
-    if (tag.author !== message.author.id && !isManager) {
+    const tag = yield {
+      type: purge ? 'string' : 'tag',
+      match: 'rest',
+      prompt: {
+        start: purge
+          ? 'what is the pattern for purging tags?'
+          : 'what is the name of the tag?',
+        retry: purge
+          ? (_, input: { phrase: string }) => `**${input.phrase}** does not exist. Please provide again.`
+          : (_, input: { phrase: string }) => `**${input.phrase}** does not exist. Please provide again.`
+      }
+    };
+
+    return { purge, tag };
+  }
+
+  public async exec (message: Message, { tag, purge }: { tag: Tag | string, purge: boolean }) {
+    const isManager = message.member.hasPermission('MANAGE_GUILD');
+    const fail = () => {
       message.util.reply('you have no power here!');
 
-      return this.fail(message);
+      return this.handler.reactFail(message);
+    };
+
+    if ((tag as Tag).author !== message.author.id && !isManager) return fail();
+    if (purge) {
+      if (!isManager) return fail();
+
+      const deleted = await this.client.db.Tag.destroy({
+        where: {
+          name: { [this.client.db.Op.regexp]: tag }
+        }
+      });
+
+      return message.util.reply(`Done! **${deleted}** tags named similarly to **${tag}** has been deleted.`);
     }
 
-    await tag.destroy();
+    await (tag as Tag).destroy();
 
-    return message.util.reply(`Done! tag **${tag.name}** has been deleted.`);
+    return message.util.reply(`Done! tag **${(tag as Tag).name}** has been deleted.`);
   }
 }

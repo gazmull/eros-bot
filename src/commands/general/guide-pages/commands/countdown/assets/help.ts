@@ -2,5 +2,5 @@
 
 export default {
   contributors: [ 'Euni' ],
-  command: 'set-loli'
+  command: 'countdown-help'
 } as IDialog;

@@ -6,7 +6,7 @@ export default {
   fields: [
     {
       name: 'Warning',
-      value: 'Tags created in this server cannot be carried over to other servers.'
+      value: 'Tags created in the server cannot be carried over to other servers.'
     },
   ]
 } as IDialog;

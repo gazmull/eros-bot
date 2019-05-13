@@ -1,8 +1,8 @@
+import { Argument } from 'discord-akairo';
 import { Message, TextChannel } from 'discord.js';
-import ErosCommand from '../../struct/command';
-import toTitleCase from '../../util/toTitleCase';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('help', {
       aliases: [ 'help', 'commands' ],
@@ -14,7 +14,7 @@ export default class extends ErosCommand {
       args: [
         {
           id: 'command',
-          type: 'commandAlias'
+          type: Argument.union('commandAlias', 'command')
         },
         {
           id: 'pub',
@@ -26,42 +26,22 @@ export default class extends ErosCommand {
     });
   }
 
-  public async exec (message: Message, { command, pub }: { command: ErosCommand, pub: boolean }) {
-    const prefix = await this.handler.prefix(message);
+  public async exec (message: Message, { command, pub }: { command: Command, pub: boolean }) {
     if (!command) return this.defaultHelp(message, pub);
 
-    const clientPermissions = command.clientPermissions as string[];
-    const userPermissions = command.userPermissions as string[];
-    const examples: string[] = command.description.examples;
-    const guidePage = command.guidePage;
-
-    const embed = this.util.embed(message)
-      .setTitle(`${prefix}${command} ${command.description.usage ? command.description.usage : ''}`)
-      .setDescription(command.description.content);
-
-    if (clientPermissions)
-      embed.addField('Required Bot Permissions', clientPermissions.map(p => `\`${toTitleCase(p)}\``).join(', '));
-    if (userPermissions)
-      embed.addField('Required User Permissions:', userPermissions.map(p => `\`${toTitleCase(p)}\``).join(', '));
-    if (command.aliases.length > 1)
-      embed.addField('Aliases', command.aliases.slice(1).map(a => `\`${a}\``).join(', '));
-    if (examples)
-      embed.addField('Examples', examples.map(e => `${prefix}${command} ${e}`).join('\n'));
-    if (guidePage)
-      embed.addField('Guide Page', `To see more description of this command: \`${prefix}guide ${guidePage}\``);
-
-    return message.util.send(embed);
+    return message.util.send(command.guidePage);
   }
 
   public async defaultHelp (message: Message, pub = false) {
     const prefix = await this.handler.prefix(message);
-    const embed = this.util.embed(message)
+    const embed = this.client.embed(message)
       .setColor(0xFF00AE)
       .setTitle('Commands')
       .setDescription([
         message.guild ? `This server's prefix is \`${prefix}\`` : '',
-        `For more info about a command, see: \`${prefix}help [command name]\``,
-        `For an in-depth guide on how to use this bot, see: \`${prefix}guide\``,
+        `For more info about a command, see: \`${prefix}help <command name>\``,
+        `For a guide on how to set up this bot, see: \`${prefix}guide\``,
+        `To view the full documentation, see: ${this.client.config.docs}`,
         !message.guild
           // tslint:disable-next-line:prefer-template
           ? '\nThere are commands that are only usable in servers.' +

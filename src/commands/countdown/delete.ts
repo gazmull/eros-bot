@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 import CountdownCommand from './countdown';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('countdown-delete', {
       description: {
@@ -18,7 +18,7 @@ export default class extends ErosCommand {
           match: 'rest',
           prompt: {
             start: 'what countdown should be deleted?',
-            retry: (_, __, input: { phrase: string }) =>
+            retry: (_, input: { phrase: string }) =>
               ` **${input.phrase}** does not exist. Please provide again.`
           }
         },
@@ -32,6 +32,7 @@ export default class extends ErosCommand {
 
     if (!found) return message.util.reply(`countdown named \`${name}\` not found.`);
 
+    parent.userCountdowns.delete(found);
     parent.countdowns.delete(found);
     await parent.save();
 

@@ -65,6 +65,6 @@ module.exports = {
     access_token_secret: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     consumer_key: 'xxx',
     consumer_secret: 'xxxxxxxxxxxxxx',
-    user: '806331327108653057' // current ID: Kamihime_Nutaku (gettwitterid.com)
+    user: '806331327108653057' // current ID: Kamihime_EN (gettwitterid.com)
   }
 };

@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 
 export default class extends Inhibitor {
   constructor () {
-    super('guildInhibit', {
+    super('guildInhibitor', {
       reason: 'blacklisted server',
       type: 'all'
     });

@@ -38,12 +38,9 @@ export default class extends EventEmitter {
         where: { cdChannel: { [this.client.db.Op.ne]: null } },
         attributes: [ 'id', 'cdChannel', 'cdRole' ]
       });
-      const tick = this.client.setInterval(async () => {
-        if (!guilds.length) {
-          this.client.logger.info('CountdownScheduler Module: Distributed ' + names.join(', '));
-
-          return this.client.clearInterval(tick);
-        }
+      const send = async () => {
+        if (!guilds.length)
+          return this.client.logger.info('CountdownScheduler Module: Distributed ' + names.join(', '));
 
         const spliced = guilds.splice(0, 5);
 
@@ -89,7 +86,13 @@ export default class extends EventEmitter {
 
           await channel.send(`${roleText}${prettyNames.join(', ')} ${isPlural} ${action}!`);
         }
-      }, 3000);
+
+        await this.client.util.sleep(3e3);
+
+        return await send();
+      };
+
+      await send();
     } catch (err) { this.client.logger.warn('CountdownScheduler Module: Error Sending Notification: ' + err); }
 
     await this.provider.prepareCountdowns();
@@ -137,7 +140,10 @@ export default class extends EventEmitter {
 
   public destroy (date: number | 'this') {
     if (date === 'this') {
-      this.client.destroy();
+      for (const d of this.schedules.values())
+        this.client.clearTimeout(d.fn);
+
+      this.schedules.clear();
 
       return this.client.logger.warn('CountdownScheduler Module: Self Destructed');
     }

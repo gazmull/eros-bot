@@ -1,9 +1,9 @@
-import { Message, TextChannel } from 'discord.js';
+import { Message } from 'discord.js';
 import fetch from 'node-fetch';
 import { IKamihimeDB } from '../../../typings';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('search', {
       aliases: [ 'search', 'get', 'find' ],
@@ -18,7 +18,7 @@ export default class extends ErosCommand {
         {
           id: 'character',
           match: 'text',
-          type: word => {
+          type: (_, word) => {
             if (!word || word.length < 2) return null;
 
             return word;
@@ -59,14 +59,14 @@ export default class extends ErosCommand {
       const result = await data.json();
 
       if (result.error) throw result.error.message;
+      if (!result.length) throw RangeError(`There are no matching items found with ${character.toUpperCase()}`);
 
-      const Pagination = this.util.fields<IKamihimeDB>(message)
+      const Pagination = this.client.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel as TextChannel)
-        .setClientAssets({ message: message.util.lastResponse, prepare: `${emojis.loading} Preparing...` })
+        .setChannel(message.channel)
+        .setClientAssets({ message: message.util.lastResponse })
         .setArray(result)
-        .showPageIndicator(false)
-        .setTimeout(60 * 1000);
+        .setPageIndicator(false);
 
       Pagination.embed
         .setTitle(`${character.toUpperCase()} | Found: ${result.length}`)
@@ -77,7 +77,7 @@ export default class extends ErosCommand {
       Pagination.formatField('Name', i => i.name);
 
       return Pagination.build();
-    } catch (err) { this.emitError(err, message, this, 1); }
+    } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 
   public async searchID (message: Message, character: string) {
@@ -91,6 +91,6 @@ export default class extends ErosCommand {
       if (_character.error) throw new Error(`ID ${character} does not exist.`);
 
       return message.util.edit(`ID ${character} does exist.`);
-    } catch (err) { this.emitError(err, message, this, 1); }
+    } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 }

@@ -5,7 +5,9 @@ yarn-error.log
 
 #Build
 build
+docs
 logs
+*.tsbuildinfo
 
 #Private Source
 auth.js

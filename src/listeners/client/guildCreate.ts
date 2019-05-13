@@ -24,7 +24,6 @@ export default class extends Listener {
 
       await this.client.db.Guild.create({
         id: guild.id,
-        loli: false,
         cdChannel: cdChannel ? cdChannel.id : null,
         cdRole: cdRole ? cdRole.id : null,
         nsfwChannel: nsfwChannel ? nsfwChannel.id : null,
@@ -50,10 +49,11 @@ export default class extends Listener {
         nsfwChannel ? `\t\`${defaultPrefix}nsfwchannel <channel>\`` : '',
         nsfwRole ? `\t\`${defaultPrefix}nsfwrole <role>\`` : '',
         twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel>\`` : '',
-        `\n Or refer to \`${defaultPrefix}guide\` (better yet, ${docs}) which is recommended.`
+        `\n Or refer to \`${defaultPrefix}guide\` (better yet, ${docs}/using-the-bot) which is recommended.`
       );
 
-      guild.owner.send(welcomeMessage.join('\n'));
+      await guild.owner.send(welcomeMessage.join('\n'))
+        .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
 
       this.client.logger.info(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
     } catch (err) {
@@ -64,7 +64,8 @@ export default class extends Listener {
         'I left your guild because there was a problem initiating your guild.',
         `If the issue persists, please contact ${guild.client.users.get(this.client.ownerID as string)}`,
         `Error: ${err}`,
-      ]);
+      ])
+        .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
       guild.leave();
 
       this.client.logger.error(err);

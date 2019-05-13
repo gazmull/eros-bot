@@ -1,6 +1,6 @@
 import { Listener } from 'discord-akairo';
 import { Message, TextChannel } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
 export default class extends Listener {
   constructor () {
@@ -10,7 +10,7 @@ export default class extends Listener {
     });
   }
 
-  public async exec (message: Message, command: ErosCommand) {
+  public async exec (message: Message, command: Command) {
     const channel = message.channel as TextChannel;
 
     if (command.noTrash) return;
@@ -25,7 +25,7 @@ export default class extends Listener {
       await dialog.react('🗑');
       const toDelete = await dialog.awaitReactions((r, u) =>
         r.emoji.name === '🗑' && u.id === message.author.id,
-        { max: 1, time: 30 * 1000, errors: [ 'time' ] }
+        { max: 1, time: 5e3, errors: [ 'time' ] }
       );
 
       if (toDelete.first()) await dialog.delete();

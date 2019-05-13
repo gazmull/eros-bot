@@ -6,7 +6,7 @@ export default {
   fields: [
     {
       name: 'Warning',
-      value: 'You can affect tags created in this server only.'
+      value: 'You can affect tags created in the server only.'
     },
     {
       name: 'How It Works',

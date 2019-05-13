@@ -1,7 +1,7 @@
 {
   "name": "eros-bot",
   "version": "3.4.0",
-  "description": "A simple bot for pulling character information and harem episodes from Kamihime Project Fandom and Kamihime Database.",
+  "description": "A simple bot for pulling character information and harem episodes from Kamihime PROJECT Fandom and Kamihime Database.",
   "main": "build/index.js",
   "typings": "typings",
   "engines": {
@@ -41,33 +41,35 @@
   "dependencies": {
     "bufferutil": "^4.0.1",
     "chalk": "^2.4.2",
-    "discord-akairo": "8.0.0-beta.1",
-    "discord-paginationembed": "^1.0.0-beta.1",
+    "discord-akairo": "^8.0.0-beta.8",
+    "discord-paginationembed": "^1.0.0-beta.4",
     "discord.js": "github:discordjs/discord.js",
     "erlpack": "github:discordapp/erlpack",
     "fs-extra": "^7.0.1",
     "infobox-parser": "^3.2.0",
     "mariadb": "^2.0.3",
-    "moment-timezone": "^0.5.23",
-    "node-fetch": "^2.3.0",
+    "moment-timezone": "^0.5.25",
+    "node-fetch": "^2.4.1",
     "nodemw": "^0.12.2",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "5.0.0-beta.15",
-    "sequelize-typescript": "^0.6.8-beta.0",
-    "twitter-lite": "^0.9.2",
+    "sequelize": "^5.7.6",
+    "sequelize-typescript": "1.0.0-beta.1",
+    "twitter-lite": "^0.9.4",
     "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^3.8.0",
+    "winston-daily-rotate-file": "^3.9.0",
     "zlib-sync": "^0.1.4"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.26",
     "@types/fs-extra": "^5.0.5",
     "@types/json2md": "^1.5.0",
     "@types/moment-timezone": "^0.5.12",
-    "@types/node": "^11.11.4",
-    "@types/node-fetch": "^2.1.7",
+    "@types/node": "^11.13.8",
+    "@types/node-fetch": "^2.3.3",
+    "@types/validator": "^10.11.0",
     "json2md": "^1.6.3",
-    "tslint": "^5.14.0",
+    "tslint": "^5.16.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.5"
   }
 }

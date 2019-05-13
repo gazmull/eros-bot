@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+import { Flag } from 'discord-akairo';
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag', {
       aliases: [ 'tag' ],
@@ -24,67 +24,46 @@ export default class extends ErosCommand {
         ],
         usage: '<method> [arguments]',
         examples: [
-          'add SoS Yo --hoist',
-          'add xd ROFL',
-          'delete SoS',
-          'edit Jump In the caAc --hoist',
-          'edit SoS caAc',
-          'find big smoke',
-          'info Leon',
+          'add myText Content --hoist',
+          'add myText Content',
+          'delete myText',
+          'edit myText --hoist',
+          'edit "With Spaces" Content',
+          'find with spaces',
+          'info myText',
           'leaderboard 5',
-          'list @Eros',
-          'search memes',
-          'show Leon',
-          'source xd',
+          'list nutaku employee impersonator',
+          'search stale kh memes',
+          'show myText',
+          'source burst attack',
         ]
       },
       channel: 'guild',
-      ratelimit: 2,
-      args: [
-        {
-          id: 'method',
-          type: [
-            'add',
-            'del',
-            'delete',
-            'edit',
-            'info',
-            'leaderboard',
-            'list',
-            'show',
-            'source',
-            'search',
-            'find',
-          ]
-        },
-        {
-          id: 'details',
-          match: 'rest',
-          default: ''
-        },
-      ]
+      ratelimit: 2
     });
   }
 
-  public async exec (message: Message, { method, details }: { method: string, details: string }) {
-    if (!method)
-      return this.handler.modules.get('help').exec(message, { command: this });
+  public * args () {
+    const child = yield {
+      type: [
+        [ 'tag-add', 'add' ],
+        [ 'tag-delete', 'del', 'delete' ],
+        [ 'tag-edit', 'edit' ],
+        [ 'tag-info', 'i', 'info' ],
+        [ 'tag-leaderboard', 'leaderboard', 'lb' ],
+        [ 'tag-list', 'list', 'l' ],
+        [ 'tag-show', 'show' ],
+        [ 'tag-source', 'source', 'raw' ],
+        [ 'tag-search', 'search', 'find' ],
+      ],
+      otherwise: (message: Message) => {
+        const HelpCommand = this.handler.modules.get('help');
+        this.handler.runCommand(message, HelpCommand, { command: this });
 
-    const commands: { [key: string]: Command } = {
-      add: this.handler.modules.get('tag-add'),
-      del: this.handler.modules.get('tag-delete'),
-      delete: this.handler.modules.get('tag-delete'),
-      edit: this.handler.modules.get('tag-edit'),
-      info: this.handler.modules.get('tag-info'),
-      leaderboard: this.handler.modules.get('tag-leaderboard'),
-      list: this.handler.modules.get('tag-list'),
-      show: this.handler.modules.get('tag-show'),
-      source: this.handler.modules.get('tag-source'),
-      search: this.handler.modules.get('tag-search'),
-      find: this.handler.modules.get('tag-search')
+        return null;
+      }
     };
-    const command = commands[method];
 
-    return this.handler.handleDirectCommand(message, details, command, true);
+    return Flag.continue(child, true);
   }
 }

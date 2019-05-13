@@ -19,21 +19,22 @@ export default [
     description: 'Are you familiar with the game? No? These links may help you... but maybe for the last section...',
     fields: [
       {
-        name: 'Kamihime Project Wiki',
-        value: `[DMM Wiki](https://goo.gl/xPVW9t) | [Nutaku Version Fandom](https://kamihime-project.fandom.com) ([Discord](${wikiDiscord}))`,
+        name: 'Kamihime PROJECT Wiki',
+        value: `[DMM JP Wiki](https://goo.gl/xPVW9t) | [DMM/Nutaku EN Fandom](https://kamihime-project.fandom.com) ([Discord](${wikiDiscord}))`,
         inline: true
       },
       {
-        name: 'Kamihime Project Forums',
-        value: '[Kamihime Project - Harem Time Forums](http://harem-battle.club/kamihime-project/)',
+        name: 'Kamihime PROJECT Forums',
+        value: '[Kamihime PROJECT - Harem Time Forums](http://harem-battle.club/kamihime-project/)',
         inline: true
       },
       {
         name: '[Beginner] Guides',
         value: [
-          'Nutaku Version Fandom: [Various Game Guide Articles](https://kamihime-project.fandom.com/wiki/Category:Mechanics)',
+          'DMM/Nutaku EN Fandom: [Various Game Guide Articles](https://kamihime-project.fandom.com/wiki/Category:Mechanics)',
           'Sanahtlig: [Toolbox](https://goo.gl/bP43qi) | [Game Guide](https://goo.gl/YMcg1h) | [Re-rolling: How to get FREE SSR Kamihime](https://goo.gl/eJffLx)',
           'J-Star: [Weapon Guide](https://goo.gl/gGwvUX) | [Weapon Grids Template](https://goo.gl/dhrwgk)',
+          'Sfayne: [Accessory Calculator](https://docs.google.com/spreadsheets/d/1aTlsOgX0o7obAhpRK2GIABRMCE0A5UitAfWzze8fQjA/edit#gid=2129149280)',
         ],
         inline: true
       },
@@ -71,13 +72,12 @@ export default [
           'Set Countdown Subscriber role: `@Eros set cdrole <role>`',
           'Set hareminfo-allowed channel: `@Eros set nsfwchannel <channel>`',
           'Set NSFW role: `@Eros set nsfwrole <role>`',
-          'Disable/Enable loli contents (hareminfo): `@Eros set loli`',
           'To view your server\'s current settings: `@Eros settings`',
         ]
       },
       {
         name: 'Getting Familiar With the Commands',
-        value: 'Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot) or to `guide` command\'s pages 5 and above.'
+        value: 'Please refer to [Web Documentation](https://docs.thegzm.space/eros-bot/commands) or do `@Eros help`.'
       },
     ]
   },
@@ -131,7 +131,7 @@ export default [
       {
         name: 'Contacts',
         value: [
-          `[**Nutaku Fandom Discord** (further gameplay questions)](${wikiDiscord})`,
+          `[**Kamihime EN Version Fandom Discord** (further gameplay questions)](${wikiDiscord})`,
           `[**Github Issue Tracker** (bot-related only)](${bugs.url})`,
         ]
       },

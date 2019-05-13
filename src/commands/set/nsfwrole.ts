@@ -1,11 +1,11 @@
 import { Message, Role } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('set-nsfwrole', {
       description: {
-        content: 'Changes this server\'s NSFW Role.',
+        content: 'Changes the server\'s NSFW Role.',
         usage: '<role>',
         examples: [ '@lewd', '2138547751248890915', 'nsfw' ]
       },

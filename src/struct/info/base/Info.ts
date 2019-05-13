@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js';
+import { EmbedField } from 'discord.js';
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomFormatted } from '../../../../typings';
 import IErosClientOptions from '../../../../typings/auth';
 import ErosClient from '../../ErosClient';
@@ -60,7 +61,7 @@ export default class Info {
       .setThumbnail(character.thumbnail)
       .setAuthor(character.name, null, character.link);
 
-    if (character.rarity)
+    if (character.rarity && !new RegExp(`^${emojis['SSR+']}`).test(embed.description))
       embed.description = `${emojis[character.rarity]} ${embed.description}`;
 
     if (includePreset) {
@@ -70,17 +71,16 @@ export default class Info {
           value: `**HP: ${character.hp}** | **ATK: ${character.atk}**`
         };
 
-        if (character.atkFBL && character.hpFBL)
-          stats.value += `\n★ [Final Break Limit]: **${character.hpFBL}** | **${character.atkFBL}**`;
-
         if (embed.fields.length) {
           const oldFields = embed.fields;
+          const existingStatsIdx = oldFields.findIndex(el => el.name === stats.name);
+          let existingStats: EmbedField;
+
+          if (existingStatsIdx >= 0)
+            existingStats = oldFields.splice(existingStatsIdx, 1).shift();
+
           embed.fields = [];
-
-          embed.fields.push(stats);
-
-          for (const field of oldFields)
-            embed.fields.push(field);
+          embed.fields.push(existingStats || stats, ...oldFields);
         } else embed.fields.push(stats);
       }
 
@@ -112,7 +112,7 @@ export default class Info {
           if (!assistAbility) continue;
 
           embed.addField(`:sparkle:: ${assistAbility.name}`,
-            [ assistAbility.description, assistAbility.upgradeDescription ],
+            [ assistAbility.description, assistAbility.upgrades ? assistAbility.upgrades.join('\n') : '' ],
             true
           );
         }

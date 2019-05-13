@@ -1,8 +1,8 @@
 import { Message, Message as MSG, TextChannel } from 'discord.js';
 import { IKamihimeDB } from '../../../typings';
-import ErosInfoCommand from '../../struct/command/ErosInfoCommand';
+import InfoCommand from '../../struct/command/InfoCommand';
 
-export default class extends ErosInfoCommand {
+export default class extends InfoCommand {
   constructor () {
     super('hareminfo', {
       aliases: [ 'hareminfo', 'hinfo', 'hi', 'peek', 'p' ],
@@ -16,7 +16,7 @@ export default class extends ErosInfoCommand {
         {
           id: 'item',
           match: 'text',
-          type: name => {
+          type: (_, name) => {
             if (!name || name.length < 2) return null;
 
             return name;
@@ -50,7 +50,7 @@ export default class extends ErosInfoCommand {
       if (!character || character instanceof MSG) return;
 
       return this.triggerDialog(message, character);
-    } catch (err) { this.emitError(err, message, this, 1); }
+    } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 
   public async triggerDialog (message: Message, result: IKamihimeDB) {
@@ -60,18 +60,15 @@ export default class extends ErosInfoCommand {
       const guild = message.guild
         ? await this.client.db.Guild.findOne({
           where: { id: message.guild.id },
-          attributes: [ 'loli', 'nsfwChannel', 'nsfwRole' ]
+          attributes: [ 'nsfwChannel', 'nsfwRole' ]
         })
         : null;
 
-      if (result.loli && guild && guild.loli)
-        return message.util.edit(
-          `${message.author}, this character has loli contents, but loli contents are restricted within this server.${
-            message.author.id === message.guild.ownerID
-              ? ` Please configure your Loli Contents Restriction via \`${prefix}set loli\``
-              : ' Please contact the server owner.'
-          }`
-        );
+      if (result.loli)
+        return message.util.edit([
+          `${message.author}, loli contents are restricted within this bot due to Discord Guidelines.`,
+          'If you are insisting to see such contents, please visit https://kamihimedb.thegzm.space instead.',
+        ]);
 
       const harems = [
         {
@@ -112,14 +109,13 @@ export default class extends ErosInfoCommand {
         },
       ];
       const thumbnail = encodeURI(`${url.root}img/wiki/portrait/${result.name} Portrait.png`);
-      const embed = this.util.embed(message)
+      const embed = this.client.embed(message)
         .setColor(0xFF75F1)
         .setAuthor(result.name, null, `${url.fandom}${encodeURI(result.name)}`)
         .setDescription(
-          `${result.loli ? '**Flagged as Loli**' : ''}${
-            new RegExp(result.name.replace(/[()]/g, '\\$&')).test(this.client.user.username)
-              ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${emojis.embarassed}`
-              : ''}`
+          new RegExp(result.name.replace(/[()]/g, '\\$&')).test(this.client.user.username)
+            ? `\n... ${this.rassedMsg[Math.floor(Math.random() * this.rassedMsg.length)]} ${emojis.embarassed}`
+            : ''
         )
         .setThumbnail(thumbnail);
 
@@ -147,7 +143,7 @@ export default class extends ErosInfoCommand {
       const channel = message.channel as TextChannel;
 
       if (!channel.guild)
-        return message.util.edit(embed);
+        return message.util.edit(null, embed);
 
       const nsfwChannel = message.guild.channels.get(guild!.nsfwChannel) as TextChannel;
 
@@ -159,7 +155,7 @@ export default class extends ErosInfoCommand {
         }`);
 
       if (channel.id === guild.nsfwChannel)
-        return message.util.edit(embed);
+        return message.util.edit(null, embed);
 
       await nsfwChannel.send(embed);
 
@@ -167,6 +163,6 @@ export default class extends ErosInfoCommand {
         `${message.author}, I have sent my response at ${nsfwChannel}.`,
         guild.nsfwRole ? ` If you have no access to that channel, say \`${prefix}nsfw\`.` : '',
       ]);
-    } catch (err) { this.emitError(err, message, this, 1); }
+    } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 }

@@ -1,8 +1,8 @@
-import { Command } from 'discord-akairo';
+import { Flag } from 'discord-akairo';
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
+import Command from '../../struct/command';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('level', {
       aliases: [ 'level' ],
@@ -22,36 +22,24 @@ export default class extends ErosCommand {
         ]
       },
       channel: 'guild',
-      ratelimit: 2,
-      args: [
-        {
-          id: 'method',
-          type: [
-            'i',
-            'info',
-            'leaderboard',
-          ]
-        },
-        {
-          id: 'details',
-          match: 'rest',
-          default: ''
-        },
-      ]
+      ratelimit: 2
     });
   }
 
-  public async exec (message: Message, { method, details }: { method: string, details: string }) {
-    if (!method)
-      return this.handler.modules.get('help').exec(message, { command: this });
+  public * args () {
+    const child = yield {
+      type: [
+        [ 'memberinfo', 'i', 'info' ],
+        [ 'level-leaderboard', 'leaderboard' ],
+      ],
+      otherwise: (message: Message) => {
+        const HelpCommand = this.handler.modules.get('help');
+        this.handler.runCommand(message, HelpCommand, { command: this });
 
-    const commands: { [key: string]: Command } = {
-      i: this.handler.modules.get('memberinfo'),
-      info: this.handler.modules.get('memberinfo'),
-      leaderboard: this.handler.modules.get('level-leaderboard')
+        return null;
+      }
     };
-    const command = commands[method];
 
-    return this.handler.handleDirectCommand(message, details, command, true);
+    return Flag.continue(child, true);
   }
 }

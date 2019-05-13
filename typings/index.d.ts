@@ -2,23 +2,26 @@ import { InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { StringResolvable } from 'discord.js';
 import * as Fandom from 'nodemw';
 import { Sequelize } from 'sequelize-typescript';
+import { Op } from 'sequelize';
 import { Logger } from 'winston';
 import CountdownScheduler from '../src/functions/CountdownScheduler';
 import Twitter from '../src/functions/Twitter';
 import ErosCommandHandler from '../src/struct/command/commandHandler';
 import ErosError from '../src/struct/ErosError';
-import { Guild } from '../src/struct/models/factories/Guild';
-import { Level } from '../src/struct/models/factories/Level';
-import { Storage } from '../src/struct/models/factories/Storage';
-import { Tag } from '../src/struct/models/factories/Tag';
-import { Title } from '../src/struct/models/factories/Title';
+import { Guild } from '../src/struct/models/Guild';
+import { Level } from '../src/struct/models/Level';
+import { Storage } from '../src/struct/models/Storage';
+import { Tag } from '../src/struct/models/Tag';
+import { Title } from '../src/struct/models/Title';
 import Selection from '../src/struct/util/Selection';
 import IErosClientOptions from './auth';
+import { Embeds, FieldsEmbed } from 'discord-paginationembed';
 
 declare module 'discord-akairo' {
   export interface ClientUtil {
     selection: Selection;
     getArticle: (title: string) => Promise<string>;
+    sleep: (ms: number) => Promise<void>;
   }
 }
 
@@ -54,7 +57,7 @@ interface ErosClient {
   ErosError: typeof ErosError;
   db: {
     sequelize: Sequelize;
-    Op: Sequelize["Op"];
+    Op: typeof Op;
     Guild: typeof Guild;
     Level: typeof Level;
     Storage: typeof Storage;
@@ -85,9 +88,9 @@ export interface IKamihimeFandom {
 export interface IKamihimeFandomFormatted {
   name: string;
   atk?: number;
-  atkFBL?: number;
+  atkFLB?: number;
   hp?: number;
-  hpFBL?: number;
+  hpFLB?: number;
   obtainedFrom?: string;
   releaseWeapon?: string;
   releases?: string;
@@ -103,9 +106,14 @@ export interface IKamihimeFandomFormatted {
   preview: string;
   link?: string;
   type?: string;
-  skills?: string[];
-  skillDesc?: string[];
-  skillFBL?: string[];
+  skill?: {
+    name: string;
+    description: string;
+  }[];
+  skillFLB?: {
+    name: string;
+    description: string;
+  }[];
   element?: string;
   elements?: string[];
   burst?: {
@@ -114,7 +122,7 @@ export interface IKamihimeFandomFormatted {
     upgradeDescription?: string;
   };
   burstDesc?: string[];
-  burstFBL?: string;
+  burstFLBDesc?: string;
   abilities?: {
     name: string;
     cooldown: string;
@@ -125,7 +133,7 @@ export interface IKamihimeFandomFormatted {
   assistAbilities?: {
     name: string;
     description: string;
-    upgradeDescription?: string;
+    upgrades?: string[];
   }[];
 
   mex?: {
@@ -177,9 +185,19 @@ export interface IKamihimeFandomKamihime extends IKamihimeFandom {
   ability3PowerupDesc?: string;
   ability3Cd?: string;
   ability3Dur?: string;
+  ability4Name?: string;
+  ability4Desc?: string;
+  ability4PowerupDesc?: string;
+  ability4Cd?: string;
+  ability4Dur?: string;
   assistName?: string;
   assistDesc?: string;
   assistPowerupDesc?: string;
+  assistPowerup2Desc?: string;
+  assist2Name?: string;
+  assist2Desc?: string;
+  assist2PowerupDesc?: string;
+  assist2Powerup2Desc?: string;
   favouriteWeapon?: string;
   releaseWeapon?: string;
 }
@@ -212,8 +230,10 @@ export interface IKamihimeFandomWeapon extends IKamihimeFandomKamihime {
   skill1?: string;
   skillType2?: string;
   skill2?: string;
-  skill1Fbl?: string;
-  skill2Fbl?: string;
+  skillFlb?: string;
+  skillFlbDesc?: string;
+  skill2Flb?: string;
+  skill2FlbDesc?: string;
   skillDesc?: string;
   skill2Desc?: string;
   element2?: string;
@@ -221,9 +241,9 @@ export interface IKamihimeFandomWeapon extends IKamihimeFandomKamihime {
   element4?: string;
   element5: string;
   element6: string;
-  atkFbl?: number;
-  hpFbl?: number;
-  burstFbl?: string;
+  atkFlb?: number;
+  hpFlb?: number;
+  burstFlbDesc?: string;
   burstDesc0?: string;
   burstDesc1?: string;
   burstDesc2?: string;
@@ -251,4 +271,6 @@ export interface IKamihimeDB extends IKamihimeFandom {
   id: string;
   loli: number;
   peeks?: number;
+  atk?: number;
+  hp?: number;
 }

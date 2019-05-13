@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 import { supportLink } from '../../auth';
-import ErosCommand from './command';
+import Command from './command';
 
 export default class ErosError {
 
@@ -15,7 +15,7 @@ export default class ErosError {
    *     - `2`: Kamihime Fandom Request
    *     - `3`: Menu Selection
    */
-  constructor (message: Message, command: ErosCommand, error: Error = null, code = 0) {
+  constructor (message: Message, command: Command, error: Error = null, code = 0) {
     this.message = message;
 
     this.command = command;
@@ -29,7 +29,7 @@ export default class ErosError {
 
   protected message: Message;
 
-  protected command: ErosCommand;
+  protected command: Command;
 
   protected err: Error;
 

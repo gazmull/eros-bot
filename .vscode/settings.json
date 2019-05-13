@@ -1,7 +1,7 @@
 {
   "npm.autoDetect": "on",
-  "tslint.configFile": ".\\.tslint.js",
+  "tslint.configFile": ".tslint.js",
   "tslint.exclude": "build/**/*",
   "tslint.jsEnable": true,
-  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.tsdk": "node_modules/typescript/lib",
 }

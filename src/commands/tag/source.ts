@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
-import ErosCommand from '../../struct/command';
-import { Tag } from '../../struct/models/factories/Tag';
+import Command from '../../struct/command';
+import { Tag } from '../../struct/models/Tag';
 
-export default class extends ErosCommand {
+export default class extends Command {
   constructor () {
     super('tag-source', {
       description: {
@@ -16,7 +16,7 @@ export default class extends ErosCommand {
           type: 'tag',
           prompt: {
             start: 'what is the name of the tag?',
-            retry: (_, __, input: { phrase: string }) =>
+            retry: (_, input: { phrase: string }) =>
               `**${input.phrase}** does not exist. Please provide again.`
           }
         },
