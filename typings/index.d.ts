@@ -122,7 +122,7 @@ export interface IKamihimeFandomFormatted {
     upgradeDescription?: string;
   };
   burstDesc?: string[];
-  burstFLB?: string;
+  burstFLBDesc?: string;
   abilities?: {
     name: string;
     cooldown: string;

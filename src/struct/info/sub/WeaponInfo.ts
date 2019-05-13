@@ -70,10 +70,19 @@ export class WeaponInfo extends Info {
         true
       );
 
-    if (weapon.burstFLB)
-      embed.addField('Weapon Burst Effect', weapon.burstFLB);
-    else
-      embed.addField('Weapon Burst Effect', `${weapon.elements[0]} DMG ${burstScaleDiscriminator['SSR+']}`);
+    if (weapon.burstFLBDesc)
+      embed.addField('Weapon Burst Effect', weapon.burstFLBDesc);
+    else {
+      const bursts = weapon.burstDesc.filter(el => el);
+      const formattedBurst = `${weapon.elements[0]} DMG ${burstScaleDiscriminator['SSR+']}`;
+
+      if (bursts.length) {
+        const formattedBursts = bursts.map(b => `${formattedBurst} and ${b}`);
+
+        embed.addField('Weapon Burst Effect', formattedBursts);
+      } else
+        embed.addField('Weapon Burst Effect', formattedBurst);
+    }
 
     return super.format(embed, weapon);
   }
@@ -148,7 +157,7 @@ export class WeaponInfo extends Info {
       atkFLB: character.atkFlb,
       hp: character.hpMax,
       hpFLB: character.hpFlb,
-      burstFLB: character.burstFlbDesc,
+      burstFLBDesc: character.burstFlbDesc,
       burstDesc: [
         character.burstDesc ? character.burstDesc : character.burstDesc0 || null,
         character.burstDesc1 || null,
