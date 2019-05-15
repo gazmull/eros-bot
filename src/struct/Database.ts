@@ -16,6 +16,9 @@ export const sequelize = new Sequelize({
   database: db.database,
   username: db.username,
   password: db.password,
+  dialectOptions: {
+    timezone: 'local'
+  },
   define: {
     freezeTableName: true,
     charset: 'utf8',
