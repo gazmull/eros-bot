@@ -39,17 +39,10 @@ If one cannot afford to do a pull request, submitting documentation contribution
     > `$ yarn --production=false` to install.
 
 2. Code x10
+    - Make your life easier with `$ yarn dev:watch` and `$ yarn dev:start` for watching changed files and reloading the bot instance respectively.
 
 3. Run `$ yarn test` to verify if the build is passing.
     > Failing build will be rejected at default.
 
 4. Make sure to do `$ git push` to the master branch!
 5. File a [**Pull Request**](https://github.com/gazmull/eros-bot/compare).
-
-## Miscellaneous
-
-### Developing with VSCode
-> This is used to automatically hot-reload when there are source code changes.
-
-1. Run task `tsc: watch`. Default shortcut keys: `ctrl + shift + b + b`
-2. Run `$ yarn run dev:start`

@@ -16,13 +16,11 @@ export default {
     {
       name: 'Flags: Options For Sorting',
       value: [
-        [
-          'Default is by name. Other options are:',
-          [ 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]
-            .map(el => `\`${el}\``)
-            .join(', '),
-          'Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively.',
-        ],
+        'Default is by name. Other options are:',
+        [ 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]
+          .map(el => `\`${el}\``)
+          .join(', '),
+        'Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively.',
       ]
     },
   ]
