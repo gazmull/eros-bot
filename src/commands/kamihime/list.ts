@@ -36,8 +36,12 @@ export default class extends Command {
           id: 'sort',
           match: 'option',
           flag: [ '-s', '--sort=' ],
-          type: /^(?:name|rarity|tier|element|type|atk|hp|ttl)(?:-desc)?$/i,
-          default: [ 'name' ]
+          type: (_, input) => {
+            const matched = /^(?:name|rarity|tier|element|type|atk|hp|ttl)(?:-desc)?$/i.exec(input);
+
+            return matched ? matched[0].toLowerCase() : null;
+          },
+          default: 'name-asc'
         },
       ]
     });
@@ -45,7 +49,7 @@ export default class extends Command {
 
   public async exec (
     message: Message,
-    { filter, advanced, sort: sortMatches }: { filter: string, advanced: boolean, sort: RegExpMatchArray }
+    { filter, advanced, sort }: { filter: string, advanced: boolean, sort: string }
   ) {
     try {
       if (filter === 'variables') return this.helpDialog(message);
@@ -53,7 +57,6 @@ export default class extends Command {
       const { emojis, url } = this.client.config;
       await message.util.send(`${emojis.loading} Awaiting Kamihime DB's response...`);
 
-      const sort = sortMatches.shift().toLowerCase();
       const args = filter.trim().split(/ +/g).join('/');
       const isTtl = /^ttl/.test(sort);
       const query = sort && !isTtl ? `?sort=${sort}` : '';
@@ -81,18 +84,18 @@ export default class extends Command {
         .setArray(sorted);
 
       Pagination.embed
-        .setTitle(`${filter.toUpperCase()} | Found: ${result.length}`)
+        .setTitle(`${filter.toUpperCase()} | Found: ${sorted.length}`)
         .setDescription([
           '**NOTE**: This is a list of characters registered in',
           `[**Kamihime Database**](${url.root}) only.`,
         ].join(' '))
         .addField('Help', 'React with the emoji below to navigate. ↗ to skip a page.');
 
-      if (advanced) Pagination.formatField('# - ID', i => `${result.indexOf(i) + 1} - ${i.id}`, true);
+      if (advanced) Pagination.formatField('# - ID', i => `${sorted.indexOf(i) + 1} - ${i.id}`, true);
 
       Pagination
         .formatField(
-          `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${result.indexOf(i) + 1} - `}${i.name}`,
+          `${advanced ? '' : '# - '}Name`, i => `${advanced ? '' : `${sorted.indexOf(i) + 1} - `}${i.name}`,
           true
         );
 
@@ -127,13 +130,11 @@ export default class extends Command {
       ])
       .addBlankField()
       .addField('Options for --sort= Flag', [
-        [
-          'Default is by name. Other options are:',
-          [ 'name', 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]
-            .map(el => `\`${el}\``)
-            .join(', '),
-          'Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively. (e.g: `rarity-desc`)',
-        ],
+        'Default is by name. Other options are:',
+        [ 'name', 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]
+          .map(el => `\`${el}\``)
+          .join(', '),
+        'Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively. (e.g: `rarity-desc`)',
       ]);
 
     return message.util.send(embed);
