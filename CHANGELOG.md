@@ -2,6 +2,13 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.0.1
+
+## Fixed
+- `command`(`info`): Empty template2 being bypassed
+- `command`(`list`): `sortMatches.shift is not a function` / `Cannot read property 'toLowerCase' of undefined`
+
+
 # 4.0.0
 
 ## Added
