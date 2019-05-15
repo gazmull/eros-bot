@@ -29,7 +29,11 @@ Embed Links
 ## Flags: Options For Sorting
 
 
-Default is by name. Other options are:,`rarity`, `tier`, `element`, `type`, `atk`, `hp`, `ttl`,Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively.
+Default is by name. Other options are:
+
+`rarity`, `tier`, `element`, `type`, `atk`, `hp`, `ttl`
+
+Append `-asc` or `-desc` to sort by <type> `Ascending` or `Descending` respectively.
 
 ## Examples
 
