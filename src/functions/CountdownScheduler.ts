@@ -143,7 +143,9 @@ export default class extends EventEmitter {
       for (const d of this.schedules.values())
         this.client.clearTimeout(d.fn);
 
-      this.schedules.clear();
+      this
+        .removeAllListeners()
+        .schedules.clear();
 
       return this.client.logger.warn('CountdownScheduler Module: Self Destructed');
     }
