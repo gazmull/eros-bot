@@ -163,12 +163,10 @@ export default class extends Command {
   }
 
   public async save () {
-    const array: ICountdown[] = [];
-
-    for (const [ date, names ] of this.userCountdowns)
-      array.push({ [ date ]: names });
-
-    return fs.writeFile(this.filename, JSON.stringify(array));
+    return fs.writeFile(
+      this.filename,
+      JSON.stringify(this.userCountdowns.map((names, date) => ({ [ date ]: names })))
+    );
   }
 
   public getCountdown (date: number) {
@@ -179,12 +177,12 @@ export default class extends Command {
   }
 
   public resolveCountdown (name: string) {
-    const resolvedName = this.userCountdowns.filter(el => el.includes(name));
+    const resolved = this.userCountdowns.findKey(el => el.includes(name));
 
-    return resolvedName.size
+    return resolved
       ?
         {
-          date: this.userCountdowns.findKey(el => el.includes(name)),
+          date: resolved,
           name
         }
       : null;

@@ -32,6 +32,8 @@ export default class extends Command {
 
   public glossary: { [character: string]: string[] } = {};
 
+  public timer: NodeJS.Timeout;
+
   public async exec (message: Message, { keyword }: { keyword: string }) {
     const section = this.glossary[keyword.charAt(0)];
 
@@ -48,6 +50,8 @@ export default class extends Command {
 
   public async initGlossary () {
     try {
+      if (this.timer) this.client.clearTimeout(this.timer);
+
       const infoCommand = this.handler.modules.get('info') as InfoCommand;
       const data = await infoCommand.parseArticle('Glossary', false) as string;
       const sectionRegex = /==\s?(\w+)\s?==([^=]*)/g;
@@ -66,7 +70,7 @@ export default class extends Command {
             .filter(s => s)
         });
 
-      this.client.setTimeout(this.initGlossary.bind(this), 36e5 * 12);
+      this.timer = this.client.setTimeout(this.initGlossary.bind(this), 36e5 * 12);
 
       return this.client.logger.info('Glossary Command: Initialised Glossary');
     } catch (err) { return this.client.logger.error(`Glossary Command: Error on initialising Glossary: ${err.stack}`); }
