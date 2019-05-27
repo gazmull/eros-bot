@@ -77,6 +77,8 @@ export default class extends InfoCommand {
     });
   }
 
+  public flbEmoji: string;
+
   public async exec (
     message: IMessage,
     { item, preview, release, accurate, mex, flb, type }: {
@@ -90,6 +92,7 @@ export default class extends InfoCommand {
     }
   ) {
     try {
+      if (!this.flbEmoji) this.flbEmoji = this.client.config.emojis['SSR+'].replace(/<a?:\w+:(\d+)>/, '$1');
       if (preview) message.needsPreview = true;
       if (release) message.needsRelease = true;
       if (mex) message.needsMex = true;
@@ -122,6 +125,7 @@ export default class extends InfoCommand {
       let template: KamihimeInfo | EidolonInfo | SoulInfo | WeaponInfo;
       let template2: KamihimeInfo | WeaponInfo | SoulInfo;
       let format2: MessageEmbed;
+      let hasWeapon = 0;
 
       switch (category) {
         case 'kamihime':
@@ -143,16 +147,19 @@ export default class extends InfoCommand {
       const releaseWeapon = (template.character as IKamihimeFandomKamihime).releaseWeapon;
       const mex = (template.character as IKamihimeFandomSoul).mex1Name;
 
-      if (releases)
-        template2 = await this.parseKamihime(template as WeaponInfo, message).catch(() => undefined);
-      else if (releaseWeapon)
+      if (releases) {
+        template2 = template as WeaponInfo;
+        template = await this.parseKamihime(template as WeaponInfo, message).catch(() => undefined);
+        hasWeapon = 1;
+      } else if (releaseWeapon) {
         template2 = await this.parseWeapon(template as KamihimeInfo).catch(() => undefined);
-      else if (mex)
+        hasWeapon = 1;
+      } else if (mex)
         template2 = null;
 
-      const hpFlb = template2
+      const hpFlb = hasWeapon
         ? (template2 as WeaponInfo).character.hpFlb
-        : (template.character as IKamihimeFandomWeapon).hpFlb;
+        : (template as WeaponInfo).character.hpFlb;
       const format = template.format();
       const assets = { [template.constructor.name]: template };
       const array = [ format ];
@@ -176,23 +183,22 @@ export default class extends InfoCommand {
         (
           (
             message.needsRelease &&
-            (
-              (template instanceof KamihimeInfo && releaseWeapon) ||
-              (template instanceof WeaponInfo && releases)
-            )
+            template instanceof KamihimeInfo && releaseWeapon
           ) ||
           (message.needsMex && template instanceof SoulInfo && mex)
         ) && typeof template2 !== 'undefined'
       )
-        embed.setPage(2);
-      if (message.needsFLB && hpFlb && (template instanceof WeaponInfo || template2 instanceof WeaponInfo))
-        embed.setPage(template2 ? 3 : 2);
+        embed.setPage(hasWeapon ? 2 : 1);
 
-      if (message.needsPreview)
-        format.setImage(embed.page === 1 || (message.needsMex && mex)
-          ? template.character.preview
-          : template2.character.preview
-        );
+      if (message.needsFLB && hpFlb)
+        embed.setPage(hasWeapon ? 3 : 2);
+
+      if (message.needsPreview) {
+        format.setImage(template.character.preview);
+
+        if (format2)
+          format2.setImage(template2.character.preview);
+      }
 
       if (template.character.preview)
         embed.addFunctionEmoji('🖼', (_, instance: IEmbedsEx) => {
@@ -201,19 +207,25 @@ export default class extends InfoCommand {
           instance.currentEmbed.setImage(instance.needsPreview ? instance.preview : null);
         });
 
+      const validWeapon = (message.needsRelease || message.needsFLB) && hasWeapon;
+
       Object.assign(embed, {
         assets,
         needsPreview: message.needsPreview,
-        preview: template.character ? template.character.preview : (template2 as SoulInfo).character.preview,
+        preview: validWeapon ? template2.character.preview : template.character.preview,
         currentClass: !message.needsMex
           ? (
-              template2 && (message.needsRelease || message.needsFLB)
+              validWeapon
                 ? template2.constructor.name
                 : template.constructor.name
             )
           : null,
         oldClass: template2 && !message.needsMex
-          ? (message.needsRelease || message.needsFLB ? template.constructor.name : template2.constructor.name)
+          ? (
+            validWeapon
+              ? template.constructor.name
+              : template2.constructor.name
+          )
           : null
       });
 
@@ -237,24 +249,23 @@ export default class extends InfoCommand {
         });
 
       if (hpFlb) {
-        let flb: MessageEmbed;
-        const weaponOnTemplate = template instanceof WeaponInfo;
+        const flbTemplate = hasWeapon ? template2 : template;
+        const flbFormat = (flbTemplate as WeaponInfo).formatFLB();
 
-        if (weaponOnTemplate)
-          flb = (template as WeaponInfo).formatFLB();
-        else
-          flb = (template2 as WeaponInfo).formatFLB();
+        if (message.needsPreview)
+          flbFormat.setImage(flbTemplate.character.preview);
 
-        array.push(flb);
+        array.push(flbFormat);
         embed.addFunctionEmoji(
-          this.client.config.emojis['SSR+'].replace(/<a?:\w+:(\d+)>/, '$1'),
+          this.flbEmoji,
           (_, instance: IEmbedsEx) => {
             if (instance.currentClass !== 'WeaponInfo') return;
 
-            const page = weaponOnTemplate ? 1 : 2;
-            const flbPage = weaponOnTemplate ? 2 : 3;
-
-            instance.setPage(instance.page === page ? flbPage : page);
+            instance.setPage(
+              hasWeapon
+              ? instance.page === 2 ? 3 : 2
+              : instance.page === 1 ? 2 : 1
+            );
 
             if (instance.needsPreview)
               instance.currentEmbed.setImage(instance.preview);
