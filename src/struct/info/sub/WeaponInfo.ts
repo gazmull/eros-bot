@@ -197,9 +197,9 @@ const discriminator = {
   }
 };
 const scaleDiscriminator = {
-  SSR: '(++)',
-  SR: '(+)',
-  R: ''
+  SSR: '(Large)',
+  SR: '(Medium)',
+  R: '(Small)'
 };
 const burstScaleDiscriminator = {
   'SSR+': '(+++++)',
@@ -209,9 +209,9 @@ const burstScaleDiscriminator = {
 };
 const skillParser = {
   Upgrade: {
-    SSR: '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (++)',
-    SR: '**Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (+)',
-    R: '**Vessel of Sorcery**: Weapon Enhance skill Lv up chance↑'
+    SSR: '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (Large)',
+    SR: '**Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (Medium)',
+    R: '**Vessel of Sorcery**: Weapon Enhance skill Lv up chance↑ (Small)'
   },
   Assault: 'Characters\' ATK↑',
   Defender: 'Characters\' HP↑',
