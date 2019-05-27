@@ -121,6 +121,14 @@ export default class ErosClient extends AkairoClient {
       return docs.renderDialogs();
     }
 
+    if (process.argv.includes('--no-ignore'))
+      this.logger.info('Permissions check: Set to not ignore bot owner(s).');
+    else {
+      this.commandHandler.ignorePermissions = this.ownerID;
+
+      this.logger.info('Permissions check: Set to ignore bot owner(s).');
+    }
+
     const force = [ '-f', '--force' ].some(f => process.argv.includes(f));
 
     if (force) this.logger.info('Forced sync detected.');
