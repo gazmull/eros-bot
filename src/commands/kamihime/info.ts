@@ -150,10 +150,10 @@ export default class extends InfoCommand {
       if (releases) {
         template2 = template as WeaponInfo;
         template = await this.parseKamihime(template as WeaponInfo, message).catch(() => undefined);
-        hasWeapon = 1;
+        if (template2) hasWeapon = 1;
       } else if (releaseWeapon) {
         template2 = await this.parseWeapon(template as KamihimeInfo).catch(() => undefined);
-        hasWeapon = 1;
+        if (template2) hasWeapon = 1;
       } else if (mex)
         template2 = null;
 
