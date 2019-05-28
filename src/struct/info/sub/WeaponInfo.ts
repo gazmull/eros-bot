@@ -18,8 +18,8 @@ export class WeaponInfo extends Info {
           return skillParser.Upgrade[weapon.rarity];
 
         return [
-          `**${discriminator[weapon.rarity][weapon.elements[0]]} ${skill.name}**:`,
-          weapon.elements[0],
+          `**${discriminator[weapon.rarity][weapon.element]} ${skill.name}**:`,
+          weapon.element,
           skillParser[skill.name],
           scaleDiscriminator[weapon.rarity],
         ].join(' ');
@@ -29,18 +29,22 @@ export class WeaponInfo extends Info {
     }
 
     const bursts = weapon.burstDesc.filter(el => el);
-    const formattedBurst = `${weapon.elements[0]} DMG ${burstScaleDiscriminator[weapon.rarity]}`;
+    const formattedBurst = `${weapon.element} DMG ${burstScaleParser(weapon)}`;
+    const parsedBurstScale = burstScaleParser(weapon.element === 'All' ? 'Relic' : weapon, true);
 
     if (bursts.length) {
       const formattedBursts = bursts.map((b, i) =>
         bursts.length > 1
           ? `${'★'.repeat(i)}${'☆'.repeat(bursts.length - 1 - i)} | ${b}\n`
-          : `${formattedBurst} and ${b}`
+          : [
+            `${formattedBurst} and ${b}`,
+            parsedBurstScale,
+          ].join('\n')
       );
 
       embed.addField('Weapon Burst Effect', formattedBursts);
     } else
-      embed.addField('Weapon Burst Effect', formattedBurst);
+      embed.addField('Weapon Burst Effect', [ formattedBurst, parsedBurstScale ]);
 
     return super.format(embed, weapon);
   }
@@ -61,8 +65,8 @@ export class WeaponInfo extends Info {
             return `**${skill.name}**: ${skill.description}`;
 
           return [
-            `**${discriminator[weapon.rarity][weapon.elements[0]]} ${skill.name}**:`,
-            weapon.elements[0],
+            `**${discriminator[weapon.rarity][weapon.element]} ${skill.name}**:`,
+            weapon.element,
             skillParser[skill.name],
             scaleDiscriminator[weapon.rarity],
           ].join(' ');
@@ -74,7 +78,7 @@ export class WeaponInfo extends Info {
       embed.addField('Weapon Burst Effect', weapon.burstFLBDesc);
     else {
       const bursts = weapon.burstDesc.filter(el => el);
-      const formattedBurst = `${weapon.elements[0]} DMG ${burstScaleDiscriminator['SSR+']}`;
+      const formattedBurst = `${weapon.element} DMG ${burstScaleParser('SSR+')}`;
 
       if (bursts.length) {
         const formattedBursts = bursts.map(b => `${formattedBurst} and ${b}`);
@@ -90,7 +94,7 @@ export class WeaponInfo extends Info {
   protected generateEmbed (weapon: IKamihimeFandomFormatted, flb = false) {
     const { fandomURI, colors } = this;
     const cleanReleaseLink = `${fandomURI}${encodeURI(weapon.releases)}`.replace(/(\(|\))/g, '\\$&');
-    const elements = weapon.elements.every(e => Boolean(e)) ? weapon.elements.join('/') : weapon.elements[0];
+    const element = weapon.element === 'All' ? 'All Elements' : weapon.element;
     const embed = new MessageEmbed()
       .setDescription(
         [
@@ -98,7 +102,7 @@ export class WeaponInfo extends Info {
             flb
               ? `${this.client.config.emojis['SSR+']} `
               : ''
-          }__**Weapon**__ | __**${weapon.type}**__ | __**${elements}**__${
+          }__**Weapon**__ | __**${weapon.type}**__ | __**${element}**__${
             weapon.releases
               ? ` | __**[${weapon.releases}](${cleanReleaseLink} "Kamihime Release")**__`
               : ''
@@ -145,14 +149,7 @@ export class WeaponInfo extends Info {
             ? { name: character.skillType2 || character.skill2, description: character.skill2Desc }
             : null,
       ],
-      elements: [
-        character.element,
-        character.element2,
-        character.element3,
-        character.element4,
-        character.element5,
-        character.element6,
-      ],
+      element: character.element,
       atk: character.atkMax,
       atkFLB: character.atkFlb,
       hp: character.hpMax,
@@ -202,11 +199,19 @@ const scaleDiscriminator = {
   R: '(Small)'
 };
 const burstScaleDiscriminator = {
-  'SSR+': '(+++++)',
-  SSR: '(++++)',
-  SR: '(++)',
-  R: '(+)'
+  'SSR+': 5,
+  Relic: 4.5,
+  SSR: 4,
+  SR: 3,
+  R: 2,
+  N: 1
 };
+const burstScaleParser = (weapon: IKamihimeFandomFormatted | string, lb2 = false) =>
+  `${lb2
+      // @ts-ignore
+      ? ` ★ [LB ★★☆] ${weapon.element} DMG `
+      // @ts-ignore
+      : ''}(x${burstScaleDiscriminator[weapon.rarity || weapon] + (lb2 ? 0.5 : 0)} Burst DMG)`;
 const skillParser = {
   Upgrade: {
     SSR: '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (Large)',

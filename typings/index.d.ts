@@ -115,7 +115,6 @@ export interface IKamihimeFandomFormatted {
     description: string;
   }[];
   element?: string;
-  elements?: string[];
   burst?: {
     name: string;
     description: string;
