@@ -12,7 +12,11 @@ client
   .catch(err => client.logger.error(err));
 
 client
-  .on('disconnect', () => process.exit(0))
+  .on('disconnect', () => {
+    client.destroy();
+
+    return process.exit(0);
+  })
   .on('error', err => client.logger.error(err))
   .on('warn', inf => client.logger.warn(inf));
 

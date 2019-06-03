@@ -26,7 +26,10 @@ export default class extends Listener {
           : `${guildSize} Guilds`}`);
       else this.client.logger.info('Standby Mode');
 
-      if (this.client.scheduler) this.client.scheduler.destroy('this');
+      if (this.client.scheduler) {
+        this.client.commandHandler.reload('countdown');
+        this.client.scheduler.destroy('this');
+      }
       if (this.client.twitter) this.client.twitter.destroy();
 
       this.client.scheduler = new CountdownScheduler(this.client);
