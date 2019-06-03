@@ -226,11 +226,12 @@ export interface IKamihimeFandomWeapon extends IKamihimeFandomKamihime {
   weaponType: string;
   skillType?: string;
   skill?: string;
-  skill1?: string;
-  skillType2?: string;
+  skill2Type?: string;
   skill2?: string;
+  skillFlbType?: string;
   skillFlb?: string;
   skillFlbDesc?: string;
+  skill2FlbType?: string;
   skill2Flb?: string;
   skill2FlbDesc?: string;
   skillDesc?: string;

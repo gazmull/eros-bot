@@ -1,5 +1,6 @@
 import { MessageEmbed } from 'discord.js';
 import { IKamihimeFandomFormatted, IKamihimeFandomWeapon } from '../../../../typings';
+import toTitleCase from '../../../util/toTitleCase';
 import Info from '../base/Info';
 
 export class WeaponInfo extends Info {
@@ -12,16 +13,31 @@ export class WeaponInfo extends Info {
 
     if (skills.length) {
       const formattedSkills = skills.map(skill => {
-        if (/\s/.test(skill.name))
-          return `**${skill.name}**: ${skill.description}`;
-        else if (skill.name === 'Upgrade')
+        if (skill.name === 'Upgrade')
           return skillParser.Upgrade[weapon.rarity];
 
+        const notAWord = /\s/.test(skill.name);
+
+        if (notAWord && skill.description)
+          return `**${skill.name}**: ${skill.description}`;
+        else if (notAWord && !skill.description) {
+          const re = /\w+/g;
+          const name = toTitleCase(re.exec(skill.name)[0]);
+          const scale = re.exec(skill.name)[0].toUpperCase();
+
+          return [
+            `**${elementScaleDiscriminator[scale][weapon.element]} ${name}**:`,
+            weapon.element,
+            skillParser[name],
+            scaleDiscriminator[scale],
+          ].join(' ');
+        }
+
         return [
-          `**${discriminator[weapon.rarity][weapon.element]} ${skill.name}**:`,
+          `**${elementScaleDiscriminatorStatic[weapon.rarity][weapon.element]} ${skill.name}**:`,
           weapon.element,
           skillParser[skill.name],
-          scaleDiscriminator[weapon.rarity],
+          rarityScaleDiscriminator[weapon.rarity],
         ].join(' ');
       });
 
@@ -61,14 +77,28 @@ export class WeaponInfo extends Info {
       embed.addField(
         `Weapon Skill Type${skillFlbs.length > 1 ? 's' : ''}`,
         skillFlbs.map(skill => {
-          if (/\s/.test(skill.name))
+          const notAWord = /\s/.test(skill.name);
+
+          if (notAWord && skill.description)
             return `**${skill.name}**: ${skill.description}`;
+          else if (notAWord && !skill.description) {
+            const re = /\w+/g;
+            const name = toTitleCase(re.exec(skill.name)[0]);
+            const scale = re.exec(skill.name)[0].toUpperCase();
+
+            return [
+              `**${elementScaleDiscriminator[scale][weapon.element]} ${name}**:`,
+              weapon.element,
+              skillParser[name],
+              scaleDiscriminator[scale],
+            ].join(' ');
+          }
 
           return [
-            `**${discriminator[weapon.rarity][weapon.element]} ${skill.name}**:`,
+            `**${elementScaleDiscriminatorStatic[weapon.rarity][weapon.element]} ${skill.name}**:`,
             weapon.element,
             skillParser[skill.name],
-            scaleDiscriminator[weapon.rarity],
+            rarityScaleDiscriminator[weapon.rarity],
           ].join(' ');
         }).join('\n'),
         true
@@ -130,23 +160,23 @@ export class WeaponInfo extends Info {
       rarity: character.rarity,
       type: character.weaponType,
       skill: [
-        character.skillType || character.skill || character.skill1
-          ? { name: character.skillType || character.skill || character.skill1, description: character.skillDesc }
+        character.skillType || character.skill
+          ? { name: character.skillType || character.skill, description: character.skillDesc }
           : null,
-        character.skillType2 || character.skill2
-          ? { name: character.skillType2 || character.skill2, description: character.skill2Desc }
+        character.skill2Type || character.skill2
+          ? { name: character.skill2Type || character.skill2, description: character.skill2Desc }
           : null,
       ],
       skillFLB: [
-        character.skillFlb
-          ? { name: character.skillFlb, description: character.skillFlbDesc }
-          : character.skillType || character.skill || character.skill1
-            ? { name: character.skillType || character.skill || character.skill1, description: character.skillDesc }
+        character.skillFlbType || character.skillFlb
+          ? { name: character.skillFlbType || character.skillFlb, description: character.skillFlbDesc }
+          : character.skillType || character.skill
+            ? { name: character.skillType || character.skill, description: character.skillDesc }
             : null,
-        character.skill2Flb
-          ? { name: character.skill2Flb, description: character.skill2FlbDesc }
-          : character.skillType2 || character.skill2
-            ? { name: character.skillType2 || character.skill2, description: character.skill2Desc }
+        character.skill2FlbType || character.skill2Flb
+          ? { name: character.skill2FlbType || character.skill2Flb, description: character.skill2FlbDesc }
+          : character.skill2Type || character.skill2
+            ? { name: character.skill2Type || character.skill2, description: character.skill2Desc }
             : null,
       ],
       element: character.element,
@@ -167,7 +197,7 @@ export class WeaponInfo extends Info {
   }
 }
 
-const discriminator = {
+const elementScaleDiscriminatorStatic = {
   SSR: {
     Fire: 'Inferno',
     Water: 'Cocytus',
@@ -193,10 +223,20 @@ const discriminator = {
     Dark: 'Dark'
   }
 };
-const scaleDiscriminator = {
+const rarityScaleDiscriminator = {
   SSR: '(Large)',
   SR: '(Medium)',
   R: '(Small)'
+};
+const scaleDiscriminator = {
+  L: '(Large)',
+  M: '(Medium)',
+  S: '(Small)'
+};
+const elementScaleDiscriminator = {
+  L: elementScaleDiscriminatorStatic.SSR,
+  M: elementScaleDiscriminatorStatic.SR,
+  S: elementScaleDiscriminatorStatic.R
 };
 const burstScaleDiscriminator = {
   'SSR+': 5,
@@ -226,5 +266,14 @@ const skillParser = {
   Stinger: 'Characters\' Critical Hit Rate↑',
   Exceed: 'Characters\' Burst↑',
   Ascension: 'Characters\' Recovery↑',
-  Elaborate: 'Characters\' Ability↑'
+  Elaborate: 'Characters\' Ability↑',
+  Vigoras: 'Characters\' ATK↑ commensurate to HP left ratio',
+
+  Avalanche: 'Characters\' Combo Attack Rate↑',
+  Grace: 'Characters\' HP and Recovery↑',
+  Rampart: 'Characters\' Max HP↑ and ATK↑ commensurate to HP left ratio',
+  Slug: 'Characters\' ATK↑ and Critical Hit Rate↑',
+  Strength: 'Characters\' ATK↑ and Max HP↑',
+  Tactics: 'Characters\' Burst↑ and Ability DMG↑',
+  Triedge: 'ATK↑ and Triple Attack Rate↑'
 };
