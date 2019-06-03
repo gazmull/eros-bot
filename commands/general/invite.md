@@ -3,7 +3,7 @@
 
 **Usage**: `@Eros invite `
 
-**Aliases**: `invite`, `addbot`, `inviteme`
+**Aliases**: `invite`, `addbot`, `inviteme`, `donate`
 
 **Brief Description**: Displays my invite link and my author's tag to contact.
 
