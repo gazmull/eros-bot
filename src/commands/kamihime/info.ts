@@ -126,6 +126,7 @@ export default class extends InfoCommand {
       let template2: KamihimeInfo | WeaponInfo | SoulInfo;
       let format2: MessageEmbed;
       let hasWeapon = 0;
+      let searchedWeapon = 0;
 
       switch (category) {
         case 'kamihime':
@@ -139,6 +140,7 @@ export default class extends InfoCommand {
           break;
         case 'weapon':
           template = new WeaponInfo(this.client, prefix, result, info);
+          searchedWeapon = 1;
           break;
         default: return message.util.edit(':x: Invalid article.');
       }
@@ -150,6 +152,7 @@ export default class extends InfoCommand {
       if (releases) {
         template2 = template as WeaponInfo;
         template = await this.parseKamihime(template as WeaponInfo, message).catch(() => undefined);
+        searchedWeapon = 1;
         if (template2) hasWeapon = 1;
       } else if (releaseWeapon) {
         template2 = await this.parseWeapon(template as KamihimeInfo).catch(() => undefined);
@@ -179,16 +182,15 @@ export default class extends InfoCommand {
         .setDisabledNavigationEmojis([ 'BACK', 'JUMP', 'FORWARD' ])
         .setTimeout(10e3);
 
+      if (searchedWeapon && !(template instanceof WeaponInfo)) embed.setPage(2);
+
       if (
         (
-          (
-            message.needsRelease &&
-            template instanceof KamihimeInfo && releaseWeapon
-          ) ||
+          message.needsRelease ||
           (message.needsMex && template instanceof SoulInfo && mex)
         ) && typeof template2 !== 'undefined'
       )
-        embed.setPage(hasWeapon ? 2 : 1);
+        embed.setPage(searchedWeapon ? 1 : 2);
 
       if (message.needsFLB && hpFlb)
         embed.setPage(hasWeapon ? 3 : 2);
@@ -207,24 +209,29 @@ export default class extends InfoCommand {
           instance.currentEmbed.setImage(instance.needsPreview ? instance.preview : null);
         });
 
-      const validWeapon = (message.needsRelease || message.needsFLB) && hasWeapon;
+      const needsRelease = message.needsRelease && hasWeapon;
+      const needsFLB = message.needsFLB && hasWeapon;
+      const templateName = template.constructor.name;
+      const template2Name = template2 ? template2.constructor.name : null;
 
       Object.assign(embed, {
         assets,
         needsPreview: message.needsPreview,
-        preview: validWeapon ? template2.character.preview : template.character.preview,
+        preview: needsFLB || (needsRelease && !searchedWeapon)
+          ? template2.character.preview
+          : template.character.preview,
         currentClass: !message.needsMex
           ? (
-              validWeapon
-                ? template2.constructor.name
-                : template.constructor.name
+              needsFLB || (needsRelease && !searchedWeapon)
+                ? template2Name
+                : templateName
             )
           : null,
         oldClass: template2 && !message.needsMex
           ? (
-            validWeapon
-              ? template.constructor.name
-              : template2.constructor.name
+            needsFLB || (needsRelease && !searchedWeapon)
+              ? templateName
+              : template2Name
           )
           : null
       });
