@@ -4,6 +4,7 @@ export default interface IErosClientOptions extends AkairoOptions {
   token: string;
   docs: string;
   inviteLink: string;
+  supportLink: string;
   defaultPrefix: string;
   blacklist?: string[];
   emojis: {
