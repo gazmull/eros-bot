@@ -26,6 +26,10 @@ export default class extends Command {
     });
   }
 
+  public condition (message: Message) {
+    return new RegExp(`^<@!?${this.client.user.id}>`).test(message.content);
+  }
+
   public async exec (message: Message, { command, pub }: { command: Command, pub: boolean }) {
     if (!command) return this.defaultHelp(message, pub);
 
