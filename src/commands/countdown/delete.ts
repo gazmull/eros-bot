@@ -36,7 +36,7 @@ export default class extends Command {
     parent.countdowns.delete(found);
     await parent.save();
 
-    this.client.scheduler.emit('delete', date, name);
+    // this.client.scheduler.emit('delete', date, name);
 
     return message.util.reply(`\`${name}\` countdown removed!`);
   }

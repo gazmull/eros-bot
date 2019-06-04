@@ -42,7 +42,7 @@ export default class extends Command {
     parent.checkDuplicate(parent.userCountdowns, { name, date: parsedDate });
     await parent.save();
 
-    this.client.scheduler.emit('add', parsedDate, name);
+    // this.client.scheduler.emit('add', parsedDate, name);
 
     return message.util.reply(`\`${name}\` countdown added! Expires within ${parent.getCountdown(parsedDate)}`);
   }
