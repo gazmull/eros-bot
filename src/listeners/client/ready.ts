@@ -1,7 +1,7 @@
 import { Listener } from 'discord-akairo';
 import GuideCommand from '../../commands/general/guide';
 import GlossaryCommand from '../../commands/kamihime/glossary';
-import CountdownScheduler from '../../functions/CountdownScheduler';
+// import CountdownScheduler from '../../functions/CountdownScheduler';
 import Twitter from '../../functions/Twitter';
 
 export default class extends Listener {
