@@ -2,6 +2,21 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.0
+
+## Added
+- `commands`: Bot owners now being ignored for permissions check in case of emergencies
+- `command`(`help`): Bot mention at the message's starting content will trigger help command
+- `command`(`invite`): Added donation notice and `donate` alias
+
+## Changed
+- `function`(`CountdownScheduler`): Disabled due to issues with Discord API
+- `struct`(`Info`): Changed burst and skill scales on weapons from `+` to numeric multipliers and `S/M/L` respectively. Parser now prioritises `skillType` in pre-FLB and FLB
+
+## Fixed
+- `Database`: IANA TZ Warning
+- `command`(`info`): Fixed a bug where searching a weapon with kamihime release returns kamihime's information instead
+
 # 4.0.1
 
 ## Fixed
