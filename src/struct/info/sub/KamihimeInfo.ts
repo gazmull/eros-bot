@@ -84,7 +84,7 @@ export class KamihimeInfo extends Info {
         description: character.burstDesc
           ? (character.burstDesc.startsWith(character.element)
             ? character.burstDesc
-            : `${burstDescParse} and ${character.burstDesc}`)
+            : `${burstDescParse()} and ${character.burstDesc}`)
           : burstDescParse(),
         upgradeDescription: (
           character.rarity === 'SSR+'
