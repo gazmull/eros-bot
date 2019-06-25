@@ -2,6 +2,11 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.1
+
+## Fixed
+- `command`(`quiz`): Now supports weapons
+
 # 4.1.0
 
 ## Added
