@@ -92,7 +92,7 @@ export default class extends ErosComamnd {
     const { isNotLast, rotation, current } = config;
     message.util.setLastResponse(await message.channel.send(`${emojis.loading} Awaiting KamihimeDB's response...`));
 
-    const response = await fetch(url.api + 'random/4', { headers: { Accept: 'application/json' } });
+    const response = await fetch(url.api + 'random/4/true', { headers: { Accept: 'application/json' } });
 
     if (!response.ok) return message.util.edit('There was a problem: ' + response.statusText);
 
