@@ -107,9 +107,7 @@ export default class extends ErosComamnd {
     const parsed = {
       text: question.text
         .replace(/\{\{type\}\}/, isWeapon ? 'weapon' : 'character'),
-      choices: isWeapon
-        ? question.choices(true)
-        : (typeof question.choices === 'function' ? question.choices() : question.choices)
+      choices: typeof question.choices === 'function' ? question.choices(isWeapon) : question.choices
     };
 
     const answer = selected[question.type];
