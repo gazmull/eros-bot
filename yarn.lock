@@ -1016,14 +1016,14 @@ sequelize-pool@^2.3.0:
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-2.3.0.tgz#64f1fe8744228172c474f530604b6133be64993d"
   integrity sha512-Ibz08vnXvkZ8LJTiUOxRcj1Ckdn7qafNZ2t59jYHMX1VIebTAOYefWdRYFt6z6+hy52WGthAHAoLc9hvk3onqA==
 
-sequelize-typescript@1.0.0-beta.1:
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/sequelize-typescript/-/sequelize-typescript-1.0.0-beta.1.tgz#402279fec52669cbd78ecbf50e189638483a7360"
-  integrity sha512-xD28kqa1rIKujlmgA4hWQgtwFfRM6tLv1/mnZOrOFEZxvSWazUbTzqGB7OZydZDNj3iJnyrV1l6i6HOfvrpvEw==
+sequelize-typescript@^1.0.0-beta.4:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/sequelize-typescript/-/sequelize-typescript-1.0.0-beta.4.tgz#7cd0800b5b0d48254299d7f845232e56bcaf6bcd"
+  integrity sha512-aCtLX2Y453r+DEGMSgfyXrAibyCT1JYNOdNZ3g+banGgH0SqLHlBX4ZnFci5MC/2kxPMqXEAmlVdhecXG2szSQ==
   dependencies:
     glob "7.1.2"
 
-sequelize@^5.7.6:
+sequelize@^5.14.0:
   version "5.14.0"
   resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-5.14.0.tgz#22bb7bfc481af5ec5934aa8f25be39e2185b1368"
   integrity sha512-q5OpHYi/NB30lH8bs898JOVFUa1JvmXYRDBkEJOI7FfRJIPzXy0JhMtTGxyNrflD8SXixsWBOQLzWMzF7RDXuA==
