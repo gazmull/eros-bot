@@ -29,7 +29,7 @@ Sfayne: [Accessory Calculator](https://docs.google.com/spreadsheets/d/1aTlsOgX0o
 
 Eliont: [Kamihime Player](https://goo.gl/XjWD93)
 
-Euni: [Kamihime Web Player](https://kamihimedb.thegzm.space)
+Euni: [Kamihime Web Player](https://kamihimedb.win)
 
 
 ---

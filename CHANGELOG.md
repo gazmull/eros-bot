@@ -2,6 +2,15 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.2
+
+## Changed:
+- `docs`: `kamihimedb.thegzm.space` => `kamihimedb.win`
+
+## Fixed
+- `command`(`info`): Fix for 'undefined' text in Kamihime abilities
+- `dependencies`: Updated Discord.JS due to new login method and now enforced to use Node 12
+
 # 4.1.1
 
 ## Fixed
@@ -48,7 +57,7 @@ This log starts from `3.0.0`.
 - `commands`(`info`): Refactored some structures: moves weapon's FLB values to another embed, activated by `SSR+` emoji react function
 
 ## Removed
-- `commands` / `docs`: Removed `loli` settings, and completely disables access to characters with loli contents on `hareminfo` command. If you insist to see them, please see [kamihimedb](https://kamihimedb.thegzm.space) instead.
+- `commands` / `docs`: Removed `loli` settings, and completely disables access to characters with loli contents on `hareminfo` command. If you insist to see them, please see [kamihimedb](https://kamihimedb.win) instead.
 - `commands`(`util`): Removed `clear` command.
 - `function`(`twitter`): Removed debug messages sent to the bot owner.
 
@@ -72,7 +81,7 @@ This log starts from `3.0.0`.
 # 3.3.0
 
 ## Deprecated
-- `command`(`set-loli`): Added notice for deprecation to strictly follow Discord Guidelines. Characters with loli contents will be restricted on later releases. If you insist on seeing them, please do visit [**Kamihime Database**](https://kamihimedb.thegzm.space) instead.
+- `command`(`set-loli`): Added notice for deprecation to strictly follow Discord Guidelines. Characters with loli contents will be restricted on later releases. If you insist on seeing them, please do visit [**Kamihime Database**](https://kamihimedb.win) instead.
 
 ## Added
 - `command`(`info`): Added item rarity emojis

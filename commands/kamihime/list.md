@@ -9,7 +9,7 @@
 
 
 
-__Results are only from [**Kamihime Database**](http://kamihimedb.thegzm.space/).__
+__Results are only from [**Kamihime Database**](http://kamihimedb.win/).__
 
 Required variables can be seen via `@Eros list variables`.
 

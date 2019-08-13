@@ -21,7 +21,7 @@ Embed Links
 ## Warning
 
 
-Results are only from [Kamhime Database](http://kamihimedb.thegzm.space/).
+Results are only from [Kamhime Database](http://kamihimedb.win/).
 
 ## Examples
 
