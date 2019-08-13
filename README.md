@@ -17,8 +17,6 @@
     - Uses REST API (JSON) from [**Kamihime Database**](https://github.com/gazmull/kamihime-database)
 - Tweets updates from [**@Kamihime_EN**](https://twitter.com/kamihime_en)
     - Customise the `Twitter Channel` with `?set twitterchannel <channel>`
-- Get notified with in-game events via Countdown notification system
-    - Customise the `Countdown Channel` with `?set cdchannel <channel>`
 - Enjoy staying in your server by gaining a grand title and EXPs with Leveling System
     - See `level` command for more info
 - Customise your server settings
@@ -59,7 +57,7 @@
 > ### [**Add the bot instead? (24/7)**](http://addbot.thegzm.space)
 
 - Create a [**Bot Account**](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
-- Eros requires at least [**Node 10**](https://nodejs.org) for runtime and [**MariaDB 10.1**](https://mariadb.org) for data persistence
+- Eros requires at least [**Node 12**](https://nodejs.org) for runtime and [**MariaDB 10.1**](https://mariadb.org) for data persistence
     - Clone this repository [via command shell] after installing the requirements above
       - `$ git clone https://github.com/gazmull/eros-bot.git`
       - `$ cd eros-bot`

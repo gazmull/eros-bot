@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "typings": "typings",
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "repository": {
     "type": "git",
