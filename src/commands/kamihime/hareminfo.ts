@@ -67,7 +67,7 @@ export default class extends InfoCommand {
       if (result.loli)
         return message.util.edit([
           `${message.author}, loli contents are restricted within this bot due to Discord Guidelines.`,
-          'If you are insisting to see such contents, please visit https://kamihimedb.thegzm.space instead.',
+          'If you are insisting to see such contents, please visit https://kamihimedb.win instead.',
         ]);
 
       const harems = [

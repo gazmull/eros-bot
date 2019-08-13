@@ -42,9 +42,9 @@ module.exports = {
   // do not touch this unless you know what you're doing
   // pretty much obvious, so no explanation
   url: {
-    api: 'http://kamihimedb.thegzm.space/api/',
-    player: 'http://kamihimedb.thegzm.space/player/',
-    root: 'http://kamihimedb.thegzm.space/',
+    api: 'http://kamihimedb.win/api/',
+    player: 'http://kamihimedb.win/player/',
+    root: 'http://kamihimedb.win/',
     fandom: 'https://kamihime-project.fandom.com/w/'
   },
 

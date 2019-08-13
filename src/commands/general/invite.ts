@@ -25,7 +25,7 @@ export default class extends Command {
         '',
         'Donating will give you benefits to the following:',
         `- Donor role + Donors Only channel at [Eros' Laboratory](${supportLink})`,
-        '- Unlimited episodes viewing at [Kamihime Database](https://kamihimedb.thegzm.space)',
+        '- Unlimited episodes viewing at [Kamihime Database](https://kamihimedb.win)',
         '- Continuous maintenance and improvements to the bot',
         '- More to come™',
         '',
