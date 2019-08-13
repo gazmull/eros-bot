@@ -2,6 +2,15 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.2
+
+## Changed:
+- `docs`: `kamihimedb.thegzm.space` => `kamihimedb.win`
+
+## Fixed
+- `command`(`info`): Fix for 'undefined' text in Kamihime abilities
+- `dependencies`: Updated Discord.JS due to new login method and now enforced to use Node 12
+
 # 4.1.1
 
 ## Fixed
