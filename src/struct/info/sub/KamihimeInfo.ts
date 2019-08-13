@@ -122,7 +122,9 @@ export class KamihimeInfo extends Info {
           ? {
             name: character.ability3Name,
             description: character.ability3Desc,
-            upgradeDescription: abilityDescParse(character.ability3PowerupDesc, 3),
+            upgradeDescription: character.ability3PowerupDesc || [ 'SSR', 'SR' ].includes(character.rarity)
+              ? abilityDescParse(character.ability3PowerupDesc, 3)
+              : null,
             cooldown: character.ability3Cd,
             duration: character.ability3Dur || null
           }
@@ -132,7 +134,9 @@ export class KamihimeInfo extends Info {
           ? {
             name: character.ability4Name,
             description: character.ability4Desc,
-            upgradeDescription: abilityDescParse(character.ability4PowerupDesc, 3),
+            upgradeDescription: character.ability4PowerupDesc
+              ? abilityDescParse(character.ability4PowerupDesc, 3)
+              : null,
             cooldown: character.ability4Cd,
             duration: character.ability4Dur || null
           }
