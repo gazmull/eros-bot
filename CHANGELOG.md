@@ -2,6 +2,12 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.3
+
+## Changed:
+- `dependencies`: Local logger => `@gazmull/logger`
+- `dependencies`: `Pako` removed and added back `zlib-sync`
+
 # 4.1.2
 
 ## Changed:
