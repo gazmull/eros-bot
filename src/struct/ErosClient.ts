@@ -1,3 +1,4 @@
+import Winston from '@gazmull/logger';
 import IErosClientOptions from 'auth';
 import { AkairoClient, InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { Embeds, FieldsEmbed } from 'discord-paginationembed';
@@ -6,7 +7,6 @@ import * as Fandom from 'nodemw';
 import { promisify } from 'util';
 import GuideCommand from '../commands/general/guide';
 import ErosError from '../struct/ErosError';
-import Winston from '../util/console';
 import Command from './command';
 import ErosCommandHandler from './command/commandHandler';
 import CommandHandlerResolverTypes from './command/resolverTypes';
@@ -90,7 +90,7 @@ export default class ErosClient extends AkairoClient {
     directory: `${__dirname}/../listeners`
   });
 
-  public logger = new Winston().logger;
+  public logger = new Winston('eros').logger;
 
   public ErosError = ErosError;
 

@@ -39,8 +39,8 @@
     "docs:build": "node . --parseDocs"
   },
   "dependencies": {
+    "@gazmull/logger": "github:gazmull/logger",
     "bufferutil": "^4.0.1",
-    "chalk": "^2.4.2",
     "discord-akairo": "^8.0.0-beta.8",
     "discord-paginationembed": "^2.0.0-beta.0",
     "discord.js": "github:discordjs/discord.js#f79f0243438a89c4d8a910461800b1adff2fe6e5",
@@ -50,13 +50,11 @@
     "moment-timezone": "^0.5.26",
     "node-fetch": "^2.6.0",
     "nodemw": "^0.12.2",
-    "pako": "^1.0.10",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^5.14.0",
     "sequelize-typescript": "^1.0.0-beta.4",
     "twitter-lite": "^0.9.4",
-    "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^3.10.0"
+    "zlib-sync": "^0.1.5"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.27",
