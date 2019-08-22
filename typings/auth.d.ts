@@ -28,6 +28,7 @@ export default interface IErosClientOptions extends AkairoOptions {
     password?: string;
     database: string;
     host: string;
+    port: number;
   },
   twitter?: {
     access_token_key: string;

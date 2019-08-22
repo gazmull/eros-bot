@@ -16,6 +16,7 @@ export const sequelize = new Sequelize({
   database: db.database,
   username: db.username,
   password: db.password,
+  port: db.port,
   dialectOptions: {
     timezone: 'local'
   },
