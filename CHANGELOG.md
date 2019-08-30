@@ -2,6 +2,14 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.4
+
+## Removed:
+- `command`(`countdown`): Enhancement Quest Presets (#23)
+
+## Fixed:
+- `command`(`quiz`): Missing `N` answer choice (#26)
+
 # 4.1.3
 
 ## Changed:
