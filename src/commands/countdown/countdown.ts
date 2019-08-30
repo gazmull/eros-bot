@@ -105,10 +105,6 @@ export default class extends Command {
           let offset: number;
 
           switch (preset.class) {
-            case 'ENH':
-              offset = 60;
-              name += toAppend;
-              break;
             case 'GEM':
               offset = 30;
               name += toAppend;
@@ -201,9 +197,6 @@ export default class extends Command {
   get preset () {
     return [
       { class: 'DLY', name: 'Daily Reset', time: '00:00', day: '*' },
-      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 1', time: '12:00', day: '*' },
-      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 2', time: '19:00', day: '*' },
-      { class: 'ENH', name: 'Weapon/Eidolon Enhancement Quest 3', time: '22:00', day: '*' },
       { class: 'GEM', name: 'Monday Gem Quest 1', time: '12:00', day: 'Monday' },
       { class: 'GEM', name: 'Monday Gem Quest 2', time: '19:00', day: 'Monday' },
       { class: 'GEM', name: 'Tuesday Gem Quest 1', time: '12:30', day: 'Tuesday' },
