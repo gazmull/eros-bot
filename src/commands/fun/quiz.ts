@@ -19,7 +19,7 @@ const QUESTIONS: IQuestionnaireSupplier[] = [
     type: 'element',
     choices: () => [ 'Fire', 'Water', 'Wind', 'Thunder', 'Light', 'Dark', 'Phantom', 'Weapon Dependent' ]
   },
-  { text: 'What is this {{type}}\'s rarity?', type: 'rarity', choices: () => [ 'SSR+', 'SSR', 'SR', 'R' ] },
+  { text: 'What is this {{type}}\'s rarity?', type: 'rarity', choices: () => [ 'SSR+', 'SSR', 'SR', 'R', 'N' ] },
   { text: 'What is this {{type}}\'s tier?', type: 'tier', choices: () => [ 'Legendary', 'Elite', 'Standard' ] },
   {
     text: 'What is this {{type}}\'s type?',
