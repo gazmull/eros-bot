@@ -102,7 +102,9 @@ export class KamihimeInfo extends Info {
           ? {
             name: character.ability1Name,
             description: character.ability1Desc,
-            upgradeDescription: abilityDescParse(character.ability1PowerupDesc, 1),
+            upgradeDescription: character.ability1PowerupDesc
+              ? abilityDescParse(character.ability1PowerupDesc, 1)
+              : null,
             cooldown: character.ability1Cd,
             duration: character.ability1Dur || null
           }
@@ -112,7 +114,9 @@ export class KamihimeInfo extends Info {
           ? {
             name: character.ability2Name,
             description: character.ability2Desc,
-            upgradeDescription: abilityDescParse(character.ability2PowerupDesc, 2),
+            upgradeDescription: character.ability2PowerupDesc
+              ? abilityDescParse(character.ability2PowerupDesc, 2)
+              : null,
             cooldown: character.ability2Cd,
             duration: character.ability2Dur || null
           }
@@ -133,10 +137,10 @@ export class KamihimeInfo extends Info {
         character.ability4Name
           ? {
             name: character.ability4Name,
-            description: character.ability4Desc,
-            upgradeDescription: character.ability4PowerupDesc
-              ? abilityDescParse(character.ability4PowerupDesc, 3)
-              : null,
+            description: [
+              character.ability4Desc,
+              '★ [LV 45]',
+            ].join('\n'),
             cooldown: character.ability4Cd,
             duration: character.ability4Dur || null
           }
@@ -161,7 +165,14 @@ export class KamihimeInfo extends Info {
         character.assist2Name
           ? {
             name: character.assist2Name,
-            description: character.assist2Desc,
+            description: [
+              character.assist2Desc,
+              character.ability4Name
+                ? '★ [LV 55]'
+                : character.rarity === 'SSR+'
+                  ? '★ [LV 75]'
+                  : null,
+            ].join('\n'),
             upgrades: [
               character.assist2PowerupDesc
                 ? abilityDescParse(character.assist2PowerupDesc, 4)
