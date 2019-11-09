@@ -152,7 +152,7 @@ export default class extends InfoCommand {
           message.author.id === message.guild.ownerID
             ? ` Please configure your NSFW Channel via \`${prefix}set nsfwchannel\``
             : ' Please contact the server owner.'
-        }`);
+        }`, { embed: null });
 
       if (channel.id === guild.nsfwChannel)
         return message.util.edit(null, embed);
@@ -162,7 +162,7 @@ export default class extends InfoCommand {
       return message.util.edit([
         `${message.author}, I have sent my response at ${nsfwChannel}.`,
         guild.nsfwRole ? ` If you have no access to that channel, say \`${prefix}nsfw\`.` : '',
-      ]);
+      ], { embed: null });
     } catch (err) { this.handler.emitError(err, message, this, 1); }
   }
 }
