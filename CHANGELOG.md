@@ -2,6 +2,11 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.5
+
+## Fixed:
+- `struct`(`Info`): Missing ability unlock hints for SSR+ girls such as Raphael/Cu Chulainn.
+
 # 4.1.4
 
 ## Removed:
