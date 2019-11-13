@@ -168,7 +168,7 @@ export class KamihimeInfo extends Info {
             description: [
               character.assist2Desc,
               character.assist2Level
-                ? character.assist2Level
+                ? `★ [LV ${character.assist2Level}]`
                 : character.ability4Name
                   ? '★ [LV 55]'
                   : character.rarity === 'SSR+'
