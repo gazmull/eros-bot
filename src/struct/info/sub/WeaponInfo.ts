@@ -272,8 +272,12 @@ const skillParser = {
   Avalanche: 'Characters\' Combo Attack Rate↑',
   Grace: 'Characters\' HP and Recovery↑',
   Rampart: 'Characters\' Max HP↑ and ATK↑ commensurate to HP left ratio',
+  Resilience: 'Characters\' ATK↑ and Recovery↑',
   Slug: 'Characters\' ATK↑ and Critical Hit Rate↑',
   Strength: 'Characters\' ATK↑ and Max HP↑',
   Tactics: 'Characters\' Burst↑ and Ability DMG↑',
-  Triedge: 'ATK↑ and Triple Attack Rate↑'
+  Triedge: 'Characters\' ATK↑ and Triple Attack Rate↑',
+  Triguard: 'Characters\' Max HP↑ and Triple Attack Rate↑',
+  Twinedge: 'Characters\' ATK↑ and Double Attack Rate↑',
+  Twinguard: 'Characters\' Max HP↑ and Double Attack Rate↑'
 };
