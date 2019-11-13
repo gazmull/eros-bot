@@ -195,6 +195,7 @@ export interface IKamihimeFandomKamihime extends IKamihimeFandom {
   assistPowerup2Desc?: string;
   assist2Name?: string;
   assist2Desc?: string;
+  assist2Level?: string;
   assist2PowerupDesc?: string;
   assist2Powerup2Desc?: string;
   favouriteWeapon?: string;
