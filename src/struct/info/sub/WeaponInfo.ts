@@ -271,6 +271,7 @@ const skillParser = {
 
   Avalanche: 'Characters\' Combo Attack Rate↑',
   Grace: 'Characters\' HP and Recovery↑',
+  Race: 'Characters\' with low HP, ATK↑ and Max HP↑',
   Rampart: 'Characters\' Max HP↑ and ATK↑ commensurate to HP left ratio',
   Resilience: 'Characters\' ATK↑ and Recovery↑',
   Slug: 'Characters\' ATK↑ and Critical Hit Rate↑',
