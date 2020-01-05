@@ -30,12 +30,12 @@
   ],
   "scripts": {
     "test": "yarn run lint && yarn run compile",
-    "compile": "tsc -p .",
-    "lint": "tslint -c .tslint.js -p .",
+    "compile": "npx tsc -p .",
+    "lint": "npx tslint -c .tslint.js -p .",
     "lint-fix": "yarn run lint --fix",
     "pm2": "pm2 start .pm2.yml --env production",
-    "dev:watch": "tsc -p . --watch",
-    "dev:start": "nodemon . --config .nodemon.json",
+    "dev:watch": "npx tsc -p . --watch",
+    "dev:start": "npx nodemon . --config .nodemon.json",
     "docs:build": "node . --parseDocs"
   },
   "dependencies": {
