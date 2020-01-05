@@ -2,6 +2,14 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.7
+
+## Changed:
+- `build`: Prepend `npx` on package.json scripts
+
+## Fixed:
+- `struct`(`Info`): Incorrect ability unlock hint for SSR girls with 4 abilities such as Fire Frey
+
 # 4.1.6
 
 ## Fixed:
