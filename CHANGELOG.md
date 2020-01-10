@@ -2,6 +2,13 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.8
+
+## Fixed:
+- `struct`(`Info`):
+  - Missing weapon skills `Sprout` and `Transcend`
+  - Missing weapon skill scale `Extra Large`
+
 # 4.1.7
 
 ## Changed:
