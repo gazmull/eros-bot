@@ -198,6 +198,14 @@ export class WeaponInfo extends Info {
 }
 
 const elementScaleDiscriminatorStatic = {
+  XL: {
+    Fire: 'Prominence',
+    Water: 'Glaciate',
+    Thunder: 'Lightning',
+    Wind: 'Tempest',
+    Light: 'Sacred',
+    Dark: 'Eclipse'
+  },
   SSR: {
     Fire: 'Inferno',
     Water: 'Cocytus',
@@ -229,11 +237,13 @@ const rarityScaleDiscriminator = {
   R: '(Small)'
 };
 const scaleDiscriminator = {
+  XL: '(Extra Large)',
   L: '(Large)',
   M: '(Medium)',
   S: '(Small)'
 };
 const elementScaleDiscriminator = {
+  XL: elementScaleDiscriminatorStatic.XL,
   L: elementScaleDiscriminatorStatic.SSR,
   M: elementScaleDiscriminatorStatic.SR,
   S: elementScaleDiscriminatorStatic.R
@@ -275,8 +285,10 @@ const skillParser = {
   Rampart: 'Characters\' Max HP↑ and ATK↑ commensurate to HP left ratio',
   Resilience: 'Characters\' ATK↑ and Recovery↑',
   Slug: 'Characters\' ATK↑ and Critical Hit Rate↑',
+  Sprout: 'Characters\' Recovery↑ & DMG↑ to commensurate to left HP ratio',
   Strength: 'Characters\' ATK↑ and Max HP↑',
   Tactics: 'Characters\' Burst↑ and Ability DMG↑',
+  Transcend: 'Characters\' ATK↑ and Burst↑',
   Triedge: 'Characters\' ATK↑ and Triple Attack Rate↑',
   Triguard: 'Characters\' Max HP↑ and Triple Attack Rate↑',
   Twinedge: 'Characters\' ATK↑ and Double Attack Rate↑',
