@@ -6,6 +6,7 @@ This log starts from `3.0.0`.
 
 ## Fixed:
 - `struct`(`Info`):
+  - Invalid URL for item portrait/preview
   - Missing weapon skills `Sprout` and `Transcend`
   - Missing weapon skill scale `Extra Large`
 
