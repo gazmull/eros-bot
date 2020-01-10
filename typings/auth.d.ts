@@ -20,6 +20,7 @@ export default interface IErosClientOptions extends AkairoOptions {
     api: string;
     player: string;
     root: string;
+    gallery: string;
     fandom: string;
   };
   countdownAuthorized: string[];

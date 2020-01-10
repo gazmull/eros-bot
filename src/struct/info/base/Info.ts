@@ -15,7 +15,7 @@ export default class Info {
 
     this.fandomURI = this.client.config.url.fandom;
 
-    this.rootURI = this.client.config.url.root;
+    this.rootURI = this.client.config.url.gallery;
 
     this.prefix = prefix;
 
@@ -141,14 +141,14 @@ export default class Info {
   get itemPortrait () {
     const res = this.res;
 
-    return encodeURI(`${this.rootURI}img/wiki/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
+    return encodeURI(`${this.rootURI}wiki/portrait/${res.name} Portrait.${res.id.startsWith('w') ? 'jpg' : 'png'}`);
   }
 
   get itemPreview () {
     const res = this.res;
     const isWeap = res.id.startsWith('w');
     const result = encodeURI(
-      `${this.rootURI}img/wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`
+      `${this.rootURI}wiki/${isWeap ? 'main' : 'close'}/${res.name}${isWeap ? '' : ' Close'}.png`
     );
 
     this.character.preview = result;

@@ -45,6 +45,7 @@ module.exports = {
     api: 'http://kamihimedb.win/api/',
     player: 'http://kamihimedb.win/player/',
     root: 'http://kamihimedb.win/',
+    gallery: 'http://kamihimedb-g.win/',
     fandom: 'https://kamihime-project.fandom.com/w/'
   },
 
