@@ -108,7 +108,7 @@ export default class extends InfoCommand {
           ]
         },
       ];
-      const thumbnail = encodeURI(`${url.root}img/wiki/portrait/${result.name} Portrait.png`);
+      const thumbnail = encodeURI(`${url.gallery}wiki/portrait/${result.name} Portrait.png`);
       const embed = this.client.embed(message)
         .setColor(0xFF75F1)
         .setAuthor(result.name, null, `${url.fandom}${encodeURI(result.name)}`)

@@ -99,7 +99,7 @@ export default class extends ErosComamnd {
     const characters: IKamihimeDB[] = await response.json();
     const seed = Math.floor(Math.random() * characters.length);
     const selected = characters[seed];
-    const avatar = url.root + encodeURIComponent(`img/wiki/${selected.avatar}`);
+    const avatar = url.gallery + encodeURIComponent(`wiki/${selected.avatar}`);
     const name = `shady_pic_${Date.now()}.webp`;
     const filteredQuestions = QUESTIONS.filter(q => selected[q.type] !== null);
     const question = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];

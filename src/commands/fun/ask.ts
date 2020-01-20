@@ -47,10 +47,10 @@ export default class extends ErosComamnd {
 
     if (!response.ok) return message.util.edit('There was a problem: ' + response.statusText);
 
-    const { id, name, avatar } = (await cherryResponse.json() as IKamihimeDB[]).shift();
+    const { name, avatar } = (await cherryResponse.json() as IKamihimeDB[]).shift();
     const embed = this.client.embed()
-      .setAuthor(name, null, url.root + `info/${id}`)
-      .setThumbnail(url.root + encodeURIComponent(`img/wiki/${avatar}`))
+      .setAuthor(name, null, url.fandom + `w/${name}`)
+      .setThumbnail(url.gallery + encodeURIComponent(`wiki/${avatar}`))
       .setDescription(punctations(type, answer));
 
     return message.util.edit(null, embed);
