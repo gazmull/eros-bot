@@ -2,14 +2,19 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.10
+
+## Fixed
+- `command`(`tag-edit`): Excess unused param on retry-prompt
+
 # 4.1.9
 
-## Fixed:
+## Fixed
 - `commands`: Invalid image URLs
 
 # 4.1.8
 
-## Fixed:
+## Fixed
 - `struct`(`Info`):
   - Invalid URL for item portrait/preview
   - Missing weapon skills `Sprout` and `Transcend`
@@ -17,41 +22,41 @@ This log starts from `3.0.0`.
 
 # 4.1.7
 
-## Changed:
+## Changed
 - `build`: Prepend `npx` on package.json scripts
 
-## Fixed:
+## Fixed
 - `struct`(`Info`): Incorrect ability unlock hint for SSR girls with 4 abilities such as Fire Frey
 
 # 4.1.6
 
-## Fixed:
+## Fixed
 - `struct`(`Info`):
   - Missing weapon skill `Race`
   - Incorrect ability unlock hints for SSR+ girls such as Cu Chulainn
 
 # 4.1.5
 
-## Fixed:
+## Fixed
 - `struct`(`Info`): Missing ability unlock hints for SSR+ girls such as Raphael/Cu Chulainn
 
 # 4.1.4
 
-## Removed:
+## Removed
 - `command`(`countdown`): Enhancement Quest Presets (#23)
 
-## Fixed:
+## Fixed
 - `command`(`quiz`): Missing `N` answer choice (#26)
 
 # 4.1.3
 
-## Changed:
+## Changed
 - `dependencies`: Local logger => `@gazmull/logger`
 - `dependencies`: `Pako` removed and added back `zlib-sync`
 
 # 4.1.2
 
-## Changed:
+## Changed
 - `docs`: `kamihimedb.thegzm.space` => `kamihimedb.win`
 
 ## Fixed
