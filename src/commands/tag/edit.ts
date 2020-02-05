@@ -22,7 +22,7 @@ export default class extends Command {
       type: 'tag',
       prompt: {
         start: 'what is the name of the tag?',
-        retry: (_, __, input: { phrase: string }) =>
+        retry: (_, input: { phrase: string }) =>
           `**${input.phrase}** does not exist. Please provide again.`
       }
     };
