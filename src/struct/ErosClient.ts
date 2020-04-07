@@ -21,12 +21,14 @@ export default class ErosClient extends AkairoClient {
     super({ ownerID: config.ownerID }, {
       ws: {
         intents: [
-          'DIRECT_MESSAGE_TYPING',
-          'GUILD_BANS',
-          'GUILD_INVITES',
-          'GUILD_MESSAGE_TYPING',
-          'GUILD_VOICE_STATES',
-          'GUILD_WEBHOOKS',
+          'DIRECT_MESSAGES',
+          'DIRECT_MESSAGE_REACTIONS',
+          'GUILDS',
+          'GUILD_EMOJIS',
+          'GUILD_INTEGRATIONS',
+          'GUILD_MEMBERS',
+          'GUILD_MESSAGES',
+          'GUILD_MESSAGE_REACTIONS',
         ]
       },
       disableMentions: 'all',
@@ -143,6 +145,9 @@ export default class ErosClient extends AkairoClient {
     });
     this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this.fandomApi));
     this.logger.info(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
+
+    if (process.argv.includes('--debug'))
+      this.on('debug', str => this.logger.info(str));
 
     return this.login(this.config.token);
   }
