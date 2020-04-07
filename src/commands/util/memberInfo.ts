@@ -48,7 +48,7 @@ export default class extends Command {
     const nextTitle = titlesMember[1];
 
     const embed = this.client.embed(message)
-      .setTitle(`${fetchedMember.user.tag} | ${this.memberStatus(member)}`)
+      .setTitle(`${fetchedMember.user.tag}`)
       .setDescription(`**ID**: ${fetchedMember.id}${
         member.nickname ? `, also known as **\`${member.nickname}\`**` : ''}`
       )
@@ -65,36 +65,6 @@ export default class extends Command {
       .addField('Creation Date', member.user.createdAt.toUTCString(), true)
       .addField('Join Date (This server)', member.joinedAt.toUTCString(), true);
 
-    if (member.user.presence.activities.length)
-      embed.addField('Activity', this.memberActivity(member));
-
     return message.util.send(embed);
-  }
-
-  public memberStatus (member: GuildMember) {
-    const status = member.user.presence.status;
-
-    switch (status) {
-      default: return 'Online';
-      case 'idle': return 'Idle';
-      case 'dnd': return 'Do Not Disturb';
-      case 'offline': return 'Offline';
-    }
-  }
-
-  public memberActivity (member: GuildMember) {
-    const activities = member.user.presence.activities;
-    const resolved = [];
-
-    for (const activity of activities)
-      resolved.push({
-        PLAYING: 'Playing',
-        STREAMING: 'Streaming',
-        WATCHING: 'Watching',
-        LISTENING: 'Listening',
-        CUSTOM_STATUS: ''
-      }[activity.type]);
-
-    return resolved.map(r => `- ${r}`).join('\n');
   }
 }

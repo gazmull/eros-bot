@@ -12,8 +12,6 @@ export default class extends Command {
   }
 
   public async exec (message: Message) {
-    const memberCount = message.guild.memberCount;
-    const presenceCount = message.guild.presences.cache.filter(m => m.status !== 'offline').size;
     const factoryChannels = [ 'nsfwChannel', 'twitterChannel', 'cdChannel' ];
     const factoryRoles = [ 'nsfwRole', 'cdRole' ];
     const filterChannels = (channelType: string) => message.guild.channels.cache.filter(c => c.type === channelType).size;
@@ -34,7 +32,6 @@ export default class extends Command {
       .setDescription(`Created at ${message.guild.createdAt.toUTCString()}`)
       .setThumbnail(message.guild.iconURL() ? message.guild.iconURL() : this.client.user.displayAvatarURL())
       .setTimestamp(new Date())
-      .addField('Online Members', `${presenceCount} / ${memberCount}`, true)
       .addField('Channels',
         `${filterChannels('category')} Category\n${filterChannels('text')} Text\n${filterChannels('voice')} Voice`,
         true
