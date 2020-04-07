@@ -2,6 +2,19 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.11
+
+## Changed
+- `SRC`: Updated to latest Discord.JS stable version due to Discord API changes (Intents feature)
+- `commands`: Removed presence data in member info and server info
+
+## Fixed
+- `guild`: Guild data being wiped out on outage
+- `command`(`tags`): Prefix typo on "too long" message
+
+## Internal
+- Added `--debug` for listening to debug messages of Discord.JS
+
 # 4.1.10
 
 ## Fixed
