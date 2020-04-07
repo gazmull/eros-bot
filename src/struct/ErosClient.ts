@@ -19,18 +19,17 @@ const productionMode = process.env.NODE_ENV === 'production';
 export default class ErosClient extends AkairoClient {
   constructor (config: IErosClientOptions) {
     super({ ownerID: config.ownerID }, {
-      disabledEvents: [
-        'TYPING_START',
-        'CHANNEL_PINS_UPDATE',
-        'GUILD_BAN_ADD',
-        'GUILD_BAN_REMOVE',
-        'MESSAGE_DELETE',
-        'RESUMED',
-        'VOICE_SERVER_UPDATE',
-        'VOICE_STATE_UPDATE',
-        'WEBHOOKS_UPDATE',
-      ],
-      disableEveryone: true,
+      ws: {
+        intents: [
+          'DIRECT_MESSAGE_TYPING',
+          'GUILD_BANS',
+          'GUILD_INVITES',
+          'GUILD_MESSAGE_TYPING',
+          'GUILD_VOICE_STATES',
+          'GUILD_WEBHOOKS',
+        ]
+      },
+      disableMentions: 'all',
       messageCacheLifetime: 300,
       messageCacheMaxSize: 50,
       restTimeOffset: productionMode ? 500 : 1000

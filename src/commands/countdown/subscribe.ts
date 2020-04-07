@@ -18,7 +18,7 @@ export default class extends Command {
       where: { id: message.guild.id },
       attributes: [ 'cdRole', 'cdChannel' ]
     });
-    const resolvedChannel = message.guild.channels.get(guild!.cdChannel);
+    const resolvedChannel = message.guild.channels.cache.get(guild!.cdChannel);
     const roleId = guild!.cdRole;
     const prefix = await this.handler.prefix(message);
 
@@ -34,7 +34,7 @@ export default class extends Command {
 
     let result: string;
 
-    if (message.member.roles.has(roleId)) {
+    if (message.member.roles.cache.has(roleId)) {
       await message.member.roles.remove(roleId);
 
       result = 'unsubscribed';

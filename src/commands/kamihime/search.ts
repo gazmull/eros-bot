@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 import { IKamihimeDB } from '../../../typings';
 import Command from '../../struct/command';
@@ -63,7 +63,7 @@ export default class extends Command {
 
       const Pagination = this.client.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
         .setArray(result)
         .setPageIndicator(false);

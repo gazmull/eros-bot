@@ -1,9 +1,9 @@
-import { Message, StringResolvable, Util } from 'discord.js';
-import { MessageEmbed } from 'discord.js';
+import { Message, StringResolvable, Util, MessageEmbed, TextChannel } from 'discord.js';
 import * as fs from 'fs-extra';
 import * as json2md from 'json2md';
 import Command from '../../struct/command';
 import toTitleCase from '../../util/toTitleCase';
+import C from '../../util/Constants';
 
 export default class GuideCommand extends Command {
   constructor () {
@@ -43,7 +43,7 @@ export default class GuideCommand extends Command {
   public async exec (message: Message, { page }: { page: number }) {
     return this.client.embeds(message, this.formattedGeneralDialogs)
       .setAuthorizedUsers([ message.author.id ])
-      .setChannel(message.channel)
+      .setChannel(message.channel as TextChannel)
       .setPage(page)
       .setTimeout(120e3)
       .build();
@@ -69,7 +69,7 @@ export default class GuideCommand extends Command {
 
       if (v.contributors)
         embed
-          .addBlankField()
+          .addField(C.BLANK, C.BLANK)
           .addField('Contributors', v.contributors.join(', '));
 
       return embed;
@@ -150,7 +150,7 @@ export default class GuideCommand extends Command {
 
       if (d.contributors)
         embed
-          .addBlankField()
+          .addField(C.BLANK, C.BLANK)
           .addField('Contributors', d.contributors.join(', '));
 
       embeds[d.command] = embed;

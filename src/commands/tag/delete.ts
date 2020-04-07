@@ -57,7 +57,7 @@ export default class extends Command {
 
       const deleted = await this.client.db.Tag.destroy({
         where: {
-          name: { [this.client.db.Op.regexp]: tag }
+          name: { [this.client.db.Op.regexp]: tag as string }
         }
       });
 

@@ -1,5 +1,5 @@
 import { Embeds } from 'discord-paginationembed';
-import { Message, Message as MSG, MessageEmbed } from 'discord.js';
+import { Message, Message as MSG, MessageEmbed, TextChannel } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
 // tslint:disable-next-line:max-line-length
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomKamihime, IKamihimeFandomSoul, IKamihimeFandomWeapon } from '../../../typings';
@@ -175,7 +175,7 @@ export default class extends InfoCommand {
       }
 
       const embed: IEmbedsEx = this.client.embeds(null, array)
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
         .setAuthorizedUsers([ message.author.id ])
         .setPageIndicator(false)

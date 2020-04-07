@@ -46,7 +46,7 @@ export default class {
           const spliced = guilds.splice(0, 5);
 
           for (const guild of spliced) {
-            const channel = this.client.channels.get(guild.twitterChannel) as TextChannel;
+            const channel = this.client.channels.cache.get(guild.twitterChannel) as TextChannel;
 
             if (!channel || (channel && channel.type !== 'text')) {
               this.client.logger.warn(

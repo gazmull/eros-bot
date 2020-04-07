@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import Command from '../../struct/command';
 import { Level } from '../../struct/models/Level';
 
@@ -33,7 +33,7 @@ export default class extends Command {
 
     const Pagination = this.client.fields<Level>(message)
       .setAuthorizedUsers([ message.author.id ])
-      .setChannel(message.channel)
+      .setChannel(message.channel as TextChannel)
       .setClientAssets({ message: message.util.lastResponse })
       .setArray(levels)
       .setPage(page);
@@ -51,7 +51,7 @@ export default class extends Command {
       .formatField(
         '#) Name',
         el => {
-          const user = this.client.users.get(el.user);
+          const user = this.client.users.cache.get(el.user);
           const tag = user ? user.tag : 'UNKNOWN_USER';
 
           return `${levels.findIndex(l => l.user === el.user) + 1}) ${tag}`;

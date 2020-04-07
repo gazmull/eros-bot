@@ -17,7 +17,7 @@ export default class extends Command {
       where: { id: message.guild.id },
       attributes: [ 'nsfwRole', 'nsfwChannel' ]
     });
-    const resolvedChannel = message.guild.channels.get(guild!.nsfwChannel);
+    const resolvedChannel = message.guild.channels.cache.get(guild!.nsfwChannel);
     const prefix = await this.handler.prefix(message);
 
     if (!guild!.nsfwRole || !resolvedChannel)
@@ -28,7 +28,7 @@ export default class extends Command {
           : ' Please contact the server owner.'
         }`
       );
-    if (message.member.roles.has(guild.nsfwRole)) return message.util.reply('you already have this role.');
+    if (message.member.roles.cache.has(guild.nsfwRole)) return message.util.reply('you already have this role.');
 
     await message.member.roles.add(guild.nsfwRole);
     await message.react('✅');

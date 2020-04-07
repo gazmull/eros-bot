@@ -60,12 +60,12 @@ export default class extends Command {
         `**Server Ranking**: ${ranking.findIndex(v => v.user === member.id) + 1} / ${ranking.length}`,
       ])
       .addField('Roles',
-        member.roles.map(r => member.roles.array().indexOf(r) % 3 === 0 ? `\n${r}` : `${r}`).join(', ')
+        member.roles.cache.map(r => r).join(', ')
       )
       .addField('Creation Date', member.user.createdAt.toUTCString(), true)
       .addField('Join Date (This server)', member.joinedAt.toUTCString(), true);
 
-    if (member.user.presence.activity)
+    if (member.user.presence.activities.length)
       embed.addField('Activity', this.memberActivity(member));
 
     return message.util.send(embed);
@@ -83,13 +83,18 @@ export default class extends Command {
   }
 
   public memberActivity (member: GuildMember) {
-    const activity = member.user.presence.activity;
+    const activities = member.user.presence.activities;
+    const resolved = [];
 
-    switch (activity.type) {
-      default: return `Playing **${activity.name}**`;
-      case 'STREAMING': return `Streaming **${activity.name}**`;
-      case 'WATCHING': return `Watching **${activity.name}**`;
-      case 'LISTENING': return `Listening to **${activity.name}**`;
-    }
+    for (const activity of activities)
+      resolved.push({
+        PLAYING: 'Playing',
+        STREAMING: 'Streaming',
+        WATCHING: 'Watching',
+        LISTENING: 'Listening',
+        CUSTOM_STATUS: ''
+      }[activity.type]);
+
+    return resolved.map(r => `- ${r}`).join('\n');
   }
 }

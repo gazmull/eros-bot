@@ -37,7 +37,7 @@ export default class extends Command {
         .setDescription(_description)
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))
         .setImage(`${homepage.split('#').shift()}/blob/master/${encodeURI('エロース')}.webp?raw=true`)
-        .addField('Author', this.client.users.get(this.client.ownerID as string), true)
+        .addField('Author', this.client.users.cache.get(this.client.ownerID as string), true)
         .addField('Libraries and Applications', [
           `**Discord.JS**: v${discordVersion}`,
           `**Akairo**: v${akairoVersion}`,
@@ -46,9 +46,9 @@ export default class extends Command {
           `**Eros**: v${erosVersion}`,
         ], true)
         .addField('Discord', [
-          `**Servers**: ${this.client.guilds.size}`,
-          `**Channels**: ${this.client.channels.size}`,
-          `**Users**: ${this.client.users.size}`,
+          `**Servers**: ${this.client.guilds.cache.size}`,
+          `**Channels**: ${this.client.channels.cache.size}`,
+          `**Users**: ${this.client.users.cache.size}`,
         ], true)
         .addField('System', [
           `**Uptime**: ${prettifyMs(this.client.uptime)}`,

@@ -13,18 +13,18 @@ export default class extends Command {
 
   public async exec (message: Message) {
     const memberCount = message.guild.memberCount;
-    const presenceCount = message.guild.presences.filter(m => m.status !== 'offline').size;
+    const presenceCount = message.guild.presences.cache.filter(m => m.status !== 'offline').size;
     const factoryChannels = [ 'nsfwChannel', 'twitterChannel', 'cdChannel' ];
     const factoryRoles = [ 'nsfwRole', 'cdRole' ];
-    const filterChannels = (channelType: string) => message.guild.channels.filter(c => c.type === channelType).size;
+    const filterChannels = (channelType: string) => message.guild.channels.cache.filter(c => c.type === channelType).size;
     const guild = await this.client.db.Guild.findOne({ where: { id: message.guild.id } });
     const getRecord = (column: string) => {
       const value = guild[column];
 
       if (factoryRoles.includes(column))
-        return value ? message.guild.roles.get(value) : 'Not Configured';
+        return value ? message.guild.roles.cache.get(value) : 'Not Configured';
       else if (factoryChannels.includes(column))
-        return value ? this.client.channels.get(value) : 'Not Configured';
+        return value ? this.client.channels.cache.get(value) : 'Not Configured';
 
       return value;
     };
@@ -39,7 +39,7 @@ export default class extends Command {
         `${filterChannels('category')} Category\n${filterChannels('text')} Text\n${filterChannels('voice')} Voice`,
         true
       )
-      .addField('Roles Count', message.guild.roles.size, true)
+      .addField('Roles Count', message.guild.roles.cache.size, true)
       .addField('Prefix', `\`${await this.handler.prefix(message)}\``, true)
       .addField('Twitter Channel', getRecord('twitterChannel'))
       .addField('Countdown Channel', getRecord('cdChannel'), true)

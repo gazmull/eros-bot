@@ -3,6 +3,7 @@ import { EmbedField } from 'discord.js';
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomFormatted } from '../../../../typings';
 import IErosClientOptions from '../../../../typings/auth';
 import ErosClient from '../../ErosClient';
+import C from '../../../util/Constants';
 
 // tslint:disable-next-line:no-var-requires
 const { emojis }: { emojis: IErosClientOptions['emojis'] } = require('../../../../auth');
@@ -66,9 +67,10 @@ export default class Info {
 
     if (includePreset) {
       if (character.atk && character.hp) {
-        const stats = {
+        const stats: EmbedField = {
           name: 'Maximum Basic Stats',
-          value: `**HP: ${character.hp}** | **ATK: ${character.atk}**`
+          value: `**HP: ${character.hp}** | **ATK: ${character.atk}**`,
+          inline: false
         };
 
         if (embed.fields.length) {
@@ -117,10 +119,10 @@ export default class Info {
           );
         }
 
-      if (character.harem) {
-        embed.addBlankField();
-        embed.addField('Harem Episodes Available', `To access: \`${prefix}p ${character.name}\``);
-      }
+      if (character.harem)
+        embed
+          .addField(C.BLANK, C.BLANK)
+          .addField('Harem Episodes Available', `To access: \`${prefix}p ${character.name}\``);
 
       if (character.obtainedFrom)
         embed.setFooter(

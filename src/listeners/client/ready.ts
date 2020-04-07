@@ -15,14 +15,14 @@ export default class extends Listener {
   public async exec () {
     try {
       const me = this.client.user;
-      const guildSize = this.client.guilds.size;
+      const guildSize = this.client.guilds.cache.size;
 
       this.client.logger.info(`Logged in as ${me.tag} (ID: ${me.id})`);
       me.setActivity(`@${me.username} help`, { type: 'LISTENING' });
 
       if (guildSize)
         this.client.logger.info(`Listening to ${guildSize === 1
-          ? this.client.guilds.first()
+          ? this.client.guilds.cache.first()
           : `${guildSize} Guilds`}`);
       else this.client.logger.info('Standby Mode');
 

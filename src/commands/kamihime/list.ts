@@ -1,7 +1,8 @@
-import { Message } from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import fetch from 'node-fetch';
 import { IKamihimeDB } from '../../../typings';
 import Command from '../../struct/command';
+import C from '../../util/Constants';
 
 export default class extends Command {
   constructor () {
@@ -79,7 +80,7 @@ export default class extends Command {
 
       const Pagination = this.client.fields<IKamihimeDB>(message)
         .setAuthorizedUsers([ message.author.id ])
-        .setChannel(message.channel)
+        .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
         .setArray(sorted);
 
@@ -122,13 +123,13 @@ export default class extends Command {
         'Souls Only', 'Eidolons Only', 'Kamihime Only', 'Weapon Only',
         'Approved Only', 'Loli Only', 'Big Sisters Only',
       ], true)
-      .addBlankField(true)
+      .addField(C.BLANK, C.BLANK)
       .addField('Secondary Variables', [
         '**Souls**\n\tlegendary, elite, standard',
         '**Eidolons/Kamihime**\n\tfire, water, wind, thunder, dark, light, phantom\n\tr, sr, ssr, ssr+',
         '**Souls/Kamihime**\n\toffense, defense, balance, tricky, healer',
       ])
-      .addBlankField()
+      .addField(C.BLANK, C.BLANK)
       .addField('Options for --sort= Flag', [
         'Default is by name. Other options are:',
         [ 'name', 'rarity', 'tier', 'element', 'type', 'atk', 'hp', 'ttl' ]

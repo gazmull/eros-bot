@@ -45,7 +45,7 @@ export default class extends EventEmitter {
         const spliced = guilds.splice(0, 5);
 
         for (const guild of spliced) {
-          const channel = this.client.channels.get(guild.cdChannel) as TextChannel;
+          const channel = this.client.channels.cache.get(guild.cdChannel) as TextChannel;
 
           if (!channel || (channel && channel.type !== 'text')) {
             this.client.logger.warn(
@@ -81,7 +81,7 @@ export default class extends EventEmitter {
             return `${end}**${v}**`;
           });
           const isPlural = names.length > 1 ? 'have' : 'has';
-          const role = channel.guild.roles.get(guild.cdRole);
+          const role = channel.guild.roles.cache.get(guild.cdRole);
           const roleText = role ? `${role}, ` : '';
 
           await channel.send(`${roleText}${prettyNames.join(', ')} ${isPlural} ${action}!`);
