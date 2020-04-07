@@ -11,19 +11,11 @@ export default class extends Listener {
 
   public async exec (guild: Guild) {
     try {
-      const guildEntry = await this.client.db.Guild.destroy({ where: { id: guild.id } });
-      const guildSize = guild.client.guilds.size;
+      const guildSize = guild.client.guilds.cache.size;
 
-      if (!guildEntry)
-        return this.client.logger.warn([
-          `${guild.name} (ID: ${guild.id}) does not exist in the database, left anyway.`,
-          `${guildSize} total guilds.`,
-        ].join(' '));
+      await this.client.db.GuildDump.create({ id: guild.id });
 
-      await this.client.db.Level.destroy({ where: { guild: guild.id } });
-      await this.client.db.Tag.destroy({ where: { guild: guild.id } });
-
-      this.client.logger.info(`${guild.name} (ID: ${guild.id}) destroyed. ${guildSize} total guilds.`);
+      this.client.logger.info(`${guild.name} (ID: ${guild.id}) dumped. ${guildSize} total guilds.`);
     } catch (err) { this.client.logger.error(err); }
   }
 }

@@ -6,6 +6,7 @@ import { Level } from './models/Level';
 import { Storage } from './models/Storage';
 import { Tag } from './models/Tag';
 import { Title } from './models/Title';
+import { GuildDump } from './models/GuildDump';
 
 // tslint:disable-next-line:no-var-requires
 const { db }: { db: IErosClientOptions['db'] } = require('../../auth');
@@ -38,8 +39,10 @@ export const sequelize = new Sequelize({
 export const create = () => {
   return {
     sequelize,
+    Sequelize,
     Op,
     Guild,
+    GuildDump,
     Level,
     Storage,
     Tag,

@@ -3,6 +3,7 @@ import GuideCommand from '../../commands/general/guide';
 import GlossaryCommand from '../../commands/kamihime/glossary';
 // import CountdownScheduler from '../../functions/CountdownScheduler';
 import Twitter from '../../functions/Twitter';
+import GuildDumpCleaner from '../../functions/GuildDumpCleaner';
 
 export default class extends Listener {
   constructor () {
@@ -34,11 +35,13 @@ export default class extends Listener {
 
       // this.client.scheduler = new CountdownScheduler(this.client);
       this.client.twitter = new Twitter(this.client);
+      this.client.gdCleaner = new GuildDumpCleaner(this.client);
 
       // this.client.scheduler
       //   .on('add', (date, name) => this.client.scheduler.add(date, name))
       //   .on('delete', (date, name) => this.client.scheduler.delete(date, name));
       this.client.twitter.init();
+      this.client.setInterval(() => this.client.gdCleaner.init(), 18e5);
 
       const glossaryCommnad = this.client.commandHandler.modules.get('glossary') as GlossaryCommand;
       const guideCommand = this.client.commandHandler.modules.get('guide') as GuideCommand;

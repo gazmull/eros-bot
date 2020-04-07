@@ -1,21 +1,22 @@
 import { InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { StringResolvable } from 'discord.js';
 import * as Fandom from 'nodemw';
-import { Sequelize } from 'sequelize-typescript';
 import { Op } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import { Logger } from 'winston';
+import IErosClientOptions from './auth';
 import CountdownScheduler from '../src/functions/CountdownScheduler';
+import GuildDumpCleaner from '../src/functions/GuildDumpCleaner';
 import Twitter from '../src/functions/Twitter';
 import ErosCommandHandler from '../src/struct/command/commandHandler';
 import ErosError from '../src/struct/ErosError';
 import { Guild } from '../src/struct/models/Guild';
+import { GuildDump } from '../src/struct/models/GuildDump';
 import { Level } from '../src/struct/models/Level';
 import { Storage } from '../src/struct/models/Storage';
 import { Tag } from '../src/struct/models/Tag';
 import { Title } from '../src/struct/models/Title';
 import Selection from '../src/struct/util/Selection';
-import IErosClientOptions from './auth';
-import { Embeds, FieldsEmbed } from 'discord-paginationembed';
 
 declare module 'discord-akairo' {
   export interface ClientUtil {
@@ -54,11 +55,14 @@ interface ErosClient {
   logger: Logger;
   scheduler: CountdownScheduler;
   twitter: Twitter;
+  gdCleaner: GuildDumpCleaner;
   ErosError: typeof ErosError;
   db: {
     sequelize: Sequelize;
+    Sequelize: typeof Sequelize;
     Op: typeof Op;
     Guild: typeof Guild;
+    GuildDump: typeof GuildDump;
     Level: typeof Level;
     Storage: typeof Storage;
     Tag: typeof Tag;
