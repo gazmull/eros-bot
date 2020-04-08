@@ -12,7 +12,7 @@ export default class {
     this.client.logger.info('[GDumpCleaner]: Started');
 
     const guilds = await this.client.db.GuildDump.findAll({
-      where: this.client.db.Sequelize.literal('DATE_ADD(date, INTERVAL 7 DAY) < NOW()'),
+      where: this.client.db.Sequelize.literal('DATE_ADD(dumpedAt, INTERVAL 7 DAY) < NOW()'),
       attributes: [ 'id' ]
     });
 
