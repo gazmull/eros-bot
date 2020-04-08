@@ -2,6 +2,11 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.12
+
+## Fixed
+- `GDCleaner`: invalid `date` column
+
 # 4.1.11
 
 ## Changed
