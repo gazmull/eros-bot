@@ -26,14 +26,15 @@ export default class Info {
   }
 
   public colors = {
-    Elite: 0xe5e5e5,
-    Legendary: 0xffbf50,
+    C: 0xb4632c,
+    B: 0xe5e5e5,
+    A: 0xffbf50,
+    S: 0x8a57ff,
     N: 0x918f8f,
     R: 0xb4632c,
     SR: 0xe5e5e5,
     SSR: 0xffbf50,
-    SSRA: 0x8a57ff,
-    Standard: 0xb4632c
+    SSRA: 0x8a57ff
   };
 
   public client: ErosClient;

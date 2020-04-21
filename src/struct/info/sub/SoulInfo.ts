@@ -109,7 +109,7 @@ export class SoulInfo extends Info {
           ? {
             name: character.ability3Name,
             description: character.ability3Desc,
-            upgradeDescription: character.tier === 'Standard' ? '' : '★ [LV 15]',
+            upgradeDescription: character.tier === 'C' ? '' : '★ [LV 15]',
             cooldown: character.ability3Cd,
             duration: character.ability3Dur || null
           }
