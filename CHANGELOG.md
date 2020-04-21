@@ -2,6 +2,11 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.13
+
+## Changed
+- `SoulInfo`: Tier names updated, T4 tier added
+
 # 4.1.12
 
 ## Fixed
