@@ -45,7 +45,7 @@ export default class extends Command {
         [ 'set-countdownchannel', 'cdchannel', 'countdownchannel' ],
         [ 'set-countdownrole', 'cdrole', 'countdownrole' ],
         [ 'set-nsfwchannel', 'nsfwchannel' ],
-        [ 'set-nsfrole', 'nsfwrole' ],
+        [ 'set-nsfwrole', 'nsfwrole' ],
         [ 'set-prefix', 'prefix' ],
         [ 'set-twitterchannel', 'twitter', 'twitterchannel' ],
       ],
