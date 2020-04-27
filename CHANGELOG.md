@@ -2,6 +2,11 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.1.14
+
+## Fixed
+- `Set`: Typo on `set-nsfwrole` command ID
+
 # 4.1.13
 
 ## Changed
