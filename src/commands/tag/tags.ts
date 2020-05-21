@@ -23,7 +23,9 @@ export default class extends Command {
   public async exec (message: Message, { member }: { member: GuildMember }) {
     const factory = this.client.db.Tag;
     const replyFail = async () =>
-      message.util.reply(`list is too long... please do use \`${await this.handler.prefix(message)}tag search\` instead.`);
+      message.util.reply(
+        `list is too long... please do use \`${await this.handler.prefix(message)}tag search\` instead.`
+      );
 
     if (member) {
       const memberTags = await factory.findAll({
@@ -75,7 +77,7 @@ export default class extends Command {
 
     if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
     else if (tags.length > 69)
-        return replyFail();
+      return replyFail();
 
     const embed = this.client.embed(message)
       .setAuthor(`${message.guild} (${message.guild.id})`)

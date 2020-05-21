@@ -1,3 +1,7 @@
+/**
+ * Returns formatted date time from milliseconds.
+ * @param ms Time in milliseconds
+ */
 export default function prettifyMs (ms: number) {
   let base = Math.floor(ms / 1000);
   let seconds: number | string = base % 60;

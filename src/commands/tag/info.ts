@@ -35,13 +35,13 @@ export default class extends Command {
       catch { modifiedBy = null; }
 
     const embed = this.client.embed(message)
-      .setTitle('Tag: ' + tag.name)
+      .setTitle(`Tag: ${tag.name}`)
       .setThumbnail(user.displayAvatarURL({ format: 'webp' }))
       .addField('Created By', user ? `${user.tag} (${user.id})` : 'Cannot resolve user')
       .addField('Times Used', tag.uses)
       .addField('Created At', moment.utc(tag.createdAt).format('DD/MM/YYYY hh:mm:ss'), true)
       .addField('Updated At', moment.utc(tag.updatedAt).format('DD/MM/YYYY hh:mm:ss'), true)
-      .addField('Content', tag.content.length >= 128 ? tag.content.slice(128) + '...' : tag.content);
+      .addField('Content', tag.content.length >= 128 ? `${tag.content.slice(128)}...` : tag.content);
 
     if (modifiedBy) embed.addField('Last Updated By', `${modifiedBy.tag} (${modifiedBy.id})`);
 

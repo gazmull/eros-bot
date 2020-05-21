@@ -22,9 +22,7 @@ export default class extends Command {
           id: 'keyword',
           match: 'text',
           type: 'lowercase',
-          prompt: {
-            start: 'what definition(s) from glossary would you like to see?'
-          }
+          prompt: { start: 'what definition(s) from glossary would you like to see?' }
         },
       ]
     });

@@ -1,7 +1,7 @@
 import { Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import IErosClientOptions from '../../../typings/auth';
 
-// tslint:disable-next-line:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { defaultPrefix }: { defaultPrefix: IErosClientOptions['defaultPrefix'] } = require('../../../auth');
 
 @Table({ tableName: 'guilds' })

@@ -13,7 +13,7 @@ export default class extends Listener {
   public exec (message: Message, command: Command) {
     const userBased = [
       'you have an existing command that is waiting for you to respond.',
-      'If you wish to continue with a new command, please say \`cancel\` or press the 🗑 emoji above first.',
+      'If you wish to continue with a new command, please say `cancel` or press the 🗑 emoji above first.',
     ];
     const defaultBased = [
       `looks like this command is currently being used in this channel.`,

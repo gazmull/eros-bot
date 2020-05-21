@@ -1,18 +1,17 @@
-import { MessageEmbed } from 'discord.js';
-import { EmbedField } from 'discord.js';
+import { EmbedField, MessageEmbed } from 'discord.js';
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomFormatted } from '../../../../typings';
 import IErosClientOptions from '../../../../typings/auth';
-import ErosClient from '../../ErosClient';
 import C from '../../../util/Constants';
+import ErosClient from '../../ErosClient';
 
-// tslint:disable-next-line:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { emojis }: { emojis: IErosClientOptions['emojis'] } = require('../../../../auth');
 
 export default class Info {
   constructor (client: ErosClient, prefix: string, res: IKamihimeDB, character: IKamihimeFandom) {
     this.client = client;
 
-    this.apiURI  = this.client.config.url.api;
+    this.apiURI = this.client.config.url.api;
 
     this.fandomURI = this.client.config.url.fandom;
 

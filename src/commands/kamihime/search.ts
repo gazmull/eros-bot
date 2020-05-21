@@ -53,9 +53,10 @@ export default class extends Command {
 
       if (isID) return this.searchID(message, character);
 
-      const data = await fetch(`${url.api}search?name=${encodeURI(character)}`, {
-        headers: { Accept: 'application/json' }
-      });
+      const data = await fetch(
+        `${url.api}search?name=${encodeURI(character)}`,
+        { headers: { Accept: 'application/json' } }
+      );
       const result = await data.json();
 
       if (result.error) throw result.error.message;

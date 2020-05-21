@@ -14,6 +14,7 @@ export default class extends Command {
   public async exec (message: Message) {
     const factoryChannels = [ 'nsfwChannel', 'twitterChannel', 'cdChannel' ];
     const factoryRoles = [ 'nsfwRole', 'cdRole' ];
+    // eslint-disable-next-line max-len
     const filterChannels = (channelType: string) => message.guild.channels.cache.filter(c => c.type === channelType).size;
     const guild = await this.client.db.Guild.findOne({ where: { id: message.guild.id } });
     const getRecord = (column: string) => {

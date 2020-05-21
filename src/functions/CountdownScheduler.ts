@@ -40,7 +40,7 @@ export default class extends EventEmitter {
       });
       const send = async () => {
         if (!guilds.length)
-          return this.client.logger.info('CountdownScheduler Module: Distributed ' + names.join(', '));
+          return this.client.logger.info(`CountdownScheduler Module: Distributed ${names.join(', ')}`);
 
         const spliced = guilds.splice(0, 5);
 
@@ -63,7 +63,7 @@ export default class extends EventEmitter {
           }
 
           let action = 'started/ended';
-          const nameEnds =  names.filter(n => n.endsWith('End')).sort();
+          const nameEnds = names.filter(n => n.endsWith('End')).sort();
           const nameNotEnds = names.filter(n => !n.endsWith('End')).sort();
           let prettyNames = [
             ...nameNotEnds,
@@ -93,7 +93,7 @@ export default class extends EventEmitter {
       };
 
       await send();
-    } catch (err) { this.client.logger.warn('CountdownScheduler Module: Error Sending Notification: ' + err); }
+    } catch (err) { this.client.logger.warn(`CountdownScheduler Module: Error Sending Notification: ${err}`); }
 
     await this.provider.prepareCountdowns();
   }
@@ -103,7 +103,7 @@ export default class extends EventEmitter {
 
     if (job && job.names.includes(name)) return this;
 
-    const names  = job ? job.names.concat(name) : [ name ];
+    const names = job ? job.names.concat(name) : [ name ];
     const parsedDate = date - moment.tz(this.provider.timezone).valueOf();
     const fn = this.client.setTimeout(() => this.distribute(date, names), parsedDate);
 
@@ -111,7 +111,7 @@ export default class extends EventEmitter {
 
     this.schedules.set(date, { names, fn });
 
-    this.client.logger.info('CountdownScheduler Module: Added ' + name);
+    this.client.logger.info(`CountdownScheduler Module: Added ${name}`);
 
     return this;
   }
@@ -133,7 +133,7 @@ export default class extends EventEmitter {
 
     this.schedules.set(date, { names, fn });
 
-    this.client.logger.info('CountdownScheduler Module: Deleted ' + name);
+    this.client.logger.info(`CountdownScheduler Module: Deleted ${name}`);
 
     return this;
   }
@@ -153,7 +153,7 @@ export default class extends EventEmitter {
     const job = this.schedules.get(date as number);
 
     if (job) this.schedules.delete(date as number);
-    this.client.logger.info('CountdownScheduler Module: Destroyed ' + date);
+    this.client.logger.info(`CountdownScheduler Module: Destroyed ${date}`);
 
     return this;
   }
@@ -162,6 +162,7 @@ export default class extends EventEmitter {
     return this.client.commandHandler.modules.get('countdown') as CountdownCommand;
   }
 
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
   // @ts-ignore
   public emit (event: 'delete' | 'add', date: number, name: string): boolean;
 

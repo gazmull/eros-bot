@@ -1,7 +1,7 @@
 import { Embeds } from 'discord-paginationembed';
 import { Message, Message as MSG, MessageEmbed, TextChannel } from 'discord.js';
 import * as parseInfo from 'infobox-parser';
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomKamihime, IKamihimeFandomSoul, IKamihimeFandomWeapon } from '../../../typings';
 import InfoCommand from '../../struct/command/InfoCommand';
 import { EidolonInfo, KamihimeInfo, SoulInfo, WeaponInfo } from '../../struct/Info';
@@ -222,10 +222,10 @@ export default class extends InfoCommand {
           : template.character.preview,
         currentClass: !message.needsMex
           ? (
-              needsFLB || (needsRelease && !searchedWeapon)
-                ? template2Name
-                : templateName
-            )
+            needsFLB || (needsRelease && !searchedWeapon)
+              ? template2Name
+              : templateName
+          )
           : null,
         oldClass: template2 && !message.needsMex
           ? (
@@ -270,8 +270,8 @@ export default class extends InfoCommand {
 
             instance.setPage(
               hasWeapon
-              ? instance.page === 2 ? 3 : 2
-              : instance.page === 1 ? 2 : 1
+                ? instance.page === 2 ? 3 : 2
+                : instance.page === 1 ? 2 : 1
             );
 
             if (instance.needsPreview)
@@ -297,14 +297,22 @@ export default class extends InfoCommand {
         : data.slice(data.indexOf('{{'), data.indexOf('=='));
 
       return slicedData
-        .replace(/<br(?:| )(?:|\/)>/g, '\n') // HTML Linebreaks
-        .replace(/<sup>(?:.+)<\/sup>/g, '') // Citations
-        .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '') // Icons
-        .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Summon
-        .replace(/(?:\[{2})(?:[\w\s]+\(\w+\)\|)?([^:]*?)(?:\]{2})/g, '$1') // [[Abilities|Summon]] => Abilities|Summon
-        .replace(/(?:\[{2}).*?(?:\]{2})/g, '') // [[Category]] => ''
-        .replace(/ {2}/g, ' ') // Double-spaces left by stripped of icons/links
-        .replace(/\|([^|])/g, '\n| $1'); // Fix ugly Infobox format
+      // HTML Linebreaks
+        .replace(/<br(?:| )(?:|\/)>/g, '\n')
+      // Citations
+        .replace(/<sup>(?:.+)<\/sup>/g, '')
+      // Icons
+        .replace(/(?:\{{2})(?:[^{}].*?)(?:\}{2})/g, '')
+      // [[Abilities|Summon]] => Summon
+        .replace(/(?:\[{2}[\w#]+\|)(.*?)(?:\]{2})/g, '$1')
+      // [[Abilities|Summon]] => Abilities|Summon
+        .replace(/(?:\[{2})(?:[\w\s]+\(\w+\)\|)?([^:]*?)(?:\]{2})/g, '$1')
+      // [[Category]] => ''
+        .replace(/(?:\[{2}).*?(?:\]{2})/g, '')
+      // Double-spaces left by stripped of icons/links
+        .replace(/ {2}/g, ' ')
+      // Fix ugly Infobox format
+        .replace(/\|([^|])/g, '\n| $1');
     };
 
     if (!infobox) return sanitisedData(rawData);
@@ -317,7 +325,7 @@ export default class extends InfoCommand {
 
   public async parseKamihime (template: WeaponInfo, message: Message) {
     const db = await this.acquire(template.character.releases, true, true);
-    const infoSub = await this.parseArticle(template.character.releases)  as IKamihimeFandom;
+    const infoSub = await this.parseArticle(template.character.releases) as IKamihimeFandom;
 
     return new KamihimeInfo(
       this.client,

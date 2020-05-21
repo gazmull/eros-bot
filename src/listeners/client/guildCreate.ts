@@ -9,7 +9,7 @@ export default class extends Listener {
     });
   }
 
-  /* tslint:disable:max-line-length */
+  /* eslint-disable max-len */
   public async exec (guild: Guild) {
     const guildSize = guild.client.guilds.cache.size;
     const exists = await this.client.db.Guild.destroy({ where: { id: guild.id } });
@@ -57,17 +57,19 @@ export default class extends Listener {
         `\n Or refer to \`${defaultPrefix}guide\` (better yet, ${docs}/using-the-bot) which is recommended.`
       );
 
-      await guild.owner.send(welcomeMessage.join('\n'))
-        .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
+      if (guild.owner)
+        await guild.owner.send(welcomeMessage.join('\n'))
+          .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
 
       this.client.logger.info(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
     } catch (err) {
-      await guild.owner.send([
-        'I left your guild because there was a problem initiating your guild.',
-        `If the issue persists, please contact ${guild.client.users.cache.get(this.client.ownerID as string)}`,
-        `Error: ${err}`,
-      ])
-        .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
+      if (guild.owner)
+        await guild.owner.send([
+          'I left your guild because there was a problem initiating your guild.',
+          `If the issue persists, please contact ${guild.client.users.cache.get(this.client.ownerID as string)}`,
+          `Error: ${err}`,
+        ])
+          .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
       guild.leave();
 
       this.client.logger.error(err);

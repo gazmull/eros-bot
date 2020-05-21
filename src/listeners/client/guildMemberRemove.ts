@@ -10,7 +10,8 @@ export default class extends Listener {
   }
 
   public async exec (member: GuildMember) {
-    return this.client.db.Level.destroy({ where: {
+    return this.client.db.Level.destroy({
+      where: {
         user: member.id,
         guild: member.guild.id
       }

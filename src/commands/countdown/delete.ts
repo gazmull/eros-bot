@@ -26,7 +26,10 @@ export default class extends Command {
     });
   }
 
-  public async exec (message: Message, { countdown: { name, date } }: { countdown: { name: string, date: number } }) {
+  public async exec (
+    message: Message,
+    { countdown: { name/* , date */ } }: { countdown: { name: string, date: number } }
+  ) {
     const parent = this.handler.modules.get('countdown') as CountdownCommand;
     const found = parent.countdowns.findKey(el => el.includes(name));
 

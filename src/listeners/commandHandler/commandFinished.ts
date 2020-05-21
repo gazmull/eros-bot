@@ -23,8 +23,8 @@ export default class extends Listener {
 
     try {
       await dialog.react('🗑');
-      const toDelete = await dialog.awaitReactions((r, u) =>
-        r.emoji.name === '🗑' && u.id === message.author.id,
+      const toDelete = await dialog.awaitReactions(
+        (r, u) => r.emoji.name === '🗑' && u.id === message.author.id,
         { max: 1, time: 5e3, errors: [ 'time' ] }
       );
 

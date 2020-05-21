@@ -55,11 +55,9 @@ export default class extends Command {
     if (purge) {
       if (!isManager) return fail();
 
-      const deleted = await this.client.db.Tag.destroy({
-        where: {
-          name: { [this.client.db.Op.regexp]: tag as string }
-        }
-      });
+      const deleted = await this.client.db.Tag.destroy(
+        { where: { name: { [this.client.db.Op.regexp]: tag as string } } }
+      );
 
       return message.util.reply(`Done! **${deleted}** tags named similarly to **${tag}** has been deleted.`);
     }

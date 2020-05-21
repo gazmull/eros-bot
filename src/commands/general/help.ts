@@ -67,9 +67,9 @@ export default class extends Command {
 
       if (
         (!message.guild && category === 'set') || (
-            message.guild && category === 'set' &&
-            !(message.channel as TextChannel).permissionsFor(message.member).has('MANAGE_GUILD')
-          )
+          message.guild && category === 'set' &&
+          !(message.channel as TextChannel).permissionsFor(message.member).has('MANAGE_GUILD')
+        )
       ) continue;
 
       const publicCommands = message.author.id === this.client.ownerID && !pub

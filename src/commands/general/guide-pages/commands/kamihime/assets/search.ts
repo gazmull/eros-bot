@@ -1,9 +1,7 @@
 import IErosClientOptions from '../../../../../../../typings/auth';
 
-// tslint:disable-next-line:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { url }: { url: IErosClientOptions['url'] } = require('../../../../../../../auth');
-
-/* tslint:disable:max-line-length */
 
 export default {
   contributors: [ 'Euni' ],

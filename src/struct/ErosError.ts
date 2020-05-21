@@ -42,17 +42,17 @@ export default class ErosError {
     let title = 'An error occured';
 
     switch (this.code) {
-     case 0: step = 'Client Error'; break;
-     case 1: step = 'KamihimeDB Request'; break;
-     case 2: step = 'Fandom Request'; break;
-     case 3: step = 'Menu Selection'; break;
+      case 0: step = 'Client Error'; break;
+      case 1: step = 'KamihimeDB Request'; break;
+      case 2: step = 'Fandom Request'; break;
+      case 3: step = 'Menu Selection'; break;
     }
 
     if (this.command) title = `Command **\`${this.command.id}\`** failed`;
 
     const message = [
       `${title}:`,
-      '\`\`\`x1',
+      '```x1',
       `${this.err}\`\`\`${this.code >= 0 && this.code <= 3 ? `Step: ${step}` : step}`,
       `\nIs it a consistent error? Submit an issue here: ${supportLink}`,
     ];

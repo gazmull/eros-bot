@@ -8,7 +8,7 @@ import { Tag } from './models/Tag';
 import { Title } from './models/Title';
 import { GuildDump } from './models/GuildDump';
 
-// tslint:disable-next-line:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { db }: { db: IErosClientOptions['db'] } = require('../../auth');
 
 export const sequelize = new Sequelize({
@@ -18,9 +18,7 @@ export const sequelize = new Sequelize({
   username: db.username,
   password: db.password,
   port: db.port,
-  dialectOptions: {
-    timezone: 'local'
-  },
+  dialectOptions: { timezone: 'local' },
   define: {
     freezeTableName: true,
     charset: 'utf8',
@@ -28,7 +26,7 @@ export const sequelize = new Sequelize({
     timestamps: true
   },
   logging: false,
-  modelPaths: [ __dirname + '/models' ],
+  modelPaths: [ `${__dirname}/models` ],
   pool: {
     acquire: 30e3,
     max: 10,

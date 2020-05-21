@@ -17,10 +17,10 @@ export default class extends Command {
       where: { id: message.guild.id },
       attributes: [ 'nsfwRole', 'nsfwChannel' ]
     });
-    const resolvedChannel = message.guild.channels.cache.get(guild!.nsfwChannel);
+    const resolvedChannel = message.guild.channels.cache.get(guild.nsfwChannel);
     const prefix = await this.handler.prefix(message);
 
-    if (!guild!.nsfwRole || !resolvedChannel)
+    if (!guild.nsfwRole || !resolvedChannel)
       return message.util.reply(
         'NSFW Role/Channel is not properly configured.' +
         `${message.author.id === message.guild.ownerID

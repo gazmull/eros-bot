@@ -1,13 +1,11 @@
-import { readdirSync } from 'fs-extra';
+import { readdirSync } from 'fs';
 
-const currentDir = __dirname + '/assets/';
+const currentDir = `${__dirname }/assets/`;
 
-const dialog: IDialog = {
-  category: 'set'
-};
+const dialog: IDialog = { category: 'set' };
 
 export default [ dialog ].concat(
   readdirSync(currentDir)
-    .filter(el => el)!
+    .filter(el => el)
     .map(el => require(currentDir + el).default)
 )as IDialog[];

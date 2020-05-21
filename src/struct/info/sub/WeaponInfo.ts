@@ -258,10 +258,11 @@ const burstScaleDiscriminator = {
 };
 const burstScaleParser = (weapon: IKamihimeFandomFormatted | string, lb2 = false) =>
   `${lb2
-      // @ts-ignore
-      ? ` ★ [LB ★★☆] ${weapon.element} DMG `
-      // @ts-ignore
-      : ''}(x${burstScaleDiscriminator[weapon.rarity || weapon] + (lb2 ? 0.5 : 0)} Burst DMG)`;
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
+  // @ts-ignore
+    ? ` ★ [LB ★★☆] ${weapon.element} DMG `
+  // @ts-ignore
+    : ''}(x${burstScaleDiscriminator[weapon.rarity || weapon] + (lb2 ? 0.5 : 0)} Burst DMG)`;
 const skillParser = {
   Upgrade: {
     SSR: '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (Large)',

@@ -1,3 +1,1 @@
-export default {
-  BLANK: '\u200b'
-};
+export default { BLANK: '\u200b' };

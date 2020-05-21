@@ -12,9 +12,7 @@ export default class extends Command {
         {
           id: 'name',
           match: 'content',
-          prompt: {
-            start: 'what is the name of tag(s) you are looking for?'
-          }
+          prompt: { start: 'what is the name of tag(s) you are looking for?' }
         },
       ]
     });
@@ -23,11 +21,7 @@ export default class extends Command {
   public async exec (message: Message, { name }: { name: string }) {
     const matched = await this.client.db.Tag.findAll({
       attributes: [ 'name' ],
-      where: {
-        name: {
-          [this.client.db.Op.like]: `%${name}%`
-        }
-      }
+      where: { name: { [this.client.db.Op.like]: `%${name}%` } }
     });
 
     if (!matched.length)

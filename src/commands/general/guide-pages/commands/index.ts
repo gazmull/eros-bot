@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { bugs } from '../../../../../package.json';
 import countdown from './countdown';
@@ -9,7 +10,7 @@ import set from './set';
 import tag from './tag';
 import util from './util';
 
-/* tslint:disable:max-line-length */
+/* eslint-disable max-len */
 
 export default [
   {

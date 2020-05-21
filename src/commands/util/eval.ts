@@ -2,6 +2,7 @@ import { Message } from 'discord.js';
 import * as util from 'util';
 import Command from '../../struct/command';
 
+// eslint-disable-next-line require-jsdoc
 function clean (text: string) {
   if (typeof text === 'string')
     return text.replace(/`/g, `\`${String.fromCharCode(8203)}`).replace(/@/g, `@${String.fromCharCode(8203)}`);
@@ -27,7 +28,8 @@ export default class extends Command {
   public async exec (message: Message, { code }: { code: string }) {
     this.client.logger.debug(`${message.author.tag} (${message.author.id}) Triggered eval. Did you do this?`);
     try {
-      let evaled = eval(code); // tslint:disable-line:no-eval
+      // eslint-disable-next-line no-eval
+      let evaled = eval(code);
 
       if (evaled instanceof Promise) evaled = await evaled;
       if (typeof evaled !== 'string') evaled = util.inspect(evaled);

@@ -57,9 +57,7 @@ export default class extends ErosComamnd {
     const interval = rotation >= 2
       ? yield {
         type: 'interval',
-        prompt: {
-          retry: 'interval can only be **up to 120 seconds**. Try again!'
-        }
+        prompt: { retry: 'interval can only be **up to 120 seconds**. Try again!' }
       }
       : null;
 
@@ -92,9 +90,9 @@ export default class extends ErosComamnd {
     const { isNotLast, rotation, current } = config;
     message.util.setLastResponse(await message.channel.send(`${emojis.loading} Awaiting KamihimeDB's response...`));
 
-    const response = await fetch(url.api + 'random/4/true', { headers: { Accept: 'application/json' } });
+    const response = await fetch(`${url.api}random/4/true`, { headers: { Accept: 'application/json' } });
 
-    if (!response.ok) return message.util.edit('There was a problem: ' + response.statusText);
+    if (!response.ok) return message.util.edit(`There was a problem: ${response.statusText}`);
 
     const characters: IKamihimeDB[] = await response.json();
     const seed = Math.floor(Math.random() * characters.length);
@@ -133,7 +131,7 @@ export default class extends ErosComamnd {
       : '';
 
     await message.util.lastResponse.delete();
-    await message.util.send(null, {  embed, files: [ attachment ] });
+    await message.util.send(null, { embed, files: [ attachment ] });
 
     try {
       const questionResponses = await message.channel.awaitMessages((m: Message) => {
@@ -164,10 +162,10 @@ export default class extends ErosComamnd {
       if (err instanceof Error) throw err;
 
       return message.util.send([
-          `Question expired. For **${exp} EXP**, the answer was **${answer}**`,
-          nextQuestionMsg,
-        ],
-        { embed: null }
+        `Question expired. For **${exp} EXP**, the answer was **${answer}**`,
+        nextQuestionMsg,
+      ],
+      { embed: null }
       );
     }
   }

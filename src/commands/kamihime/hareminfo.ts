@@ -145,7 +145,7 @@ export default class extends InfoCommand {
       if (!channel.guild)
         return message.util.edit(null, embed);
 
-      const nsfwChannel = message.guild.channels.cache.get(guild!.nsfwChannel) as TextChannel;
+      const nsfwChannel = message.guild.channels.cache.get(guild.nsfwChannel) as TextChannel;
 
       if (!nsfwChannel)
         return message.util.edit(`${message.author}, NSFW Channel is not configured.${

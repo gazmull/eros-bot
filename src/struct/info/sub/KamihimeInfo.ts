@@ -15,7 +15,7 @@ export class KamihimeInfo extends Info {
             hime.releaseWeapon
               ? ` | __**[${hime.releaseWeapon}](${fandomURI}${encodeURI(hime.releaseWeapon)} "Weapon Release")**__`
               : ''}`,
-          hime.favouriteWeapon ? `__**Favourite Weapon Type: ${hime.favouriteWeapon}**__\n` : '' + hime.description,
+          hime.favouriteWeapon ? `__**Favourite Weapon Type: ${hime.favouriteWeapon}**__\n` : hime.description,
         ]
       )
       .setColor(hime.rarity === 'SSR+' ? colors.SSRA : colors[hime.rarity]);

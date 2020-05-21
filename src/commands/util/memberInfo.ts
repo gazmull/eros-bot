@@ -31,9 +31,9 @@ export default class extends Command {
 
     if (!fetchedMember) throw new Error('Member cache missing');
 
-    const [ levelMember ] = await this.client.db.Level.findOrCreate({
-      where: { user: fetchedMember.id, guild: message.guild.id }
-    });
+    const [ levelMember ] = await this.client.db.Level.findOrCreate(
+      { where: { user: fetchedMember.id, guild: message.guild.id } }
+    );
 
     const ranking = await this.client.db.Level.findAll({
       where: { guild: message.guild.id },

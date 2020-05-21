@@ -29,9 +29,10 @@ export default abstract class InfoCommand extends Command {
     const isAccurate = accurate ? '&accurate=1' : '';
     const isApproved = approved ? '&approved=1' : '';
     const { url } = this.client.config;
-    const request = await fetch(`${url.api}search?name=${encodeURI(item)}${typeQ}${isApproved}${isAccurate}`, {
-      headers: { Accept: 'application/json' }
-    });
+    const request = await fetch(
+      `${url.api}search?name=${encodeURI(item)}${typeQ}${isApproved}${isAccurate}`,
+      { headers: { Accept: 'application/json' } }
+    );
     const rows = await request.json();
 
     if (rows.error) throw rows.error.message;

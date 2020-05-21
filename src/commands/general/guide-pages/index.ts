@@ -1,10 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { bugs } from '../../../../package.json';
 import commands from './commands';
 
 const wikiDiscord = 'https://discord.gg/jFzQsEs';
 
-/* tslint:disable:max-line-length */
+/* eslint-disable max-len */
 
 /**
  * Similar to MessageEmbed. If you have contributed to this section, please add your username

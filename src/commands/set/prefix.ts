@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
 import Command from '../../struct/command';
 
-// tslint:disable-next-line:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { defaultPrefix }: { defaultPrefix: string } = require('../../../auth');
 
 export default class extends Command {

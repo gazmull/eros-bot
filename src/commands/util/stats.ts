@@ -3,6 +3,7 @@ import { version as paginationVersion } from 'discord-paginationembed';
 import { Message, version as discordVersion } from 'discord.js';
 import fetch from 'node-fetch';
 import * as os from 'os';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { description, homepage, version as erosVersion } from '../../../package.json';
 import Command from '../../struct/command';
@@ -19,7 +20,7 @@ export default class extends Command {
   public async exec (message: Message) {
     let kamihimedbVersion: string;
     const { docs, url } = this.client.config;
-    const response = await fetch(url.api + 'version', { headers: { Accept: 'application/json' } });
+    const response = await fetch(`${url.api}version`, { headers: { Accept: 'application/json' } });
 
     if (!response.ok) kamihimedbVersion = '2.what.ever';
 

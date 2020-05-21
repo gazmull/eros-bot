@@ -1,5 +1,5 @@
 import { GuildMember, Message, User } from 'discord.js';
-import * as fs from 'fs-extra';
+import * as fs from 'fs-nextra';
 import ErosComamnd from '../../struct/command';
 
 export default class extends ErosComamnd {
@@ -40,7 +40,7 @@ export default class extends ErosComamnd {
 
   public stalks: string[] = [];
 
-  /* tslint:disable:max-line-length */
+  /* eslint-disable max-len */
 
   public insults = [
     'May the chocolate chips in your cookies always turn out to be raisins.',
@@ -102,7 +102,7 @@ export default class extends ErosComamnd {
     'Learn from your parents\' mistakes - use birth control!',
   ];
 
-  /* tslint:enable:max-line-length */
+  /* eslint-enable max-len */
 
   public async exec (
     message: Message,
@@ -113,7 +113,7 @@ export default class extends ErosComamnd {
       const desperate = 'I get that it is indeed healthy to talk to yourself sometimes... but are you that desperate?';
 
       return message.author.send(desperate)
-        .catch(() =>  message.util.reply(desperate));
+        .catch(() => message.util.reply(desperate));
     }
 
     if (this.authorized(message.author) && stalk) {
@@ -144,16 +144,14 @@ export default class extends ErosComamnd {
   }
 
   protected exists (filename: string) {
-    return fs.stat(filename)
-      .then(() => true)
-      .catch(() => false);
+    return fs.pathExists(filename);
   }
 
   protected async init () {
     const exists = await this.exists(this.filename);
 
     if (exists) {
-      const ids: string[] = JSON.parse((await fs.readFile(this.filename)).toString());
+      const ids: string[] = await fs.readJSON(this.filename);
 
       if (!ids.length) return;
 
@@ -162,7 +160,7 @@ export default class extends ErosComamnd {
   }
 
   protected async save () {
-    return fs.writeFile(this.filename, JSON.stringify(this.stalks));
+    return fs.outputFile(this.filename, JSON.stringify(this.stalks));
   }
 
   get randomMessage () {

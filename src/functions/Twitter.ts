@@ -1,6 +1,6 @@
 import { AkairoClient } from 'discord-akairo';
 import { TextChannel } from 'discord.js';
-import * as TwitterClient from 'twitter-lite';
+import TwitterClient, { Stream } from 'twitter-lite';
 
 export default class {
   constructor (client: AkairoClient) {
@@ -9,7 +9,7 @@ export default class {
 
   public client: AkairoClient;
 
-  protected stream = null;
+  protected stream: Stream = null;
 
   protected recon: NodeJS.Timer = null;
 
@@ -73,7 +73,7 @@ export default class {
 
         try {
           await send();
-        } catch (err) { this.client.logger.warn('Twitter Module: Error Sending Tweet Update: ' + err); }
+        } catch (err) { this.client.logger.warn(`Twitter Module: Error Sending Tweet Update: ${err}`); }
       })
       .on('start', async () => this.client.logger.info('Twitter Module: Connected'))
       .on('end', async () => {
@@ -84,7 +84,7 @@ export default class {
         this.recon = this.client.setTimeout(() => this.init(), 3e5);
       })
       .on('error', async (err: Error) => {
-        this.client.logger.info(`Twitter Module: Error ${err}`);
+        this.client.logger.info(`Twitter Module: Error ${err.message || err}`);
 
         this.stream.emit('end');
       });
@@ -100,6 +100,7 @@ export default class {
 }
 
 interface ITweet {
+  /* eslint-disable camelcase */
   retweeted_status?: string;
   user: {
     id_str: string;

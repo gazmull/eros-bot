@@ -1,5 +1,5 @@
 import { Message, StringResolvable, Util, MessageEmbed, TextChannel } from 'discord.js';
-import * as fs from 'fs-extra';
+import * as fs from 'fs-nextra';
 import * as json2md from 'json2md';
 import Command from '../../struct/command';
 import toTitleCase from '../../util/toTitleCase';
@@ -88,7 +88,7 @@ export default class GuideCommand extends Command {
         'React with the emoji below to navigate. ↗ to skip a page.',
         `You may also do \`@Eros guide <page number>\` to jump to a page immediately.`,
       ])
-      .addField('Documentation', 'Visiting the web documentation may be better to see what is new: ' + docs);
+      .addField('Documentation', `Visiting the web documentation may be better to see what is new: ${docs}`);
 
     embeds.unshift(tableOfContents);
 
@@ -109,7 +109,7 @@ export default class GuideCommand extends Command {
       const embed = this.client.embed();
       const command = this.handler.modules.get(d.command);
 
-      if (!command) throw new Error('Invalid Command ' + d.command);
+      if (!command) throw new Error(`Invalid Command ${d.command}`);
 
       const hasAliases = command.aliases && command.aliases.length;
       let content: string | string[] = command.description.content;
@@ -177,11 +177,11 @@ export default class GuideCommand extends Command {
           const dirt = v.title.toLowerCase().replace(/ +/g, '-');
 
           filename = [ 'commands' ].includes(v.title)
-            ? dirt + '/README.md'
-            : dirt + '.md';
+            ? `${dirt}/README.md`
+            : `${dirt}.md`;
         }
         else if (v.category)
-            filename = `commands/${v.category}/README.md`;
+          filename = `commands/${v.category}/README.md`;
 
         let title = v.title || null;
         let description: StringResolvable = v.description || '';
@@ -193,7 +193,7 @@ export default class GuideCommand extends Command {
         if (v.category) {
           const category = this.handler.categories.get(v.category);
 
-          if (!category) throw new Error('Invalid Category ' + v.category);
+          if (!category) throw new Error(`Invalid Category ${v.category}`);
 
           title = `Category: ${v.category.toLowerCase()}`;
           description = [
@@ -209,7 +209,7 @@ export default class GuideCommand extends Command {
         } else if (v.command) {
           const command = this.handler.modules.get(v.command);
 
-          if (!command) throw new Error('Invalid Command ' + v.command);
+          if (!command) throw new Error(`Invalid Command ${v.command}`);
 
           const hasAliases = command.aliases && command.aliases.length;
           let content: string | string[] = command.description.content;
@@ -314,7 +314,7 @@ export default class GuideCommand extends Command {
           const src = `${__dirname}/../../../${f}.md`;
           const dest = `${__dirname}/../../../docs/${f}.md`;
 
-          await fs.copyFile(src, dest);
+          await fs.copy(src, dest);
           this.client.logger.info(`-- Successfully copied ${f}`);
         })
       );

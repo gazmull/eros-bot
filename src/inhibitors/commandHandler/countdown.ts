@@ -3,9 +3,7 @@ import { Message } from 'discord.js';
 
 export default class extends Inhibitor {
   constructor () {
-    super('countdownInhibitor', {
-      reason: 'countdown unauthorized'
-    });
+    super('countdownInhibitor', { reason: 'countdown unauthorized' });
   }
 
   public exec (message: Message, command: Command) {

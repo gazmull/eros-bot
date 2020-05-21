@@ -1,6 +1,6 @@
 import { Flag } from 'discord-akairo';
 import { Collection, Message } from 'discord.js';
-import * as fs from 'fs-extra';
+import * as fs from 'fs-nextra';
 import * as moment from 'moment-timezone';
 import { ICountdown } from '../../../typings';
 import Command from '../../struct/command';
@@ -88,7 +88,7 @@ export default class extends Command {
     const presets = this.preset;
 
     for (const preset of presets) {
-      let name = preset.name;
+      const name = preset.name;
       const [ hour, minute ] = preset.time.split(':').map(i => Number(i));
       const date = moment.tz(this.timezone)
         .hours(hour)
@@ -105,10 +105,6 @@ export default class extends Command {
           let offset: number;
 
           switch (preset.class) {
-            case 'GEM':
-              offset = 30;
-              name += toAppend;
-              break;
             case 'DLY':
               offset = 60 * 24;
               break;
@@ -134,16 +130,14 @@ export default class extends Command {
   }
 
   public exists (filename: string) {
-    return fs.stat(filename)
-      .then(() => true)
-      .catch(() => false);
+    return fs.pathExists(filename);
   }
 
   public async init () {
     const exists = await this.exists(this.filename);
 
     if (exists) {
-      const countdowns: ICountdown[] = JSON.parse((await fs.readFile(this.filename)).toString());
+      const countdowns: ICountdown[] = await fs.readJSON(this.filename);
 
       if (!countdowns.length) return;
 
@@ -159,7 +153,7 @@ export default class extends Command {
   }
 
   public async save () {
-    return fs.writeFile(
+    return fs.outputFile(
       this.filename,
       JSON.stringify(this.userCountdowns.map((names, date) => ({ [ date ]: names })))
     );
@@ -176,11 +170,10 @@ export default class extends Command {
     const resolved = this.userCountdowns.findKey(el => el.includes(name));
 
     return resolved
-      ?
-        {
-          date: resolved,
-          name
-        }
+      ? {
+        date: resolved,
+        name
+      }
       : null;
   }
 
@@ -197,22 +190,6 @@ export default class extends Command {
   get preset () {
     return [
       { class: 'DLY', name: 'Daily Reset', time: '00:00', day: '*' },
-      { class: 'GEM', name: 'Monday Gem Quest 1', time: '12:00', day: 'Monday' },
-      { class: 'GEM', name: 'Monday Gem Quest 2', time: '19:00', day: 'Monday' },
-      { class: 'GEM', name: 'Tuesday Gem Quest 1', time: '12:30', day: 'Tuesday' },
-      { class: 'GEM', name: 'Tuesday Gem Quest 2', time: '19:30', day: 'Tuesday' },
-      { class: 'GEM', name: 'Wednesday Gem Quest 1', time: '18:00', day: 'Wednesday' },
-      { class: 'GEM', name: 'Wednesday Gem Quest 2', time: '22:30', day: 'Wednesday' },
-      { class: 'GEM', name: 'Thursday Gem Quest 1', time: '19:00', day: 'Thursday' },
-      { class: 'GEM', name: 'Thursday Gem Quest 2', time: '23:00', day: 'Thursday' },
-      { class: 'GEM', name: 'Friday Gem Quest 1', time: '19:30', day: 'Friday' },
-      { class: 'GEM', name: 'Friday Gem Quest 2', time: '23:30', day: 'Friday' },
-      { class: 'GEM', name: 'Saturday Gem Quest 1', time: '12:00', day: 'Saturday' },
-      { class: 'GEM', name: 'Saturday Gem Quest 2', time: '18:00', day: 'Saturday' },
-      { class: 'GEM', name: 'Saturday Gem Quest 3', time: '22:00', day: 'Saturday' },
-      { class: 'GEM', name: 'Sunday Gem Quest 1', time: '12:30', day: 'Sunday' },
-      { class: 'GEM', name: 'Sunday Gem Quest 2', time: '19:00', day: 'Sunday' },
-      { class: 'GEM', name: 'Sunday Gem Quest 3', time: '23:00', day: 'Sunday' },
     ];
   }
 }

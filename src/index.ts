@@ -1,7 +1,7 @@
 import IErosClientOptions from '../typings/auth';
 import ErosClient from './struct/ErosClient';
 
-// tslint:disable-next-line:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const config: IErosClientOptions = require('../auth');
 
 const client = new ErosClient(config);

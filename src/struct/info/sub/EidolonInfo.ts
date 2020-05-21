@@ -19,7 +19,7 @@ export class EidolonInfo extends Info {
 
           return `${'★'.repeat(i)}${'☆'.repeat(arr.length - (i + 1))} | ${el}`;
         })
-        .join('\n')
+          .join('\n')
       );
 
     return super.format(embed, eidolon);
