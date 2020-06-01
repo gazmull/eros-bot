@@ -1,6 +1,8 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedFieldData, MessageEmbed } from 'discord.js';
 import { IKamihimeFandomEidolon, IKamihimeFandomFormatted } from '../../../../typings';
 import Info from '../base/Info';
+
+const suffixes = [ 0, 1, 2, 3, 4 ];
 
 export class EidolonInfo extends Info {
   public character: IKamihimeFandomEidolon;
@@ -8,19 +10,27 @@ export class EidolonInfo extends Info {
   public format () {
     const { colors } = this;
     const eidolon = this.template();
+    const mappedLBUpgrades = <T> (arr: T[]) =>
+      arr.map((el, i, arr) => `${'★'.repeat(i)}${'☆'.repeat(arr.length - (i ? i + 1 : 1))} | ${el}`);
+
+    const formattedSummonField: () => EmbedFieldData = () => {
+      const { cooldown, duration, description } = eidolon.summon;
+      const nameCD = typeof cooldown === 'string' ? ` | CD: ${cooldown}` : '';
+      const nameDur = typeof duration === 'string' ? ` | D: ${duration}`: '';
+
+      return {
+        name: `🇸: ${eidolon.summon.name}${nameCD}${nameDur}`,
+        value: typeof description === 'string'
+          ? description
+          : mappedLBUpgrades(description.map((el, i) =>
+            `${el} (CD: ${cooldown[i]}${duration[i] ? ` | D: ${duration[i]}` : ''})`))
+      };
+    };
     const embed = new MessageEmbed()
       .setDescription(`__**Eidolon**__ | __**${eidolon.element}**__\n${eidolon.description}`)
       .setColor(colors[eidolon.rarity])
-      .addField(`Summon: ${eidolon.summon.name} | CD: ${eidolon.summon.cooldown}`, eidolon.summon.description)
-      .addField(
-        `Effect: ${eidolon.effect.name}`,
-        eidolon.effect.description.map((el, i, arr) => {
-          if (i === 0) return `${'☆'.repeat(4)} | ${el}`;
-
-          return `${'★'.repeat(i)}${'☆'.repeat(arr.length - (i + 1))} | ${el}`;
-        })
-          .join('\n')
-      );
+      .addFields(formattedSummonField())
+      .addField(`🇪: ${eidolon.effect.name}`, mappedLBUpgrades(eidolon.effect.description as string[]));
 
     return super.format(embed, eidolon);
   }
@@ -30,6 +40,8 @@ export class EidolonInfo extends Info {
     const link = this.itemLink;
     const thumbnail = this.itemPortrait;
     const preview = this.itemPreview;
+
+    const mappedSimpleCDur = (prop: string) => suffixes.map(e => this.simpleCDur(character[`${prop}${e}`]));
 
     return {
       name: character.name,
@@ -44,19 +56,18 @@ export class EidolonInfo extends Info {
 
       summon: {
         name: character.summonAtk,
-        description: character.summonAtkDes.replace(/\n/g, '\n\n'),
-        cooldown: character.summonCd
+        description: character.summonAtkDes || suffixes.map(e => character[`summonAtkDes${e}`]),
+        cooldown: character.summonCd0
+          ? mappedSimpleCDur('summonCd')
+          : this.simpleCDur(character.summonCd) || null,
+        duration: character.summonEffectDur0
+          ? mappedSimpleCDur('summonEffectDur')
+          : this.simpleCDur(character.summonEffectDur) || null
       },
 
       effect: {
         name: character.eidolonEffect,
-        description: [
-          character.eidolonEffectDes0,
-          character.eidolonEffectDes1,
-          character.eidolonEffectDes2,
-          character.eidolonEffectDes3,
-          character.eidolonEffectDes4,
-        ]
+        description: suffixes.map(e => character[`eidolonEffectDes${e}`])
       },
 
       obtainedFrom: character.obtained,

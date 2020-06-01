@@ -60,6 +60,8 @@ module.exports = {
     host: 'localhost'
   },
 
+  /* eslint-disable camelcase, line-comment-position */
+
   // Get your own application at https://apps.twitter.com
   twitter: {
     access_token_key: 'xxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxx',

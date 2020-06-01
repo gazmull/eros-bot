@@ -140,6 +140,12 @@ export default class Info {
     return embed;
   }
 
+  public simpleCDur (str: string) {
+    const [ num, type ] = str.split(' ') as string[];
+
+    return `${num}${type ? type.charAt(0).toUpperCase() : 'T'}`;
+  }
+
   get itemPortrait () {
     const res = this.res;
 
