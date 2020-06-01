@@ -1,6 +1,6 @@
 import { ArgumentTypeCaster } from 'discord-akairo';
 import { Util } from 'discord.js';
-import * as moment from 'moment';
+import moment from 'moment';
 import CountdownCommand from '../../commands/countdown/countdown';
 import ErosClient from '../ErosClient';
 

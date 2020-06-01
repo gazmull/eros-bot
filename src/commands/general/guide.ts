@@ -1,6 +1,6 @@
 import { Message, StringResolvable, Util, MessageEmbed, TextChannel } from 'discord.js';
 import * as fs from 'fs-nextra';
-import * as json2md from 'json2md';
+import json2md from 'json2md';
 import Command from '../../struct/command';
 import toTitleCase from '../../util/toTitleCase';
 import C from '../../util/Constants';

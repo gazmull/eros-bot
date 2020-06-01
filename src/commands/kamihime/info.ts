@@ -1,6 +1,6 @@
 import { Embeds } from 'discord-paginationembed';
 import { Message, Message as MSG, MessageEmbed, TextChannel } from 'discord.js';
-import * as parseInfo from 'infobox-parser';
+import parseInfo from 'infobox-parser';
 // eslint-disable-next-line max-len
 import { IKamihimeDB, IKamihimeFandom, IKamihimeFandomKamihime, IKamihimeFandomSoul, IKamihimeFandomWeapon } from '../../../typings';
 import InfoCommand from '../../struct/command/InfoCommand';

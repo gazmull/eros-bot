@@ -3,7 +3,7 @@ import IErosClientOptions from 'auth';
 import { AkairoClient, InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import { Embeds, FieldsEmbed } from 'discord-paginationembed';
 import { Message, MessageEmbed } from 'discord.js';
-import * as Fandom from 'nodemw';
+import Fandom from 'nodemw';
 import { promisify } from 'util';
 import GuideCommand from '../commands/general/guide';
 import ErosError from '../struct/ErosError';
