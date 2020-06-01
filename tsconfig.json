@@ -4,6 +4,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noUnusedLocals": true,
