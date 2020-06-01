@@ -79,7 +79,7 @@ export default class extends Command {
         : result;
 
       const Pagination = this.client.fields<IKamihimeDB>(message)
-        .setAuthorizedUsers([ message.author.id ])
+        .setAuthorizedUsers(message.author.id)
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
         .setArray(sorted);

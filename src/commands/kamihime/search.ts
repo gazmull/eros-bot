@@ -63,11 +63,10 @@ export default class extends Command {
       if (!result.length) throw RangeError(`There are no matching items found with ${character.toUpperCase()}`);
 
       const Pagination = this.client.fields<IKamihimeDB>(message)
-        .setAuthorizedUsers([ message.author.id ])
+        .setAuthorizedUsers(message.author.id)
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
-        .setArray(result)
-        .setPageIndicator(false);
+        .setArray(result);
 
       Pagination.embed
         .setTitle(`${character.toUpperCase()} | Found: ${result.length}`)

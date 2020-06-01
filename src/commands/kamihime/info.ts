@@ -177,9 +177,8 @@ export default class extends InfoCommand {
       const embed: IEmbedsEx = this.client.embeds(null, array)
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
-        .setAuthorizedUsers([ message.author.id ])
-        .setPageIndicator(false)
-        .setDisabledNavigationEmojis([ 'BACK', 'JUMP', 'FORWARD' ])
+        .setAuthorizedUsers(message.author.id)
+        .setDisabledNavigationEmojis([ 'back', 'jump', 'forward' ])
         .setTimeout(10e3);
 
       if (searchedWeapon && !(template instanceof WeaponInfo)) embed.setPage(2);
@@ -263,16 +262,21 @@ export default class extends InfoCommand {
           flbFormat.setImage(flbTemplate.character.preview);
 
         array.push(flbFormat);
+        // ! - WIP Fix
         embed.addFunctionEmoji(
           this.flbEmoji,
           (_, instance: IEmbedsEx) => {
-            if (instance.currentClass !== 'WeaponInfo') return;
+            if (!flbTemplate) return;
 
-            instance.setPage(
-              hasWeapon
-                ? instance.page === 2 ? 3 : 2
-                : instance.page === 1 ? 2 : 1
-            );
+            instance.setPage(hasWeapon ? 3 : 2);
+            instance.deleteFunctionEmoji(this.flbEmoji);
+            instance.clientAssets.message.reactions.cache.delete(this.flbEmoji);
+
+            if (instance.currentClass !== 'WeaponInfo') {
+              const tmp = instance.currentClass;
+              instance.currentClass = instance.oldClass;
+              instance.oldClass = tmp;
+            }
 
             if (instance.needsPreview)
               instance.currentEmbed.setImage(instance.preview);

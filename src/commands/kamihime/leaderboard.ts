@@ -43,7 +43,7 @@ export default class extends Command {
       list = list.sort((a, b) => b.peeks - a.peeks);
 
       const Pagination = this.client.fields<IKamihimeDB>(message)
-        .setAuthorizedUsers([ message.author.id ])
+        .setAuthorizedUsers(message.author.id)
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
         .setArray(list)

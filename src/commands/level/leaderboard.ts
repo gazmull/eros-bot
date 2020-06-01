@@ -32,7 +32,7 @@ export default class extends Command {
     if (!levels.length) return message.util.send('Looks like this is a ghost guild...');
 
     const Pagination = this.client.fields<Level>(message)
-      .setAuthorizedUsers([ message.author.id ])
+      .setAuthorizedUsers(message.author.id)
       .setChannel(message.channel as TextChannel)
       .setClientAssets({ message: message.util.lastResponse })
       .setArray(levels)

@@ -48,7 +48,7 @@ export default class extends Command {
         );
 
       const memberEmbed = this.client.fields<Tag>(message)
-        .setAuthorizedUsers([ message.author.id ])
+        .setAuthorizedUsers(message.author.id)
         .setChannel(message.channel as TextChannel)
         .setClientAssets({ message: message.util.lastResponse })
         .setArray(memberTags)
@@ -74,7 +74,7 @@ export default class extends Command {
     if (!tags.length) return message.util.send('We do not have any tag here. Be the first one to create one here!');
 
     const serverEmbed = this.client.fields<Tag>(message)
-      .setAuthorizedUsers([ message.author.id ])
+      .setAuthorizedUsers(message.author.id)
       .setChannel(message.channel as TextChannel)
       .setClientAssets({ message: message.util.lastResponse })
       .setArray(tags)

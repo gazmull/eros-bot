@@ -42,7 +42,7 @@ export default class GuideCommand extends Command {
 
   public async exec (message: Message, { page }: { page: number }) {
     return this.client.embeds(message, this.formattedGeneralDialogs)
-      .setAuthorizedUsers([ message.author.id ])
+      .setAuthorizedUsers(message.author.id)
       .setChannel(message.channel as TextChannel)
       .setPage(page)
       .setTimeout(120e3)
