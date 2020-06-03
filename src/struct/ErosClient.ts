@@ -31,7 +31,7 @@ export default class ErosClient extends AkairoClient {
           'GUILD_MESSAGE_REACTIONS',
         ]
       },
-      disableMentions: 'all',
+      disableMentions: 'everyone',
       messageCacheLifetime: 300,
       messageCacheMaxSize: 50,
       restTimeOffset: productionMode ? 500 : 1000
