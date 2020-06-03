@@ -36,7 +36,14 @@ export default class extends ErosComamnd {
     const words = yield {
       match: 'rest',
       default: null,
+      type: async (_, content: string) => {
+        if (!content || content.length > 200) return null;
+
+        return content;
+      },
       prompt: {
+        retry: (msg: Message) =>
+          `${msg.author}, it's too wonyg >w<  How about makinyg it wess thany 200 chawactews? (=‐ω‐=)`,
         modifyStart: (msg: Message) => [
           `${msg.author}, *tilts head* what wouwd you wike to say?`,
           '\ntype `canycew` to canycew this commanyd ヾ(=｀ω´=)ノ',
@@ -53,14 +60,17 @@ export default class extends ErosComamnd {
   public async exec (message: Message, { words: text }: { words: string }) {
     if (message.deletable) await message.delete();
 
+    const fail = () => message.util.send('*sobs* sowwy onyii-chany, I canynyot finyd nyeko-nyee...');
     const url = new URL('https://nekos.life/api/v2/owoify');
     url.search = new URLSearchParams({ text }).toString();
 
     const res = await fetch(url.toString());
 
-    if (!res.ok) return message.util.send('*sobs* sowwy onyii-chany, I canynyot finyd nyeko-nyee...');
+    if (!res.ok) return fail();
 
     const { owo }: { owo: string } = await res.json();
+
+    if (!owo) return fail();
 
     return message.util.send(owo);
   }
