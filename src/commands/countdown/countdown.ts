@@ -1,6 +1,6 @@
 import { Flag } from 'discord-akairo';
 import { Collection, Message } from 'discord.js';
-import * as fs from 'fs-nextra';
+import * as fs from 'fs-extra';
 import moment from 'moment-timezone';
 import { ICountdown } from '../../../typings';
 import Command from '../../struct/command';

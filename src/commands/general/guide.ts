@@ -1,5 +1,5 @@
 import { Message, StringResolvable, Util, MessageEmbed, TextChannel } from 'discord.js';
-import * as fs from 'fs-nextra';
+import * as fs from 'fs-extra';
 import json2md from 'json2md';
 import Command from '../../struct/command';
 import toTitleCase from '../../util/toTitleCase';
@@ -314,7 +314,7 @@ export default class GuideCommand extends Command {
           const src = `${__dirname}/../../../${f}.md`;
           const dest = `${__dirname}/../../../docs/${f}.md`;
 
-          await fs.copy(src, dest);
+          await fs.copyFile(src, dest);
           this.client.logger.info(`-- Successfully copied ${f}`);
         })
       );

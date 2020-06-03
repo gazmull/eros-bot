@@ -1,5 +1,5 @@
 import { GuildMember, Message, User } from 'discord.js';
-import * as fs from 'fs-nextra';
+import * as fs from 'fs-extra';
 import ErosComamnd from '../../struct/command';
 
 export default class extends ErosComamnd {
