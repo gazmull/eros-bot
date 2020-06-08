@@ -33,33 +33,35 @@ export default class extends Listener {
         cdRole: cdRole ? cdRole.id : null,
         nsfwChannel: nsfwChannel ? nsfwChannel.id : null,
         nsfwRole: nsfwRole ? nsfwRole.id : null,
-        owner: guild.owner.id,
+        owner: guild.ownerID,
         prefix: defaultPrefix,
         twitterChannel: twitterChannel ? twitterChannel.id : null
       });
 
-      const welcomeMessage = [ `Hello, ${guild.owner.user.username}. I joined your server, ${guild.name}.` ];
+      if (guild.owner) {
+        const welcomeMessage = [ `Hello, ${guild.owner.user.username}. I joined your server, ${guild.name}.` ];
 
-      if (existing.length)
-        welcomeMessage.push([
-          'The following has been detected and added to your guild settings:',
-          existing.map(el => `- ${el.name}`).join('\n'),
-        ].join('\n'));
+        if (existing.length)
+          welcomeMessage.push([
+            'The following has been detected and added to your guild settings:',
+            existing.map(el => `- ${el.name}`).join('\n'),
+          ].join('\n'));
 
-      welcomeMessage.push(
-        `\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild (please configure your settings there).`,
-        '\tExamples:',
-        cdChannel ? `\t\`${defaultPrefix}cdchannel <channel>\`` : '',
-        cdRole ? `\t\`${defaultPrefix}cdrole <role>\`` : '',
-        nsfwChannel ? `\t\`${defaultPrefix}nsfwchannel <channel>\`` : '',
-        nsfwRole ? `\t\`${defaultPrefix}nsfwrole <role>\`` : '',
-        twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel>\`` : '',
-        `\n Or refer to \`${defaultPrefix}guide\` (better yet, ${docs}/using-the-bot) which is recommended.`
-      );
+        welcomeMessage.push(
+          `\nTo start configuring your guild's settings, see \`${defaultPrefix}help\` in your guild (please configure your settings there).`,
+          '\tExamples:',
+          cdChannel ? `\t\`${defaultPrefix}cdchannel <channel>\`` : '',
+          cdRole ? `\t\`${defaultPrefix}cdrole <role>\`` : '',
+          nsfwChannel ? `\t\`${defaultPrefix}nsfwchannel <channel>\`` : '',
+          nsfwRole ? `\t\`${defaultPrefix}nsfwrole <role>\`` : '',
+          twitterChannel ? `\n\t\`${defaultPrefix}twitterchannel <channel>\`` : '',
+          `\n Or refer to \`${defaultPrefix}guide\` (better yet, ${docs}/using-the-bot) which is recommended.`
+        );
 
-      if (guild.owner)
-        await guild.owner.send(welcomeMessage.join('\n'))
-          .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
+        if (guild.owner)
+          await guild.owner.send(welcomeMessage.join('\n'))
+            .catch(() => this.client.logger.warn(`Could not send message to ${guild.name} (ID: ${guild.id})'s owner.`));
+      }
 
       this.client.logger.info(`${guild.name} (ID: ${guild.id}) created. ${guildSize} total guilds.`);
     } catch (err) {
