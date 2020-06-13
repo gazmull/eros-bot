@@ -141,6 +141,8 @@ export default class Info {
   }
 
   public simpleCDur (str: string) {
+    if (!str) return null;
+
     const [ num, type ] = str.split(' ') as string[];
 
     return `${num}${type ? type.charAt(0).toUpperCase() : 'T'}`;

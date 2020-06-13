@@ -59,10 +59,10 @@ export class EidolonInfo extends Info {
         description: character.summonAtkDes || suffixes.map(e => character[`summonAtkDes${e}`]),
         cooldown: character.summonCd0
           ? mappedSimpleCDur('summonCd')
-          : this.simpleCDur(character.summonCd) || null,
+          : this.simpleCDur(character.summonCd),
         duration: character.summonEffectDur0
           ? mappedSimpleCDur('summonEffectDur')
-          : this.simpleCDur(character.summonEffectDur) || null
+          : this.simpleCDur(character.summonEffectDur)
       },
 
       effect: {
