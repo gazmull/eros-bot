@@ -262,15 +262,14 @@ export default class extends InfoCommand {
           flbFormat.setImage(flbTemplate.character.preview);
 
         array.push(flbFormat);
-        // ! - WIP Fix
         embed.addFunctionEmoji(
           this.flbEmoji,
-          (_, instance: IEmbedsEx) => {
+          async (_, instance: IEmbedsEx) => {
             if (!flbTemplate) return;
 
             instance.setPage(hasWeapon ? 3 : 2);
             instance.deleteFunctionEmoji(this.flbEmoji);
-            instance.clientAssets.message.reactions.cache.delete(this.flbEmoji);
+            await instance.clientAssets.message.reactions.cache.get(this.flbEmoji).remove();
 
             if (instance.currentClass !== 'WeaponInfo') {
               const tmp = instance.currentClass;
