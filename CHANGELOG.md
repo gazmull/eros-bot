@@ -2,6 +2,23 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.2.0
+
+## Added
+- `SoulInfo`: Full T4 Souls support
+- `EidolonInfo`: LB-changing summon effect (e.g. Suzaku's) support
+
+## Changed
+- `command`(`info`): Remove SSR+ once used
+
+## Fixed
+- `client`: Mentions being escaped
+- `command`(`owo`): Reflected text length restriction from origin
+- `listener`(`guildCreate`): Bot leaving silently due to null owner
+
+## Internal
+- Changed linter from TSLint to ESLint-Typescript
+
 # 4.1.14
 
 ## Fixed
