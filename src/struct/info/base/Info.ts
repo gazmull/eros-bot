@@ -145,7 +145,9 @@ export default class Info {
 
     const [ num, type ] = str.split(' ') as string[];
 
-    return `${num}${type ? type.charAt(0).toUpperCase() : 'T'}`;
+    return Number.isNaN(Number(num))
+      ? num
+      : `${num}${type ? type.charAt(0).toUpperCase() : 'T'}`;
   }
 
   get itemPortrait () {
