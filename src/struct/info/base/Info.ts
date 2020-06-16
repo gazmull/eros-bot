@@ -25,9 +25,9 @@ export default class Info {
   }
 
   public colors = {
-    C: 0xb4632c,
-    B: 0xe5e5e5,
-    A: 0xffbf50,
+    Standard: 0xb4632c,
+    Elite: 0xe5e5e5,
+    Legendary: 0xffbf50,
     S: 0x8a57ff,
     N: 0x918f8f,
     R: 0xb4632c,
@@ -91,22 +91,47 @@ export default class Info {
           `:b:: ${character.burst.name}`,
           [
             character.burst.description || 'Description not specified.',
-            ` ★ ${character.burst.upgradeDescription || 'Upgrade description not specified.'}`,
+            character.burst.upgradeDescription ? ` ★ ${character.burst.upgradeDescription}` : '',
+            character.soulPoints ? ' ★ Element, DMG and Effects are dependent on equipped weapon' : '',
           ]
+            .filter(r => r)
         );
 
       if (character.abilities)
-        for (const ability of character.abilities) {
+        for (const [ index, ability ] of character.abilities.entries()) {
           if (!ability) continue;
 
-          embed.addField(
-            [
-              `:regional_indicator_a:: ${ability.name}`,
-              `| __CD__: ${ability.cooldown}`,
-              ability.duration ? `| __D__: ${ability.duration}` : '',
-            ].join(' '),
-            [ ability.description, ability.upgradeDescription ]
-          );
+          const emojis = [
+            ':one:',
+            ':two:',
+            ':three:',
+            ':four:',
+          ];
+
+          if (Array.isArray(ability))
+            embed.addFields(
+              ability.map((a, i) => {
+                const subEmoji = !i ? 'a' : i === 2 ? 'b' : 'c';
+
+                return {
+                  name: [
+                    `${emojis[index]}:regional_indicator_${subEmoji}:: ${a.name}`,
+                    `| __CD__: ${a.cooldown}`,
+                    a.duration ? `| __D__: ${a.duration}` : '',
+                  ].join(' '),
+                  value: a.description
+                };
+              })
+            );
+          else
+            embed.addField(
+              [
+                `${emojis[index]}:regional_indicator_a:: ${ability.name}`,
+                `| __CD__: ${ability.cooldown}`,
+                ability.duration ? `| __D__: ${ability.duration}` : '',
+              ].join(' '),
+              [ ability.description, ability.upgradeDescription ]
+            );
         }
 
       if (character.assistAbilities)

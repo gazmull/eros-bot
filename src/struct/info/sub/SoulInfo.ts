@@ -8,24 +8,31 @@ export class SoulInfo extends Info {
   public format () {
     const { fandomURI, colors } = this;
     const soul = this.template();
+    const sClassLink = 'https://kamihime-project.fandom.com/wiki/Souls#S_Class';
     const embed = new MessageEmbed()
-      .setDescription(
+      .setDescription([
         [
-          `__**Soul**__ | __**${soul.type}**__ | __**${
-            soul.weapons[0]}${soul.weapons[1] ? ` and ${soul.weapons[1]}` : ''}**__`,
-          soul.souls.length
-            ? `__**Requires**__: [__**${
-              soul.souls[0]}**__](${fandomURI}${encodeURI(soul.souls[0])
-            }) & [__**${
-              soul.souls[1]}**__](${fandomURI}${encodeURI(soul.souls[1])
-            }) at LV 20\n__**Master LV Bonus**__: ${soul.masterBonus}\n${soul.description}`
-            : `__**Master LV Bonus**__: ${soul.masterBonus}\n${soul.description}`,
+          `__**Soul**__ | __**${soul.type}**__`,
+          `| __**${soul.weapons[0]}${soul.weapons[1] ? ` and ${soul.weapons[1]}` : ''}**__`,
         ]
-      )
-      .setColor(colors[soul.tier]);
-
-    if (soul.soulPoints)
-      embed.setFooter(`Soul Points to unlock: ${soul.soulPoints}`);
+          .join(' '),
+        '__**Unlock Conditions**__',
+        [
+          soul.soulPoints,
+          soul.souls.length
+            ? `${soul.souls
+              .filter(s => s)
+              .map(v => `[__**${v}**__](${fandomURI}${encodeURI(v)})`)
+              .join(' & ')} at LV 20`
+            : '',
+          soul.tier ? '' : `Completion of [__**Stage 1 - 5 in Hall of Research**__](${sClassLink})`,
+        ]
+          .filter(r => r)
+          .map(r => `- ${r}`)
+          .join('\n'),
+        `__**Master LV Bonus**__: ${soul.masterBonus}\n${soul.description}`,
+      ])
+      .setColor(colors[soul.tier || colors.S]);
 
     return super.format(embed, soul);
   }
@@ -68,68 +75,51 @@ export class SoulInfo extends Info {
       tier: character.tier,
       type: character.type,
       masterBonus: character.masterBonus,
-      soulPoints: character.soulP || null,
+      soulPoints: character.soulP,
       weapons: [
-        character.weapon1 || null,
-        character.weapon2 || null,
+        character.weapon1,
+        character.weapon2,
       ],
-      souls: character.soul1 || character.soul2
-        ? [
-          character.soul1 || null,
-          character.soul2 || null,
-        ]
-        : [],
+      souls: [
+        character.soul1,
+        character.soul2,
+      ],
 
       burst: {
         name: character.burstName,
         description: character.burstDesc
       },
 
-      abilities: [
-        character.ability1Name
-          ? {
-            name: character.ability1Name,
-            description: character.ability1Desc,
-            cooldown: character.ability1Cd,
-            duration: character.ability1Dur || null
-          }
-          : null,
+      abilities: [ 1, 2, 3 ].map(a => character[`ability${a}Name`]
+        ? {
+          name: character[`ability${a}Name`],
+          description: character[`ability${a}Desc`],
+          upgradeDescription: a === 2
+            ? '★ [LV 5]'
+            : a === 3
+              ? character.tier === 'Standard'
+                ? ''
+                : '★ [LV 15]'
+              : '',
+          cooldown: character[`ability${a}Cd`],
+          duration: character[`ability${a}Cd`]
+        }
+        : character[`ability${a}AName`]
+          ? [ 'A', 'B', 'C' ]
+            .map( s => ({
+              name: character[`ability${a}${s}Name`],
+              description: character[`ability${a}${s}Desc`],
+              cooldown: character[`ability${a}${s}Cd`],
+              duration: character[`ability${a}${s}Dur`]
+            }) )
+          : null),
 
-        character.ability2Name
-          ? {
-            name: character.ability2Name,
-            description: character.ability2Desc,
-            upgradeDescription: '★ [LV 5]',
-            cooldown: character.ability2Cd,
-            duration: character.ability2Dur || null
-          }
-          : null,
-
-        character.ability3Name
-          ? {
-            name: character.ability3Name,
-            description: character.ability3Desc,
-            upgradeDescription: character.tier === 'C' ? '' : '★ [LV 15]',
-            cooldown: character.ability3Cd,
-            duration: character.ability3Dur || null
-          }
-          : null,
-      ],
-
-      assistAbilities: [
-        character.assist1Name
-          ? {
-            name: character.assist1Name,
-            description: character.assist1Desc
-          }
-          : null,
-        character.assist2Name
-          ? {
-            name: character.assist2Name,
-            description: character.assist2Desc
-          }
-          : null,
-      ],
+      assistAbilities: [ 1, 2 ].map(a => character[`assist${a}Name`]
+        ? {
+          name: character[`assist${a}Name`],
+          description: character[`assist${a}Desc`]
+        }
+        : null),
 
       mex: [
         character.mex1Name
@@ -137,7 +127,7 @@ export class SoulInfo extends Info {
             name: character.mex1Name,
             description: character.mex1Desc,
             cooldown: character.mex1Cd,
-            duration: character.mex1Dur || null
+            duration: character.mex1Dur
           }
           : null,
         character.mex2Name
@@ -145,7 +135,7 @@ export class SoulInfo extends Info {
             name: character.mex2Name,
             description: character.mex2Desc,
             cooldown: character.mex2Cd,
-            duration: character.mex2Dur || null
+            duration: character.mex2Dur
           }
           : null,
       ],
