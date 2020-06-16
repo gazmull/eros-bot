@@ -62,7 +62,9 @@ export class EidolonInfo extends Info {
           : this.simpleCDur(character.summonCd),
         duration: character.summonEffectDur0
           ? mappedSimpleCDur('summonEffectDur')
-          : this.simpleCDur(character.summonEffectDur)
+          : character.summonEffectDur
+            ? this.simpleCDur(character.summonEffectDur)
+            : null
       },
 
       effect: {
