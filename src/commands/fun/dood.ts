@@ -10,10 +10,11 @@ export default class extends ErosComamnd {
   }
 
   public async exec (message: Message, { words }: { words: string }) {
-    const o = 'o'.repeat(Math.floor(Math.random() * 100))
+    const o = 'o'.repeat(Math.floor(Math.random() * 100));
+    const d = `d${o}d`
       .split('')
       .map((v, i) => Math.floor(Math.random() * 2) ? v.toLowerCase() : v.toUpperCase()).join('');
 
-    return message.util.send(`d${o}d`);
+    return message.util.send(d);
   }
 }
