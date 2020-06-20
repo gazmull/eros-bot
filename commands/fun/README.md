@@ -5,6 +5,8 @@ Commands within this category:
 
 [**`ask`**](/commands/fun/ask.md) - Ask a question to a random Kamihime PROJECT Character.
 
+[**`dood`**](/commands/fun/dood.md) - D00000000000000d
+
 [**`insult`**](/commands/fun/insult.md) - Lets you insult someone in my stead.
 
 [**`mock`**](/commands/fun/mock.md) - Lets you say something in the chat in my stead but it is retarded.
