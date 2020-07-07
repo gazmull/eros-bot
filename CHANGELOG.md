@@ -2,6 +2,17 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.3.0
+
+## Added
+- do0oOOoo0D
+
+## Changed
+- `KamihimeInfo`: Prepare for 2nd favourite weapons
+
+## Fixed
+- `EidolonInfo`: Incorrect parsing of summon CD and Duration
+
 # 4.2.0
 
 ## Added
