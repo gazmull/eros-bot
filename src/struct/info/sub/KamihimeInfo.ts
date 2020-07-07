@@ -8,6 +8,7 @@ export class KamihimeInfo extends Info {
   public format () {
     const { fandomURI, colors } = this;
     const hime = this.template();
+    const favouriteWeapons = hime.favouriteWeapons.filter(w => w);
     const embed = new MessageEmbed()
       .setDescription(
         [
@@ -15,7 +16,13 @@ export class KamihimeInfo extends Info {
             hime.releaseWeapon
               ? ` | __**[${hime.releaseWeapon}](${fandomURI}${encodeURI(hime.releaseWeapon)} "Weapon Release")**__`
               : ''}`,
-          hime.favouriteWeapon ? `__**Favourite Weapon Type: ${hime.favouriteWeapon}**__\n` : hime.description,
+          favouriteWeapons.length
+            ? [
+              `__**Favourite Weapon Type${favouriteWeapons.length > 1 ? 's' : ''}:`,
+              `${hime.favouriteWeapons.join(', ')}**__\n`,
+            ].join(' ')
+            : '',
+          hime.description,
         ]
       )
       .setColor(hime.rarity === 'SSR+' ? colors.SSRA : colors[hime.rarity]);
@@ -69,7 +76,6 @@ export class KamihimeInfo extends Info {
       name: character.name,
       description: character.description,
       releaseWeapon: character.releaseWeapon || null,
-      favouriteWeapon: character.favouriteWeapon || null,
       link,
       thumbnail,
       preview,
@@ -78,6 +84,11 @@ export class KamihimeInfo extends Info {
       type: character.type,
       atk: character.atkMax,
       hp: character.hpMax,
+
+      favouriteWeapons: [
+        character.favouriteWeapon,
+        character.favouriteWeapon2,
+      ],
 
       burst: {
         name: character.burstName,

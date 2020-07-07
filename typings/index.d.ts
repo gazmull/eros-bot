@@ -98,7 +98,7 @@ export interface IKamihimeFandomFormatted {
   obtainedFrom?: string;
   releaseWeapon?: string;
   releases?: string;
-  favouriteWeapon?: string;
+  favouriteWeapons?: string[];
   souls?: string[];
   weapons?: string[];
   masterBonus?: string;
@@ -244,6 +244,7 @@ export interface IKamihimeFandomKamihime extends IKamihimeFandom {
   assist2PowerupDesc?: string;
   assist2Powerup2Desc?: string;
   favouriteWeapon?: string;
+  favouriteWeapon2?: string;
   releaseWeapon?: string;
 }
 
