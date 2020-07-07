@@ -17,13 +17,15 @@ export class EidolonInfo extends Info {
       const { cooldown, duration, description } = eidolon.summon;
       const nameCD = typeof cooldown === 'string' ? ` | CD: ${cooldown}` : '';
       const nameDur = typeof duration === 'string' ? ` | D: ${duration}`: '';
+      const valueCD = (i: number) => !cooldown ? '' : typeof cooldown === 'string' ? cooldown : cooldown[i];
+      const valueDur = (i: number) => !duration ? '' : typeof duration === 'string' ? duration : ` | D: ${duration[i]}`;
 
       return {
         name: `🇸: ${eidolon.summon.name}${nameCD}${nameDur}`,
         value: typeof description === 'string'
           ? description
           : mappedLBUpgrades(description.map((el, i) =>
-            `${el} (CD: ${cooldown[i]}${duration[i] ? ` | D: ${duration[i]}` : ''})`))
+            `${el} (CD: ${valueCD(i)}${valueDur(i)})`))
       };
     };
     const embed = new MessageEmbed()
