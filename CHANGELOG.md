@@ -2,6 +2,12 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.3.1
+
+## Fixed
+- `Info`: Alphabetical indicator on abilities in wrong order
+- `SoulInfo`: Invalid abilities' duration
+
 # 4.3.0
 
 ## Added
