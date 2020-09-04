@@ -102,7 +102,7 @@ export class SoulInfo extends Info {
                 : '★ [LV 15]'
               : '',
           cooldown: character[`ability${a}Cd`],
-          duration: character[`ability${a}Cd`]
+          duration: character[`ability${a}Dur`]
         }
         : character[`ability${a}AName`]
           ? [ 'A', 'B', 'C' ]
