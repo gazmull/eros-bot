@@ -111,7 +111,7 @@ export default class Info {
           if (Array.isArray(ability))
             embed.addFields(
               ability.map((a, i) => {
-                const subEmoji = !i ? 'a' : i === 2 ? 'b' : 'c';
+                const subEmoji = [ 'a', 'b', 'c' ][i];
 
                 return {
                   name: [
