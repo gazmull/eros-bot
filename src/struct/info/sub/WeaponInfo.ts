@@ -28,6 +28,7 @@ export class WeaponInfo extends Info {
           return [
             `**${elementScaleDiscriminator[scale][weapon.element]} ${name}**:`,
             weapon.element,
+            'Characters\'',
             skillParser[name],
             scaleDiscriminator[scale],
           ].join(' ');
@@ -36,6 +37,7 @@ export class WeaponInfo extends Info {
         return [
           `**${elementScaleDiscriminatorStatic[weapon.rarity][weapon.element]} ${skill.name}**:`,
           weapon.element,
+          'Characters\'',
           skillParser[skill.name],
           rarityScaleDiscriminator[weapon.rarity],
         ].join(' ');
@@ -89,6 +91,7 @@ export class WeaponInfo extends Info {
             return [
               `**${elementScaleDiscriminator[scale][weapon.element]} ${name}**:`,
               weapon.element,
+              'Characters\'',
               skillParser[name],
               scaleDiscriminator[scale],
             ].join(' ');
@@ -97,6 +100,7 @@ export class WeaponInfo extends Info {
           return [
             `**${elementScaleDiscriminatorStatic[weapon.rarity][weapon.element]} ${skill.name}**:`,
             weapon.element,
+            'Characters\'',
             skillParser[skill.name],
             rarityScaleDiscriminator[weapon.rarity],
           ].join(' ');
@@ -264,34 +268,42 @@ const burstScaleParser = (weapon: IKamihimeFandomFormatted | string, lb2 = false
   // @ts-ignore
     : ''}(x${burstScaleDiscriminator[weapon.rarity || weapon] + (lb2 ? 0.5 : 0)} Burst DMG)`;
 const skillParser = {
+  // Grail
   Upgrade: {
     SSR: '**Large Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (Large)',
     SR: '**Chalice of Deceit**: Weapon Enhance skill Lv up chance↑ (Medium)',
     R: '**Vessel of Sorcery**: Weapon Enhance skill Lv up chance↑ (Small)'
   },
-  Assault: 'Characters\' ATK↑',
-  Defender: 'Characters\' HP↑',
-  Pride: 'Characters with low HP, ATK↑',
-  Rush: 'Characters\' Double Attack Rate↑',
-  Barrage: 'Characters\' Triple Attack Rate↑',
-  Stinger: 'Characters\' Critical Hit Rate↑',
-  Exceed: 'Characters\' Burst↑',
-  Ascension: 'Characters\' Recovery↑',
-  Elaborate: 'Characters\' Ability↑',
-  Vigoras: 'Characters\' ATK↑ commensurate to HP left ratio',
 
-  Avalanche: 'Characters\' Combo Attack Rate↑',
-  Grace: 'Characters\' HP and Recovery↑',
-  Race: 'Characters\' with low HP, ATK↑ and Max HP↑',
-  Rampart: 'Characters\' Max HP↑ and ATK↑ commensurate to HP left ratio',
-  Resilience: 'Characters\' ATK↑ and Recovery↑',
-  Slug: 'Characters\' ATK↑ and Critical Hit Rate↑',
-  Sprout: 'Characters\' Recovery↑ & DMG↑ to commensurate to left HP ratio',
-  Strength: 'Characters\' ATK↑ and Max HP↑',
-  Tactics: 'Characters\' Burst↑ and Ability DMG↑',
-  Transcend: 'Characters\' ATK↑ and Burst↑',
-  Triedge: 'Characters\' ATK↑ and Triple Attack Rate↑',
-  Triguard: 'Characters\' Max HP↑ and Triple Attack Rate↑',
-  Twinedge: 'Characters\' ATK↑ and Double Attack Rate↑',
-  Twinguard: 'Characters\' Max HP↑ and Double Attack Rate↑'
+  // Simple
+  Ascension: 'Recovery↑',
+  Assault: 'ATK↑',
+  Barrage: 'Triple Attack Rate↑',
+  Defender: 'HP↑',
+  Elaborate: 'Ability↑',
+  Exceed: 'Burst↑',
+  Pride: 'ATK↑ commensurate to HP lost ratio',
+  Rush: 'Double Attack Rate↑',
+  Stinger: 'Critical Hit Rate↑',
+  Technica: 'Normal ATK↑',
+  Vigoras: 'ATK↑ commensurate to HP left ratio',
+
+  // Composite
+  Amplifier: 'ATK↑ & Ability DMG↑',
+  Avalanche: 'Combo Attack Rate↑',
+  Grace: 'Max HP & Recovery↑',
+  Magnate: 'Max HP↑ & Normal ATK↑',
+  Parkup: 'Max HP↑ & Crit Rate↑',
+  Rampart: 'Max HP↑ & ATK↑ commensurate to HP left ratio',
+  Resilience: 'ATK↑ & Recovery↑',
+  Slug: 'ATK↑ & Crit Rate↑',
+  Sprout: 'Recovery↑ & DMG↑ to commensurate to HP left ratio',
+  Stewart: 'Max HP↑ & ATK↑ commensurate to HP lost ratio',
+  Strength: 'ATK↑ & Max HP↑',
+  Tactics: 'Burst↑ & Ability DMG↑',
+  Transcend: 'ATK↑ & Burst↑',
+  Triedge: 'ATK↑ & Triple Attack Rate↑',
+  Triguard: 'Max HP↑ & Triple Attack Rate↑',
+  Twinedge: 'ATK↑ & Double Attack Rate↑',
+  Twinguard: 'Max HP↑ & Double Attack Rate↑'
 };
