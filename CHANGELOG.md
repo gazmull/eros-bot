@@ -2,6 +2,11 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.3.2
+
+## Fixed
+- `WeaponInfo`: Missing skills (Technica, Magnate, etc.)
+
 # 4.3.1
 
 ## Fixed
