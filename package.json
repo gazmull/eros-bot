@@ -48,7 +48,7 @@
     "infobox-parser": "^3.2.0",
     "mariadb": "^2.4.0",
     "moment-timezone": "^0.5.31",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "nodemw": "^0.13.0",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^5.21.11",
