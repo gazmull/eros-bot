@@ -2,6 +2,12 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.3.3
+
+## Changed
+- `SRC`: Updated URLs and documentation notes
+- `Tag`: Refactored to accept attachment as content as well
+
 # 4.3.2
 
 ## Fixed
