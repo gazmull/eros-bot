@@ -96,9 +96,15 @@ export default class CommandHandlerResolverTypes {
         return tag || null;
       },
       tagContent: async (message, content) => {
-        if (!content || content.length > 1950) return null;
+        const attachments = message.attachments;
+
+        if (!content && !attachments.size) return null;
+        if (content.length > 1950) return null;
 
         content = Util.cleanContent(content, message);
+
+        if (attachments.size)
+          content += `${content ? '\n\n' : ''}${attachments.map(e => e.url).join('\n')}`;
 
         return content;
       }
