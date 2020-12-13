@@ -43,7 +43,7 @@ export default [
         name: 'Harem Episodes',
         value: [
           'Eliont: [Kamihime Player](https://goo.gl/XjWD93)',
-          'Euni: [Kamihime Web Player](https://kamihimedb.win)',
+          'Euni: [Kamihime Web Player](https://pikan.party)',
         ],
         inline: true
       },

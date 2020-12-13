@@ -11,7 +11,7 @@ export default {
     {
       name: 'Disclaimer',
       value: [
-        'While this command displays a bunch of links to [Kamihime Database](https://kamihimedb.win), they are indeed NSFW links and is against Discord Guidelines if shared on non-NSFW channels.',
+        'While this command displays a bunch of links to [Kamihime Database](https://pikan.party), they are indeed NSFW links and is against Discord Guidelines if shared on non-NSFW channels.',
         'If you want to use this without setting up the nsfwchannel, either DM the bot (e.g: `hareminfo arthur`) or use the site directly.',
       ]
     },

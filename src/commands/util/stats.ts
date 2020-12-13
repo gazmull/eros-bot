@@ -38,7 +38,7 @@ export default class extends Command {
         .setDescription(_description)
         .setThumbnail(this.client.user.displayAvatarURL({ format: 'webp', size: 128 }))
         .setImage(`${homepage.split('#').shift()}/blob/master/${encodeURI('エロース')}.webp?raw=true`)
-        .addField('Author', this.client.users.cache.get(this.client.ownerID as string), true)
+        .addField('Author', this.client.users.cache.get(this.client.ownerID as string)?.tag, true)
         .addField('Libraries and Applications', [
           `**Discord.JS**: v${discordVersion}`,
           `**Akairo**: v${akairoVersion}`,

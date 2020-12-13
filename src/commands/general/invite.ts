@@ -10,14 +10,14 @@ export default class extends Command {
   }
 
   public async exec (message: Message) {
-    const { docs, inviteLink, supportLink } = this.client.config;
+    const { docs, inviteLink, supportLink, url } = this.client.config;
     const owner = await this.client.users.fetch(this.client.ownerID as string);
     const embed = this.client.embed(message)
       .setThumbnail(this.client.user.displayAvatarURL())
       .setDescription([
         `Documentation: ${docs}`,
         `Invite link: ${inviteLink}`,
-        `Bot Author: ${owner}`,
+        `Bot Author: ${owner.tag}`,
         `Discord Link: ${supportLink}`,
       ])
       .addField('Donate: Keep Eros Alive For Everyone!', [
@@ -25,7 +25,7 @@ export default class extends Command {
         '',
         'Donating will give you benefits to the following:',
         `- Donor role + Donors Only channel at [Eros' Laboratory](${supportLink})`,
-        '- Unlimited episodes viewing at [Kamihime Database](https://kamihimedb.win)',
+        `- Unlimited episodes viewing at [Kamihime Database](${url.root})`,
         '- Continuous maintenance and improvements to the bot',
         '- More to come™',
         '',

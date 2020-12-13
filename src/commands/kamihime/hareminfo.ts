@@ -67,12 +67,11 @@ export default class extends InfoCommand {
       if (result.loli)
         return message.util.edit([
           `${message.author}, loli contents are restricted within this bot due to Discord Guidelines.`,
-          'If you are insisting to see such contents, please visit https://kamihimedb.win instead.',
+          `If you are insisting to see such contents, please visit <${url.root}> instead.`,
         ]);
 
       const harems = [
         {
-          title: result.harem1Title || 'Untitled',
           links: [
             result.harem1Resource1
               ? `${url.player}${result.id}/1/story`
@@ -80,7 +79,6 @@ export default class extends InfoCommand {
           ]
         },
         {
-          title: result.harem2Title || 'Untitled',
           links: [
             result.harem2Resource1
               ? `${url.player}${result.id}/2/story`
@@ -94,7 +92,6 @@ export default class extends InfoCommand {
           ]
         },
         {
-          title: result.harem3Title || 'Untitled',
           links: [
             result.harem3Resource1
               ? `${url.player}${result.id}/3/story`
@@ -123,14 +120,14 @@ export default class extends InfoCommand {
         const ep = harems[i - 1];
         if (i === 1) {
           embed.addField(
-            `Episode ${i}: ${ep.title}`,
+            `Episode ${i}`,
             ep.links[0] ? `[Story](${ep.links[0]})` : 'N/A',
             false
           );
           continue;
         }
-        if (ep.title === 'Untitled' && !ep.links[0] && !ep.links[1]) continue;
-        embed.addField(`Episode ${i}: ${ep.title}`,
+        if (!ep.links[0] && !ep.links[1]) continue;
+        embed.addField(`Episode ${i}`,
           [
             ep.links[0] ? `[Story](${ep.links[0]})` : 'N/A',
             ep.links[1] ? `[Scenario](${ep.links[1]})` : 'N/A',
