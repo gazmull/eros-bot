@@ -291,11 +291,13 @@ const skillParser = {
   // Composite
   Amplifier: 'ATK↑ & Ability DMG↑',
   Avalanche: 'Combo Attack Rate↑',
+  Flores: 'ATK↑ & ATK↑ commensurate to HP left ratio',
   Grace: 'Max HP & Recovery↑',
   Magnate: 'Max HP↑ & Normal ATK↑',
   Parkup: 'Max HP↑ & Crit Rate↑',
   Rampart: 'Max HP↑ & ATK↑ commensurate to HP left ratio',
   Resilience: 'ATK↑ & Recovery↑',
+  Retaliate: 'ATK↑ & ATK↑ commensurate to HP lost ratio',
   Slug: 'ATK↑ & Crit Rate↑',
   Sprout: 'Recovery↑ & DMG↑ to commensurate to HP left ratio',
   Stewart: 'Max HP↑ & ATK↑ commensurate to HP lost ratio',
