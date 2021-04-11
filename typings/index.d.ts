@@ -155,6 +155,10 @@ export interface IKamihimeFandomFormatted {
     name: string;
     description: string | string[];
   };
+  subEffect?: {
+    name: string;
+    description: string | string[];
+  };
   harem?: string;
 }
 
@@ -184,6 +188,13 @@ export interface IKamihimeFandomEidolon extends IKamihimeFandom {
   eidolonEffectDes2: string;
   eidolonEffectDes3: string;
   eidolonEffectDes4: string;
+  eidolonSubEffect: string;
+  eidolonSubEffectDes: string;
+  eidolonSubEffectDes0: string;
+  eidolonSubEffectDes1: string;
+  eidolonSubEffectDes2: string;
+  eidolonSubEffectDes3: string;
+  eidolonSubEffectDes4: string;
 }
 
 export interface IKamihimeFandomKamihime extends IKamihimeFandom {

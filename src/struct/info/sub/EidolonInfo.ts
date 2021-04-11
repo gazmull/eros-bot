@@ -10,8 +10,10 @@ export class EidolonInfo extends Info {
   public format () {
     const { colors } = this;
     const eidolon = this.template();
-    const mappedLBUpgrades = <T> (arr: T[]) =>
-      arr.map((el, i, arr) => `${'★'.repeat(i)}${'☆'.repeat(arr.length - (i ? i + 1 : 1))} | ${el}`);
+    const mappedLBUpgrades = <T> (arr: string | T[]) =>
+      Array.isArray(arr)
+        ? arr.map((el, i, arr) => `${'★'.repeat(i)}${'☆'.repeat(arr.length - (i ? i + 1 : 1))} | ${el}`)
+        : arr;
 
     const formattedSummonField: () => EmbedFieldData = () => {
       const { cooldown, duration, description } = eidolon.summon;
@@ -32,7 +34,13 @@ export class EidolonInfo extends Info {
       .setDescription(`__**Eidolon**__ | __**${eidolon.element}**__\n${eidolon.description}`)
       .setColor(colors[eidolon.rarity])
       .addFields(formattedSummonField())
-      .addField(`🇪: ${eidolon.effect.name}`, mappedLBUpgrades(eidolon.effect.description as string[]));
+      .addField(`🇪: ${eidolon.effect.name}`, mappedLBUpgrades(eidolon.effect.description));
+
+    if (eidolon.subEffect.name)
+      embed.addField(
+        `🇸 🇪: ${eidolon.subEffect.name}`,
+        mappedLBUpgrades(eidolon.subEffect.description)
+      );
 
     return super.format(embed, eidolon);
   }
@@ -72,6 +80,11 @@ export class EidolonInfo extends Info {
       effect: {
         name: character.eidolonEffect,
         description: suffixes.map(e => character[`eidolonEffectDes${e}`])
+      },
+
+      subEffect: {
+        name: character.eidolonSubEffect,
+        description: character.eidolonSubEffectDes || suffixes.map(e => character[`eidolonSubEffectDes${e}`])
       },
 
       obtainedFrom: character.obtained,

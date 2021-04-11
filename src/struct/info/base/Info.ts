@@ -152,12 +152,10 @@ export default class Info {
       if (character.obtainedFrom)
         embed.setFooter(
           `can be obtained from ${character.obtainedFrom.replace(/(gacha(?=[.\s]+))/i, '$1 |')}${
-            character.obtainedFrom.includes('Gacha')
+            [ 'Gacha', 'Awaken', 'Main Quest', 'Tutorial', 'Shop', 'Quests', 'Events', 'Weapon Battlefield' ]
+              .some(e => character.obtainedFrom.includes(e))
               ? ''
-              : [ 'Awaken', 'Main Quest', 'Tutorial', 'Shop', 'Quests', 'Events' ]
-                .some(e => character.obtainedFrom.includes(e))
-                ? ''
-                : ' Event'
+              : ' Event'
           }`
         );
     }
