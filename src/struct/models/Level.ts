@@ -1,7 +1,7 @@
 import { Column, Model, Table } from 'sequelize-typescript';
 
 @Table({ tableName: 'levels' })
-export class Level extends Model<Level> {
+export class Level extends Model<Partial<Level>> {
   @Column
   public user: string;
 

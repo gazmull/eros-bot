@@ -1,7 +1,7 @@
 import { Column, Model, Table } from 'sequelize-typescript';
 
 @Table({ charset: 'utf8mb4', collate: 'utf8mb4_unicode_ci', tableName: 'tags' })
-export class Tag extends Model<Tag> {
+export class Tag extends Model<Partial<Tag>> {
   @Column
   public author: string;
 

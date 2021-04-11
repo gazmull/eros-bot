@@ -5,7 +5,7 @@ import IErosClientOptions from '../../../typings/auth';
 const { defaultPrefix }: { defaultPrefix: IErosClientOptions['defaultPrefix'] } = require('../../../auth');
 
 @Table({ tableName: 'guilds' })
-export class Guild extends Model<Guild> {
+export class Guild extends Model<Partial<Guild>> {
   @Column({ defaultValue: null })
   public cdChannel?: string;
 

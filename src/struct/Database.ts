@@ -26,7 +26,7 @@ export const sequelize = new Sequelize({
     timestamps: true
   },
   logging: false,
-  modelPaths: [ `${__dirname}/models` ],
+  models: [ `${__dirname}/models` ],
   pool: {
     acquire: 30e3,
     max: 10,

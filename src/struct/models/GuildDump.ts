@@ -1,7 +1,7 @@
 import { Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
 
 @Table({ tableName: 'guildsDump' })
-export class GuildDump extends Model<GuildDump> {
+export class GuildDump extends Model<Partial<GuildDump>> {
   @PrimaryKey
   @Column({ autoIncrement: false, type: DataType.STRING })
   public id: string;
