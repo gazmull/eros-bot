@@ -2,6 +2,16 @@ This log starts from `3.0.0`.
 
 ---
 
+# 4.4.0
+
+## Added
+- `WeaponInfo`: Added Flores and Retaliate skills
+- `EidolonInfo`: Added support for eidolons with sub effects & future FLB sub effect
+
+## Internal
+- Properly added debug flag
+- Updated dependencies
+
 # 4.3.3
 
 ## Changed
