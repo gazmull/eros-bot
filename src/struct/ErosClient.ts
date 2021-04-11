@@ -131,6 +131,7 @@ export default class ErosClient extends AkairoClient {
     }
 
     const force = [ '-f', '--force' ].some(f => process.argv.includes(f));
+    const debug = process.argv.includes('--debug');
 
     if (force) this.logger.info('Forced sync detected.');
 
@@ -138,7 +139,7 @@ export default class ErosClient extends AkairoClient {
     this.logger.info('Database synchronised!');
 
     this.fandomApi = new Fandom({
-      debug: false,
+      debug,
       path: '',
       protocol: 'https',
       server: 'kamihime-project.fandom.com'
@@ -146,7 +147,7 @@ export default class ErosClient extends AkairoClient {
     this.util.getArticle = promisify(this.fandomApi.getArticle.bind(this.fandomApi));
     this.logger.info(`Initiated Fandom Server: ${this.fandomApi.protocol} | ${this.fandomApi.server}`);
 
-    if (process.argv.includes('--debug'))
+    if (debug)
       this.on('debug', str => this.logger.info(str));
 
     return this.login(this.config.token);
