@@ -151,18 +151,34 @@ export interface IKamihimeFandomFormatted {
     description: string | string[];
     duration: string | string[];
   };
+  summonFLB?: {
+    name: string;
+    cooldown: string
+    description: string;
+    duration: string;
+  };
   effect?: {
     name: string;
     description: string | string[];
+  };
+  effectFLB?: {
+    name: string;
+    description: string;
   };
   subEffect?: {
     name: string;
     description: string | string[];
   };
+  subEffectFLB?: {
+    name: string;
+    description: string;
+  };
   harem?: string;
 }
 
 export interface IKamihimeFandomEidolon extends IKamihimeFandom {
+  atkFlb: number;
+  hpFlb: number;
   summonAtk: string;
   summonAtkDes: string;
   summonAtkDes0: string;
@@ -170,31 +186,38 @@ export interface IKamihimeFandomEidolon extends IKamihimeFandom {
   summonAtkDes2: string;
   summonAtkDes3: string;
   summonAtkDes4: string;
+  summonAtkDesFlb: string;
   summonCd: string;
   summonCd0: string;
   summonCd1: string;
   summonCd2: string;
   summonCd3: string;
   summonCd4: string;
+  summonCdFlb: string;
   summonEffectDur: string;
   summonEffectDur0: string;
   summonEffectDur1: string;
   summonEffectDur2: string;
   summonEffectDur3: string;
   summonEffectDur4: string;
+  summonEffectDurFlb: string;
   eidolonEffect: string;
   eidolonEffectDes0: string;
   eidolonEffectDes1: string;
   eidolonEffectDes2: string;
   eidolonEffectDes3: string;
   eidolonEffectDes4: string;
+  eidolonEffectFlb: string;
+  eidolonEffectDesFlb: string;
   eidolonSubEffect: string;
+  eidolonSubEffectFlb: string;
   eidolonSubEffectDes: string;
   eidolonSubEffectDes0: string;
   eidolonSubEffectDes1: string;
   eidolonSubEffectDes2: string;
   eidolonSubEffectDes3: string;
   eidolonSubEffectDes4: string;
+  eidolonSubEffectDesFlb: string;
 }
 
 export interface IKamihimeFandomKamihime extends IKamihimeFandom {

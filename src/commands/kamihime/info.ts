@@ -256,33 +256,35 @@ export default class extends InfoCommand {
 
       if (hpFlb) {
         const flbTemplate = hasWeapon ? template2 : template;
-        const flbFormat = (flbTemplate as WeaponInfo).formatFLB();
+        const flbFormat = (flbTemplate as WeaponInfo | EidolonInfo).formatFLB();
 
         if (message.needsPreview)
           flbFormat.setImage(flbTemplate.character.preview);
 
         array.push(flbFormat);
-        embed.addFunctionEmoji(
-          this.flbEmoji,
-          async (_, instance: IEmbedsEx) => {
-            if (!flbTemplate) return;
 
-            instance.setPage(hasWeapon ? 3 : 2);
-            instance.deleteFunctionEmoji(this.flbEmoji);
-            await instance.clientAssets.message.reactions.cache.get(this.flbEmoji).remove();
+        if (!message.needsFLB)
+          embed.addFunctionEmoji(
+            this.flbEmoji,
+            async (_, instance: IEmbedsEx) => {
+              if (!flbTemplate) return;
 
-            if (instance.currentClass !== 'WeaponInfo') {
-              const tmp = instance.currentClass;
-              instance.currentClass = instance.oldClass;
-              instance.oldClass = tmp;
+              instance.setPage(hasWeapon ? 3 : 2);
+              instance.deleteFunctionEmoji(this.flbEmoji);
+              await instance.clientAssets.message.reactions.cache.get(this.flbEmoji).remove();
+
+              if (instance.currentClass !== 'WeaponInfo') {
+                const tmp = instance.currentClass;
+                instance.currentClass = instance.oldClass;
+                instance.oldClass = tmp;
+              }
+
+              if (instance.needsPreview)
+                instance.currentEmbed.setImage(instance.preview);
+              else
+                instance.currentEmbed.setImage(null);
             }
-
-            if (instance.needsPreview)
-              instance.currentEmbed.setImage(instance.preview);
-            else
-              instance.currentEmbed.setImage(null);
-          }
-        );
+          );
       }
 
       embed.build();
