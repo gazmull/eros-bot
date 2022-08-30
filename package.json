@@ -47,7 +47,7 @@
     "fs-extra": "^9.1.0",
     "infobox-parser": "^3.4.1",
     "mariadb": "^2.5.3",
-    "moment-timezone": "^0.5.33",
+    "moment-timezone": "^0.5.35",
     "node-fetch": "^2.6.1",
     "nodemw": "^0.13.0",
     "reflect-metadata": "^0.1.13",
